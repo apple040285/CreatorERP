@@ -44,19 +44,32 @@ class AuthController extends Controller
 
     public function refreshToken(Request $request)
     {
-        info($request->all());
+        // info($request->all());
+        // $oClient = \Laravel\Passport\Client::where('password_client', 1)->first();
+        // $response = Http::asForm()->post(route('passport.token'), [
+        //     'grant_type' => 'refresh_token',
+        //     'client_id' => $oClient->id,
+        //     'client_secret' => $oClient->secret,
+        //     'refresh_token' => $request['refreshToken'] ?? null,
+        //     'scope' => '*',
+        // ]);
+        // if ($response->ok()) {
+        //     return response()->json($response->json());
+        // }
+        // return response()->json(['error' => '非法請求，強制登出請重新嘗試']);
+
+
         $oClient = \Laravel\Passport\Client::where('password_client', 1)->first();
-        $response = Http::asForm()->post(route('passport.token'), [
+        request()->request->add([
             'grant_type' => 'refresh_token',
             'client_id' => $oClient->id,
             'client_secret' => $oClient->secret,
             'refresh_token' => $request['refreshToken'] ?? null,
             'scope' => '*',
         ]);
-        if ($response->ok()) {
-            return response()->json($response->json());
-        }
-        return response()->json(['error' => '非法請求，強制登出請重新嘗試']);
+        $proxy = Request::create('oauth/token', 'POST');
+        $response = \Illuminate\Support\Facades\Route::dispatch($proxy);
+        return json_decode($response->getContent(), true);
     }
 
     /**
@@ -97,7 +110,7 @@ class AuthController extends Controller
         // ]);
 
         $oClient = \Laravel\Passport\Client::where('password_client', 1)->first();
-        $response = Http::asForm()->post(route('passport.token'), [
+        request()->request->add([
             'grant_type' => 'password',
             'client_id' => $oClient->id,
             'client_secret' => $oClient->secret,
@@ -105,10 +118,9 @@ class AuthController extends Controller
             'password' => $credentials['password'] ?? null,
             'scope' => '*',
         ]);
-        if ($response->ok()) {
-            return response()->json($response->json());
-        }
-        return response()->json($response->json());
+        $proxy = Request::create('oauth/token', 'POST');
+        $response = \Illuminate\Support\Facades\Route::dispatch($proxy);
+        return json_decode($response->getContent(), true);
     }
 
     /**
