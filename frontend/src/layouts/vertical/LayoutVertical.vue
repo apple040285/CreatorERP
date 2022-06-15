@@ -7,10 +7,10 @@
       <navbar :toggle-vertical-menu-active="toggleVerticalMenuActive" />
     </template>
 
-    <!-- <app-customizer
+    <app-customizer
       v-if="showCustomizer"
       slot="customizer"
-    /> -->
+    />
   </layout-vertical>
 </template>
 

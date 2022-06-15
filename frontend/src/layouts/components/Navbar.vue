@@ -22,6 +22,7 @@
     </div>
 
     <b-navbar-nav class="nav align-items-center ml-auto">
+      <locale />
       <b-nav-item-dropdown
         right
         toggle-class="d-flex align-items-center dropdown-user-link"
@@ -100,6 +101,7 @@ import {
   BLink, BNavbarNav, BNavItemDropdown, BDropdownItem, BDropdownDivider, BAvatar,
 } from 'bootstrap-vue'
 import DarkToggler from '@core/layouts/components/app-navbar/components/DarkToggler.vue'
+import Locale from '@core/layouts/components/app-navbar/components/Locale.vue'
 
 export default {
   components: {
@@ -112,6 +114,7 @@ export default {
 
     // Navbar Components
     DarkToggler,
+    Locale,
   },
   props: {
     toggleVerticalMenuActive: {
