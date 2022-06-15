@@ -49,10 +49,10 @@ export default class JwtService {
               this.isAlreadyFetchingAccessToken = false
 
               // Update accessToken in localStorage
-              this.setToken(r.data.accessToken)
-              this.setRefreshToken(r.data.refreshToken)
+              this.setToken(r.data.access_token)
+              this.setRefreshToken(r.data.refresh_token)
 
-              this.onAccessTokenFetched(r.data.accessToken)
+              this.onAccessTokenFetched(r.data.access_token)
             })
           }
           const retryOriginalRequest = new Promise(resolve => {

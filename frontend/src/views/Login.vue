@@ -190,6 +190,7 @@ import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
   BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox, BCardText, BCardTitle, BImg, BForm, BButton,
 } from 'bootstrap-vue'
+import useJwt from '@/auth/jwt/useJwt'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
@@ -218,8 +219,8 @@ export default {
   data() {
     return {
       status: '',
-      password: '',
-      userEmail: '',
+      password: 'asd123456',
+      userEmail: 'admin@gmail.com',
       sideImg: require('@/assets/images/pages/login-v2.svg'),
       // validation rulesimport store from '@/store/index'
       required,
@@ -242,15 +243,55 @@ export default {
   methods: {
     validationForm() {
       this.$refs.loginValidation.validate().then(success => {
+        // if (success) {
+        //   this.$toast({
+        //     component: ToastificationContent,
+        //     props: {
+        //       title: 'Form Submitted',
+        //       icon: 'EditIcon',
+        //       variant: 'success',
+        //     },
+        //   })
+        //   }
         if (success) {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Form Submitted',
-              icon: 'EditIcon',
-              variant: 'success',
-            },
+          useJwt.login({
+            email: this.userEmail,
+            password: this.password,
           })
+            .then(response => {
+              const { userData } = response.data
+              useJwt.setToken(response.data.access_token)
+              useJwt.setRefreshToken(response.data.refresh_token)
+              localStorage.setItem('userData', JSON.stringify(userData))
+              //   this.$ability.update(userData.ability)
+
+              // ? This is just for demo purpose as well.
+              // ? Because we are showing eCommerce app's cart items count in navbar
+              //   this.$store.commit('app-ecommerce/UPDATE_CART_ITEMS_COUNT', userData.extras.eCommerceCartItemsCount)
+
+              // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
+              //   this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
+              this.$http.get('/auth/user')
+                  .then(response2 => {
+                    this.$store.dispatch('auth/updateInfo', response2.data)
+                    this.$router.replace('/')
+                        .then(() => {
+                            this.$toast({
+                                component: ToastificationContent,
+                                position: 'top-right',
+                                props: {
+                                title: `Welcome ${userData.fullName || userData.username}`,
+                                icon: 'CoffeeIcon',
+                                variant: 'success',
+                                text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
+                                },
+                            })
+                        })
+                })
+            })
+            .catch(error => {
+              this.$refs.loginForm.setErrors(error.response.data.error)
+            })
         }
       })
     },

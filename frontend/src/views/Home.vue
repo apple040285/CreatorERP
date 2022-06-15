@@ -26,6 +26,12 @@ export default {
     BCardText,
     BLink,
   },
+  mounted() {
+    this.$http.get('/auth/user')
+      .then(function (response) {
+        console.log(response.data);
+      });
+  },
 }
 </script>
 
