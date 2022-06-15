@@ -23,6 +23,9 @@ php artisan migrate
 7. 創建 API RSA Key
 php artisan passport:install
 
-8. 啟動內建伺服器
+8. 執行資料填充
+php artisan db:seed
+
+9. 啟動內建伺服器
 php artisan serve
 ```

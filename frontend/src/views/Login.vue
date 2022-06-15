@@ -219,8 +219,8 @@ export default {
   data() {
     return {
       status: '',
-      password: 'asd123456',
-      userEmail: 'admin@gmail.com',
+      password: '',
+      userEmail: '',
       sideImg: require('@/assets/images/pages/login-v2.svg'),
       // validation rulesimport store from '@/store/index'
       required,
@@ -272,8 +272,8 @@ export default {
               // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
               //   this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
               this.$http.get('/auth/user')
-                  .then(response2 => {
-                    this.$store.dispatch('auth/updateInfo', response2.data)
+                  .then(userResponse => {
+                    this.$store.dispatch('auth/updateInfo', userResponse.data)
                     this.$router.replace('/')
                         .then(() => {
                             this.$toast({
