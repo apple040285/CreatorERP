@@ -39,7 +39,7 @@
             size="40"
             variant="light-primary"
             badge
-            :src="require('@/assets/images/avatars/13-small.png')"
+            :src="avatarUrl"
             class="badge-minimal"
             badge-variant="success"
           />
@@ -122,5 +122,10 @@ export default {
       default: () => {},
     },
   },
+  data() {
+    return {
+      avatarUrl: "https://i.pravatar.cc/40",
+    }
+  }
 }
 </script>
