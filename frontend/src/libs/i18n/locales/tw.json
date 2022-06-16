@@ -173,5 +173,8 @@
   "Layout Boxed": "Layout Boxed",
   "Without Menu": "Without Menu",
   "Layout Empty": "Layout Empty",
-  "Layout Blank": "Layout Blank"
+  "Layout Blank": "Layout Blank",
+
+  "Administrator": "管理員",
+  "Profile": "管理員信息"
 }

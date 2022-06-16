@@ -287,7 +287,7 @@ export default {
                                 },
                             })
                         })
-                })
+                  })
             })
             .catch(error => {
               this.$refs.loginForm.setErrors(error.response.data.error)

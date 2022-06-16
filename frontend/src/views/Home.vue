@@ -29,7 +29,7 @@ export default {
   mounted() {
     this.$http.get('/auth/user')
       .then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
       });
   },
 }

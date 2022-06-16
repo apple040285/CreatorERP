@@ -47,6 +47,34 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/administrator',
+      name: 'administrator',
+      component: () => import('@/views/administrator/Administrator.vue'),
+      meta: {
+        layout: 'full',
+      },
+      children: [
+        {
+          path: "profile",
+          name: "profile",
+          meta: {
+            pageTitle: 'Profile',
+            breadcrumb: [
+              {
+                text: 'Administrator',
+                active: false,
+              },
+              {
+                text: 'Profile',
+                active: true,
+              },
+            ],
+          },
+          component: () => import("@/views/administrator/Profile.vue"),
+        },
+      ],
+    },
+    {
       path: '/error-404',
       name: 'error-404',
       component: () => import('@/views/error/Error404.vue'),
