@@ -1,25 +1,31 @@
+import sharedData from './sharedData'
+import purchasingManagement from './purchasingManagement'
+import salesManagement from './salesManagement'
+import inventoryManagement from './inventoryManagement'
+import accountReceivableManagement from './accountReceivableManagement'
+
 export default [
   {
-    title: 'Home',
-    route: 'home',
+    title: 'Dashboard',
+    route: 'dashboard',
     icon: 'HomeIcon',
   },
+  ...sharedData,
+  ...purchasingManagement,
+  ...salesManagement,
+  ...inventoryManagement,
+  ...accountReceivableManagement,
   {
-    title: 'Second Page',
-    route: 'second-page',
-    icon: 'FileIcon',
+    header: 'PERSONAL CENTER',
   },
   {
     title: 'Administrator',
-    icon: 'HomeIcon',
-    route: 'administrator',
+    icon: 'ToolIcon',
     children: [
       {
         title: 'Profile',
-        route: 'profile',
-        resource: 'Profile',
-        action: 'read',
+        route: 'Administrator-Profile',
       },
     ],
-  }
+  },
 ]

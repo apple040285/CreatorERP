@@ -1,5 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import basicData from './routes/basicData'
+import productData from './routes/productData'
+import customerManufacturerData from './routes/customerManufacturerData'
+import procurementOperation from './routes/procurementOperation'
+import purchaseOperation from './routes/purchaseOperation'
+import orderRoutine from './routes/orderRoutine'
+import salesOperation from './routes/salesOperation'
+import adjustTheTransferOperation from './routes/adjustTheTransferOperation'
+import paymentsReceivable from './routes/paymentsReceivable'
+import incomeExpenseOperation from './routes/incomeExpenseOperation'
+import notesReceivable from './routes/notesReceivable'
+import administrator from './routes/administrator'
 
 Vue.use(VueRouter)
 
@@ -11,34 +23,6 @@ const router = new VueRouter({
   },
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: () => import('@/views/Home.vue'),
-      meta: {
-        pageTitle: 'Home',
-        breadcrumb: [
-          {
-            text: 'Home',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: '/second-page',
-      name: 'second-page',
-      component: () => import('@/views/SecondPage.vue'),
-      meta: {
-        pageTitle: 'Second Page',
-        breadcrumb: [
-          {
-            text: 'Second Page',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/Login.vue'),
@@ -47,33 +31,31 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/administrator',
-      name: 'administrator',
-      component: () => import('@/views/administrator/Administrator.vue'),
+      path: '/',
+      name: 'dashboard',
+      component: () => import('@/views/Dashboard.vue'),
       meta: {
-        layout: 'full',
-      },
-      children: [
-        {
-          path: "profile",
-          name: "profile",
-          meta: {
-            pageTitle: 'Profile',
-            breadcrumb: [
-              {
-                text: 'Administrator',
-                active: false,
-              },
-              {
-                text: 'Profile',
-                active: true,
-              },
-            ],
+        pageTitle: 'Dashboard',
+        breadcrumb: [
+          {
+            text: 'Dashboard',
+            active: true,
           },
-          component: () => import("@/views/administrator/Profile.vue"),
-        },
-      ],
+        ],
+      },
     },
+    ...basicData,
+    ...productData,
+    ...customerManufacturerData,
+    ...procurementOperation,
+    ...purchaseOperation,
+    ...orderRoutine,
+    ...salesOperation,
+    ...adjustTheTransferOperation,
+    ...paymentsReceivable,
+    ...incomeExpenseOperation,
+    ...notesReceivable,
+    ...administrator,
     {
       path: '/error-404',
       name: 'error-404',
