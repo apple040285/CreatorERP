@@ -70,7 +70,6 @@ class AuthController extends Controller
         $proxy = Request::create('oauth/token', 'POST');
         $response = \Illuminate\Support\Facades\Route::dispatch($proxy);
         $result = json_decode($response->getContent(), true);
-        info($result);
         if (isset($result['message'])) {
             switch ($result['error']) {
                 case 'invalid_request':

@@ -270,25 +270,22 @@ export default {
 
               // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
               //   this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
-              this.$http.get('/auth/user')
-                  .then(userResponse => {
-                    this.$store.dispatch('auth/checkUser')
-                      .then(() => {
-                        this.$router.replace('/')
-                            .then(() => {
-                                this.$toast({
-                                    component: ToastificationContent,
-                                    position: 'top-right',
-                                    props: {
-                                    title: `Welcome ${userData.fullName || userData.username}`,
-                                    icon: 'CoffeeIcon',
-                                    variant: 'success',
-                                    text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
-                                    },
-                                })
-                            })
+              this.$store.dispatch('auth/checkUser')
+                .then(() => {
+                  this.$router.replace('/')
+                    .then(() => {
+                      this.$toast({
+                        component: ToastificationContent,
+                        position: 'top-right',
+                        props: {
+                        title: `Welcome ${userData.fullName || userData.username}`,
+                        icon: 'CoffeeIcon',
+                        variant: 'success',
+                        text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
+                        },
                       })
-                  })
+                    })
+                })
             })
             .catch(error => {
               this.$refs.loginForm.setErrors(error.response.data.error)
