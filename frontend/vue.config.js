@@ -25,7 +25,8 @@ module.exports = {
   // 在專案開發中如果呼叫 API 時會 pass 給這個 proxy 網址
   // 這邊就用前面以 Valet 建立的網站網址
   devServer: {
-    proxy: 'https://project.test'
+    host: process.env.VUE_APP_DEV_DOMAIN,
+    proxy: process.env.VUE_APP_CORE_API_URL
   },
   // 建置前端靜態檔案時要擺放的目錄
   // 在 package.json 也要調整 "build" 這個 script

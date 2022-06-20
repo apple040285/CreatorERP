@@ -32,24 +32,5 @@ export default {
       // showCustomizer: $themeConfig.layout.customizer,
     }
   },
-  mounted() {
-    this.$http.get('/auth/user')
-        .then(userResponse => {
-          const userData = localStorage.getItem('userData');
-          this.$store.dispatch('auth/updateInfo', userResponse.data)
-              .then(() => {
-                  this.$toast({
-                      component: ToastificationContent,
-                      position: 'top-right',
-                      props: {
-                      title: `Welcome ${userData.fullName || userData.username}`,
-                      icon: 'CoffeeIcon',
-                      variant: 'success',
-                      text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
-                      },
-                  })
-              })
-        })
-  },
 }
 </script>

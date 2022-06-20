@@ -69,7 +69,17 @@ class AuthController extends Controller
         ]);
         $proxy = Request::create('oauth/token', 'POST');
         $response = \Illuminate\Support\Facades\Route::dispatch($proxy);
-        return json_decode($response->getContent(), true);
+        $result = json_decode($response->getContent(), true);
+        info($result);
+        if (isset($result['message'])) {
+            switch ($result['error']) {
+                case 'invalid_request':
+                    return $this->forbidden($result['message']);
+                default:
+                    return $this->badRequest($result['message']);
+            }
+        }
+        return $this->success($result);
     }
 
     /**
@@ -120,7 +130,18 @@ class AuthController extends Controller
         ]);
         $proxy = Request::create('oauth/token', 'POST');
         $response = \Illuminate\Support\Facades\Route::dispatch($proxy);
-        return json_decode($response->getContent(), true);
+        $result = json_decode($response->getContent(), true);
+        if (isset($result['message'])) {
+            switch ($result['error']) {
+                case 'invalid_grant':
+                    return $this->badRequest('帳號或密碼錯誤');
+                case 'invalid_client':
+                    return $this->badRequest('客戶端認證失敗');
+                default:
+                    return $this->badRequest($result['message']);
+            }
+        }
+        return $this->success($result);
     }
 
     /**

@@ -262,7 +262,6 @@ export default {
               const { userData } = response.data
               useJwt.setToken(response.data.access_token)
               useJwt.setRefreshToken(response.data.refresh_token)
-              localStorage.setItem('userData', JSON.stringify(userData))
               //   this.$ability.update(userData.ability)
 
               // ? This is just for demo purpose as well.
@@ -273,20 +272,22 @@ export default {
               //   this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
               this.$http.get('/auth/user')
                   .then(userResponse => {
-                    this.$store.dispatch('auth/updateInfo', userResponse.data)
-                    this.$router.replace('/')
-                        .then(() => {
-                            this.$toast({
-                                component: ToastificationContent,
-                                position: 'top-right',
-                                props: {
-                                title: `Welcome ${userData.fullName || userData.username}`,
-                                icon: 'CoffeeIcon',
-                                variant: 'success',
-                                text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
-                                },
+                    this.$store.dispatch('auth/checkUser')
+                      .then(() => {
+                        this.$router.replace('/')
+                            .then(() => {
+                                this.$toast({
+                                    component: ToastificationContent,
+                                    position: 'top-right',
+                                    props: {
+                                    title: `Welcome ${userData.fullName || userData.username}`,
+                                    icon: 'CoffeeIcon',
+                                    variant: 'success',
+                                    text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
+                                    },
+                                })
                             })
-                        })
+                      })
                   })
             })
             .catch(error => {

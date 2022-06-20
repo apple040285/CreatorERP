@@ -47,4 +47,24 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $e)
+    {
+        $class = get_class($e);
+        // info($class);
+
+        // 客製化驗證例外訊息
+        if ($e instanceof \Illuminate\Auth\Access\AuthorizationException) {
+            return response()->json(['message' => '此操作未經授權'], 400);
+        }
+
+        if ($e instanceof \Illuminate\Auth\AuthenticationException) {
+            return response()->json(['message' => '登入超時，嘗試重新登入中..'], 401);
+        }
+
+        if ($e instanceof \Illuminate\Validation\ValidationException) {
+            return response()->json(['message' => $e->errors()], 422);
+        }
+        return parent::render($request, $e);
+    }
 }
