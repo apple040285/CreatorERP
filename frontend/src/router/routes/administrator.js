@@ -1,16 +1,16 @@
 export default [
     {
-        path: '/Administrator/profile',
-        name: 'Administrator-Profile',
-        component: () => import('@/views/administrator/Profile.vue'),
+        path: '/Administrator/Information',
+        name: 'Administrator-Information',
+        component: () => import('@/views/administrator/Information.vue'),
         meta: {
-            pageTitle: 'Profile',
+            pageTitle: 'Information',
             breadcrumb: [
                 {
                 text: 'Administrator',
                 },
                 {
-                text: 'Profile',
+                text: 'Information',
                 active: true,
                 },
             ],

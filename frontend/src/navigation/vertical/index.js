@@ -23,8 +23,8 @@ export default [
     icon: 'ToolIcon',
     children: [
       {
-        title: 'Profile',
-        route: 'Administrator-Profile',
+        title: 'Information',
+        route: 'Administrator-Information',
       },
     ],
   },

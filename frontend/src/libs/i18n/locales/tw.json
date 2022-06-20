@@ -60,6 +60,16 @@
 
   "PERSONAL CENTER": "個人中心",
   "Administrator": "管理員",
-  "Profile": "管理員信息",
-  "Logout": "登出"
+  "Information": "管理員信息",
+  "Logout": "登出",
+
+  "Update Administrator Information": "更新管理員信息",
+  "Username": "名稱",
+  "Email": "信箱",
+  "Old Password": "舊密碼",
+  "New Password": "新密碼",
+  "Confirm the new password": "確認新密碼",
+  "Submit": "送出",
+
+  "You have successfully logged": "登入成功"
 }

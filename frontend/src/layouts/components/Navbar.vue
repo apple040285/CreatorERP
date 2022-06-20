@@ -51,7 +51,7 @@
             icon="UserIcon"
             class="mr-50"
           />
-          <span>{{ $t('Profile') }}</span>
+          <span>{{ $t('Information') }}</span>
         </b-dropdown-item>
 
         <!-- <b-dropdown-item link-class="d-flex align-items-center">
@@ -140,7 +140,7 @@ export default {
       // this.$ability.update(initialAbility)
 
       // Redirect to login page
-      this.$router.push({ name: 'login' })
+      this.$router.push({ name: 'auth-login' })
     },
   }
 }

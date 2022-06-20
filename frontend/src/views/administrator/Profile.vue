@@ -1,3 +1,0 @@
-<template>
-    <h5>Profile</h5>
-</template>
