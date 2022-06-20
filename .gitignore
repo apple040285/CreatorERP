@@ -18,3 +18,4 @@ yarn-error.log
 /public/svg
 /resources/views/index.blade.php
 /composer.lock
+/frontend/package-lock.json

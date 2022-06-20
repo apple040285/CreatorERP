@@ -261,6 +261,7 @@ export default {
           })
             .then(response => {
               const { userData } = response.data
+              console.log(userData);
               useJwt.setToken(response.data.access_token)
               useJwt.setRefreshToken(response.data.refresh_token)
               //   this.$ability.update(userData.ability)
@@ -279,10 +280,10 @@ export default {
                         component: ToastificationContent,
                         position: 'top-right',
                         props: {
-                        title: `Welcome`,
+                        title: `${i18n.t('Welcome')} ${i18n.t('Administrator')}`,
                         icon: 'CoffeeIcon',
                         variant: 'success',
-                        text: `${i18n.$t('You have successfully logged')} !`,
+                        text: `${i18n.t('You have successfully logged')} !`,
                         },
                       })
                     })

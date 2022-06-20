@@ -47,7 +47,7 @@
                                     id="fh-email"
                                     type="email"
                                     :placeholder="$t('Email')"
-                                    :model="emailValue"
+                                    v-model="emailValue"
                                     readonly
                                 />
                             </b-input-group>
@@ -229,6 +229,13 @@ export default {
                 }
             })
         },
+    },
+    mounted() {
+        this.$store.dispatch('auth/checkUser')
+            .then(response => {
+                this.name = response.data.name;
+                this.emailValue = response.data.email;
+            })
     },
 }
 </script>
