@@ -15,9 +15,9 @@
       <span class="ml-50 text-body">{{ currentLocale.name }}</span>
     </template>
     <b-dropdown-item
-      v-for="localeObj in locales"
+      v-for="localeObj in $store.state.auth.locales"
       :key="localeObj.locale"
-      @click="$i18n.locale = localeObj.locale"
+      @click="$store.dispatch('auth/changeLocale', localeObj)"
     >
       <b-img
         :src="localeObj.img"
@@ -42,43 +42,8 @@ export default {
   // ! Need to move this computed property to comp function once we get to Vue 3
   computed: {
     currentLocale() {
-      return this.locales.find(l => l.locale === this.$i18n.locale)
+      return this.$store.state.auth.locales.find(l => l.locale === this.$i18n.locale)
     },
-  },
-  setup() {
-    /* eslint-disable global-require */
-    const locales = [
-      {
-        locale: 'tw',
-        img: require('@/assets/images/flags/tw.png'),
-        name: '繁體中文',
-      },
-      {
-        locale: 'en',
-        img: require('@/assets/images/flags/en.png'),
-        name: 'English',
-      },
-      // {
-      //   locale: 'fr',
-      //   img: require('@/assets/images/flags/fr.png'),
-      //   name: 'French',
-      // },
-      // {
-      //   locale: 'de',
-      //   img: require('@/assets/images/flags/de.png'),
-      //   name: 'German',
-      // },
-      // {
-      //   locale: 'pt',
-      //   img: require('@/assets/images/flags/pt.png'),
-      //   name: 'Portuguese',
-      // },
-    ]
-    /* eslint-disable global-require */
-
-    return {
-      locales,
-    }
   },
 }
 </script>

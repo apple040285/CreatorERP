@@ -1,11 +1,42 @@
 import axios from '@/libs/axios'
 import useJwt from '@/auth/jwt/useJwt'
 import router from '@/router'
+import i18n from '@/libs/i18n'
+import { localize } from 'vee-validate';
 
 export default {
   namespaced: true,
   state: {
     name: 'John Doe',
+    locales: [
+      {
+        locale: 'tw',
+        img: require('@/assets/images/flags/tw.png'),
+        name: '繁體中文',
+        code: 'zh_TW',
+      },
+      {
+        locale: 'en',
+        img: require('@/assets/images/flags/en.png'),
+        name: 'English',
+        code: 'en',
+      },
+      // {
+      //   locale: 'fr',
+      //   img: require('@/assets/images/flags/fr.png'),
+      //   name: 'French',
+      // },
+      // {
+      //   locale: 'de',
+      //   img: require('@/assets/images/flags/de.png'),
+      //   name: 'German',
+      // },
+      // {
+      //   locale: 'pt',
+      //   img: require('@/assets/images/flags/pt.png'),
+      //   name: 'Portuguese',
+      // },
+    ]
   },
   getters: {},
   mutations: {
@@ -14,9 +45,11 @@ export default {
     },
   },
   actions: {
-    updateInfo({ commit }, data) {
-      commit('UPDATE_NAME', data.name)
-      localStorage.setItem('userData', JSON.stringify(data))
+    changeLocale(ctx, { locale, code }) {
+      i18n.locale = locale
+      import(`vee-validate/dist/locale/${code}.json`).then(locale => {
+        localize(code, locale);
+      })
     },
     checkUser({ commit }) {
       return new Promise((resolve, reject) => {
