@@ -2,7 +2,7 @@ import axios from '@/libs/axios'
 import useJwt from '@/auth/jwt/useJwt'
 import router from '@/router'
 import i18n from '@/libs/i18n'
-import { localize } from 'vee-validate';
+import { localize, localeChanged } from 'vee-validate'
 
 export default {
   namespaced: true,
@@ -10,16 +10,14 @@ export default {
     name: 'John Doe',
     locales: [
       {
-        locale: 'tw',
+        locale: 'zh_TW',
         img: require('@/assets/images/flags/tw.png'),
         name: '繁體中文',
-        code: 'zh_TW',
       },
       {
         locale: 'en',
         img: require('@/assets/images/flags/en.png'),
         name: 'English',
-        code: 'en',
       },
       // {
       //   locale: 'fr',
@@ -45,11 +43,13 @@ export default {
     },
   },
   actions: {
-    changeLocale(ctx, { locale, code }) {
-      i18n.locale = locale
-      import(`vee-validate/dist/locale/${code}.json`).then(locale => {
-        localize(code, locale);
-      })
+    changeLocale(ctx, { locale }) {
+      const code = locale
+      i18n.locale = code
+      localeChanged()
+      // import(`vee-validate/dist/locale/${code}.json`).then(locale => {
+      //   localize(code, locale);
+      // })
     },
     checkUser({ commit }) {
       return new Promise((resolve, reject) => {
