@@ -8,7 +8,7 @@ export default [
         children: [
             {
                 title: 'Requisition',
-                route: 'ProcurementOperation-Requisition',
+                route: 'ProcurementOperation-RequisitionList',
             },
             {
                 title: 'Inquiry Voucher',

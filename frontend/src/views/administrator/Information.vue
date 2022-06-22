@@ -6,8 +6,8 @@
                     <!-- username -->
                     <b-col cols="12">
                         <b-form-group
-                            :label="$t('Username')"
-                            label-for="fh-username"
+                            :label="$t('validations.names.Name')"
+                            label-for="fh-name"
                         >
                             <validation-provider
                                 #default="{ errors }"
@@ -22,8 +22,8 @@
                                         <feather-icon icon="UserIcon" />
                                     </b-input-group-prepend>
                                     <b-form-input
-                                        id="fh-username"
-                                        :placeholder="$t('Username')"
+                                        id="fh-name"
+                                        :placeholder="$t('validations.names.Name')"
                                         v-model="name"
                                         :state="errors.length > 0 ? false:null"
                                     />
@@ -36,7 +36,7 @@
                     <!-- email -->
                     <b-col cols="12">
                         <b-form-group
-                            :label="$t('Email')"
+                            :label="$t('validations.names.Email')"
                             label-for="fh-email"
                         >
                             <b-input-group class="input-group-merge">
@@ -46,7 +46,7 @@
                                 <b-form-input
                                     id="fh-email"
                                     type="email"
-                                    :placeholder="$t('Email')"
+                                    :placeholder="$t('validations.names.Email')"
                                     v-model="emailValue"
                                     readonly
                                 />
@@ -57,7 +57,7 @@
                     <!-- Old Password -->
                     <b-col cols="12">
                         <b-form-group
-                            :label="$t('Old Password')"
+                            :label="$t('validations.names.Old Password')"
                             label-for="fh-old-password"
                         >
                             <validation-provider
@@ -76,7 +76,7 @@
                                         id="fh-old-password"
                                         v-model="oldPassword"
                                         type="password"
-                                        :placeholder="$t('Old Password')"
+                                        :placeholder="$t('validations.names.Old Password')"
                                         :state="errors.length > 0 ? false:null"
                                     />
                                 </b-input-group>
@@ -88,7 +88,7 @@
                     <!-- New Password -->
                     <b-col cols="12">
                         <b-form-group
-                            :label="$t('New Password')"
+                            :label="$t('validations.names.New Password')"
                             label-for="fh-new-password"
                         >
                             <validation-provider
@@ -108,7 +108,7 @@
                                         id="fh-new-password"
                                         v-model="newPassword"
                                         type="password"
-                                        :placeholder="$t('New Password')"
+                                        :placeholder="$t('validations.names.New Password')"
                                         :state="errors.length > 0 ? false:null"
                                     />
                                 </b-input-group>
@@ -120,12 +120,12 @@
                     <!-- New Password Confirm -->
                     <b-col cols="12">
                         <b-form-group
-                            :label="$t('Confirm the new password')"
+                            :label="$t('validations.names.Confirm the new password')"
                             label-for="fh-new-password-confirm"
                         >
                             <validation-provider
                                 #default="{ errors }"
-                                name="New Password Confirm"
+                                name="Confirm the new password"
                                 rules="required|confirmed:New Password"
                             >
                                 <b-input-group
@@ -139,7 +139,7 @@
                                         id="fh-new-password-confirm"
                                         v-model="newPasswordConfirm"
                                         type="password"
-                                        :placeholder="$t('Confirm the new password')"
+                                        :placeholder="$t('validations.names.Confirm the new password')"
                                         :state="errors.length > 0 ? false:null"
                                     />
                                 </b-input-group>

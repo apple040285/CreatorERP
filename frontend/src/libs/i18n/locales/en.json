@@ -1,7 +1,11 @@
 {
   "validations": {
     "names": {
-      "Name": "Name"
+      "Name": "Name",
+      "Email": "Email",
+      "Old Password": "Old Password",
+      "New Password": "New Password",
+      "Confirm the new password": "Confirm the new password"
     },
     "messages": {
       "alpha": "The {_field_} field may only contain alphabetic characters",
@@ -31,6 +35,13 @@
       "size": "The {_field_} field size must be less than {size}KB",
       "double": "The {_field_} field must be a valid decimal"
     }
+  },
+  "table": {
+    "Search": "Search",
+    "Showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "entries": "entries"
   },
   "message": {
     "title": "Card Title",
@@ -206,5 +217,99 @@
   "Layout Boxed": "Layout Boxed",
   "Without Menu": "Without Menu",
   "Layout Empty": "Layout Empty",
-  "Layout Blank": "Layout Blank"
+  "Layout Blank": "Layout Blank",
+
+  "Dashboard": "Dashboard",
+
+  "SHARED DATA": "SHARED DATA",
+
+  "Basic Data": "Basic Data",
+  "Department Data Setting": "Department Data Setting",
+  "Personnel Data Setting": "Personnel Data Setting",
+  "Currency Data Setting": "Currency Data Setting",
+  "Project Data Setting": "Project Data Setting",
+  "Bank Data Setting": "Bank Data Setting",
+  "Account Data Setting": "Account Data Setting",
+
+  "Product Data": "Product Data",
+  "Product Data Setting": "Product Data Setting",
+  "Warehouse Data Setting": "Warehouse Data Setting",
+  "Product Category Setting": "Product Category Setting",
+
+  "Customer/Manufacturer Data": "Customer/Manufacturer Data",
+  "Customer/Manufacturer Category": "Customer/Manufacturer Category",
+
+  "PURCHASING MANAGEMENT": "PURCHASING MANAGEMENT",
+  "Procurement Operation": "Procurement Operation",
+  "Requisition": "Requisition",
+  "Inquiry Voucher": "Inquiry Voucher",
+  "Procurement Voucher": "Procurement Voucher",
+
+  "Purchase Operation": "Purchase Operation",
+  "Purchase Voucher": "Purchase Voucher",
+  "Returned Purchase Invoice": "Returned Purchase Invoice",
+  "Purchase Discount Voucher": "Purchase Discount Voucher",
+
+  "SALES MANAGEMENT": "SALES MANAGEMENT",
+  "Order Routine": "Order Routine",
+  "Quotation Voucher": "Quotation Voucher",
+  "Order Voucher": "Order Voucher",
+
+  "Sales Operation": "Sales Operation",
+  "Sales Voucher": "Sales Voucher",
+  "Returned Sales Invoice": "Returned Sales Invoice",
+  "Sales Discount Voucher": "Sales Discount Voucher",
+
+  "INVENTORY MANAGEMENT": "INVENTORY MANAGEMENT",
+  "Adjust The Transfer Operation": "Adjust The Transfer Operation",
+  "Adjustment Voucher": "Adjustment Voucher",
+  "Transfer Voucher": "Transfer Voucher",
+
+  "ACCOUNT RECEIVABLE MANAGEMENT": "ACCOUNT RECEIVABLE MANAGEMENT",
+  "Payments Receivable": "Payments Receivable",
+  "Receipt And Payment Voucher": "Receipt And Payment Voucher",
+
+  "Income Expense Operation": "Income Expense Operation",
+  "Other Income Voucher": "Other Income Voucher",
+  "Other Expense Voucher": "Other Expense Voucher",
+
+  "Notes Receivable": "Notes Receivable",
+  "Notes Receivable Voucher": "Notes Receivable Voucher",
+
+  "PERSONAL CENTER": "PERSONAL CENTER",
+  "Administrator": "Administrator",
+  "Information": "Information",
+  "Logout": "Logout",
+
+  "Update Administrator Information": "Update Administrator Information",
+  "Submit": "Submit",
+
+  "You have successfully logged": "You have successfully logged",
+
+  "Basic Information": "Basic Information",
+  "Other Remark": "Other Remark",
+
+  "action": "Action",
+  "create": "Create",
+  "edit": "Edit",
+  "detail": "Detail",
+  "invalid": "Invalid",
+
+  "RequisitionList": {
+    "requisitionDate": "Requisition Date",
+    "requisitionNo": "Requisition No",
+    "manufacturer": "Manufacturer",
+    "buyer": "Buyer",
+    "preDeliveryDate": "Pre-Delivery Date",
+    "projectNo": "Project No",
+    "status": "Status",
+    "caseClosed": "Case Closed",
+    "openCase": "Open Case",
+    "invalid": "Invalid",
+    "approvalStatus": "Approval Status",
+    "audited": "Audited",
+    "draft": "Draft",
+    "void": "Void",
+    "underReview": "Under Review"
+  }
 }

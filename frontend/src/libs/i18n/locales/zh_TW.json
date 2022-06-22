@@ -1,7 +1,11 @@
 {
   "validations": {
     "names": {
-      "Name": "名稱"
+      "Name": "名稱",
+      "Email": "信箱",
+      "Old Password": "舊密碼",
+      "New Password": "新密碼",
+      "Confirm the new password": "確認新密碼"
     },
     "messages": {
       "alpha": "{_field_} 須以英文組成",
@@ -32,6 +36,13 @@
       "double": "{_field_}字段必須為有效的小數"
     }
   },
+  "table": {
+    "Search": "搜尋",
+    "Showing": "顯示",
+    "to": "到",
+    "of": "共",
+    "entries": "筆"
+  },
   "Dashboard": "儀表板",
 
   "SHARED DATA": "共用資料",
@@ -47,9 +58,7 @@
   "Product Data": "產品資料",
   "Product Data Setting": "產品資料設定",
   "Warehouse Data Setting": "倉庫資料設定",
-  "Product Primary Category Setting": "產品大類設定",
-  "Product Secondary Category Setting": "產品中類設定",
-  "Product Minor Category Setting": "產品小類設定",
+  "Product Category Setting": "產品分類設定",
 
   "Customer/Manufacturer Data": "客戶/廠商資料",
   "Customer/Manufacturer Category": "客戶/廠商分類",
@@ -97,12 +106,34 @@
   "Logout": "登出",
 
   "Update Administrator Information": "更新管理員信息",
-  "Username": "名稱",
-  "Email": "信箱",
-  "Old Password": "舊密碼",
-  "New Password": "新密碼",
-  "Confirm the new password": "確認新密碼",
   "Submit": "送出",
 
-  "You have successfully logged": "登入成功"
+  "You have successfully logged": "登入成功",
+
+  "Basic Information": "基本資料",
+  "Other Remark": "其他備註",
+
+  "action": "操作",
+  "create": "新增",
+  "edit": "編輯",
+  "detail": "詳細",
+  "invalid": "無效",
+
+  "RequisitionList": {
+    "requisitionDate": "請購日期",
+    "requisitionNo": "請購單號",
+    "manufacturer": "廠商",
+    "buyer": "請購人員",
+    "preDeliveryDate": "預交日",
+    "projectNo": "專案編號",
+    "status": "單據狀態",
+    "caseClosed": "結案",
+    "openCase": "未結案",
+    "invalid": "無效",
+    "approvalStatus": "審核狀態",
+    "audited": "已審核",
+    "draft": "草稿",
+    "void": "作廢",
+    "underReview": "送審中"
+  }
 }

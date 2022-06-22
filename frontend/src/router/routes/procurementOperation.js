@@ -1,8 +1,8 @@
 export default [
     {
-        path: '/ProcurementOperation/Requisition',
-        name: 'ProcurementOperation-Requisition',
-        component: () => import('@/views/procurement-operation/Requisition.vue'),
+        path: '/ProcurementOperation/RequisitionList',
+        name: 'ProcurementOperation-RequisitionList',
+        component: () => import('@/views/procurement-operation/requisition/List.vue'),
         meta: {
             pageTitle: 'Requisition',
             breadcrumb: [

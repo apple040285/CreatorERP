@@ -45,16 +45,8 @@ export default [
                 route: 'ProductData-WarehouseDataSetting',
             },
             {
-                title: 'Product Primary Category Setting',
-                route: 'ProductData-ProductPrimaryCategorySetting',
-            },
-            {
-                title: 'Product Secondary Category Setting',
-                route: 'ProductData-ProductSecondaryCategorySetting',
-            },
-            {
-                title: 'Product Minor Category Setting',
-                route: 'ProductData-ProductMinorCategorySetting',
+                title: 'Product Category Setting',
+                route: 'ProductData-ProductCategorySetting',
             },
         ],
     },
