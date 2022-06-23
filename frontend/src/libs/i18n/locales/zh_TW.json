@@ -5,7 +5,12 @@
       "Email": "信箱",
       "Old Password": "舊密碼",
       "New Password": "新密碼",
-      "Confirm the new password": "確認新密碼"
+      "Confirm the new password": "確認新密碼",
+      "requisitionDate": "請購日期",
+      "currency": "幣別",
+      "buyer": "請購人員",
+      "purchaseDepartment": "請購部門",
+      "preDeliveryDate": "預交日期"
     },
     "messages": {
       "alpha": "{_field_} 須以英文組成",
@@ -107,6 +112,7 @@
 
   "Update Administrator Information": "更新管理員信息",
   "Submit": "送出",
+  "back": "返回",
 
   "You have successfully logged": "登入成功",
 
@@ -124,7 +130,7 @@
     "requisitionNo": "請購單號",
     "manufacturer": "廠商",
     "buyer": "請購人員",
-    "preDeliveryDate": "預交日",
+    "preDeliveryDate": "預交日期",
     "projectNo": "專案編號",
     "status": "單據狀態",
     "caseClosed": "結案",
@@ -134,6 +140,18 @@
     "audited": "已審核",
     "draft": "草稿",
     "void": "作廢",
-    "underReview": "送審中"
+    "underReview": "送審中",
+    "action": "操作"
+  },
+
+  "RequisitionCreate": {
+    "createRequisition": "新增請購憑單",
+    "selectManufacturer": "請選擇廠商",
+    "selectCurrency": "請選擇幣別",
+    "selectTransferNo": "請選擇轉入單號",
+    "selectProject": "請選擇專案",
+    "selectBuyer": "請選擇請購人員",
+    "selectPurchaseDepartment": "請選擇請購部門",
+    "remark": "備註"
   }
 }

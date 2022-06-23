@@ -17,6 +17,66 @@ export default [
         },
     },
     {
+        path: '/ProcurementOperation/RequisitionCreate',
+        name: 'ProcurementOperation-RequisitionCreate',
+        component: () => import('@/views/procurement-operation/requisition/Create.vue'),
+        meta: {
+            pageTitle: 'Requisition',
+            breadcrumb: [
+                {
+                text: 'Procurement Operation',
+                },
+                {
+                text: 'Requisition',
+                },
+                {
+                text: 'create',
+                active: true,
+                },
+            ],
+        },
+    },
+    {
+        path: '/ProcurementOperation/RequisitionEdit',
+        name: 'ProcurementOperation-RequisitionEdit',
+        component: () => import('@/views/procurement-operation/requisition/Edit.vue'),
+        meta: {
+            pageTitle: 'Requisition',
+            breadcrumb: [
+                {
+                text: 'Procurement Operation',
+                },
+                {
+                text: 'Requisition',
+                },
+                {
+                text: 'edit',
+                active: true,
+                },
+            ],
+        },
+    },
+    {
+        path: '/ProcurementOperation/RequisitionDetail',
+        name: 'ProcurementOperation-RequisitionDetail',
+        component: () => import('@/views/procurement-operation/requisition/Detail.vue'),
+        meta: {
+            pageTitle: 'Requisition',
+            breadcrumb: [
+                {
+                text: 'Procurement Operation',
+                },
+                {
+                text: 'Requisition',
+                },
+                {
+                text: 'detail',
+                active: true,
+                },
+            ],
+        },
+    },
+    {
         path: '/ProcurementOperation/InquiryVoucher',
         name: 'ProcurementOperation-InquiryVoucher',
         component: () => import('@/views/procurement-operation/InquiryVoucher.vue'),

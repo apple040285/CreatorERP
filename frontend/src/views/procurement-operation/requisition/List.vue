@@ -7,7 +7,7 @@
                     <b-button
                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                         variant="outline-primary"
-                        to="#"
+                        :to="{ name: 'ProcurementOperation-RequisitionCreate' }"
                     >
                         {{ $t('create')}}
                     </b-button>
@@ -42,52 +42,64 @@
                     }"
                 >
                     <template
+                        slot="table-column"
+                        slot-scope="props"
+                    >
+                        <span class="text-nowrap" v-if="props.column.label !== '#'">
+                            {{$t('RequisitionList.' + props.column.label) }}
+                        </span>
+                    </template>
+                    <template
                         slot="table-row"
                         slot-scope="props"
                     >
+                        <!-- Column: index -->
+                        <span v-if="props.column.field === 'index'" class="text-nowrap">
+                            {{ props.row.originalIndex + 1 }}
+                        </span>
                         <!-- Column: Status -->
-                        <span v-if="props.column.field === 'approvalStatus'">
+                        <span v-if="props.column.field === 'approvalStatus'" class="text-nowrap">
                             <b-badge :variant="statusVariant(props.row.approvalStatus)">
-                                {{ $t('RequisitionList.'+props.row.approvalStatus) }}
+                                {{ $t('RequisitionList.' + props.row.approvalStatus) }}
                             </b-badge>
                         </span>
 
-                        <span v-else-if="props.column.field === 'status'">
+                        <span v-else-if="props.column.field === 'status'" class="text-nowrap">
                             <b-badge :variant="statusVariant(props.row.status)">
-                                {{ $t('RequisitionList.'+props.row.status) }}
+                                {{ $t('RequisitionList.' + props.row.status) }}
                             </b-badge>
                         </span>
 
                         <!-- Column: Action -->
-                        <span v-else-if="props.column.field === 'action'">
+                        <span v-else-if="props.column.field === 'action'" class="text-nowrap">
                             <span>
                                 <b-button
                                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                     variant="outline-primary"
                                     size="sm"
-                                    to="#"
+                                    :to="{ name: 'ProcurementOperation-RequisitionDetail', query: { id: 1 } }"
                                 >
                                     <feather-icon
-                                        icon="Edit2Icon"
+                                        icon="FilePlusIcon"
                                     />
                                     <span>{{ $t('detail') }}</span>
                                 </b-button>
                                 <b-button
                                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                                    variant="outline-danger"
+                                    variant="outline-success"
                                     size="sm"
-                                    to="#"
+                                    :to="{ name: 'ProcurementOperation-RequisitionEdit', query: { id: 1 } }"
                                 >
                                     <feather-icon
-                                        icon="TrashIcon"
+                                        icon="Edit2Icon"
                                     />
-                                    <span>{{ $t('invalid') }}</span>
+                                    <span>{{ $t('edit') }}</span>
                                 </b-button>
                             </span>
                         </span>
 
                         <!-- Column: Common -->
-                        <span v-else>
+                        <span v-else class="text-nowrap">
                             {{ props.formattedRow[props.column.field] }}
                         </span>
                     </template>
@@ -152,7 +164,7 @@ import {
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import store from '@/store/index'
-import i18n from '@/libs/i18n'
+import Ripple from 'vue-ripple-directive'
 
 export default {
     components: {
@@ -167,45 +179,52 @@ export default {
         BFormSelect,
         BButton
     },
+    directives: {
+        Ripple,
+    },
     data() {
         return {
         pageLength: 5,
         dir: false,
         columns: [
             {
-            label: i18n.t('RequisitionList.requisitionDate'),
+            label: '#',
+            field: 'index',
+            },
+            {
+            label: 'requisitionDate',
             field: 'requisitionDate',
             },
             {
-            label: i18n.t('RequisitionList.requisitionNo'),
+            label: 'requisitionNo',
             field: 'requisitionNo',
             },
             {
-            label: i18n.t('RequisitionList.manufacturer'),
+            label: 'manufacturer',
             field: 'manufacturer',
             },
             {
-            label: i18n.t('RequisitionList.buyer'),
+            label: 'buyer',
             field: 'buyer',
             },
             {
-            label: i18n.t('RequisitionList.preDeliveryDate'),
+            label: 'preDeliveryDate',
             field: 'preDeliveryDate',
             },
             {
-            label: i18n.t('RequisitionList.projectNo'),
+            label: 'projectNo',
             field: 'projectNo',
             },
             {
-            label: i18n.t('RequisitionList.status'),
+            label: 'status',
             field: 'status',
             },
             {
-            label: i18n.t('RequisitionList.approvalStatus'),
+            label: 'approvalStatus',
             field: 'approvalStatus',
             },
             {
-            label: i18n.t('action'),
+            label: 'action',
             field: 'action',
             },
         ],
@@ -306,7 +325,7 @@ export default {
         this.dir = false
         return this.dir
         },
-    },
+    }
 }
 </script>
 

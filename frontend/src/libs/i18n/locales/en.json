@@ -5,7 +5,12 @@
       "Email": "Email",
       "Old Password": "Old Password",
       "New Password": "New Password",
-      "Confirm the new password": "Confirm the new password"
+      "Confirm the new password": "Confirm the new password",
+      "requisitionDate": "Requisition Date",
+      "currency": "Currency",
+      "buyer": "Buyer",
+      "purchaseDepartment": "purchase Department",
+      "preDeliveryDate": "pre-Delivery Date"
     },
     "messages": {
       "alpha": "The {_field_} field may only contain alphabetic characters",
@@ -283,6 +288,7 @@
 
   "Update Administrator Information": "Update Administrator Information",
   "Submit": "Submit",
+  "back": "Back",
 
   "You have successfully logged": "You have successfully logged",
 
@@ -310,6 +316,18 @@
     "audited": "Audited",
     "draft": "Draft",
     "void": "Void",
-    "underReview": "Under Review"
+    "underReview": "Under Review",
+    "action": "Action"
+  },
+
+  "RequisitionCreate": {
+    "createRequisition": "Create Requisition",
+    "selectManufacturer": "Select The Manufacturer",
+    "selectCurrency": "Select The Currency",
+    "selectTransferNo": "Select The Transfer No",
+    "selectProject": "Select The Project",
+    "selectBuyer": "Select The Buyer",
+    "selectPurchaseDepartment": "Select The Purchase Department",
+    "remark": "Remark"
   }
 }
