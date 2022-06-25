@@ -28,6 +28,7 @@ export default [
                 },
                 {
                 text: 'Requisition',
+                to: { name: 'ProcurementOperation-RequisitionList' },
                 },
                 {
                 text: 'create',
@@ -48,6 +49,7 @@ export default [
                 },
                 {
                 text: 'Requisition',
+                to: { name: 'ProcurementOperation-RequisitionList' },
                 },
                 {
                 text: 'edit',
@@ -68,6 +70,7 @@ export default [
                 },
                 {
                 text: 'Requisition',
+                to: { name: 'ProcurementOperation-RequisitionList' },
                 },
                 {
                 text: 'detail',

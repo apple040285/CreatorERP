@@ -1,20 +1,18 @@
 <template>
     <b-row>
         <b-col cols="12">
-            <b-card-code>
+            <b-card-code :title="$t('RequisitionCreate.createRequisition')">
 
-                <div class="d-flex justify-content-start">
+                <!-- search input -->
+                <div class="custom-search d-flex justify-content-end">
                     <b-button
                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                         variant="outline-primary"
                         :to="{ name: 'ProcurementOperation-RequisitionCreate' }"
+                        class="mb-2 mr-2"
                     >
                         {{ $t('create')}}
                     </b-button>
-                </div>
-
-                <!-- search input -->
-                <div class="custom-search d-flex justify-content-end">
                     <b-form-group>
                         <div class="d-flex align-items-center">
                             <b-form-input
@@ -77,7 +75,8 @@
                                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                     variant="outline-primary"
                                     size="sm"
-                                    :to="{ name: 'ProcurementOperation-RequisitionDetail', query: { id: 1 } }"
+                                    :to="{ name: 'ProcurementOperation-RequisitionDetail', query: { id: props.row.id } }"
+                                    class="mr-1"
                                 >
                                     <feather-icon
                                         icon="FilePlusIcon"
@@ -88,7 +87,7 @@
                                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                     variant="outline-success"
                                     size="sm"
-                                    :to="{ name: 'ProcurementOperation-RequisitionEdit', query: { id: 1 } }"
+                                    :to="{ name: 'ProcurementOperation-RequisitionEdit', query: { id: props.row.id } }"
                                 >
                                     <feather-icon
                                         icon="Edit2Icon"
@@ -187,113 +186,83 @@ export default {
         pageLength: 5,
         dir: false,
         columns: [
-            {
-            label: '#',
-            field: 'index',
-            },
-            {
-            label: 'requisitionDate',
-            field: 'requisitionDate',
-            },
-            {
-            label: 'requisitionNo',
-            field: 'requisitionNo',
-            },
-            {
-            label: 'manufacturer',
-            field: 'manufacturer',
-            },
-            {
-            label: 'buyer',
-            field: 'buyer',
-            },
-            {
-            label: 'preDeliveryDate',
-            field: 'preDeliveryDate',
-            },
-            {
-            label: 'projectNo',
-            field: 'projectNo',
-            },
-            {
-            label: 'status',
-            field: 'status',
-            },
-            {
-            label: 'approvalStatus',
-            field: 'approvalStatus',
-            },
-            {
-            label: 'action',
-            field: 'action',
-            },
+            { label: '#', field: 'index' },
+            { label: 'requisitionDate', field: 'requisitionDate' },
+            { label: 'requisitionNo', field: 'requisitionNo' },
+            { label: 'manufacturer', field: 'manufacturer' },
+            { label: 'buyer', field: 'buyer' },
+            { label: 'preDeliveryDate', field: 'preDeliveryDate' },
+            { label: 'project', field: 'project' },
+            { label: 'status', field: 'status' },
+            { label: 'approvalStatus', field: 'approvalStatus' },
+            { label: 'action', field: 'action' },
         ],
         rows: [
             {
-            id: 1,
-            requisitionDate: "2022/06/22",
-            requisitionNo: '20220622001',
-            manufacturer: '廠商A',
-            buyer: 'dennis',
-            preDeliveryDate: '2022/06/30',
-            projectNo: 'ABC123',
-            status: 'openCase',
-            approvalStatus: 'void',
+                id: 1,
+                requisitionDate: "2022/06/22",
+                requisitionNo: '20220622001',
+                manufacturer: '廠商A',
+                buyer: 'dennis',
+                preDeliveryDate: '2022/06/30',
+                project: 'ABC123',
+                status: 'openCase',
+                approvalStatus: 'void',
             },
             {
-            id: 2,
-            requisitionDate: "2022/06/22",
-            requisitionNo: '20220622001',
-            manufacturer: '廠商A',
-            buyer: 'dennis',
-            preDeliveryDate: '2022/06/30',
-            projectNo: 'ABC123',
-            status: 'openCase',
-            approvalStatus: 'underReview',
+                id: 2,
+                requisitionDate: "2022/06/22",
+                requisitionNo: '20220622001',
+                manufacturer: '廠商A',
+                buyer: 'dennis',
+                preDeliveryDate: '2022/06/30',
+                project: 'ABC123',
+                status: 'openCase',
+                approvalStatus: 'underReview',
             },
             {
-            id: 3,
-            requisitionDate: "2022/06/22",
-            requisitionNo: '20220622001',
-            manufacturer: '廠商A',
-            buyer: 'dennis',
-            preDeliveryDate: '2022/06/30',
-            projectNo: 'ABC123',
-            status: 'invalid',
-            approvalStatus: 'audited',
+                id: 3,
+                requisitionDate: "2022/06/22",
+                requisitionNo: '20220622001',
+                manufacturer: '廠商A',
+                buyer: 'dennis',
+                preDeliveryDate: '2022/06/30',
+                project: 'ABC123',
+                status: 'invalid',
+                approvalStatus: 'audited',
             },
             {
-            id: 4,
-            requisitionDate: "2022/06/22",
-            requisitionNo: '20220622001',
-            manufacturer: '廠商A',
-            buyer: 'dennis',
-            preDeliveryDate: '2022/06/30',
-            projectNo: 'ABC123',
-            status: 'caseClosed',
-            approvalStatus: 'audited',
+                id: 4,
+                requisitionDate: "2022/06/22",
+                requisitionNo: '20220622001',
+                manufacturer: '廠商A',
+                buyer: 'dennis',
+                preDeliveryDate: '2022/06/30',
+                project: 'ABC123',
+                status: 'caseClosed',
+                approvalStatus: 'audited',
             },
             {
-            id: 5,
-            requisitionDate: "2022/06/22",
-            requisitionNo: '20220622001',
-            manufacturer: '廠商A',
-            buyer: 'dennis',
-            preDeliveryDate: '2022/06/30',
-            projectNo: 'ABC123',
-            status: 'caseClosed',
-            approvalStatus: 'draft',
+                id: 5,
+                requisitionDate: "2022/06/22",
+                requisitionNo: '20220622001',
+                manufacturer: '廠商A',
+                buyer: 'dennis',
+                preDeliveryDate: '2022/06/30',
+                project: 'ABC123',
+                status: 'caseClosed',
+                approvalStatus: 'draft',
             },
             {
-            id: 6,
-            requisitionDate: "2022/06/22",
-            requisitionNo: '20220622001',
-            manufacturer: '廠商A',
-            buyer: 'dennis',
-            preDeliveryDate: '2022/06/30',
-            projectNo: 'ABC123',
-            status: 'invalid',
-            approvalStatus: 'audited',
+                id: 6,
+                requisitionDate: "2022/06/22",
+                requisitionNo: '20220622001',
+                manufacturer: '廠商A',
+                buyer: 'dennis',
+                preDeliveryDate: '2022/06/30',
+                project: 'ABC123',
+                status: 'invalid',
+                approvalStatus: 'audited',
             },
         ],
         searchTerm: '',
@@ -301,29 +270,29 @@ export default {
     },
     computed: {
         statusVariant() {
-        const statusColor = {
-            /* eslint-disable key-spacing */
-            audited : 'light-success',
-            draft     : 'light-primary',
-            underReview     : 'light-warning',
-            void     : 'light-danger',
-            caseClosed     : 'light-success',
-            openCase     : 'light-warning',
-            invalid     : 'light-secondary',
-            /* eslint-enable key-spacing */
-        }
+            const statusColor = {
+                /* eslint-disable key-spacing */
+                audited : 'light-success',
+                draft     : 'light-primary',
+                underReview     : 'light-warning',
+                void     : 'light-danger',
+                caseClosed     : 'light-success',
+                openCase     : 'light-warning',
+                invalid     : 'light-secondary',
+                /* eslint-enable key-spacing */
+            }
 
-        return status => statusColor[status]
+            return status => statusColor[status]
         },
         direction() {
-        if (store.state.appConfig.isRTL) {
+            if (store.state.appConfig.isRTL) {
+                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                this.dir = true
+                return this.dir
+            }
             // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-            this.dir = true
+            this.dir = false
             return this.dir
-        }
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.dir = false
-        return this.dir
         },
     }
 }

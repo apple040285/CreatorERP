@@ -13,29 +13,12 @@
                                 name="requisitionDate"
                                 rules="required"
                             >
-                                <b-input-group class="mb-1">
-                                    <b-form-input
-                                        id="requisitionDate-datepicker"
-                                        v-model="requisitionDate"
-                                        type="text"
-                                        :placeholder="$t('RequisitionList.requisitionDate')"
-                                        autocomplete="off"
-                                        show-decade-nav
-                                    />
-                                    <b-input-group-append>
-                                        <b-form-datepicker
-                                            v-model="requisitionDate"
-                                            show-decade-nav
-                                            button-only
-                                            button-variant="outline-primary"
-                                            right
-                                            size="sm"
-                                            locale="en-US"
-                                            aria-controls="requisitionDate-datepicker"
-                                            @context="onContext"
-                                        />
-                                    </b-input-group-append>
-                                </b-input-group>
+                                <flat-pickr
+                                    v-model="requisitionDate"
+                                    class="form-control"
+                                    :placeholder="$t('RequisitionList.requisitionDate')"
+                                    id="requisitionDate-datepicker"
+                                />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
                         </b-form-group>
@@ -143,29 +126,12 @@
                                 name="preDeliveryDate"
                                 rules="required"
                             >
-                                <b-input-group class="mb-1">
-                                    <b-form-input
-                                        id="preDeliveryDate-datepicker"
-                                        v-model="preDeliveryDate"
-                                        type="text"
-                                        :placeholder="$t('RequisitionList.preDeliveryDate')"
-                                        autocomplete="off"
-                                        show-decade-nav
-                                    />
-                                    <b-input-group-append>
-                                        <b-form-datepicker
-                                            v-model="preDeliveryDate"
-                                            show-decade-nav
-                                            button-only
-                                            button-variant="outline-primary"
-                                            right
-                                            size="sm"
-                                            locale="en-US"
-                                            aria-controls="preDeliveryDate-datepicker"
-                                            @context="onContext"
-                                        />
-                                    </b-input-group-append>
-                                </b-input-group>
+                                <flat-pickr
+                                    v-model="preDeliveryDate"
+                                    class="form-control"
+                                    :placeholder="$t('RequisitionList.preDeliveryDate')"
+                                    id="preDeliveryDate-datepicker"
+                                />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
                         </b-form-group>
@@ -212,6 +178,7 @@
 <script>
 import BCardCode from '@core/components/b-card-code'
 import vSelect from 'vue-select'
+import flatPickr from 'vue-flatpickr-component'
 import {
     BRow,
     BCol,
@@ -224,9 +191,8 @@ import {
     BFormDatalist,
     BInputGroup,
     BInputGroupPrepend,
-    BFormDatepicker,
     BInputGroupAppend,
-    BFormTextarea
+    BFormTextarea,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
@@ -248,10 +214,10 @@ export default {
         BFormDatalist,
         ValidationProvider,
         ValidationObserver,
-        BFormDatepicker,
         BInputGroupAppend,
         vSelect,
-        BFormTextarea
+        BFormTextarea,
+        flatPickr
     },
     directives: {
         Ripple,
@@ -295,4 +261,5 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
+@import '@core/scss/vue/libs/vue-flatpicker.scss';
 </style>

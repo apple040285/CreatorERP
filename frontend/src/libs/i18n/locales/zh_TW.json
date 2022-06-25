@@ -10,7 +10,12 @@
       "currency": "幣別",
       "buyer": "請購人員",
       "purchaseDepartment": "請購部門",
-      "preDeliveryDate": "預交日期"
+      "preDeliveryDate": "預交日期",
+      "productName": "產品名稱",
+      "unit": "單位",
+      "quantity": "數量",
+      "unitPrice": "單價",
+      "productPreDeliveryDate": "預交日期"
     },
     "messages": {
       "alpha": "{_field_} 須以英文組成",
@@ -124,6 +129,10 @@
   "edit": "編輯",
   "detail": "詳細",
   "invalid": "無效",
+  "delete": "刪除",
+  "checkDelete": "確定要刪除嗎?",
+  "yes": "是",
+  "no": "否",
 
   "RequisitionList": {
     "requisitionDate": "請購日期",
@@ -131,7 +140,7 @@
     "manufacturer": "廠商",
     "buyer": "請購人員",
     "preDeliveryDate": "預交日期",
-    "projectNo": "專案編號",
+    "project": "專案名稱",
     "status": "單據狀態",
     "caseClosed": "結案",
     "openCase": "未結案",
@@ -141,7 +150,13 @@
     "draft": "草稿",
     "void": "作廢",
     "underReview": "送審中",
-    "action": "操作"
+    "action": "操作",
+    "currency": "幣別",
+    "transferNo": "轉入單號",
+    "purchaseDepartment": "請購部門",
+    "remark": "備註",
+    "totalEstimatedAmount": "預估金額合計",
+    "estimatedTotalInLocalCurrency": "預估本幣合計"
   },
 
   "RequisitionCreate": {
@@ -152,6 +167,28 @@
     "selectProject": "請選擇專案",
     "selectBuyer": "請選擇請購人員",
     "selectPurchaseDepartment": "請選擇請購部門",
-    "remark": "備註"
+    "remark": "備註",
+    "createProduct": "新增產品",
+    "productName": "產品名稱",
+    "selectProductName": "請選擇產品名稱",
+    "createModal": {
+      "productName": "請選擇產品",
+      "specification": "請選擇規格",
+      "storehouse": "請選擇倉庫",
+      "unit": "請選擇單位"
+    }
+  },
+  "ProductList": {
+    "productName": "產品",
+    "specification": "規格",
+    "storehouse": "倉庫",
+    "unit": "單位",
+    "quantity": "數量",
+    "unitPrice": "單價",
+    "amount": "金額",
+    "productPreDeliveryDate": "預交日期",
+    "productRemark": "備註",
+    "action": "操作",
+    "productDataCheck": "請新增產品"
   }
 }

@@ -10,7 +10,12 @@
       "currency": "Currency",
       "buyer": "Buyer",
       "purchaseDepartment": "purchase Department",
-      "preDeliveryDate": "pre-Delivery Date"
+      "preDeliveryDate": "pre-Delivery Date",
+      "productName": "Product Name",
+      "unit": "Unit",
+      "quantity": "Quantity",
+      "unitPrice": "Unit Price",
+      "productPreDeliveryDate": "pre-Delivery Date"
     },
     "messages": {
       "alpha": "The {_field_} field may only contain alphabetic characters",
@@ -300,6 +305,10 @@
   "edit": "Edit",
   "detail": "Detail",
   "invalid": "Invalid",
+  "delete": "Delete",
+  "checkDelete": "Are you sure you want to delete it ?",
+  "yes": "Yes",
+  "no": "No",
 
   "RequisitionList": {
     "requisitionDate": "Requisition Date",
@@ -307,7 +316,7 @@
     "manufacturer": "Manufacturer",
     "buyer": "Buyer",
     "preDeliveryDate": "Pre-Delivery Date",
-    "projectNo": "Project No",
+    "project": "Project",
     "status": "Status",
     "caseClosed": "Case Closed",
     "openCase": "Open Case",
@@ -317,7 +326,13 @@
     "draft": "Draft",
     "void": "Void",
     "underReview": "Under Review",
-    "action": "Action"
+    "action": "Action",
+    "currency": "Currency",
+    "transferNo": "Transfer No",
+    "purchaseDepartment": "Purchase Department",
+    "remark": "Remark",
+    "totalEstimatedAmount": "Total Estimated Amount",
+    "estimatedTotalInLocalCurrency": "Estimated Total In Local Currency"
   },
 
   "RequisitionCreate": {
@@ -328,6 +343,29 @@
     "selectProject": "Select The Project",
     "selectBuyer": "Select The Buyer",
     "selectPurchaseDepartment": "Select The Purchase Department",
-    "remark": "Remark"
+    "remark": "Remark",
+    "createProduct": "Create Product",
+    "productName": "Product Name",
+    "selectProductName": "Select The Product Name",
+    "createModal": {
+      "productName": "Select The Product",
+      "specification": "Select The Specification",
+      "storehouse": "Select The Storehouse",
+      "unit": "Select The Unit",
+      "action": "Action"
+    }
+  },
+  "ProductList": {
+    "productName": "Product Name",
+    "specification": "Specification",
+    "storehouse": "Storehouse",
+    "unit": "Unit",
+    "quantity": "Quantity",
+    "unitPrice": "Unit Price",
+    "amount": "Amount",
+    "productPreDeliveryDate": "Pre-Delivery Date",
+    "productRemark": "Remark",
+    "action": "Action",
+    "productDataCheck": "Please add a product"
   }
 }
