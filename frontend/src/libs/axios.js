@@ -7,9 +7,9 @@ import axios from 'axios'
 const axiosIns = axios.create({
   // You can add your headers here
   // ================================
-  baseURL: process.env.VUE_APP_CORE_API_URL + '/api',
+  baseURL: (process.env.VUE_APP_CORE_API_URL || '') + '/api',
   // timeout: 1000,
-  // headers: {'X-Custom-Header': 'foobar'}
+  headers: {'X-Requested-With': 'XMLHttpRequest'}
 })
 
 axiosIns.interceptors.response.use(

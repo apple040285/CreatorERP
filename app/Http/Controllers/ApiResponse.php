@@ -50,6 +50,8 @@ trait ApiResponse
 
         if ($data instanceof ResourceCollection) {
             return $data;
+        } else if($data instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+            return \Illuminate\Http\Resources\Json\JsonResource::collection($data);
         }
         return $this->response($data, 200, $headers);
     }

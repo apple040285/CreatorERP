@@ -17,15 +17,9 @@ DB_PASSWORD=
 5. 設定 .env 網址網域
 APP_URL=http://localhost
 
-6. 執行遷移檔案
-php artisan migrate
+6. 執行一鍵安裝
+php artisan erp:install
 
-7. 創建 API RSA Key
-php artisan passport:install
-
-8. 執行資料填充
-php artisan db:seed
-
-9. 啟動內建伺服器
+7. 啟動內建伺服器
 php artisan serve
 ```
