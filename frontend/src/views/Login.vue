@@ -195,7 +195,6 @@ import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import i18n from '@/libs/i18n'
 
 export default {
   components: {
@@ -261,7 +260,6 @@ export default {
           })
             .then(response => {
               const { userData } = response.data
-              console.log(userData);
               useJwt.setToken(response.data.access_token)
               useJwt.setRefreshToken(response.data.refresh_token)
               //   this.$ability.update(userData.ability)
@@ -280,10 +278,10 @@ export default {
                         component: ToastificationContent,
                         position: 'top-right',
                         props: {
-                        title: `${i18n.t('Welcome')} ${i18n.t('Administrator')}`,
+                        title: `${this.$t('Welcome')} ${this.$t('Administrator')}`,
                         icon: 'CoffeeIcon',
                         variant: 'success',
-                        text: `${i18n.t('You have successfully logged')} !`,
+                        text: `${this.$t('You have successfully logged')} !`,
                         },
                       })
                     })

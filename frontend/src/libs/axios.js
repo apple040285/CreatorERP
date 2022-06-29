@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import store from '@/store'
+import i18n from '@/libs/i18n'
 
 // axios
 import axios from 'axios'
@@ -11,6 +12,16 @@ const axiosIns = axios.create({
   // timeout: 1000,
   headers: {'X-Requested-With': 'XMLHttpRequest'}
 })
+
+// Request Interceptor
+axiosIns.interceptors.request.use(
+  config => {
+    // eslint-disable-next-line no-param-reassign
+    config.headers['Accept-Language'] = i18n.locale
+    return config
+  },
+  error => Promise.reject(error),
+)
 
 axiosIns.interceptors.response.use(
   // response => {

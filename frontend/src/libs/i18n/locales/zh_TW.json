@@ -3,6 +3,7 @@
     "names": {
       "Name": "名稱",
       "Email": "信箱",
+      "Password": "密碼",
       "Old Password": "舊密碼",
       "New Password": "新密碼",
       "Confirm the new password": "確認新密碼",
@@ -16,8 +17,8 @@
       "quantity": "數量",
       "unitPrice": "單價",
       "productPreDeliveryDate": "預交日期",
-      "departmentCode": "部門代號",
-      "departmentName": "部門名稱",
+      "code": "部門代號",
+      "name": "部門名稱",
       "positionCode": "職位代號",
       "positionName": "職位名稱",
       "currencyCode": "幣別代號",
@@ -59,6 +60,7 @@
     "of": "共",
     "entries": "筆"
   },
+  "Welcome": "歡迎",
   "Dashboard": "儀表板",
 
   "SHARED DATA": "共用資料",
@@ -127,6 +129,12 @@
   "back": "返回",
 
   "You have successfully logged": "登入成功",
+  "createdSuccess": "創建成功",
+  "createdFailed": "創建失敗",
+  "updatedSuccess": "更新成功",
+  "updatedFailed": "更新失敗",
+  "deletedSuccess": "刪除成功",
+  "deletedFailed": "刪除失敗",
 
   "Basic Information": "基本資料",
   "Other Remark": "其他備註",
@@ -146,14 +154,14 @@
   "updated_by": "異動人員",
   "updated_at": "異動時間",
   "active": "啟用",
-  "inactive": "停用",
-  "retirementDate": "停用日期",
+  "disable": "停用",
+  "disable_at8": "停用日期",
   "status": "狀態",
 
   "DepartmentList": {
-    "departmentCode": "部門代號",
-    "departmentName": "部門名稱",
-    "retirementDate": "停用日期",
+    "code": "部門代號",
+    "name": "部門名稱",
+    "disable_at": "停用日期",
     "status": "狀態",
     "remark": "備註",
     "created_by": "創建人員",
@@ -166,7 +174,7 @@
   "PositionList": {
     "positionCode": "職位代號",
     "positionName": "職位名稱",
-    "retirementDate": "停用日期",
+    "disable_at8": "停用日期",
     "status": "狀態",
     "remark": "備註",
     "created_by": "創建人員",
