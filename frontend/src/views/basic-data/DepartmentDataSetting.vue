@@ -92,6 +92,7 @@
                                     >
                                         <feather-icon
                                             icon="EyeIcon"
+                                            class="mr-25"
                                         />
                                         <span>{{ $t('detail') }}</span>
                                     </b-button>
@@ -105,10 +106,12 @@
                                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                         variant="outline-success"
                                         size="sm"
+                                        class="mr-50"
                                         @click="editMethod(props.row.id)"
                                     >
                                         <feather-icon
                                             icon="Edit2Icon"
+                                            class="mr-25"
                                         />
                                         <span>{{ $t('edit') }}</span>
                                     </b-button>
@@ -120,6 +123,7 @@
                                     >
                                         <feather-icon
                                             icon="Trash2Icon"
+                                            class="mr-25"
                                         />
                                         <span>{{ $t('delete') }}</span>
                                     </b-button>
