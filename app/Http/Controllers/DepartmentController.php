@@ -16,7 +16,15 @@ class DepartmentController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Department::paginate();
+        $data = tap(
+            Department::search($request->input('searchTerm'))->paginate($request->input('perPage')),
+            function ($paginatedInstance) use ($request) {
+                $sortCollection = $paginatedInstance->sortBy([
+                    $request->collect('sort')->map(fn ($m) => [$m['field'], $m['type']])[0]
+                ]);
+                return $paginatedInstance->setCollection($sortCollection);
+            }
+        );
 
         return $this->success($data);
     }
@@ -89,6 +97,35 @@ class DepartmentController extends Controller
 
             DB::commit();
             return $this->success('更新成功');
+        } catch (ModelNotFoundException $e) {
+            DB::rollBack();
+            return $this->notFound('找無此資料');
+        } catch (\Exception $e) {
+            report($e);
+            DB::rollBack();
+            return $this->badRequest('請聯絡管理員');
+        }
+    }
+
+    /**
+     * Update the status resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $data = $request->validate([
+            'status' => 'required|in:active,disable',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $data = Department::findOrFail($id)->update($data);
+
+            DB::commit();
+            return $this->success('狀態更新成功');
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
             return $this->notFound('找無此資料');

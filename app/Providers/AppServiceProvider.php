@@ -15,6 +15,18 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        \Illuminate\Support\Facades\Event::listen(\Illuminate\Database\Events\QueryExecuted::class, function ($event) {
+            if (str($event->sql)->is('*telescope_entries*')) {
+                return;
+            }
+            if (str($event->sql)->is('*telescope_monitoring*')) {
+                return;
+            }
+            $sql = str_replace("?", "'%s'", $event->sql);
+            $bindings = collect($event->bindings)->map(fn ($value) => $value instanceof \DateTime ? $value->format('Y-m-d H:i:s') : $value)->all();
+            $log = count($bindings) ? vsprintf($sql, $bindings) : $sql;
+            info($log);
+        });
     }
 
     /**

@@ -62,9 +62,6 @@ class Handler extends ExceptionHandler
             return response()->json(['message' => '登入超時，嘗試重新登入中..'], 401);
         }
 
-        if ($e instanceof \Illuminate\Validation\ValidationException) {
-            return response()->json(['message' => $e->errors()], 422);
-        }
         return parent::render($request, $e);
     }
 }

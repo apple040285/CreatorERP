@@ -41,6 +41,10 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+$app->singleton(
+    'router',
+    App\Router::class
+);
 /*
 |--------------------------------------------------------------------------
 | Return The Application

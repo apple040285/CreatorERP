@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers;
+use App\Http\Middleware\LanguageMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,12 +31,13 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 
-Route::middleware(['auth:api'])->group(function () {
+Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
     // 部門管理
     Route::apiResource('/departments', Controllers\DepartmentController::class);
 });
 
-Route::middleware([])->group(function () {
+// 測試用
+Route::middleware(LanguageMiddleware::class)->group(function () {
     // 部門管理
     Route::apiResource('/departments', Controllers\DepartmentController::class);
 });
