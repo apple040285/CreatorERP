@@ -11,12 +11,16 @@ export default [
                 route: 'BasicData-DepartmentDataSetting',
             },
             {
+                title: 'Position Data Setting',
+                route: 'BasicData-PositionDataSetting',
+            },
+            {
                 title: 'Personnel Data Setting',
                 route: 'BasicData-PersonnelDataSetting',
             },
             {
                 title: 'Currency Data Setting',
-                route: 'BasicData-CurrencyDataSetting',
+                route: 'BasicData-CurrencyDataSettingList',
             },
             {
                 title: 'Project Data Setting',

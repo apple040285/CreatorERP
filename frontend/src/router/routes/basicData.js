@@ -6,13 +6,20 @@ export default [
         meta: {
             pageTitle: 'Department Data Setting',
             breadcrumb: [
-                {
-                text: 'Basic Data',
-                },
-                {
-                text: 'Department Data Setting',
-                active: true,
-                },
+                { text: 'Basic Data' },
+                { text: 'Department Data Setting', active: true },
+            ],
+        },
+    },
+    {
+        path: '/BasicData/PositionDataSetting',
+        name: 'BasicData-PositionDataSetting',
+        component: () => import('@/views/basic-data/PositionDataSetting.vue'),
+        meta: {
+            pageTitle: 'Position Data Setting',
+            breadcrumb: [
+                { text: 'Basic Data' },
+                { text: 'Position Data Setting', active: true },
             ],
         },
     },
@@ -23,30 +30,33 @@ export default [
         meta: {
             pageTitle: 'Personnel Data Setting',
             breadcrumb: [
-                {
-                text: 'Basic Data',
-                },
-                {
-                text: 'Personnel Data Setting',
-                active: true,
-                },
+                { text: 'Basic Data' },
+                { text: 'Personnel Data Setting', active: true },
             ],
         },
     },
     {
-        path: '/BasicData/CurrencyDataSetting',
-        name: 'BasicData-CurrencyDataSetting',
-        component: () => import('@/views/basic-data/CurrencyDataSetting.vue'),
+        path: '/BasicData/CurrencyDataSettingList',
+        name: 'BasicData-CurrencyDataSettingList',
+        component: () => import('@/views/basic-data/currency/List.vue'),
         meta: {
             pageTitle: 'Currency Data Setting',
             breadcrumb: [
-                {
-                text: 'Basic Data',
-                },
-                {
-                text: 'Currency Data Setting',
-                active: true,
-                },
+                { text: 'Basic Data' },
+                { text: 'Currency Data Setting', active: true },
+            ],
+        },
+    },
+    {
+        path: '/BasicData/CurrencyDataSettingDetail',
+        name: 'BasicData-CurrencyDataSettingDetail',
+        component: () => import('@/views/basic-data/currency/Detail.vue'),
+        meta: {
+            pageTitle: 'Currency Data Setting',
+            breadcrumb: [
+                { text: 'Basic Data' },
+                { text: 'Currency Data Setting', to: { name: 'BasicData-CurrencyDataSettingList' } },
+                { text: 'detail', active: true },
             ],
         },
     },
@@ -57,13 +67,8 @@ export default [
         meta: {
             pageTitle: 'Project Data Setting',
             breadcrumb: [
-                {
-                text: 'Basic Data',
-                },
-                {
-                text: 'Project Data Setting',
-                active: true,
-                },
+                { text: 'Basic Data' },
+                { text: 'Project Data Setting', active: true },
             ],
         },
     },
@@ -74,13 +79,8 @@ export default [
         meta: {
             pageTitle: 'Bank Data Setting',
             breadcrumb: [
-                {
-                text: 'Basic Data',
-                },
-                {
-                text: 'Bank Data Setting',
-                active: true,
-                },
+                { text: 'Basic Data' },
+                { text: 'Bank Data Setting', active: true },
             ],
         },
     },
@@ -91,13 +91,8 @@ export default [
         meta: {
             pageTitle: 'Account Data Setting',
             breadcrumb: [
-                {
-                text: 'Basic Data',
-                },
-                {
-                text: 'Account Data Setting',
-                active: true,
-                },
+                { text: 'Basic Data' },
+                { text: 'Account Data Setting', active: true },
             ],
         },
     },

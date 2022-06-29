@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-card-code :title="$t('RequisitionCreate.createRequisition')">
+        <b-card-code :title="$route.path == '/ProcurementOperation/RequisitionCreate' ?  $t('RequisitionModal.createRequisition') : $t('RequisitionModal.editRequisition')">
             <b-form @submit.prevent>
                 <validation-observer ref="simpleRules">
                     <b-row>
@@ -32,7 +32,7 @@
                                     v-model="manufacturer"
                                     :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                     :options="manufacturerOption"
-                                    :placeholder="$t('RequisitionCreate.selectManufacturer')"
+                                    :placeholder="$t('RequisitionModal.selectManufacturer')"
                                 />
                             </b-form-group>
                         </b-col>
@@ -48,7 +48,7 @@
                                         v-model="currency"
                                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                         :options="currencyOption"
-                                        :placeholder="$t('RequisitionCreate.selectCurrency')"
+                                        :placeholder="$t('RequisitionModal.selectCurrency')"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -61,7 +61,7 @@
                                     v-model="transferNo"
                                     :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                     :options="transferNoOption"
-                                    :placeholder="$t('RequisitionCreate.selectTransferNo')"
+                                    :placeholder="$t('RequisitionModal.selectTransferNo')"
                                 />
                             </b-form-group>
                         </b-col>
@@ -72,7 +72,7 @@
                                     v-model="project"
                                     :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                     :options="projectOption"
-                                    :placeholder="$t('RequisitionCreate.selectProject')"
+                                    :placeholder="$t('RequisitionModal.selectProject')"
                                 />
                             </b-form-group>
                         </b-col>
@@ -88,7 +88,7 @@
                                         v-model="buyer"
                                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                         :options="buyerOption"
-                                        :placeholder="$t('RequisitionCreate.selectBuyer')"
+                                        :placeholder="$t('RequisitionModal.selectBuyer')"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -106,7 +106,7 @@
                                         v-model="purchaseDepartment"
                                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                         :options="purchaseDepartmentOption"
-                                        :placeholder="$t('RequisitionCreate.selectPurchaseDepartment')"
+                                        :placeholder="$t('RequisitionModal.selectPurchaseDepartment')"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -137,7 +137,7 @@
                         <b-col cols="4">
                             <b-form-group>
                                 <b-form-textarea
-                                    :placeholder="$t('RequisitionCreate.remark')"
+                                    :placeholder="$t('remark')"
                                     rows="3"
                                     v-model="remark"
                                     autocomplete="off"
@@ -148,16 +148,16 @@
                 </validation-observer>
             </b-form>
         </b-card-code>
-        <b-card-code :title="$t('RequisitionCreate.createProduct')">
+        <b-card-code :title="$t('RequisitionModal.productInformation')">
 
             <!-- search input -->
             <div class="custom-search d-flex justify-content-end">
                 <b-button
                     v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-                    v-b-modal.modal-create
+                    v-b-modal.modalForm
                     variant="outline-primary"
                     class="mb-2 mr-2"
-                    @click="resetModal"
+                    @click="modalCreateFlag=true;resetModal()"
                 >
                     {{ $t('create')}}
                 </b-button>
@@ -225,7 +225,7 @@
                                 variant="outline-success"
                                 size="sm"
                                 class="mr-1"
-                                @click="editModal(props.row.originalIndex)"
+                                @click="modalCreateFlag=false;editModal(props.row.originalIndex)"
                             >
                                 <feather-icon
                                     icon="Edit2Icon"
@@ -339,16 +339,16 @@
                 </b-row>
             </div>
         </template>
-        <!-- create modal -->
+        <!-- create & edit modal -->
         <b-modal
-            id="modal-create"
+            id="modalForm"
             cancel-variant="outline-secondary"
-            :title="$t('RequisitionCreate.createRequisition')"
+            :title="modalCreateFlag ? $t('create') : $t('edit')"
             :cancel-title="$t('back')"
             scrollable
             :ok-title="$t('Submit')"
             @ok.prevent="validationModalForm"
-            ref="modal-create"
+            ref="modalForm"
         >
             <b-form @submit.prevent>
                 <validation-observer ref="modalRules">
@@ -363,19 +363,37 @@
                                 v-model="productName"
                                 :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                 :options="productOption"
-                                :placeholder="$t('RequisitionCreate.createModal.productName')"
+                                :placeholder="$t('RequisitionModal.selectProductName')"
                                 id="productName"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
                     <b-form-group>
+                        <label for="productNo">{{ $t('ProductList.productNo') }}</label>
+                        <b-form-input
+                            v-model="productNo"
+                            type="text"
+                            :placeholder="$t('ProductList.productNo')"
+                            readonly
+                        />
+                    </b-form-group>
+                    <b-form-group>
                         <label for="specification">{{ $t('ProductList.specification') }}</label>
-                        <v-select
+                        <b-form-input
                             v-model="specification"
-                            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                            :options="specificationOption"
-                            :placeholder="$t('RequisitionCreate.createModal.specification')"
+                            type="text"
+                            :placeholder="$t('ProductList.specification')"
+                            readonly
+                        />
+                    </b-form-group>
+                    <b-form-group>
+                        <label for="unit">{{ $t('ProductList.unit') }}</label>
+                        <b-form-input
+                            v-model="unit"
+                            type="text"
+                            :placeholder="$t('ProductList.unit')"
+                            readonly
                         />
                     </b-form-group>
                     <b-form-group>
@@ -384,25 +402,8 @@
                             v-model="storehouse"
                             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                             :options="storehouseOption"
-                            :placeholder="$t('RequisitionCreate.createModal.storehouse')"
+                            :placeholder="$t('RequisitionModal.selectStorehouse')"
                         />
-                    </b-form-group>
-                    <b-form-group>
-                        <label for="unit">{{ $t('ProductList.unit') }}</label>
-                        <validation-provider
-                            #default="{ errors }"
-                            name="unit"
-                            rules="required"
-                        >
-                            <v-select
-                                v-model="unit"
-                                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                                :options="unitOption"
-                                :placeholder="$t('RequisitionCreate.createModal.unit')"
-                                id="unit"
-                            />
-                            <small class="text-danger">{{ errors[0] }}</small>
-                        </validation-provider>
                     </b-form-group>
                     <b-form-group id="quantity">
                         <label for="quantity">{{ $t('ProductList.quantity') }}</label>
@@ -461,10 +462,10 @@
                         </validation-provider>
                     </b-form-group>
                     <b-form-group>
-                        <label for="productRemark">{{ $t('ProductList.productRemark') }}</label>
+                        <label for="productRemark">{{ $t('remark') }}</label>
                         <b-form-textarea
                             id="productRemark"
-                            :placeholder="$t('ProductList.productRemark')"
+                            :placeholder="$t('remark')"
                             rows="3"
                             v-model="productRemark"
                             autocomplete="off"
@@ -475,7 +476,7 @@
         </b-modal>
         <!-- remark modal -->
         <b-modal
-            :title="$t('ProductList.productRemark')"
+            :title="$t('remark')"
             ok-only
             :ok-title="$t('back')"
             ref="remarkDetail"
@@ -551,6 +552,7 @@ export default {
     },
     data() {
         return {
+            editId: 0,
             required,
             requisitionDate: '',
             manufacturer: '',
@@ -572,29 +574,31 @@ export default {
 
             productsData: {},
             //modal form
+            modalCreateFlag : true,
+            productNo: '',
             productName: '',
             productOption: ['桌子', '椅子'],
             specification: '',
-            specificationOption: ['小', '中', '大'],
+            unit: '',
             storehouse: '',
             storehouseOption: ['北', '中', '南'],
-            unit: '',
-            unitOption: ['A', 'B', 'C'],
             quantity: 0,
             unitPrice: '',
             amount: '',
             productPreDeliveryDate: '',
             productRemark: '',
+            editRowId: '',
 
             pageLength: 5,
             dir: false,
             searchTerm: '',
             columns: [
                 { label: '#', field: 'index' },
+                { label: 'productNo', field: 'productNo' },
                 { label: 'productName', field: 'productName' },
                 { label: 'specification', field: 'specification' },
-                { label: 'storehouse', field: 'storehouse' },
                 { label: 'unit', field: 'unit' },
+                { label: 'storehouse', field: 'storehouse' },
                 { label: 'quantity', field: 'quantity' },
                 { label: 'unitPrice', field: 'unitPrice' },
                 { label: 'amount', field: 'amount' },
@@ -604,10 +608,11 @@ export default {
             ],
             rows: [
                 {
-                    productName : '桌子',
+                    productNo : 'A123456',
+                    productName : '麥香',
                     specification : '小',
+                    unit : '箱',
                     storehouse : '北',
-                    unit : 'A',
                     quantity : 10,
                     unitPrice : 500,
                     amount : 100,
@@ -656,29 +661,46 @@ export default {
         resetModal() {
             this.productName = '';
             this.specification = '';
-            this.storehouse = '';
             this.unit = '';
+            this.storehouse = '';
             this.quantity = 0;
             this.unitPrice = '';
             this.amount = '';
             this.productPreDeliveryDate = this.preDeliveryDate;
             this.productRemark = '';
         },
+        editModal(key) {
+            this.editRowId = key;
+            this.productName = this.rows[key].productName;
+            this.specification = this.rows[key].specification;
+            this.unit = this.rows[key].unit;
+            this.storehouse = this.rows[key].storehouse;
+            this.quantity = this.rows[key].quantity;
+            this.unitPrice = this.rows[key].unitPrice;
+            this.amount = this.rows[key].amount;
+            this.productPreDeliveryDate = this.rows[key].productPreDeliveryDate;
+            this.productRemark = this.rows[key].productRemark;
+            this.$refs['modalForm'].show();
+        },
         productDataPush() {
             this.productsData = {
                 productName : this.productName,
                 specification : this.specification,
-                storehouse : this.storehouse,
                 unit : this.unit,
+                storehouse : this.storehouse,
                 quantity : this.quantity,
                 unitPrice : this.unitPrice,
                 amount : this.amount,
                 productPreDeliveryDate : this.productPreDeliveryDate,
                 productRemark : this.productRemark,
             };
-            this.rows.push(this.productsData);
+            if(this.modalCreateFlag){
+                this.rows.push(this.productsData);
+            }else{
+                Object.assign(this.rows[this.editRowId], this.productsData);
+            }
             this.$nextTick(() => {
-                this.$refs['modal-create'].toggle('#toggle-btn')
+                this.$refs['modalForm'].toggle('#toggle-btn')
             })
         },
         removeProductData(key) {
@@ -700,18 +722,6 @@ export default {
         showRemark(value) {
             this.remarkDetail = value;
             this.$refs['remarkDetail'].show();
-        },
-        editModal(key) {
-            this.productName = this.rows[key].productName;
-            this.specification = this.rows[key].specification;
-            this.storehouse = this.rows[key].storehouse;
-            this.unit = this.rows[key].unit;
-            this.quantity = this.rows[key].quantity;
-            this.unitPrice = this.rows[key].unitPrice;
-            this.amount = this.rows[key].amount;
-            this.productPreDeliveryDate = this.rows[key].productPreDeliveryDate;
-            this.productRemark = this.rows[key].productRemark;
-            this.$refs['modal-create'].show();
         }
     },
     computed: {
@@ -725,6 +735,9 @@ export default {
             this.dir = false
         return this.dir
         },
+    },
+    mounted() {
+        if(this.$route.query.id) this.editId = this.$route.query.id;
     },
 }
 </script>

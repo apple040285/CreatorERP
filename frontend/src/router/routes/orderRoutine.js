@@ -6,13 +6,8 @@ export default [
         meta: {
             pageTitle: 'Quotation Voucher',
             breadcrumb: [
-                {
-                text: 'Order Routine',
-                },
-                {
-                text: 'Quotation Voucher',
-                active: true,
-                },
+                { text: 'Order Routine' },
+                { text: 'Quotation Voucher', active: true },
             ],
         },
     },
@@ -23,13 +18,8 @@ export default [
         meta: {
             pageTitle: 'Order Voucher',
             breadcrumb: [
-                {
-                text: 'Order Routine',
-                },
-                {
-                text: 'Order Voucher',
-                active: true,
-                },
+                { text: 'Order Routine' },
+                { text: 'Order Voucher', active: true },
             ],
         },
     },

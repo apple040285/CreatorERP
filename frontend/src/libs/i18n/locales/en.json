@@ -15,7 +15,13 @@
       "unit": "Unit",
       "quantity": "Quantity",
       "unitPrice": "Unit Price",
-      "productPreDeliveryDate": "pre-Delivery Date"
+      "productPreDeliveryDate": "pre-Delivery Date",
+      "departmentCode": "Department Code",
+      "departmentName": "Department Name",
+      "positionCode": "Position Code",
+      "positionName": "Position Name",
+      "currencyCode": "Currency Code",
+      "currencyName": "Currency Name"
     },
     "messages": {
       "alpha": "The {_field_} field may only contain alphabetic characters",
@@ -235,6 +241,7 @@
 
   "Basic Data": "Basic Data",
   "Department Data Setting": "Department Data Setting",
+  "Position Data Setting": "Position Data Setting",
   "Personnel Data Setting": "Personnel Data Setting",
   "Currency Data Setting": "Currency Data Setting",
   "Project Data Setting": "Project Data Setting",
@@ -309,6 +316,57 @@
   "checkDelete": "Are you sure you want to delete it ?",
   "yes": "Yes",
   "no": "No",
+  "remark": "Remark",
+  "created_by": "Created By",
+  "created_at": "Created At",
+  "updated_by": "Updated By",
+  "updated_at": "Updated At",
+  "active": "Active",
+  "inactive": "Inactive",
+  "retirementDate": "Retirement Date",
+  "status": "Status",
+
+  "DepartmentList": {
+    "departmentCode": "Department Code",
+    "departmentName": "Department Name",
+    "retirementDate": "Retirement Date",
+    "status": "Status",
+    "remark": "Remark",
+    "created_by": "Created By",
+    "created_at": "Created At",
+    "updated_by": "Updated By",
+    "updated_at": "Updated At",
+    "action": "Action"
+  },
+
+  "PositionList": {
+    "positionCode": "Position Code",
+    "positionName": "PositionName",
+    "retirementDate": "Retirement Date",
+    "status": "Status",
+    "remark": "Remark",
+    "created_by": "Created By",
+    "created_at": "Created At",
+    "updated_by": "Updated By",
+    "updated_at": "Updated At",
+    "action": "Action"
+  },
+
+  "CurrencyList": {
+    "currencyCode": "Currency Code",
+    "currencyName": "Currency Name",
+    "remark": "Remark",
+    "created_by": "Created By",
+    "created_at": "Created At",
+    "updated_by": "Updated By",
+    "updated_at": "Updated At",
+    "action": "Action",
+    "exchangeRateSetting": "Exchange Rate Setting",
+    "defaultRate": "Default Rate",
+    "buyingRate": "Buying Rate",
+    "sellingRate": "Selling Rate",
+    "adjustTheDate": "Adjust The Date"
+  },
 
   "RequisitionList": {
     "requisitionDate": "Requisition Date",
@@ -330,33 +388,28 @@
     "currency": "Currency",
     "transferNo": "Transfer No",
     "purchaseDepartment": "Purchase Department",
-    "remark": "Remark",
     "totalEstimatedAmount": "Total Estimated Amount",
-    "estimatedTotalInLocalCurrency": "Estimated Total In Local Currency"
+    "estimatedTotalInLocalCurrency": "Estimated Total In Local Currency",
+    "submitBtn": "Submit"
   },
 
-  "RequisitionCreate": {
+  "RequisitionModal": {
     "createRequisition": "Create Requisition",
+    "editRequisition": "Edit Requisition",
     "selectManufacturer": "Select The Manufacturer",
     "selectCurrency": "Select The Currency",
     "selectTransferNo": "Select The Transfer No",
     "selectProject": "Select The Project",
     "selectBuyer": "Select The Buyer",
     "selectPurchaseDepartment": "Select The Purchase Department",
-    "remark": "Remark",
-    "createProduct": "Create Product",
+    "productInformation": "Product Information",
     "productName": "Product Name",
     "selectProductName": "Select The Product Name",
-    "createModal": {
-      "productName": "Select The Product",
-      "specification": "Select The Specification",
-      "storehouse": "Select The Storehouse",
-      "unit": "Select The Unit",
-      "action": "Action"
-    }
+    "selectStorehouse": "Select The Storehouse"
   },
   "ProductList": {
     "productName": "Product Name",
+    "productNo": "Product No",
     "specification": "Specification",
     "storehouse": "Storehouse",
     "unit": "Unit",

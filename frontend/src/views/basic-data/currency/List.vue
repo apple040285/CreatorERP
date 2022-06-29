@@ -2,7 +2,7 @@
     <div>
         <b-row>
             <b-col cols="12">
-                <b-card-code :title="$t('Department Data Setting')">
+                <b-card-code :title="$t('Currency Data Setting')">
 
                     <!-- search input -->
                     <div class="custom-search d-flex justify-content-end">
@@ -46,7 +46,7 @@
                             slot-scope="props"
                         >
                             <span class="text-nowrap" v-if="props.column.label !== '#'">
-                                {{$t('DepartmentList.' + props.column.label) }}
+                                {{$t('CurrencyList.' + props.column.label) }}
                             </span>
                         </template>
                         <template
@@ -58,36 +58,21 @@
                                 {{ props.row.originalIndex + 1 }}
                             </span>
 
-                            <span v-else-if="props.column.field === 'status'" class="text-nowrap">
-                                <!-- 暫時先放originalIndex 之後改id -->
-                                <b-badge
-                                    :variant="statusVariant(props.row.status)"
-                                    @click="changeValue(props.row.originalIndex, props.row.status)"
-                                    style="cursor:pointer"
-                                >
-                                    {{ $t(props.row.status) }}
-                                </b-badge>
-                            </span>
-
-                            <span v-else-if="props.column.field === 'remark'" class="text-nowrap">
+                            <!-- Column: Action -->
+                            <span v-else-if="props.column.field === 'action'" class="text-nowrap">
                                 <span>
                                     <b-button
                                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                         variant="outline-primary"
                                         size="sm"
-                                        @click="showRemark(rows[props.row.originalIndex].remark)"
+                                        :to="{ name: 'BasicData-CurrencyDataSettingDetail', query: { id: props.row.id } }"
+                                        class="mr-1"
                                     >
                                         <feather-icon
-                                            icon="EyeIcon"
+                                            icon="FilePlusIcon"
                                         />
                                         <span>{{ $t('detail') }}</span>
                                     </b-button>
-                                </span>
-                            </span>
-
-                            <!-- Column: Action -->
-                            <span v-else-if="props.column.field === 'action'" class="text-nowrap">
-                                <span>
                                     <b-button
                                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                         variant="outline-success"
@@ -172,32 +157,32 @@
         >
             <b-form @submit.prevent>
                 <validation-observer ref="modalRules">
-                    <b-form-group id="departmentCode">
-                        <label for="departmentCode">{{ $t('DepartmentList.departmentCode') }}</label>
+                    <b-form-group id="currencyCode">
+                        <label for="currencyCode">{{ $t('CurrencyList.currencyCode') }}</label>
                         <validation-provider
                             #default="{ errors }"
-                            name="departmentCode"
+                            name="currencyCode"
                             rules="required"
                         >
                             <b-form-input
-                                v-model="departmentCode"
+                                v-model="currencyCode"
                                 type="text"
-                                :placeholder="$t('DepartmentList.departmentCode')"
+                                :placeholder="$t('CurrencyList.currencyCode')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
-                    <b-form-group id="departmentName">
-                        <label for="departmentName">{{ $t('DepartmentList.departmentName') }}</label>
+                    <b-form-group id="currencyName">
+                        <label for="currencyName">{{ $t('CurrencyList.currencyName') }}</label>
                         <validation-provider
                             #default="{ errors }"
-                            name="departmentName"
+                            name="currencyName"
                             rules="required"
                         >
                             <b-form-input
-                                v-model="departmentName"
+                                v-model="currencyName"
                                 type="text"
-                                :placeholder="$t('DepartmentList.departmentName')"
+                                :placeholder="$t('CurrencyList.currencyName')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -214,19 +199,6 @@
                     </b-form-group>
                 </validation-observer>
             </b-form>
-        </b-modal>
-        <!-- remark modal -->
-        <b-modal
-            :title="$t('remark')"
-            ok-only
-            :ok-title="$t('back')"
-            ref="remarkDetail"
-            ok-variant="secondary"
-            scrollable
-        >
-            <b-card-text>
-                {{ remarkDetail }}
-            </b-card-text>
         </b-modal>
     </div>
 </template>
@@ -270,49 +242,32 @@ export default {
             dir: false,
             columns: [
                 { label: '#', field: 'index' },
-                { label: 'departmentCode', field: 'departmentCode' },
-                { label: 'departmentName', field: 'departmentName' },
-                { label: 'retirementDate', field: 'retirementDate' },
+                { label: 'currencyCode', field: 'currencyCode' },
+                { label: 'currencyName', field: 'currencyName' },
                 { label: 'created_by', field: 'created_by' },
                 { label: 'created_at', field: 'created_at' },
                 { label: 'updated_by', field: 'updated_by' },
                 { label: 'updated_at', field: 'updated_at' },
-                { label: 'remark', field: 'remark' },
-                { label: 'status', field: 'status' },
                 { label: 'action', field: 'action' },
             ],
             rows: [
                 {
                     id: 1,
-                    departmentCode: "ABC123",
-                    departmentName: '會計部',
-                    retirementDate: '2022/06/30',
+                    currencyCode: "NTD",
+                    currencyName: '台幣',
                     created_by: 'Dennis',
                     created_at: '2022/06/30',
                     updated_by: 'Dennis',
                     updated_at: '2022/06/30',
                     remark: 'test',
-                    status: 'active',
                 },
             ],
             searchTerm: '',
             remark: '',
-            remarkDetail: '',
             modalCreateFlag: true,
-            changeStatus: 'active',
         }
     },
     computed: {
-        statusVariant() {
-            const statusColor = {
-                /* eslint-disable key-spacing */
-                active     : 'light-success',
-                inactive     : 'light-danger',
-                /* eslint-enable key-spacing */
-            }
-
-            return status => statusColor[status]
-        },
         direction() {
             if (store.state.appConfig.isRTL) {
                 // eslint-disable-next-line vue/no-side-effects-in-computed-properties
@@ -341,28 +296,16 @@ export default {
             })
         },
         resetModal() {
-            this.departmentCode = '';
-            this.departmentName = '';
-            this.retirementDate = '';
-            this.status = 0;
+            this.currencyCode = '';
+            this.currencyName = '';
             this.remark = '';
         },
         editModal(key) {
-            this.departmentCode = this.rows[key].departmentCode;
-            this.departmentName = this.rows[key].departmentName;
-            this.retirementDate = this.rows[key].retirementDate;
-            this.status = this.rows[key].status;
+            this.currencyCode = this.rows[key].currencyCode;
+            this.currencyName = this.rows[key].currencyName;
             this.remark = this.rows[key].remark;
             this.$refs['modalForm'].show();
         },
-        showRemark(value) {
-            this.remarkDetail = value;
-            this.$refs['remarkDetail'].show();
-        },
-        changeValue(editId, status) {
-            this.changeStatus = (status == 'active') ? 'inactive' : 'active';
-            this.rows[editId].status = this.changeStatus;
-        }
     },
 }
 </script>

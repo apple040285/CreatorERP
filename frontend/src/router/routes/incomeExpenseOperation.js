@@ -6,13 +6,8 @@ export default [
         meta: {
             pageTitle: 'Other Income Voucher',
             breadcrumb: [
-                {
-                text: 'Income Expense Operation',
-                },
-                {
-                text: 'Other Income Voucher',
-                active: true,
-                },
+                { text: 'Income Expense Operation' },
+                { text: 'Other Income Voucher', active: true },
             ],
         },
     },
@@ -23,13 +18,8 @@ export default [
         meta: {
             pageTitle: 'Other Expense Voucher',
             breadcrumb: [
-                {
-                text: 'Income Expense Operation',
-                },
-                {
-                text: 'Other Expense Voucher',
-                active: true,
-                },
+                { text: 'Income Expense Operation' },
+                { text: 'Other Expense Voucher', active: true },
             ],
         },
     },

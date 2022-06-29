@@ -6,13 +6,8 @@ export default [
         meta: {
             pageTitle: 'Information',
             breadcrumb: [
-                {
-                text: 'Administrator',
-                },
-                {
-                text: 'Information',
-                active: true,
-                },
+                { text: 'Administrator' },
+                { text: 'Information', active: true },
             ],
         },
     },

@@ -6,13 +6,8 @@ export default [
         meta: {
             pageTitle: 'Adjustment Voucher',
             breadcrumb: [
-                {
-                text: 'Adjust The Transfer Operation',
-                },
-                {
-                text: 'Adjustment Voucher',
-                active: true,
-                },
+                { text: 'Adjust The Transfer Operation' },
+                { text: 'Adjustment Voucher', active: true },
             ],
         },
     },
@@ -23,13 +18,8 @@ export default [
         meta: {
             pageTitle: 'Transfer Voucher',
             breadcrumb: [
-                {
-                text: 'Adjust The Transfer Operation',
-                },
-                {
-                text: 'Transfer Voucher',
-                active: true,
-                },
+                { text: 'Adjust The Transfer Operation' },
+                { text: 'Transfer Voucher', active: true },
             ],
         },
     },

@@ -6,55 +6,34 @@ export default [
         meta: {
             pageTitle: 'Requisition',
             breadcrumb: [
-                {
-                text: 'Procurement Operation',
-                },
-                {
-                text: 'Requisition',
-                active: true,
-                },
+                { text: 'Procurement Operation' },
+                { text: 'Requisition', active: true },
             ],
         },
     },
     {
         path: '/ProcurementOperation/RequisitionCreate',
         name: 'ProcurementOperation-RequisitionCreate',
-        component: () => import('@/views/procurement-operation/requisition/Create.vue'),
+        component: () => import('@/views/procurement-operation/requisition/Crud.vue'),
         meta: {
             pageTitle: 'Requisition',
             breadcrumb: [
-                {
-                text: 'Procurement Operation',
-                },
-                {
-                text: 'Requisition',
-                to: { name: 'ProcurementOperation-RequisitionList' },
-                },
-                {
-                text: 'create',
-                active: true,
-                },
+                { text: 'Procurement Operation' },
+                { text: 'Requisition', to: { name: 'ProcurementOperation-RequisitionList' } },
+                { text: 'create', active: true },
             ],
         },
     },
     {
         path: '/ProcurementOperation/RequisitionEdit',
         name: 'ProcurementOperation-RequisitionEdit',
-        component: () => import('@/views/procurement-operation/requisition/Edit.vue'),
+        component: () => import('@/views/procurement-operation/requisition/Crud.vue'),
         meta: {
             pageTitle: 'Requisition',
             breadcrumb: [
-                {
-                text: 'Procurement Operation',
-                },
-                {
-                text: 'Requisition',
-                to: { name: 'ProcurementOperation-RequisitionList' },
-                },
-                {
-                text: 'edit',
-                active: true,
-                },
+                { text: 'Procurement Operation' },
+                { text: 'Requisition', to: { name: 'ProcurementOperation-RequisitionList' } },
+                { text: 'edit', active: true },
             ],
         },
     },
@@ -65,17 +44,9 @@ export default [
         meta: {
             pageTitle: 'Requisition',
             breadcrumb: [
-                {
-                text: 'Procurement Operation',
-                },
-                {
-                text: 'Requisition',
-                to: { name: 'ProcurementOperation-RequisitionList' },
-                },
-                {
-                text: 'detail',
-                active: true,
-                },
+                { text: 'Procurement Operation' },
+                { text: 'Requisition', to: { name: 'ProcurementOperation-RequisitionList' } },
+                { text: 'detail', active: true },
             ],
         },
     },
@@ -86,13 +57,8 @@ export default [
         meta: {
             pageTitle: 'Inquiry Voucher',
             breadcrumb: [
-                {
-                text: 'Procurement Operation',
-                },
-                {
-                text: 'Inquiry Voucher',
-                active: true,
-                },
+                { text: 'Procurement Operation' },
+                { text: 'Inquiry Voucher', active: true },
             ],
         },
     },
@@ -103,13 +69,8 @@ export default [
         meta: {
             pageTitle: 'Procurement Voucher',
             breadcrumb: [
-                {
-                text: 'Procurement Operation',
-                },
-                {
-                text: 'Procurement Voucher',
-                active: true,
-                },
+                { text: 'Procurement Operation' },
+                { text: 'Procurement Voucher', active: true },
             ],
         },
     },

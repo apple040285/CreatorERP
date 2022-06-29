@@ -6,13 +6,8 @@ export default [
         meta: {
             pageTitle: 'Sales Voucher',
             breadcrumb: [
-                {
-                text: 'Sales Operation',
-                },
-                {
-                text: 'Sales Voucher',
-                active: true,
-                },
+                { text: 'Sales Operation' },
+                { text: 'Sales Voucher', active: true },
             ],
         },
     },
@@ -23,13 +18,8 @@ export default [
         meta: {
             pageTitle: 'Returned Sales Invoice',
             breadcrumb: [
-                {
-                text: 'Sales Operation',
-                },
-                {
-                text: 'Returned Sales Invoice',
-                active: true,
-                },
+                { text: 'Sales Operation' },
+                { text: 'Returned Sales Invoice', active: true },
             ],
         },
     },
@@ -40,13 +30,8 @@ export default [
         meta: {
             pageTitle: 'Sales Discount Voucher',
             breadcrumb: [
-                {
-                text: 'Sales Operation',
-                },
-                {
-                text: 'Sales Discount Voucher',
-                active: true,
-                },
+                { text: 'Sales Operation' },
+                { text: 'Sales Discount Voucher', active: true },
             ],
         },
     },

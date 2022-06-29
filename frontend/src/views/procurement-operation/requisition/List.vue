@@ -1,7 +1,7 @@
 <template>
     <b-row>
         <b-col cols="12">
-            <b-card-code :title="$t('RequisitionCreate.createRequisition')">
+            <b-card-code :title="$t('Requisition')">
 
                 <!-- search input -->
                 <div class="custom-search d-flex justify-content-end">
@@ -56,7 +56,7 @@
                             {{ props.row.originalIndex + 1 }}
                         </span>
                         <!-- Column: Status -->
-                        <span v-if="props.column.field === 'approvalStatus'" class="text-nowrap">
+                        <span v-else-if="props.column.field === 'approvalStatus'" class="text-nowrap">
                             <b-badge :variant="statusVariant(props.row.approvalStatus)">
                                 {{ $t('RequisitionList.' + props.row.approvalStatus) }}
                             </b-badge>
@@ -87,6 +87,7 @@
                                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                     variant="outline-success"
                                     size="sm"
+                                    v-if="props.row.approvalStatus=='draft'"
                                     :to="{ name: 'ProcurementOperation-RequisitionEdit', query: { id: props.row.id } }"
                                 >
                                     <feather-icon

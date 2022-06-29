@@ -15,7 +15,13 @@
       "unit": "單位",
       "quantity": "數量",
       "unitPrice": "單價",
-      "productPreDeliveryDate": "預交日期"
+      "productPreDeliveryDate": "預交日期",
+      "departmentCode": "部門代號",
+      "departmentName": "部門名稱",
+      "positionCode": "職位代號",
+      "positionName": "職位名稱",
+      "currencyCode": "幣別代號",
+      "currencyName": "幣別名稱"
     },
     "messages": {
       "alpha": "{_field_} 須以英文組成",
@@ -59,6 +65,7 @@
 
   "Basic Data": "基本資料",
   "Department Data Setting": "部門資料設定",
+  "Position Data Setting": "職位資料設定",
   "Personnel Data Setting": "人員資料設定",
   "Currency Data Setting": "幣別資料設定",
   "Project Data Setting": "專案資料設定",
@@ -133,6 +140,56 @@
   "checkDelete": "確定要刪除嗎?",
   "yes": "是",
   "no": "否",
+  "remark": "備註",
+  "created_by": "創建人員",
+  "created_at": "創建時間",
+  "updated_by": "異動人員",
+  "updated_at": "異動時間",
+  "active": "啟用",
+  "inactive": "停用",
+  "retirementDate": "停用日期",
+  "status": "狀態",
+
+  "DepartmentList": {
+    "departmentCode": "部門代號",
+    "departmentName": "部門名稱",
+    "retirementDate": "停用日期",
+    "status": "狀態",
+    "remark": "備註",
+    "created_by": "創建人員",
+    "created_at": "創建時間",
+    "updated_by": "異動人員",
+    "updated_at": "異動時間",
+    "action": "操作"
+  },
+
+  "PositionList": {
+    "positionCode": "職位代號",
+    "positionName": "職位名稱",
+    "retirementDate": "停用日期",
+    "status": "狀態",
+    "remark": "備註",
+    "created_by": "創建人員",
+    "created_at": "創建時間",
+    "updated_by": "異動人員",
+    "updated_at": "異動時間",
+    "action": "操作"
+  },
+  "CurrencyList": {
+    "currencyCode": "幣別代號",
+    "currencyName": "幣別名稱",
+    "remark": "備註",
+    "created_by": "創建人員",
+    "created_at": "創建時間",
+    "updated_by": "異動人員",
+    "updated_at": "異動時間",
+    "action": "操作",
+    "exchangeRateSetting": "匯率設定",
+    "defaultRate": "預設匯率",
+    "buyingRate": "買入匯率匯率",
+    "sellingRate": "賣出匯率",
+    "adjustTheDate": "調整日期"
+  },
 
   "RequisitionList": {
     "requisitionDate": "請購日期",
@@ -154,32 +211,28 @@
     "currency": "幣別",
     "transferNo": "轉入單號",
     "purchaseDepartment": "請購部門",
-    "remark": "備註",
     "totalEstimatedAmount": "預估金額合計",
-    "estimatedTotalInLocalCurrency": "預估本幣合計"
+    "estimatedTotalInLocalCurrency": "預估本幣合計",
+    "submitBtn": "送審"
   },
 
-  "RequisitionCreate": {
+  "RequisitionModal": {
     "createRequisition": "新增請購憑單",
+    "editRequisition": "修改請購憑單",
     "selectManufacturer": "請選擇廠商",
     "selectCurrency": "請選擇幣別",
     "selectTransferNo": "請選擇轉入單號",
     "selectProject": "請選擇專案",
     "selectBuyer": "請選擇請購人員",
     "selectPurchaseDepartment": "請選擇請購部門",
-    "remark": "備註",
-    "createProduct": "新增產品",
+    "productInformation": "產品資訊",
     "productName": "產品名稱",
-    "selectProductName": "請選擇產品名稱",
-    "createModal": {
-      "productName": "請選擇產品",
-      "specification": "請選擇規格",
-      "storehouse": "請選擇倉庫",
-      "unit": "請選擇單位"
-    }
+    "selectProductName": "請選擇產品",
+    "selectStorehouse": "請選擇倉庫"
   },
   "ProductList": {
     "productName": "產品",
+    "productNo": "品號",
     "specification": "規格",
     "storehouse": "倉庫",
     "unit": "單位",

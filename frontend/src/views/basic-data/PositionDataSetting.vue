@@ -2,7 +2,7 @@
     <div>
         <b-row>
             <b-col cols="12">
-                <b-card-code :title="$t('Department Data Setting')">
+                <b-card-code :title="$t('Position Data Setting')">
 
                     <!-- search input -->
                     <div class="custom-search d-flex justify-content-end">
@@ -46,7 +46,7 @@
                             slot-scope="props"
                         >
                             <span class="text-nowrap" v-if="props.column.label !== '#'">
-                                {{$t('DepartmentList.' + props.column.label) }}
+                                {{$t('PositionList.' + props.column.label) }}
                             </span>
                         </template>
                         <template
@@ -172,32 +172,32 @@
         >
             <b-form @submit.prevent>
                 <validation-observer ref="modalRules">
-                    <b-form-group id="departmentCode">
-                        <label for="departmentCode">{{ $t('DepartmentList.departmentCode') }}</label>
+                    <b-form-group id="positionCode">
+                        <label for="positionCode">{{ $t('PositionList.positionCode') }}</label>
                         <validation-provider
                             #default="{ errors }"
-                            name="departmentCode"
+                            name="positionCode"
                             rules="required"
                         >
                             <b-form-input
-                                v-model="departmentCode"
+                                v-model="positionCode"
                                 type="text"
-                                :placeholder="$t('DepartmentList.departmentCode')"
+                                :placeholder="$t('PositionList.positionCode')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
-                    <b-form-group id="departmentName">
-                        <label for="departmentName">{{ $t('DepartmentList.departmentName') }}</label>
+                    <b-form-group id="positionName">
+                        <label for="positionName">{{ $t('PositionList.positionName') }}</label>
                         <validation-provider
                             #default="{ errors }"
-                            name="departmentName"
+                            name="positionName"
                             rules="required"
                         >
                             <b-form-input
-                                v-model="departmentName"
+                                v-model="positionName"
                                 type="text"
-                                :placeholder="$t('DepartmentList.departmentName')"
+                                :placeholder="$t('PositionList.positionName')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -270,8 +270,8 @@ export default {
             dir: false,
             columns: [
                 { label: '#', field: 'index' },
-                { label: 'departmentCode', field: 'departmentCode' },
-                { label: 'departmentName', field: 'departmentName' },
+                { label: 'positionCode', field: 'positionCode' },
+                { label: 'positionName', field: 'positionName' },
                 { label: 'retirementDate', field: 'retirementDate' },
                 { label: 'created_by', field: 'created_by' },
                 { label: 'created_at', field: 'created_at' },
@@ -284,8 +284,8 @@ export default {
             rows: [
                 {
                     id: 1,
-                    departmentCode: "ABC123",
-                    departmentName: '會計部',
+                    positionCode: "ABC123",
+                    positionName: '主管',
                     retirementDate: '2022/06/30',
                     created_by: 'Dennis',
                     created_at: '2022/06/30',
@@ -341,15 +341,15 @@ export default {
             })
         },
         resetModal() {
-            this.departmentCode = '';
-            this.departmentName = '';
+            this.positionCode = '';
+            this.positionName = '';
             this.retirementDate = '';
             this.status = 0;
             this.remark = '';
         },
         editModal(key) {
-            this.departmentCode = this.rows[key].departmentCode;
-            this.departmentName = this.rows[key].departmentName;
+            this.positionCode = this.rows[key].positionCode;
+            this.positionName = this.rows[key].positionName;
             this.retirementDate = this.rows[key].retirementDate;
             this.status = this.rows[key].status;
             this.remark = this.rows[key].remark;

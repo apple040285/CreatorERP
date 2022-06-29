@@ -5,7 +5,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.requisitionDate')">
                     <b-form-input
-                        :value="requisitionDate"
+                        :value="basicInformation.requisitionDate"
                         :placeholder="$t('RequisitionList.requisitionDate')"
                         type="text"
                         readonly
@@ -16,7 +16,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.requisitionNo')">
                     <b-form-input
-                        :value="requisitionNo"
+                        :value="basicInformation.requisitionNo"
                         :placeholder="$t('RequisitionList.requisitionNo')"
                         type="text"
                         readonly
@@ -27,7 +27,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.manufacturer')">
                     <b-form-input
-                        :value="manufacturer"
+                        :value="basicInformation.manufacturer"
                         :placeholder="$t('RequisitionList.manufacturer')"
                         type="text"
                         readonly
@@ -38,7 +38,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.currency')">
                     <b-form-input
-                        :value="currency"
+                        :value="basicInformation.currency"
                         :placeholder="$t('RequisitionList.currency')"
                         type="text"
                         readonly
@@ -49,7 +49,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.transferNo')">
                     <b-form-input
-                        :value="transferNo"
+                        :value="basicInformation.transferNo"
                         :placeholder="$t('RequisitionList.transferNo')"
                         type="text"
                         readonly
@@ -60,7 +60,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.project')">
                     <b-form-input
-                        :value="project"
+                        :value="basicInformation.project"
                         :placeholder="$t('RequisitionList.project')"
                         type="text"
                         readonly
@@ -71,7 +71,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.buyer')">
                     <b-form-input
-                        :value="buyer"
+                        :value="basicInformation.buyer"
                         :placeholder="$t('RequisitionList.buyer')"
                         type="text"
                         readonly
@@ -82,7 +82,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.purchaseDepartment')">
                     <b-form-input
-                        :value="purchaseDepartment"
+                        :value="basicInformation.purchaseDepartment"
                         :placeholder="$t('RequisitionList.purchaseDepartment')"
                         type="text"
                         readonly
@@ -93,7 +93,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.preDeliveryDate')">
                     <b-form-input
-                        :value="preDeliveryDate"
+                        :value="basicInformation.preDeliveryDate"
                         :placeholder="$t('RequisitionList.preDeliveryDate')"
                         type="text"
                         readonly
@@ -104,7 +104,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.totalEstimatedAmount')">
                     <b-form-input
-                        :value="totalEstimatedAmount"
+                        :value="basicInformation.totalEstimatedAmount"
                         :placeholder="$t('RequisitionList.totalEstimatedAmount')"
                         type="text"
                         readonly
@@ -115,7 +115,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.estimatedTotalInLocalCurrency')">
                     <b-form-input
-                        :value="estimatedTotalInLocalCurrency"
+                        :value="basicInformation.estimatedTotalInLocalCurrency"
                         :placeholder="$t('RequisitionList.estimatedTotalInLocalCurrency')"
                         type="text"
                         readonly
@@ -126,7 +126,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.status')">
                     <b-form-input
-                        :value="$t('RequisitionList.' + status)"
+                        :value="$t('RequisitionList.' + basicInformation.status)"
                         :placeholder="$t('RequisitionList.status')"
                         type="text"
                         readonly
@@ -137,22 +137,39 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.approvalStatus')">
                     <b-form-input
-                        :value="$t('RequisitionList.' + approvalStatus)"
+                        :value="$t('RequisitionList.' + basicInformation.approvalStatus)"
                         :placeholder="$t('RequisitionList.approvalStatus')"
                         type="text"
                         readonly
                     />
                 </b-form-group>
             </b-col>
-            <!--  Remark -->
+            <!--  Action -->
             <b-col cols="6">
-                <b-form-group :label="$t('RequisitionList.remark')">
-                    <b-form-textarea
-                        :placeholder="$t('RequisitionList.remark')"
-                        rows="3"
-                        :value="remark"
-                        readonly
-                    />
+                <b-form-group :label="$t('action')">
+                    <b-button
+                        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                        variant="primary"
+                        class="mb-2 mr-2"
+                    >
+                        {{ $t('RequisitionList.submitBtn')}}
+                    </b-button>
+                    <b-button
+                        v-if="basicInformation.approvalStatus=='audited'"
+                        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                        variant="danger"
+                        class="mb-2 mr-2"
+                    >
+                        {{ $t('invalid')}}
+                    </b-button>
+                    <b-button
+                        v-if="basicInformation.status=='draft' && basicInformation.approvalStatus!='void'"
+                        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                        variant="secondary"
+                        class="mb-2 mr-2"
+                    >
+                        {{ $t('RequisitionList.void')}}
+                    </b-button>
                 </b-form-group>
             </b-col>
         </b-row>
@@ -161,10 +178,8 @@
 
 <script>
 import {
-    BButton, BForm, BFormGroup, BFormInput, BRow, BCol, BCard, BFormTextarea,
+    BButton, BForm, BFormGroup, BFormInput, BRow, BCol, BCard
 } from 'bootstrap-vue'
-import flatPickr from 'vue-flatpickr-component'
-import Ripple from 'vue-ripple-directive'
 
 export default {
     components: {
@@ -175,44 +190,15 @@ export default {
         BRow,
         BCol,
         BCard,
-        BFormTextarea,
-        flatPickr,
-    },
-    directives: {
-        Ripple,
     },
     props: {
         basicInformation: {
-        type: Object,
-        default: () => {},
+            type: Object,
+            default: () => {},
         },
-    },
-    data() {
-        return {
-            requisitionDate: '2022-06-23',
-            requisitionNo: '20220624001',
-            manufacturer: '台積電',
-            currency: 'NTD',
-            transferNo: 'A123',
-            project: '母親節專案',
-            buyer: 'dennis',
-            purchaseDepartment: '人事部',
-            preDeliveryDate: '2022-06-30',
-            totalEstimatedAmount: '1,000',
-            estimatedTotalInLocalCurrency: '1,000',
-            status: 'openCase',
-            approvalStatus: 'void',
-            remark: 'test',
-            id: ''
-        }
     },
     mounted() {
         if(this.$route.query.id) this.id = this.$route.query.id;
     },
 }
 </script>
-
-<style lang="scss">
-@import '@core/scss/vue/libs/vue-select.scss';
-@import '@core/scss/vue/libs/vue-flatpicker.scss';
-</style>

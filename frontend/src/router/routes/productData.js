@@ -6,13 +6,8 @@ export default [
         meta: {
             pageTitle: 'Product Data Setting',
             breadcrumb: [
-                {
-                text: 'Product Data',
-                },
-                {
-                text: 'Product Data Setting',
-                active: true,
-                },
+                { text: 'Product Data' },
+                { text: 'Product Data Setting', active: true },
             ],
         },
     },
@@ -23,13 +18,8 @@ export default [
         meta: {
             pageTitle: 'Warehouse Data Setting',
             breadcrumb: [
-                {
-                text: 'Product Data',
-                },
-                {
-                text: 'Warehouse Data Setting',
-                active: true,
-                },
+                { text: 'Product Data' },
+                { text: 'Warehouse Data Setting', active: true },
             ],
         },
     },
@@ -40,13 +30,8 @@ export default [
         meta: {
             pageTitle: 'Product Category Setting',
             breadcrumb: [
-                {
-                text: 'Product Data',
-                },
-                {
-                text: 'Product Category Setting',
-                active: true,
-                },
+                { text: 'Product Data' },
+                { text: 'Product Category Setting', active: true },
             ],
         },
     },

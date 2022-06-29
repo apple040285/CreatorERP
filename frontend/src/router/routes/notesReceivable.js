@@ -6,13 +6,8 @@ export default [
         meta: {
             pageTitle: 'Notes Receivable Voucher',
             breadcrumb: [
-                {
-                text: 'Notes Receivable',
-                },
-                {
-                text: 'Notes Receivable Voucher',
-                active: true,
-                },
+                { text: 'Notes Receivable' },
+                { text: 'Notes Receivable Voucher', active: true },
             ],
         },
     },

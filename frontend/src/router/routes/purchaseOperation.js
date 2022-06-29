@@ -6,13 +6,8 @@ export default [
         meta: {
             pageTitle: 'Purchase Voucher',
             breadcrumb: [
-                {
-                text: 'Purchase Operation',
-                },
-                {
-                text: 'Purchase Voucher',
-                active: true,
-                },
+                { text: 'Purchase Operation' },
+                { text: 'Purchase Voucher', active: true },
             ],
         },
     },
@@ -23,13 +18,8 @@ export default [
         meta: {
             pageTitle: 'Returned Purchase Invoice',
             breadcrumb: [
-                {
-                text: 'Purchase Operation',
-                },
-                {
-                text: 'Returned Purchase Invoice',
-                active: true,
-                },
+                { text: 'Purchase Operation' },
+                { text: 'Returned Purchase Invoice', active: true },
             ],
         },
     },
@@ -40,13 +30,8 @@ export default [
         meta: {
             pageTitle: 'Purchase Discount Voucher',
             breadcrumb: [
-                {
-                text: 'Purchase Operation',
-                },
-                {
-                text: 'Purchase Discount Voucher',
-                active: true,
-                },
+                { text: 'Purchase Operation' },
+                { text: 'Purchase Discount Voucher', active: true },
             ],
         },
     },

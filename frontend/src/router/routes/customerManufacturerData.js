@@ -6,13 +6,8 @@ export default [
         meta: {
             pageTitle: 'Customer/Manufacturer Category',
             breadcrumb: [
-                {
-                text: 'Customer/Manufacturer Data',
-                },
-                {
-                text: 'Customer/Manufacturer Category',
-                active: true,
-                },
+                { text: 'Customer/Manufacturer Data' },
+                { text: 'Customer/Manufacturer Category', active: true },
             ],
         },
     },
@@ -23,13 +18,8 @@ export default [
         meta: {
             pageTitle: 'Customer/Manufacturer Data',
             breadcrumb: [
-                {
-                text: 'Customer/Manufacturer Data',
-                },
-                {
-                text: 'Customer/Manufacturer Data',
-                active: true,
-                },
+                { text: 'Customer/Manufacturer Data' },
+                { text: 'Customer/Manufacturer Data', active: true },
             ],
         },
     },

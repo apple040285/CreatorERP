@@ -6,13 +6,8 @@ export default [
         meta: {
             pageTitle: 'Receipt And Payment Voucher',
             breadcrumb: [
-                {
-                text: 'Payments Receivable',
-                },
-                {
-                text: 'Receipt And Payment Voucher',
-                active: true,
-                },
+                { text: 'Payments Receivable' },
+                { text: 'Receipt And Payment Voucher', active: true },
             ],
         },
     },
