@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->comment('代號');
-            $table->string('name')->comment('部門名稱');
+            $table->string('code', 50)->comment('代號');
+            $table->string('name', 50)->comment('部門名稱');
             $table->string('remark')->nullable()->comment('備註');
             $table->unsignedBigInteger('created_by')->nullable()->comment('創建人');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('更新人');
