@@ -10,7 +10,7 @@
                             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                             variant="outline-primary"
                             v-b-modal.modalForm
-                            @click="modalCreateFlag=true;resetModal()"
+                            @click="resetModal()"
                             class="mb-2 mr-2"
                         >
                             {{ $t('create')}}
@@ -18,7 +18,7 @@
                         <b-form-group>
                             <div class="d-flex align-items-center">
                                 <b-form-input
-                                    v-model="searchTerm"
+                                    v-model="serverParams.searchTerm"
                                     :placeholder="$t('table.Search')"
                                     type="text"
                                     class="d-inline-block"
@@ -29,24 +29,37 @@
 
                     <!-- table -->
                     <vue-good-table
-                        :columns="columns"
-                        :rows="rows"
-                        :rtl="direction"
-                        :search-options="{
-                            enabled: true,
-                            externalQuery: searchTerm
-                        }"
+                        mode="remote"
+                        @on-page-change="onPageChange"
+                        @on-sort-change="onSortChange"
+                        @on-per-page-change="onPerPageChange"
+                        :totalRows="totalRecords"
+                        :isLoading.sync="isLoading"
                         :pagination-options="{
                             enabled: true,
-                            perPage:pageLength
                         }"
+                        :search-options="{
+                            enabled: true,
+                            externalQuery: serverParams.searchTerm
+                        }"
+                        @on-search="onSearch"
+                        :sort-options="{
+                            enabled: true,
+                        }"
+                        :rows="rows"
+                        :columns="columns"
                     >
+                        <template #loadingContent>
+                            <div class="text-center">
+                                <b-spinner variant="primary" label="Text Centered" />
+                            </div>
+                        </template>
                         <template
                             slot="table-column"
                             slot-scope="props"
                         >
                             <span class="text-nowrap" v-if="props.column.label !== '#'">
-                                {{$t('PositionList.' + props.column.label) }}
+                                {{ $t('PositionList.' + props.column.label) }}
                             </span>
                         </template>
                         <template
@@ -59,10 +72,9 @@
                             </span>
 
                             <span v-else-if="props.column.field === 'status'" class="text-nowrap">
-                                <!-- 暫時先放originalIndex 之後改id -->
                                 <b-badge
                                     :variant="statusVariant(props.row.status)"
-                                    @click="changeValue(props.row.originalIndex, props.row.status)"
+                                    @click="updateStatus(props.row.id, props.row.status)"
                                     style="cursor:pointer"
                                 >
                                     {{ $t(props.row.status) }}
@@ -75,10 +87,11 @@
                                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                         variant="outline-primary"
                                         size="sm"
-                                        @click="showRemark(rows[props.row.originalIndex].remark)"
+                                        @click="showRemark(props.row.remark)"
                                     >
                                         <feather-icon
                                             icon="EyeIcon"
+                                            class="mr-25"
                                         />
                                         <span>{{ $t('detail') }}</span>
                                     </b-button>
@@ -92,12 +105,26 @@
                                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                         variant="outline-success"
                                         size="sm"
-                                        @click="modalCreateFlag=false;editModal(props.row.originalIndex)"
+                                        class="mr-50"
+                                        @click="editMethod(props.row.id)"
                                     >
                                         <feather-icon
                                             icon="Edit2Icon"
+                                            class="mr-25"
                                         />
                                         <span>{{ $t('edit') }}</span>
+                                    </b-button>
+                                    <b-button
+                                        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                                        variant="outline-danger"
+                                        size="sm"
+                                        @click="deleteMethod(props.row.id)"
+                                    >
+                                        <feather-icon
+                                            icon="Trash2Icon"
+                                            class="mr-25"
+                                        />
+                                        <span>{{ $t('delete') }}</span>
                                     </b-button>
                                 </span>
                             </span>
@@ -119,7 +146,7 @@
                                         {{ $t('table.Showing') }} 1 {{ $t('table.to') }}
                                     </span>
                                     <b-form-select
-                                        v-model="pageLength"
+                                        v-model="serverParams.perPage"
                                         :options="['5','10']"
                                         class="mx-1"
                                         @input="(value)=>props.perPageChanged({currentPerPage:value})"
@@ -130,7 +157,7 @@
                                     <b-pagination
                                         :value="1"
                                         :total-rows="props.total"
-                                        :per-page="pageLength"
+                                        :per-page="serverParams.perPage"
                                         first-number
                                         last-number
                                         align="right"
@@ -163,7 +190,7 @@
         <b-modal
             id="modalForm"
             cancel-variant="outline-secondary"
-            :title="modalCreateFlag ? $t('create') : $t('edit')"
+            :title="showData.id ? $t('edit') : $t('create')"
             :cancel-title="$t('back')"
             scrollable
             :ok-title="$t('Submit')"
@@ -172,32 +199,32 @@
         >
             <b-form @submit.prevent>
                 <validation-observer ref="modalRules">
-                    <b-form-group id="positionCode">
-                        <label for="positionCode">{{ $t('PositionList.positionCode') }}</label>
+                    <b-form-group id="code">
+                        <label for="code">{{ $t('PositionList.code') }}</label>
                         <validation-provider
                             #default="{ errors }"
-                            name="positionCode"
+                            name="code"
                             rules="required"
                         >
                             <b-form-input
-                                v-model="positionCode"
+                                v-model="showData.code"
                                 type="text"
-                                :placeholder="$t('PositionList.positionCode')"
+                                :placeholder="$t('PositionList.code')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
-                    <b-form-group id="positionName">
-                        <label for="positionName">{{ $t('PositionList.positionName') }}</label>
+                    <b-form-group id="name">
+                        <label for="name">{{ $t('PositionList.name') }}</label>
                         <validation-provider
                             #default="{ errors }"
-                            name="positionName"
+                            name="name"
                             rules="required"
                         >
                             <b-form-input
-                                v-model="positionName"
+                                v-model="showData.name"
                                 type="text"
-                                :placeholder="$t('PositionList.positionName')"
+                                :placeholder="$t('PositionList.name')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -208,7 +235,7 @@
                             id="remark"
                             :placeholder="$t('remark')"
                             rows="3"
-                            v-model="remark"
+                            v-model="showData.remark"
                             autocomplete="off"
                         />
                     </b-form-group>
@@ -220,12 +247,12 @@
             :title="$t('remark')"
             ok-only
             :ok-title="$t('back')"
-            ref="remarkDetail"
+            ref="remark"
             ok-variant="secondary"
             scrollable
         >
             <b-card-text>
-                {{ remarkDetail }}
+                {{ remark }}
             </b-card-text>
         </b-modal>
     </div>
@@ -234,13 +261,15 @@
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
-    BRow, BCol, BBadge, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BFormTextarea, BButton, BCardText
+    BRow, BCol, BBadge, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BFormTextarea, BButton, BCardText, BSpinner
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
 import store from '@/store/index'
 import Ripple from 'vue-ripple-directive'
+import axios from "@axios";
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
     components: {
@@ -259,20 +288,22 @@ export default {
         BCardText,
         ValidationProvider,
         ValidationObserver,
+        ToastificationContent,
+        BSpinner
     },
     directives: {
         Ripple,
     },
     data() {
         return {
+            apiPath: '/positions',
             required,
-            pageLength: 5,
             dir: false,
             columns: [
-                { label: '#', field: 'index' },
-                { label: 'positionCode', field: 'positionCode' },
-                { label: 'positionName', field: 'positionName' },
-                { label: 'retirementDate', field: 'retirementDate' },
+                { label: '#', field: 'id' },
+                { label: 'code', field: 'code' },
+                { label: 'name', field: 'name' },
+                { label: 'disable_at', field: 'disable_at' },
                 { label: 'created_by', field: 'created_by' },
                 { label: 'created_at', field: 'created_at' },
                 { label: 'updated_by', field: 'updated_by' },
@@ -281,25 +312,31 @@ export default {
                 { label: 'status', field: 'status' },
                 { label: 'action', field: 'action' },
             ],
-            rows: [
-                {
-                    id: 1,
-                    positionCode: "ABC123",
-                    positionName: '主管',
-                    retirementDate: '2022/06/30',
-                    created_by: 'Dennis',
-                    created_at: '2022/06/30',
-                    updated_by: 'Dennis',
-                    updated_at: '2022/06/30',
-                    remark: 'test',
-                    status: 'active',
-                },
-            ],
-            searchTerm: '',
+            rows: [],
             remark: '',
-            remarkDetail: '',
-            modalCreateFlag: true,
-            changeStatus: 'active',
+            status: '',
+            showData: {},
+            defaultData: {
+                id : null,
+                code : '',
+                name : '',
+                disable_at : '',
+                status : 0,
+                remark : '',
+            },
+            isLoading: false,
+            totalRecords: 0,
+            serverParams: {
+                sort: [
+                    {
+                        field: '',
+                        type: ''
+                    }
+                ],
+                page: 1,
+                perPage: 10,
+                searchTerm: '',
+            }
         }
     },
     computed: {
@@ -307,7 +344,7 @@ export default {
             const statusColor = {
                 /* eslint-disable key-spacing */
                 active     : 'light-success',
-                inactive     : 'light-danger',
+                disable     : 'light-danger',
                 /* eslint-enable key-spacing */
             }
 
@@ -325,10 +362,35 @@ export default {
         },
     },
     methods: {
+        onSearch({searchTerm}) {
+            this.serverParams.searchTerm = searchTerm
+            this.getList()
+        },
+        updateParams(newProps) {
+            this.serverParams = Object.assign({}, this.serverParams, newProps);
+        },
+        onPageChange(params) {
+            this.updateParams({page: params.currentPage});
+            this.getList();
+        },
+        onPerPageChange(params) {
+            this.updateParams({perPage: params.currentPerPage});
+            this.getList();
+        },
+        onSortChange(params) {
+            this.updateParams({
+                sort: params,
+            });
+            this.getList();
+        },
         validationModalForm() {
             this.$refs.modalRules.validate().then(success => {
                 if (success) {
-                    this.productDataPush();
+                    if(this.showData.id) {
+                        this.updateMethod();
+                    }else {
+                        this.createMethod();
+                    }
                 }else {
                     const modalRulesErrors = Object.keys(this.$refs.modalRules.errors);
                     modalRulesErrors.some(element => {
@@ -341,28 +403,153 @@ export default {
             })
         },
         resetModal() {
-            this.positionCode = '';
-            this.positionName = '';
-            this.retirementDate = '';
-            this.status = 0;
-            this.remark = '';
+            this.showData = Object.assign({}, this.showData, this.defaultData)
         },
-        editModal(key) {
-            this.positionCode = this.rows[key].positionCode;
-            this.positionName = this.rows[key].positionName;
-            this.retirementDate = this.rows[key].retirementDate;
-            this.status = this.rows[key].status;
-            this.remark = this.rows[key].remark;
-            this.$refs['modalForm'].show();
+        getList() {
+            axios
+            .post(`${this.apiPath}/list`, this.serverParams)
+            .then(response => {
+                const { data, meta } = response.data
+                this.rows = data;
+                this.totalRecords = meta.total;
+            })
+            .catch(error => console.error (error))
+        },
+        editMethod(id) {
+            axios
+            .get(`${this.apiPath}/${id}`)
+            .then(response => {
+                this.showData = response.data;
+                this.$refs['modalForm'].show();
+            })
+            .catch(error => console.error (error))
+        },
+        updateMethod() {
+            axios
+            .put(`${this.apiPath}/${this.showData.id}`, this.showData)
+            .then(() => {
+                this.$refs['modalForm'].hide();
+                this.getList();
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedSuccess')}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${this.$t('Position Data Setting')} ${this.$t('updatedSuccess')}!`,
+                    },
+                })
+            })
+            .catch(error => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
+            })
+        },
+        createMethod() {
+            axios
+            .post(`${this.apiPath}`, this.showData)
+            .then(() => {
+                this.$refs['modalForm'].hide();
+                this.getList();
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('createdSuccess')}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${this.$t('Position Data Setting')} ${this.$t('createdSuccess')}!`,
+                    },
+                })
+            })
+            .catch(error => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('createdFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
+            })
+        },
+        deleteMethod(id) {
+            axios
+            .delete(`${this.apiPath}/${id}`)
+            .then(() => {
+                this.getList();
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('deletedSuccess')}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${this.$t('Position Data Setting')} ${this.$t('deletedSuccess')}!`,
+                    },
+                })
+            })
+            .catch(error => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('deletedFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
+            })
         },
         showRemark(value) {
-            this.remarkDetail = value;
-            this.$refs['remarkDetail'].show();
+            this.remark = value;
+            this.$refs['remark'].show();
         },
-        changeValue(editId, status) {
-            this.changeStatus = (status == 'active') ? 'inactive' : 'active';
-            this.rows[editId].status = this.changeStatus;
+        updateStatus(id, oldStatus) {
+            this.status = (oldStatus == 'active') ? 'disable' : 'active';
+            axios
+            .post(`${this.apiPath}/${id}/status`, { status : this.status })
+            .then(() => {
+                this.getList();
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedSuccess')}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${this.$t('Position Data Setting')} ${this.$t('updatedSuccess')}!`,
+                    },
+                })
+            })
+            .catch(error => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
+            })
         }
+    },
+    created() {
+        this.getList();
     },
 }
 </script>

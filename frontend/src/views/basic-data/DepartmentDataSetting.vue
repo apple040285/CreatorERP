@@ -49,17 +49,17 @@
                         :rows="rows"
                         :columns="columns"
                     >
-                    <template #loadingContent>
-                        <div class="text-center">
-                            <b-spinner variant="primary" label="Text Centered" />
-                        </div>
-                    </template>
+                        <template #loadingContent>
+                            <div class="text-center">
+                                <b-spinner variant="primary" label="Text Centered" />
+                            </div>
+                        </template>
                         <template
                             slot="table-column"
                             slot-scope="props"
                         >
                             <span class="text-nowrap" v-if="props.column.label !== '#'">
-                                {{$t('DepartmentList.' + props.column.label) }}
+                                {{ $t('DepartmentList.' + props.column.label) }}
                             </span>
                         </template>
                         <template
@@ -72,7 +72,6 @@
                             </span>
 
                             <span v-else-if="props.column.field === 'status'" class="text-nowrap">
-                                <!-- 暫時先放originalIndex 之後改id -->
                                 <b-badge
                                     :variant="statusVariant(props.row.status)"
                                     @click="updateStatus(props.row.id, props.row.status)"
@@ -549,7 +548,7 @@ export default {
             })
         }
     },
-    mounted() {
+    created() {
         this.getList();
     },
 }

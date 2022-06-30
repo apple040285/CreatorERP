@@ -172,9 +172,9 @@
   },
 
   "PositionList": {
-    "positionCode": "職位代號",
-    "positionName": "職位名稱",
-    "disable_at8": "停用日期",
+    "code": "職位代號",
+    "name": "職位名稱",
+    "disable_at": "停用日期",
     "status": "狀態",
     "remark": "備註",
     "created_by": "創建人員",

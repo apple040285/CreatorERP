@@ -347,8 +347,8 @@
   },
 
   "PositionList": {
-    "positionCode": "Position Code",
-    "positionName": "PositionName",
+    "code": "Position Code",
+    "name": "PositionName",
     "disable_at": "Disable Date",
     "status": "Status",
     "remark": "Remark",
