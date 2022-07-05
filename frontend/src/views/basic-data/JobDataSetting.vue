@@ -67,7 +67,7 @@
                             slot-scope="props"
                         >
                             <!-- Column: index -->
-                            <span v-if="props.column.field === 'index'" class="text-nowrap">
+                            <span v-if="props.column.field === 'id'" class="text-nowrap">
                                 {{ props.row.originalIndex + 1 }}
                             </span>
 
