@@ -12,10 +12,10 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-/public/js
-/public/css
-/public/img
+# /public/js
+# /public/css
+# /public/img
 /public/svg
-/resources/views/index.blade.php
+# /resources/views/index.blade.php
 /composer.lock
 /frontend/package-lock.json
