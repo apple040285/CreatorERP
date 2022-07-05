@@ -22,17 +22,17 @@ class Job extends Model
     protected $appends = ['status_key'];
 
     protected $casts = [
-        'status'     => \App\Enum\StatusEnum::class,
+        'status'     => StatusEnum::class,
         'disable_at' => 'datetime:Y-m-d',
         'created_at' => 'datetime:Y-m-d',
         'updated_at' => 'datetime:Y-m-d',
     ];
 
+    // TODO: 需要整合特徵
     protected function statusKey(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => StatusEnum::from($attributes['status'])->name,
-            // get: fn ($value, $attributes) => StatusEnum::from($value),
+            get: fn ($value, $attributes) => StatusEnum::tryFrom($attributes['status'] ?? null)?->name,
         );
     }
 }

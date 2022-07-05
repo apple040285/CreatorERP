@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\StatusEnum;
 use App\Models\Job;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -26,7 +27,6 @@ class JobController extends Controller
                 return $paginatedInstance->setCollection($sortCollection);
             }
         );
-        // $data = Job::search($request->input('searchTerm'))->paginate($request->input('perPage'));
 
         return $this->success($data);
     }
@@ -54,7 +54,7 @@ class JobController extends Controller
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員' . $e->getMessage());
+            return $this->badRequest('請聯絡管理員');
         }
     }
 
@@ -126,7 +126,7 @@ class JobController extends Controller
             DB::beginTransaction();
             $data = Job::findOrFail($id)->update([
                 'status' => $data['status'],
-                'disable_at' => $data['status'] === 'disable' ? now() : null,
+                'disable_at' => $data['status'] === StatusEnum::停用 ? now() : null,
             ]);
 
             DB::commit();

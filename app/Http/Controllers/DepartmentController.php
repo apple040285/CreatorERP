@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\StatusEnum;
 use App\Models\Department;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -122,7 +123,10 @@ class DepartmentController extends Controller
 
         try {
             DB::beginTransaction();
-            $data = Department::findOrFail($id)->update($data);
+            $data = Department::findOrFail($id)->update([
+                'status' => $data['status'],
+                'disable_at' => $data['status'] === StatusEnum::停用 ? now() : null,
+            ]);
 
             DB::commit();
             return $this->success('狀態更新成功');
