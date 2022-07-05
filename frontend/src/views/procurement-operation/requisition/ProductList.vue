@@ -134,7 +134,6 @@ import { BButton, BCard, BFormSelect, BPagination, BFormGroup, BFormInput } from
 import { VueGoodTable } from 'vue-good-table'
 import Ripple from 'vue-ripple-directive'
 import { heightFade } from '@core/directives/animations'
-import store from '@/store/index'
 
 export default {
     components: {
@@ -171,16 +170,6 @@ export default {
             }
 
             return status => statusColor[status]
-        },
-        direction() {
-            if (store.state.appConfig.isRTL) {
-                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                this.dir = true
-                return this.dir
-            }
-            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-            this.dir = false
-            return this.dir
         },
     },
     data() {

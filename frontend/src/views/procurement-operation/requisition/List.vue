@@ -163,7 +163,6 @@ import {
     BRow, BCol, BBadge, BPagination, BFormGroup, BFormInput, BFormSelect, BButton
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
-import store from '@/store/index'
 import Ripple from 'vue-ripple-directive'
 
 export default {
@@ -185,7 +184,6 @@ export default {
     data() {
         return {
         pageLength: 5,
-        dir: false,
         columns: [
             { label: '#', field: 'index' },
             { label: 'requisitionDate', field: 'requisitionDate' },
@@ -284,16 +282,6 @@ export default {
             }
 
             return status => statusColor[status]
-        },
-        direction() {
-            if (store.state.appConfig.isRTL) {
-                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                this.dir = true
-                return this.dir
-            }
-            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-            this.dir = false
-            return this.dir
         },
     }
 }

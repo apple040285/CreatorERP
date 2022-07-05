@@ -17,12 +17,17 @@
       "quantity": "數量",
       "unitPrice": "單價",
       "productPreDeliveryDate": "預交日期",
-      "code": "部門代號",
-      "name": "部門名稱",
-      "positionCode": "職位代號",
-      "positionName": "職位名稱",
+      "departmentCode": "部門代號",
+      "departmentName": "部門名稱",
+      "jobCode": "職位代號",
+      "jobName": "職位名稱",
+      "staffCode": "員工代號",
+      "staffName": "員工名稱",
       "currencyCode": "幣別代號",
-      "currencyName": "幣別名稱"
+      "currencyName": "幣別名稱",
+      "emergencyContactOne": "緊急聯絡人一",
+      "emergencyContactOneNumber": "緊急聯絡人一電話",
+      "appointmentDate": "到職日期"
     },
     "messages": {
       "alpha": "{_field_} 須以英文組成",
@@ -67,8 +72,8 @@
 
   "Basic Data": "基本資料",
   "Department Data Setting": "部門資料設定",
-  "Position Data Setting": "職位資料設定",
-  "Personnel Data Setting": "人員資料設定",
+  "Job Data Setting": "職位資料設定",
+  "Staff Data Setting": "員工資料設定",
   "Currency Data Setting": "幣別資料設定",
   "Project Data Setting": "專案資料設定",
   "Bank Data Setting": "銀行資料設定",
@@ -171,7 +176,7 @@
     "action": "操作"
   },
 
-  "PositionList": {
+  "JobList": {
     "code": "職位代號",
     "name": "職位名稱",
     "disable_at": "停用日期",
@@ -183,6 +188,34 @@
     "updated_at": "異動時間",
     "action": "操作"
   },
+
+  "StaffList": {
+    "createStaff": "新增員工資料",
+    "editStaff": "修改員工資料",
+    "code": "員工代號",
+    "name": "員工姓名",
+    "englishName": "員工英文姓名",
+    "departmentName": "所屬部門",
+    "telephone": "電話號碼",
+    "cellphone": "手機號碼",
+    "jobName": "職位",
+    "residenceAddress": "戶籍地址",
+    "mailingAddress": "通訊地址",
+    "email": "信箱",
+    "appointmentDate": "到職日期",
+    "resignationDate": "離職日期",
+    "emergencyContactOne": "緊急聯絡人一",
+    "emergencyContactOneNumber": "緊急聯絡人一電話",
+    "emergencyContactTwo": "緊急聯絡人二",
+    "emergencyContactTwoNumber": "緊急聯絡人二電話",
+    "remark": "備註",
+    "created_by": "創建人員",
+    "created_at": "創建時間",
+    "updated_by": "異動人員",
+    "updated_at": "異動時間",
+    "action": "操作"
+  },
+
   "CurrencyList": {
     "currencyCode": "幣別代號",
     "currencyName": "幣別名稱",

@@ -105,7 +105,6 @@ export default {
             },
             productListData: {
                 pageLength: 5,
-                dir: false,
                 searchTerm: '',
                 columns: [
                     { label: '#', field: 'index' },

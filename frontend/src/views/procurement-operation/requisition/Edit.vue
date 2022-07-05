@@ -28,7 +28,6 @@
                         <b-form-group>
                             <v-select
                                 v-model="manufacturer"
-                                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                 label="title"
                                 :options="manufacturerOption"
                                 :placeholder="$t('RequisitionCreate.selectManufacturer')"
@@ -45,7 +44,6 @@
                             >
                                 <v-select
                                     v-model="currency"
-                                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                     label="title"
                                     :options="currencyOption"
                                     :placeholder="$t('RequisitionCreate.selectCurrency')"
@@ -59,7 +57,6 @@
                         <b-form-group>
                             <v-select
                                 v-model="transferNo"
-                                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                 label="title"
                                 :options="transferNoOption"
                                 :placeholder="$t('RequisitionCreate.selectTransferNo')"
@@ -71,7 +68,6 @@
                         <b-form-group>
                             <v-select
                                 v-model="project"
-                                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                 label="title"
                                 :options="projectOption"
                                 :placeholder="$t('RequisitionCreate.selectProject')"
@@ -88,7 +84,6 @@
                             >
                                 <v-select
                                     v-model="buyer"
-                                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                     label="title"
                                     :options="buyerOption"
                                     :placeholder="$t('RequisitionCreate.selectBuyer')"
@@ -107,7 +102,6 @@
                             >
                                 <v-select
                                     v-model="purchaseDepartment"
-                                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                     label="title"
                                     :options="purchaseDepartmentOption"
                                     :placeholder="$t('RequisitionCreate.selectPurchaseDepartment')"

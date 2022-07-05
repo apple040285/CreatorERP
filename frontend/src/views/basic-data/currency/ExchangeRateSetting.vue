@@ -141,7 +141,6 @@ import flatPickr from 'vue-flatpickr-component'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
 import Ripple from 'vue-ripple-directive'
-import store from '@/store/index'
 
 export default {
     components: {
@@ -170,18 +169,6 @@ export default {
         return {
             required,
         }
-    },
-    computed: {
-        direction() {
-            if (store.state.appConfig.isRTL) {
-                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                this.dir = true
-                return this.dir
-            }
-            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-            this.dir = false
-        return this.dir
-        },
     },
     methods: {
         validationForm() {

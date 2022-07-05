@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-card-code :title="$route.path == '/ProcurementOperation/RequisitionCreate' ?  $t('RequisitionModal.createRequisition') : $t('RequisitionModal.editRequisition')">
+        <b-card-code :title="$route.name == 'ProcurementOperation-RequisitionCreate' ?  $t('RequisitionModal.createRequisition') : $t('RequisitionModal.editRequisition')">
             <b-form @submit.prevent>
                 <validation-observer ref="simpleRules">
                     <b-row>
@@ -30,7 +30,6 @@
                             <b-form-group>
                                 <v-select
                                     v-model="manufacturer"
-                                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                     :options="manufacturerOption"
                                     :placeholder="$t('RequisitionModal.selectManufacturer')"
                                 />
@@ -46,7 +45,6 @@
                                 >
                                     <v-select
                                         v-model="currency"
-                                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                         :options="currencyOption"
                                         :placeholder="$t('RequisitionModal.selectCurrency')"
                                     />
@@ -59,7 +57,6 @@
                             <b-form-group>
                                 <v-select
                                     v-model="transferNo"
-                                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                     :options="transferNoOption"
                                     :placeholder="$t('RequisitionModal.selectTransferNo')"
                                 />
@@ -70,7 +67,6 @@
                             <b-form-group>
                                 <v-select
                                     v-model="project"
-                                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                     :options="projectOption"
                                     :placeholder="$t('RequisitionModal.selectProject')"
                                 />
@@ -86,7 +82,6 @@
                                 >
                                     <v-select
                                         v-model="buyer"
-                                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                         :options="buyerOption"
                                         :placeholder="$t('RequisitionModal.selectBuyer')"
                                     />
@@ -104,7 +99,6 @@
                                 >
                                     <v-select
                                         v-model="purchaseDepartment"
-                                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                         :options="purchaseDepartmentOption"
                                         :placeholder="$t('RequisitionModal.selectPurchaseDepartment')"
                                     />
@@ -361,7 +355,6 @@
                         >
                             <v-select
                                 v-model="productName"
-                                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                                 :options="productOption"
                                 :placeholder="$t('RequisitionModal.selectProductName')"
                                 id="productName"
@@ -400,7 +393,6 @@
                         <label for="storehouse">{{ $t('ProductList.storehouse') }}</label>
                         <v-select
                             v-model="storehouse"
-                            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                             :options="storehouseOption"
                             :placeholder="$t('RequisitionModal.selectStorehouse')"
                         />
@@ -518,7 +510,6 @@ import {
 import Ripple from 'vue-ripple-directive'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
-import store from '@/store/index'
 
 export default {
     components: {
@@ -590,7 +581,6 @@ export default {
             editRowId: '',
 
             pageLength: 5,
-            dir: false,
             searchTerm: '',
             columns: [
                 { label: '#', field: 'index' },
@@ -723,18 +713,6 @@ export default {
             this.remarkDetail = value;
             this.$refs['remarkDetail'].show();
         }
-    },
-    computed: {
-        direction() {
-            if (store.state.appConfig.isRTL) {
-                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                this.dir = true
-                return this.dir
-            }
-            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-            this.dir = false
-        return this.dir
-        },
     },
     mounted() {
         if(this.$route.query.id) this.editId = this.$route.query.id;

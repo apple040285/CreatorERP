@@ -2,7 +2,7 @@
     <div>
         <b-row>
             <b-col cols="12">
-                <b-card-code :title="$t('Position Data Setting')">
+                <b-card-code :title="$t('Job Data Setting')">
 
                     <!-- search input -->
                     <div class="custom-search d-flex justify-content-end">
@@ -59,7 +59,7 @@
                             slot-scope="props"
                         >
                             <span class="text-nowrap" v-if="props.column.label !== '#'">
-                                {{ $t('PositionList.' + props.column.label) }}
+                                {{ $t('JobList.' + props.column.label) }}
                             </span>
                         </template>
                         <template
@@ -200,31 +200,31 @@
             <b-form @submit.prevent>
                 <validation-observer ref="modalRules">
                     <b-form-group id="code">
-                        <label for="code">{{ $t('PositionList.code') }}</label>
+                        <label for="code">{{ $t('JobList.code') }}</label>
                         <validation-provider
                             #default="{ errors }"
-                            name="code"
+                            name="jobCode"
                             rules="required"
                         >
                             <b-form-input
                                 v-model="showData.code"
                                 type="text"
-                                :placeholder="$t('PositionList.code')"
+                                :placeholder="$t('JobList.code')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
                     <b-form-group id="name">
-                        <label for="name">{{ $t('PositionList.name') }}</label>
+                        <label for="name">{{ $t('JobList.name') }}</label>
                         <validation-provider
                             #default="{ errors }"
-                            name="name"
+                            name="jobName"
                             rules="required"
                         >
                             <b-form-input
                                 v-model="showData.name"
                                 type="text"
-                                :placeholder="$t('PositionList.name')"
+                                :placeholder="$t('JobList.name')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -266,7 +266,6 @@ import {
 import { VueGoodTable } from 'vue-good-table'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
-import store from '@/store/index'
 import Ripple from 'vue-ripple-directive'
 import axios from "@axios";
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
@@ -296,17 +295,16 @@ export default {
     },
     data() {
         return {
-            apiPath: '/positions',
+            apiPath: '/jobs',
             required,
-            dir: false,
             columns: [
                 { label: '#', field: 'id' },
                 { label: 'code', field: 'code' },
                 { label: 'name', field: 'name' },
                 { label: 'disable_at', field: 'disable_at' },
-                { label: 'created_by', field: 'created_by' },
+                { label: 'created_by', field: 'creator.name' },
                 { label: 'created_at', field: 'created_at' },
-                { label: 'updated_by', field: 'updated_by' },
+                { label: 'updated_by', field: 'editor.name' },
                 { label: 'updated_at', field: 'updated_at' },
                 { label: 'remark', field: 'remark' },
                 { label: 'status', field: 'status' },
@@ -349,16 +347,6 @@ export default {
             }
 
             return status => statusColor[status]
-        },
-        direction() {
-            if (store.state.appConfig.isRTL) {
-                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                this.dir = true
-                return this.dir
-            }
-            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-            this.dir = false
-            return this.dir
         },
     },
     methods: {
@@ -437,7 +425,7 @@ export default {
                     title: `${this.$t('updatedSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${this.$t('Position Data Setting')} ${this.$t('updatedSuccess')}!`,
+                    text: `${this.$t('Job Data Setting')} ${this.$t('updatedSuccess')}!`,
                     },
                 })
             })
@@ -467,7 +455,7 @@ export default {
                     title: `${this.$t('createdSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${this.$t('Position Data Setting')} ${this.$t('createdSuccess')}!`,
+                    text: `${this.$t('Job Data Setting')} ${this.$t('createdSuccess')}!`,
                     },
                 })
             })
@@ -496,7 +484,7 @@ export default {
                     title: `${this.$t('deletedSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${this.$t('Position Data Setting')} ${this.$t('deletedSuccess')}!`,
+                    text: `${this.$t('Job Data Setting')} ${this.$t('deletedSuccess')}!`,
                     },
                 })
             })
@@ -530,7 +518,7 @@ export default {
                     title: `${this.$t('updatedSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${this.$t('Position Data Setting')} ${this.$t('updatedSuccess')}!`,
+                    text: `${this.$t('Job Data Setting')} ${this.$t('updatedSuccess')}!`,
                     },
                 })
             })

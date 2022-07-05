@@ -12,26 +12,52 @@ export default [
         },
     },
     {
-        path: '/BasicData/PositionDataSetting',
-        name: 'BasicData-PositionDataSetting',
-        component: () => import('@/views/basic-data/PositionDataSetting.vue'),
+        path: '/BasicData/JobDataSetting',
+        name: 'BasicData-JobDataSetting',
+        component: () => import('@/views/basic-data/JobDataSetting.vue'),
         meta: {
-            pageTitle: 'Position Data Setting',
+            pageTitle: 'Job Data Setting',
             breadcrumb: [
                 { text: 'Basic Data' },
-                { text: 'Position Data Setting', active: true },
+                { text: 'Job Data Setting', active: true },
             ],
         },
     },
     {
-        path: '/BasicData/PersonnelDataSetting',
-        name: 'BasicData-PersonnelDataSetting',
-        component: () => import('@/views/basic-data/PersonnelDataSetting.vue'),
+        path: '/BasicData/StaffList',
+        name: 'BasicData-StaffList',
+        component: () => import('@/views/basic-data/staff/List.vue'),
         meta: {
-            pageTitle: 'Personnel Data Setting',
+            pageTitle: 'Staff Data Setting',
             breadcrumb: [
                 { text: 'Basic Data' },
-                { text: 'Personnel Data Setting', active: true },
+                { text: 'Staff Data Setting', active: true },
+            ],
+        },
+    },
+    {
+        path: '/BasicData/StaffCreate',
+        name: 'BasicData-StaffCreate',
+        component: () => import('@/views/basic-data/staff/Create.vue'),
+        meta: {
+            pageTitle: 'Staff Data Setting',
+            breadcrumb: [
+                { text: 'Basic Data' },
+                { text: 'Staff Data Setting', to: { name: 'BasicData-StaffList' } },
+                { text: 'create', active: true },
+            ],
+        },
+    },
+    {
+        path: '/BasicData/StaffEdit',
+        name: 'BasicData-StaffEdit',
+        component: () => import('@/views/basic-data/staff/Edit.vue'),
+        meta: {
+            pageTitle: 'Staff Data Setting',
+            breadcrumb: [
+                { text: 'Basic Data' },
+                { text: 'Staff Data Setting', to: { name: 'BasicData-StaffList' } },
+                { text: 'edit', active: true },
             ],
         },
     },

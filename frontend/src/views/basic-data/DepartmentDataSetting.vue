@@ -203,7 +203,7 @@
                         <label for="code">{{ $t('DepartmentList.code') }}</label>
                         <validation-provider
                             #default="{ errors }"
-                            name="code"
+                            name="departmentCode"
                             rules="required"
                         >
                             <b-form-input
@@ -218,7 +218,7 @@
                         <label for="name">{{ $t('DepartmentList.name') }}</label>
                         <validation-provider
                             #default="{ errors }"
-                            name="name"
+                            name="departmentName"
                             rules="required"
                         >
                             <b-form-input
@@ -266,7 +266,6 @@ import {
 import { VueGoodTable } from 'vue-good-table'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
-import store from '@/store/index'
 import Ripple from 'vue-ripple-directive'
 import axios from "@axios";
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
@@ -298,15 +297,14 @@ export default {
         return {
             apiPath: '/departments',
             required,
-            dir: false,
             columns: [
                 { label: '#', field: 'id' },
                 { label: 'code', field: 'code' },
                 { label: 'name', field: 'name' },
                 { label: 'disable_at', field: 'disable_at' },
-                { label: 'created_by', field: 'created_by' },
+                { label: 'created_by', field: 'creator.name' },
                 { label: 'created_at', field: 'created_at' },
-                { label: 'updated_by', field: 'updated_by' },
+                { label: 'updated_by', field: 'editor.name' },
                 { label: 'updated_at', field: 'updated_at' },
                 { label: 'remark', field: 'remark' },
                 { label: 'status', field: 'status' },
@@ -349,17 +347,7 @@ export default {
             }
 
             return status => statusColor[status]
-        },
-        direction() {
-            if (store.state.appConfig.isRTL) {
-                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                this.dir = true
-                return this.dir
-            }
-            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-            this.dir = false
-            return this.dir
-        },
+        }
     },
     methods: {
         onSearch({searchTerm}) {
