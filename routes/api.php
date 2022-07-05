@@ -34,10 +34,12 @@ Route::group(['prefix' => 'auth'], function () {
 Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
     // 部門管理
     Route::apiResource('/departments', Controllers\DepartmentController::class);
+    Route::apiResource('/jobs', Controllers\JobController::class);
 });
 
 // 測試用
 Route::middleware(LanguageMiddleware::class)->group(function () {
     // 部門管理
     Route::apiResource('/departments', Controllers\DepartmentController::class);
+    Route::apiResource('/jobs', Controllers\JobController::class);
 });
