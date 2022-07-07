@@ -25,9 +25,16 @@
       "staffName": "員工名稱",
       "currencyCode": "幣別代號",
       "currencyName": "幣別名稱",
+      "currencyEnglishName": "幣別英文名稱",
+      "projectCode": "專案代號",
+      "projectName": "專案名稱",
+      "expiration_date": "失效日期",
       "emergencyContactOne": "緊急聯絡人一",
       "emergencyContactOneNumber": "緊急聯絡人一電話",
-      "appointmentDate": "到職日期"
+      "appointmentDate": "到職日期",
+      "bankCode": "銀行代號",
+      "swiftCode": "銀行行號",
+      "bankName": "銀行名稱"
     },
     "messages": {
       "alpha": "{_field_} 須以英文組成",
@@ -217,19 +224,37 @@
   },
 
   "CurrencyList": {
-    "currencyCode": "幣別代號",
-    "currencyName": "幣別名稱",
+    "code": "幣別代號",
+    "name": "幣別名稱",
+    "englishName": "幣別英文名稱",
+    "unitPriceOfDigits": "單價位數",
+    "amountOfDigits": "金額位數",
+    "action": "操作"
+  },
+
+  "ProjectList": {
+    "code": "專案代號",
+    "name": "專案名稱",
+    "expiration_date": "失效日期",
     "remark": "備註",
     "created_by": "創建人員",
     "created_at": "創建時間",
     "updated_by": "異動人員",
     "updated_at": "異動時間",
-    "action": "操作",
-    "exchangeRateSetting": "匯率設定",
-    "defaultRate": "預設匯率",
-    "buyingRate": "買入匯率匯率",
-    "sellingRate": "賣出匯率",
-    "adjustTheDate": "調整日期"
+    "action": "操作"
+  },
+
+  "BankList": {
+    "createBank": "新增銀行",
+    "editBank": "修改銀行",
+    "code": "銀行代號",
+    "swiftCode": "銀行行號",
+    "name": "銀行名稱",
+    "englishName": "銀行英文名稱",
+    "telephone": "電話",
+    "creditCardFeeRates": "信用卡手續費費率",
+    "remark": "備註",
+    "action": "操作"
   },
 
   "RequisitionList": {

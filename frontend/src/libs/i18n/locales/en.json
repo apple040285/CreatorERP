@@ -25,9 +25,16 @@
       "staffName": "Staff Name",
       "currencyCode": "Currency Code",
       "currencyName": "Currency Name",
+      "currencyEnglishName": "Currency English Name",
+      "projectCode": "Project Code",
+      "projectName": "Project Name",
+      "expiration_date": "Expiration Date",
       "emergencyContactOne": "Emergency Contact One",
       "emergencyContactOneNumber": "Emergency Contact One Number",
-      "appointmentDate": "Appointment Date"
+      "appointmentDate": "Appointment Date",
+      "bankCode": "Bank Code",
+      "swiftCode": "Swift Code",
+      "bankName": "Bank Name"
     },
     "messages": {
       "alpha": "The {_field_} field may only contain alphabetic characters",
@@ -394,17 +401,35 @@
   "CurrencyList": {
     "currencyCode": "Currency Code",
     "currencyName": "Currency Name",
+    "englishName": "Currency English Name",
+    "unitPriceOfDigits": "Unit Price Of Digits",
+    "amountOfDigits": "Amount Of Digits",
+    "action": "Action"
+  },
+
+  "ProjectList": {
+    "code": "Project Code",
+    "name": "Project Name",
+    "expiration_date": "Expiration Date",
     "remark": "Remark",
     "created_by": "Created By",
     "created_at": "Created At",
     "updated_by": "Updated By",
     "updated_at": "Updated At",
-    "action": "Action",
-    "exchangeRateSetting": "Exchange Rate Setting",
-    "defaultRate": "Default Rate",
-    "buyingRate": "Buying Rate",
-    "sellingRate": "Selling Rate",
-    "adjustTheDate": "Adjust The Date"
+    "action": "Action"
+  },
+
+  "BankList": {
+    "createBank": "Create Bank",
+    "editBank": "Edit Bank",
+    "code": "Bank Code",
+    "swiftCode": "Swift Code",
+    "name": "Bank Name",
+    "englishName": "Bank English Name",
+    "telephone": "Telephone",
+    "creditCardFeeRates": "Credit Card Fee Rates",
+    "remark": "Remark",
+    "action": "Action"
   },
 
   "RequisitionList": {

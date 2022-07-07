@@ -24,8 +24,8 @@ export default [
         },
     },
     {
-        path: '/BasicData/StaffList',
-        name: 'BasicData-StaffList',
+        path: '/BasicData/StaffDataSettingList',
+        name: 'BasicData-StaffDataSettingList',
         component: () => import('@/views/basic-data/staff/List.vue'),
         meta: {
             pageTitle: 'Staff Data Setting',
@@ -36,53 +36,53 @@ export default [
         },
     },
     {
-        path: '/BasicData/StaffCreate',
-        name: 'BasicData-StaffCreate',
-        component: () => import('@/views/basic-data/staff/Create.vue'),
+        path: '/BasicData/StaffDataSettingDetail',
+        name: 'BasicData-StaffDataSettingDetail',
+        component: () => import('@/views/basic-data/staff/Detail.vue'),
         meta: {
             pageTitle: 'Staff Data Setting',
             breadcrumb: [
                 { text: 'Basic Data' },
-                { text: 'Staff Data Setting', to: { name: 'BasicData-StaffList' } },
+                { text: 'Staff Data Setting', to: { name: 'BasicData-StaffDataSettingList' } },
+                { text: 'detail', active: true },
+            ],
+        },
+    },
+    {
+        path: '/BasicData/StaffDataSettingCreate',
+        name: 'BasicData-StaffDataSettingCreate',
+        component: () => import('@/views/basic-data/staff/Crud.vue'),
+        meta: {
+            pageTitle: 'Staff Data Setting',
+            breadcrumb: [
+                { text: 'Basic Data' },
+                { text: 'Staff Data Setting', to: { name: 'BasicData-StaffDataSettingList' } },
                 { text: 'create', active: true },
             ],
         },
     },
     {
-        path: '/BasicData/StaffEdit',
-        name: 'BasicData-StaffEdit',
-        component: () => import('@/views/basic-data/staff/Edit.vue'),
+        path: '/BasicData/StaffDataSettingEdit',
+        name: 'BasicData-StaffDataSettingEdit',
+        component: () => import('@/views/basic-data/staff/Crud.vue'),
         meta: {
             pageTitle: 'Staff Data Setting',
             breadcrumb: [
                 { text: 'Basic Data' },
-                { text: 'Staff Data Setting', to: { name: 'BasicData-StaffList' } },
+                { text: 'Staff Data Setting', to: { name: 'BasicData-StaffDataSettingList' } },
                 { text: 'edit', active: true },
             ],
         },
     },
     {
-        path: '/BasicData/CurrencyDataSettingList',
-        name: 'BasicData-CurrencyDataSettingList',
-        component: () => import('@/views/basic-data/currency/List.vue'),
+        path: '/BasicData/CurrencyDataSetting',
+        name: 'BasicData-CurrencyDataSetting',
+        component: () => import('@/views/basic-data/CurrencyDataSetting.vue'),
         meta: {
             pageTitle: 'Currency Data Setting',
             breadcrumb: [
                 { text: 'Basic Data' },
                 { text: 'Currency Data Setting', active: true },
-            ],
-        },
-    },
-    {
-        path: '/BasicData/CurrencyDataSettingDetail',
-        name: 'BasicData-CurrencyDataSettingDetail',
-        component: () => import('@/views/basic-data/currency/Detail.vue'),
-        meta: {
-            pageTitle: 'Currency Data Setting',
-            breadcrumb: [
-                { text: 'Basic Data' },
-                { text: 'Currency Data Setting', to: { name: 'BasicData-CurrencyDataSettingList' } },
-                { text: 'detail', active: true },
             ],
         },
     },
@@ -99,14 +99,53 @@ export default [
         },
     },
     {
-        path: '/BasicData/BankDataSetting',
-        name: 'BasicData-BankDataSetting',
-        component: () => import('@/views/basic-data/BankDataSetting.vue'),
+        path: '/BasicData/BankDataSettingList',
+        name: 'BasicData-BankDataSettingList',
+        component: () => import('@/views/basic-data/bank/List.vue'),
         meta: {
             pageTitle: 'Bank Data Setting',
             breadcrumb: [
                 { text: 'Basic Data' },
                 { text: 'Bank Data Setting', active: true },
+            ],
+        },
+    },
+    {
+        path: '/BasicData/BankDataSettingDetail',
+        name: 'BasicData-BankDataSettingDetail',
+        component: () => import('@/views/basic-data/bank/Detail.vue'),
+        meta: {
+            pageTitle: 'Bank Data Setting',
+            breadcrumb: [
+                { text: 'Basic Data' },
+                { text: 'Bank Data Setting', to: { name: 'BasicData-BankDataSettingList' } },
+                { text: 'detail', active: true },
+            ],
+        },
+    },
+    {
+        path: '/BasicData/BankDataSettingCreate',
+        name: 'BasicData-BankDataSettingCreate',
+        component: () => import('@/views/basic-data/bank/Crud.vue'),
+        meta: {
+            pageTitle: 'Bank Data Setting',
+            breadcrumb: [
+                { text: 'Basic Data' },
+                { text: 'Bank Data Setting', to: { name: 'BasicData-BankDataSettingList' } },
+                { text: 'create', active: true },
+            ],
+        },
+    },
+    {
+        path: '/BasicData/BankDataSettingEdit',
+        name: 'BasicData-BankDataSettingEdit',
+        component: () => import('@/views/basic-data/bank/Crud.vue'),
+        meta: {
+            pageTitle: 'Bank Data Setting',
+            breadcrumb: [
+                { text: 'Basic Data' },
+                { text: 'Bank Data Setting', to: { name: 'BasicData-BankDataSettingList' } },
+                { text: 'edit', active: true },
             ],
         },
     },

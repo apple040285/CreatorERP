@@ -51,8 +51,8 @@
                         slot="table-row"
                         slot-scope="props"
                     >
-                        <!-- Column: index -->
-                        <span v-if="props.column.field === 'index'" class="text-nowrap">
+                        <!-- Column: id -->
+                        <span v-if="props.column.field === 'id'" class="text-nowrap">
                             {{ props.row.originalIndex + 1 }}
                         </span>
                         <!-- Column: Status -->
@@ -185,7 +185,7 @@ export default {
         return {
         pageLength: 5,
         columns: [
-            { label: '#', field: 'index' },
+            { label: '#', field: 'id' },
             { label: 'requisitionDate', field: 'requisitionDate' },
             { label: 'requisitionNo', field: 'requisitionNo' },
             { label: 'manufacturer', field: 'manufacturer' },

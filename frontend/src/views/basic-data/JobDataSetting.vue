@@ -66,7 +66,7 @@
                             slot="table-row"
                             slot-scope="props"
                         >
-                            <!-- Column: index -->
+                            <!-- Column: id -->
                             <span v-if="props.column.field === 'id'" class="text-nowrap">
                                 {{ props.row.originalIndex + 1 }}
                             </span>
@@ -199,7 +199,7 @@
         >
             <b-form @submit.prevent>
                 <validation-observer ref="modalRules">
-                    <b-form-group id="code">
+                    <b-form-group id="jobCode">
                         <label for="code">{{ $t('JobList.code') }}</label>
                         <validation-provider
                             #default="{ errors }"
@@ -214,7 +214,7 @@
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
-                    <b-form-group id="name">
+                    <b-form-group id="jobName">
                         <label for="name">{{ $t('JobList.name') }}</label>
                         <validation-provider
                             #default="{ errors }"

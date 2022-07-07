@@ -2,7 +2,7 @@
     <div>
         <b-row>
             <b-col cols="12">
-                <b-card-code :title="$t('Department Data Setting')">
+                <b-card-code :title="$t('Currency Data Setting')">
 
                     <!-- search input -->
                     <div class="custom-search d-flex justify-content-end">
@@ -59,7 +59,7 @@
                             slot-scope="props"
                         >
                             <span class="text-nowrap" v-if="props.column.label !== '#'">
-                                {{ $t('DepartmentList.' + props.column.label) }}
+                                {{ $t('CurrencyList.' + props.column.label) }}
                             </span>
                         </template>
                         <template
@@ -69,33 +69,6 @@
                             <!-- Column: id -->
                             <span v-if="props.column.field === 'id'" class="text-nowrap">
                                 {{ props.row.originalIndex + 1 }}
-                            </span>
-
-                            <span v-else-if="props.column.field === 'status'" class="text-nowrap">
-                                <b-badge
-                                    :variant="statusVariant(props.row.status)"
-                                    @click="updateStatus(props.row.id, props.row.status)"
-                                    style="cursor:pointer"
-                                >
-                                    {{ $t(props.row.status) }}
-                                </b-badge>
-                            </span>
-
-                            <span v-else-if="props.column.field === 'remark'" class="text-nowrap">
-                                <span>
-                                    <b-button
-                                        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                                        variant="outline-primary"
-                                        size="sm"
-                                        @click="showRemark(props.row.remark)"
-                                    >
-                                        <feather-icon
-                                            icon="EyeIcon"
-                                            class="mr-25"
-                                        />
-                                        <span>{{ $t('detail') }}</span>
-                                    </b-button>
-                                </span>
                             </span>
 
                             <!-- Column: Action -->
@@ -199,61 +172,83 @@
         >
             <b-form @submit.prevent>
                 <validation-observer ref="modalRules">
-                    <b-form-group id="departmentCode">
-                        <label for="code">{{ $t('DepartmentList.code') }}</label>
+                    <b-form-group id="currencyCode">
+                        <label for="code">{{ $t('CurrencyList.code') }}</label>
                         <validation-provider
                             #default="{ errors }"
-                            name="departmentCode"
+                            name="currencyCode"
                             rules="required"
                         >
                             <b-form-input
                                 v-model="showData.code"
                                 type="text"
-                                :placeholder="$t('DepartmentList.code')"
+                                :placeholder="$t('CurrencyList.code')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
-                    <b-form-group id="departmentName">
-                        <label for="name">{{ $t('DepartmentList.name') }}</label>
+                    <b-form-group id="currencyName">
+                        <label for="name">{{ $t('CurrencyList.name') }}</label>
                         <validation-provider
                             #default="{ errors }"
-                            name="departmentName"
+                            name="currencyName"
                             rules="required"
                         >
                             <b-form-input
                                 v-model="showData.name"
                                 type="text"
-                                :placeholder="$t('DepartmentList.name')"
+                                :placeholder="$t('CurrencyList.name')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
-                    <b-form-group>
-                        <label for="remark">{{ $t('remark') }}</label>
-                        <b-form-textarea
-                            id="remark"
-                            :placeholder="$t('remark')"
-                            rows="3"
-                            v-model="showData.remark"
-                            autocomplete="off"
-                        />
+                    <b-form-group id="currencyEnglishName">
+                        <label for="englishName">{{ $t('CurrencyList.englishName') }}</label>
+                        <validation-provider
+                            #default="{ errors }"
+                            name="currencyEnglishName"
+                            rules="required"
+                        >
+                            <b-form-input
+                                v-model="showData.englishName"
+                                type="text"
+                                :placeholder="$t('CurrencyList.englishName')"
+                            />
+                            <small class="text-danger">{{ errors[0] }}</small>
+                        </validation-provider>
+                    </b-form-group>
+                    <b-form-group id="currencyUnitPriceOfDigits">
+                        <label for="unitPriceOfDigits">{{ $t('CurrencyList.unitPriceOfDigits') }}</label>
+                        <validation-provider
+                            #default="{ errors }"
+                            name="currencyUnitPriceOfDigits"
+                            rules="required"
+                        >
+                            <b-form-input
+                                v-model="showData.unitPriceOfDigits"
+                                type="number"
+                                :placeholder="$t('CurrencyList.unitPriceOfDigits')"
+                            />
+                            <small class="text-danger">{{ errors[0] }}</small>
+                        </validation-provider>
+                    </b-form-group>
+                    <b-form-group id="currencyAmountOfDigits">
+                        <label for="amountOfDigits">{{ $t('CurrencyList.amountOfDigits') }}</label>
+                        <validation-provider
+                            #default="{ errors }"
+                            name="currencyAmountOfDigits"
+                            rules="required"
+                        >
+                            <b-form-input
+                                v-model="showData.amountOfDigits"
+                                type="number"
+                                :placeholder="$t('CurrencyList.amountOfDigits')"
+                            />
+                            <small class="text-danger">{{ errors[0] }}</small>
+                        </validation-provider>
                     </b-form-group>
                 </validation-observer>
             </b-form>
-        </b-modal>
-        <!-- remark modal -->
-        <b-modal
-            :title="$t('remark')"
-            ok-only
-            :ok-title="$t('back')"
-            ref="remark"
-            ok-variant="secondary"
-            scrollable
-        >
-            <b-card-text>
-                {{ remark }}
-            </b-card-text>
         </b-modal>
     </div>
 </template>
@@ -261,7 +256,7 @@
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
-    BRow, BCol, BBadge, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BFormTextarea, BButton, BCardText, BSpinner
+    BRow, BCol, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BButton, BSpinner
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
@@ -276,15 +271,12 @@ export default {
         BRow,
         BCol,
         VueGoodTable,
-        BBadge,
         BPagination,
         BFormGroup,
         BForm,
         BFormInput,
         BFormSelect,
-        BFormTextarea,
         BButton,
-        BCardText,
         ValidationProvider,
         ValidationObserver,
         ToastificationContent,
@@ -295,32 +287,26 @@ export default {
     },
     data() {
         return {
-            apiPath: '/departments',
+            apiPath: '/currencies',
             required,
             columns: [
                 { label: '#', field: 'id' },
                 { label: 'code', field: 'code' },
                 { label: 'name', field: 'name' },
-                { label: 'disable_at', field: 'disable_at' },
-                { label: 'created_by', field: 'creator.name' },
-                { label: 'created_at', field: 'created_at' },
-                { label: 'updated_by', field: 'editor.name' },
-                { label: 'updated_at', field: 'updated_at' },
-                { label: 'remark', field: 'remark' },
-                { label: 'status', field: 'status' },
+                { label: 'englishName', field: 'englishName' },
+                { label: 'unitPriceOfDigits', field: 'unitPriceOfDigits' },
+                { label: 'amountOfDigits', field: 'amountOfDigits' },
                 { label: 'action', field: 'action' },
             ],
             rows: [],
-            remark: '',
-            status: '',
             showData: {},
             defaultData: {
                 id : null,
                 code : '',
                 name : '',
-                disable_at : '',
-                status : 0,
-                remark : '',
+                englishName : '',
+                unitPriceOfDigits : 0,
+                amountOfDigits : 0,
             },
             isLoading: false,
             totalRecords: 0,
@@ -335,18 +321,6 @@ export default {
                 perPage: 10,
                 searchTerm: '',
             }
-        }
-    },
-    computed: {
-        statusVariant() {
-            const statusColor = {
-                /* eslint-disable key-spacing */
-                active     : 'light-success',
-                disable     : 'light-danger',
-                /* eslint-enable key-spacing */
-            }
-
-            return status => statusColor[status]
         }
     },
     methods: {
@@ -425,7 +399,7 @@ export default {
                     title: `${this.$t('updatedSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${this.$t('Department Data Setting')} ${this.$t('updatedSuccess')}!`,
+                    text: `${this.$t('Currency Data Setting')} ${this.$t('updatedSuccess')}!`,
                     },
                 })
             })
@@ -455,7 +429,7 @@ export default {
                     title: `${this.$t('createdSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${this.$t('Department Data Setting')} ${this.$t('createdSuccess')}!`,
+                    text: `${this.$t('Currency Data Setting')} ${this.$t('createdSuccess')}!`,
                     },
                 })
             })
@@ -484,7 +458,7 @@ export default {
                     title: `${this.$t('deletedSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${this.$t('Department Data Setting')} ${this.$t('deletedSuccess')}!`,
+                    text: `${this.$t('Currency Data Setting')} ${this.$t('deletedSuccess')}!`,
                     },
                 })
             })
@@ -501,40 +475,6 @@ export default {
                 })
             })
         },
-        showRemark(value) {
-            this.remark = value;
-            this.$refs['remark'].show();
-        },
-        updateStatus(id, oldStatus) {
-            this.status = (oldStatus == 'active') ? 'disable' : 'active';
-            axios
-            .post(`${this.apiPath}/${id}/status`, { status : this.status })
-            .then(() => {
-                this.getList();
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('updatedSuccess')}`,
-                    icon: 'CoffeeIcon',
-                    variant: 'success',
-                    text: `${this.$t('Department Data Setting')} ${this.$t('updatedSuccess')}!`,
-                    },
-                })
-            })
-            .catch(error => {
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('updatedFailed')}`,
-                    icon: 'XIcon',
-                    variant: 'danger',
-                    text: error.response.data.message,
-                    },
-                })
-            })
-        }
     },
     created() {
         this.getList();

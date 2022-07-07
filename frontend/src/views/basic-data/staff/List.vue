@@ -10,7 +10,7 @@
                             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                             variant="outline-primary"
                             class="mb-2 mr-2"
-                            :to="{ name: 'BasicData-StaffCreate' }"
+                            :to="{ name: 'BasicData-StaffDataSettingCreate' }"
                         >
                             {{ $t('create')}}
                         </b-button>
@@ -65,8 +65,8 @@
                             slot="table-row"
                             slot-scope="props"
                         >
-                            <!-- Column: index -->
-                            <span v-if="props.column.field === 'index'" class="text-nowrap">
+                            <!-- Column: id -->
+                            <span v-if="props.column.field === 'id'" class="text-nowrap">
                                 {{ props.row.originalIndex + 1 }}
                             </span>
 
@@ -75,10 +75,22 @@
                                 <span>
                                     <b-button
                                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                                        variant="outline-primary"
+                                        size="sm"
+                                        :to="{ name: 'BasicData-StaffDataSettingDetail', query: { id: props.row.id } }"
+                                        class="mr-1"
+                                    >
+                                        <feather-icon
+                                            icon="FilePlusIcon"
+                                        />
+                                        <span>{{ $t('detail') }}</span>
+                                    </b-button>
+                                    <b-button
+                                        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                         variant="outline-success"
                                         size="sm"
                                         class="mr-50"
-                                        :to="{ name: 'BasicData-StaffEdit', query: { id: props.row.id } }"
+                                        :to="{ name: 'BasicData-StaffDataSettingEdit', query: { id: props.row.id } }"
                                     >
                                         <feather-icon
                                             icon="Edit2Icon"
@@ -164,7 +176,7 @@
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
-    BRow, BCol, BBadge, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BFormTextarea, BButton, BCardText, BSpinner
+    BRow, BCol, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BButton, BSpinner
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import Ripple from 'vue-ripple-directive'
@@ -177,15 +189,12 @@ export default {
         BRow,
         BCol,
         VueGoodTable,
-        BBadge,
         BPagination,
         BFormGroup,
         BForm,
         BFormInput,
         BFormSelect,
-        BFormTextarea,
         BButton,
-        BCardText,
         ToastificationContent,
         BSpinner
     },
@@ -205,17 +214,17 @@ export default {
                 { label: 'appointmentDate', field: 'appointmentDate' },
                 { label: 'action', field: 'action' },
             ],
-            rows: [],
-            showData: {},
-            defaultData: {
-                id : null,
-                code : '',
-                name : '',
-                englishName : '',
-                departmentName : '',
-                cellphone : '',
-                appointmentDate : '',
-            },
+            rows: [
+                {
+                    id : 1,
+                    code : 'a',
+                    name : 'Dennis',
+                    englishName : 'Dennis',
+                    departmentName : '會計部',
+                    cellphone : '0987654321',
+                    appointmentDate : '2022/07/05',
+                }
+            ],
             isLoading: false,
             totalRecords: 0,
             serverParams: {

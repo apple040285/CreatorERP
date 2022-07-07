@@ -30,16 +30,16 @@
                 <!-- title -->
                 <template #title>
                     <feather-icon
-                        icon="DollarSignIcon"
+                        icon="EditIcon"
                         size="18"
                         class="mr-50"
                     />
-                    <span class="font-weight-bold">{{ $t('CurrencyList.exchangeRateSetting') }}</span>
+                    <span class="font-weight-bold">{{ $t('Other Remark') }}</span>
                 </template>
 
-                <exchange-rate-setting
+                <other-remark
                     v-if="data"
-                    :exchange-rate-setting="data"
+                    :other-remark="data"
                 />
             </b-tab>
         </b-tabs>
@@ -49,31 +49,38 @@
 <script>
 import { BTabs, BTab } from 'bootstrap-vue'
 import BasicInformation from './BasicInformation.vue'
-import ExchangeRateSetting from './ExchangeRateSetting.vue'
+import OtherRemark from './OtherRemark.vue'
 
 export default {
     components: {
         BTabs,
         BTab,
         BasicInformation,
-        ExchangeRateSetting,
+        OtherRemark,
     },
     data() {
         return {
             id: '',
             data: {
-                id: 1,
-                currencyCode: "NTD",
-                currencyName: '台幣',
-                created_by: 'Dennis',
-                created_at: '2022/06/30',
-                updated_by: 'Dennis',
-                updated_at: '2022/06/30',
-                remark: 'test',
-                defaultRate: '30',
-                buyingRate: '30',
-                sellingRate: '30',
-                adjustTheDate: '2022/06/30',
+                code: '',
+                name: '',
+                englishName: '',
+                departmentName: '',
+                departmentNameOption: ['人事部', '會計部'],
+                telephone: '',
+                cellphone: '',
+                jobName: '',
+                jobNameOption: ['主管', '員工'],
+                residenceAddress: '',
+                mailingAddress: '',
+                emergencyContactOne: '',
+                emergencyContactOneNumber: '',
+                emergencyContactTwo: '',
+                emergencyContactTwoNumber: '',
+                appointmentDate: '',
+                resignationDate: '',
+                email: '',
+                remark: '',
             },
         }
     },

@@ -16,11 +16,11 @@ export default [
             },
             {
                 title: 'Staff Data Setting',
-                route: 'BasicData-StaffList',
+                route: 'BasicData-StaffDataSettingList',
             },
             {
                 title: 'Currency Data Setting',
-                route: 'BasicData-CurrencyDataSettingList',
+                route: 'BasicData-CurrencyDataSetting',
             },
             {
                 title: 'Project Data Setting',
@@ -28,7 +28,7 @@ export default [
             },
             {
                 title: 'Bank Data Setting',
-                route: 'BasicData-BankDataSetting',
+                route: 'BasicData-BankDataSettingList',
             },
             {
                 title: 'Account Data Setting',
