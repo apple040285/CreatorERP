@@ -45,6 +45,7 @@ $app->singleton(
     'router',
     App\Router::class
 );
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
