@@ -1,105 +1,119 @@
 <template>
     <b-form @submit.prevent>
         <validation-observer ref="simpleRules">
-            <b-card-code :title="$route.name == 'BasicData-BankDataSettingCreate' ?  $t('BankList.createBank') : $t('BankList.editBank')">
+            <b-card-code :title="$route.name == 'BasicData-AccountDataSettingCreate' ?  $t('AccountList.createAccount') : $t('AccountList.editAccount')">
                 <b-row>
                     <!-- code -->
                     <b-col cols="4">
-                        <b-form-group id="bankCode">
-                            <label for="code">{{ $t('BankList.code') }}</label>
+                        <b-form-group id="accountCode">
+                            <label for="code">{{ $t('AccountList.code') }}</label>
                             <validation-provider
                                 #default="{ errors }"
-                                name="bankCode"
+                                name="accountCode"
                                 rules="required"
                             >
                                 <b-form-input
                                     v-model="defaultData.code"
                                     type="text"
-                                    :placeholder="$t('BankList.code')"
+                                    :placeholder="$t('AccountList.code')"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
                         </b-form-group>
                     </b-col>
-                    <!-- swift code -->
+                    <!-- category -->
                     <b-col cols="4">
-                        <b-form-group id="swiftCode">
-                            <label for="name">{{ $t('BankList.swiftCode') }}</label>
+                        <b-form-group id="category">
+                            <label for="category">{{ $t('AccountList.category') }}</label>
                             <validation-provider
                                 #default="{ errors }"
-                                name="swiftCode"
+                                name="accountCategory"
                                 rules="required"
                             >
-                                <b-form-input
-                                    v-model="defaultData.swiftCode"
-                                    type="text"
-                                    :placeholder="$t('BankList.swiftCode')"
+                                <v-select
+                                    v-model="defaultData.category"
+                                    :options="defaultData.categoryOption"
+                                    :placeholder="$t('AccountList.category')"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
                         </b-form-group>
                     </b-col>
-                    <!-- name -->
+                    <!-- bank -->
                     <b-col cols="4">
-                        <b-form-group id="bankName">
-                            <label for="name">{{ $t('BankList.name') }}</label>
+                        <b-form-group id="bank">
+                            <label for="bank">{{ $t('AccountList.bank') }}</label>
                             <validation-provider
                                 #default="{ errors }"
-                                name="bankName"
+                                name="accountBank"
+                                rules="required"
+                            >
+                                <v-select
+                                    v-model="defaultData.bank"
+                                    :options="defaultData.bankOption"
+                                    :placeholder="$t('AccountList.bank')"
+                                />
+                                <small class="text-danger">{{ errors[0] }}</small>
+                            </validation-provider>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <!-- name -->
+                    <b-col cols="4">
+                        <b-form-group id="name">
+                            <label for="name">{{ $t('AccountList.name') }}</label>
+                            <validation-provider
+                                #default="{ errors }"
+                                name="accountName"
                                 rules="required"
                             >
                                 <b-form-input
                                     v-model="defaultData.name"
                                     type="text"
-                                    :placeholder="$t('BankList.name')"
+                                    :placeholder="$t('AccountList.name')"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
                         </b-form-group>
                     </b-col>
-                </b-row>
-                <b-row>
-                    <!-- englishName -->
+                    <!-- currency -->
                     <b-col cols="4">
-                        <b-form-group id="englishName">
-                            <label for="englishName">{{ $t('BankList.englishName') }}</label>
-                            <b-form-input
-                                v-model="defaultData.englishName"
-                                type="text"
-                                :placeholder="$t('BankList.englishName')"
-                            />
+                        <b-form-group id="currency">
+                            <label for="currency">{{ $t('AccountList.currency') }}</label>
+                            <validation-provider
+                                #default="{ errors }"
+                                name="accountCurrency"
+                                rules="required"
+                            >
+                                <v-select
+                                    v-model="defaultData.currency"
+                                    :options="defaultData.currencyOption"
+                                    :placeholder="$t('AccountList.currency')"
+                                />
+                                <small class="text-danger">{{ errors[0] }}</small>
+                            </validation-provider>
                         </b-form-group>
                     </b-col>
-                    <!-- telephone -->
+                    <!-- amount -->
                     <b-col cols="4">
-                        <b-form-group id="telephone">
-                            <label for="telephone">{{ $t('BankList.telephone') }}</label>
+                        <b-form-group id="amount">
+                            <label for="amount">{{ $t('AccountList.amount') }}</label>
                             <b-form-input
-                                v-model="defaultData.telephone"
-                                type="text"
-                                :placeholder="$t('BankList.telephone')"
-                            />
-                        </b-form-group>
-                    </b-col>
-                    <!-- creditCardFeeRates -->
-                    <b-col cols="4">
-                        <b-form-group id="creditCardFeeRates">
-                            <label for="creditCardFeeRates">{{ $t('BankList.creditCardFeeRates') }}</label>
-                            <b-form-input
-                                v-model="defaultData.creditCardFeeRates"
+                                v-model="defaultData.amount"
                                 type="number"
-                                :placeholder="$t('BankList.creditCardFeeRates')"
+                                :placeholder="$t('AccountList.amount')"
                             />
                         </b-form-group>
                     </b-col>
                 </b-row>
                 <b-row>
-                    <!-- remark -->
+                <!-- remark -->
                     <b-col cols="4">
                         <b-form-group>
-                            <label for="remark">{{ $t('BankList.remark') }}</label>
+                            <label for="remark">{{ $t('AccountList.remark') }}</label>
                             <b-form-textarea
-                                :placeholder="$t('remark')"
+                                :placeholder="$t('AccountList.remark')"
                                 rows="3"
                                 v-model="defaultData.remark"
                                 autocomplete="off"
@@ -125,7 +139,7 @@
                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                         type="button"
                         variant="secondary"
-                        :to="{ name: 'BasicData-BankDataSettingList' }"
+                        :to="{ name: 'BasicData-AccountDataSettingList' }"
                     >
                         {{ $t('back') }}
                     </b-button>
@@ -140,6 +154,7 @@ import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
     BRow, BCol, BFormGroup, BForm, BFormInput, BFormSelect, BFormTextarea, BButton
 } from 'bootstrap-vue'
+import vSelect from 'vue-select'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
 import Ripple from 'vue-ripple-directive'
@@ -157,6 +172,7 @@ export default {
         BFormSelect,
         BFormTextarea,
         BButton,
+        vSelect,
         ValidationProvider,
         ValidationObserver,
         ToastificationContent
@@ -166,16 +182,19 @@ export default {
     },
     data() {
         return {
-            apiPath: '/banks',
+            apiPath: '/accounts',
             required,
             defaultData: {
                 id : null,
                 code: '',
-                swiftCode: '',
+                category: '',
+                categoryOption: ['現金帳戶', '銀行帳戶'],
+                bank: '',
+                bankOption: ['中國信託', '土地銀行'],
                 name: '',
-                englishName: '',
-                telephone: '',
-                creditCardFeeRates: '0',
+                currency: '',
+                currencyOption: ['台幣', '美金'],
+                amount: 0,
                 remark: '',
             },
         }
@@ -275,3 +294,7 @@ export default {
     },
 }
 </script>
+
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-select.scss';
+</style>

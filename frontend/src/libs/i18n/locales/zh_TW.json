@@ -23,9 +23,11 @@
       "jobName": "職位名稱",
       "staffCode": "員工代號",
       "staffName": "員工名稱",
-      "currencyCode": "幣別代號",
+      "currencySourceCode": "幣別代號",
+      "currencyTargetCode": "本位幣別代號",
       "currencyName": "幣別名稱",
       "currencyEnglishName": "幣別英文名稱",
+      "rate": "匯率",
       "projectCode": "專案代號",
       "projectName": "專案名稱",
       "expiration_date": "失效日期",
@@ -34,7 +36,12 @@
       "appointmentDate": "到職日期",
       "bankCode": "銀行代號",
       "swiftCode": "銀行行號",
-      "bankName": "銀行名稱"
+      "bankName": "銀行名稱",
+      "accountCode": "帳戶代號",
+      "accountCategory": "帳戶類別",
+      "accountBank": "所屬銀行",
+      "accountName": "帳戶名稱",
+      "accountCurrency": "帳戶幣別"
     },
     "messages": {
       "alpha": "{_field_} 須以英文組成",
@@ -224,9 +231,11 @@
   },
 
   "CurrencyList": {
-    "code": "幣別代號",
+    "sourceCode": "幣別代號",
+    "targetCode": "本位幣別代號",
     "name": "幣別名稱",
     "englishName": "幣別英文名稱",
+    "rate": "匯率",
     "unitPriceOfDigits": "單價位數",
     "amountOfDigits": "金額位數",
     "action": "操作"
@@ -255,6 +264,21 @@
     "creditCardFeeRates": "信用卡手續費費率",
     "remark": "備註",
     "action": "操作"
+  },
+
+  "AccountList": {
+    "createAccount": "新增帳戶",
+    "editAccount": "修改帳戶",
+    "code": "帳戶代號",
+    "category": "帳戶類別",
+    "bank": "所屬銀行",
+    "name": "帳戶名稱",
+    "currency": "帳戶幣別",
+    "amount": "帳戶金額",
+    "remark": "備註",
+    "action": "操作",
+    "disable_at": "停用日期",
+    "status": "狀態"
   },
 
   "RequisitionList": {

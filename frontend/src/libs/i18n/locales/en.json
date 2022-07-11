@@ -23,9 +23,11 @@
       "jobName": "Job Name",
       "staffCode": "Staff Code",
       "staffName": "Staff Name",
-      "currencyCode": "Currency Code",
+      "currencySourceCode": "Currency Source Code",
+      "currencyTargetCode": "Currency Target Code",
       "currencyName": "Currency Name",
       "currencyEnglishName": "Currency English Name",
+      "rate": "Rate",
       "projectCode": "Project Code",
       "projectName": "Project Name",
       "expiration_date": "Expiration Date",
@@ -34,7 +36,12 @@
       "appointmentDate": "Appointment Date",
       "bankCode": "Bank Code",
       "swiftCode": "Swift Code",
-      "bankName": "Bank Name"
+      "bankName": "Bank Name",
+      "accountCode": "Account Code",
+      "accountCategory": "Account Category",
+      "accountBank": "Account Bank",
+      "accountName": "Account Name",
+      "accountCurrency": "Account Currency"
     },
     "messages": {
       "alpha": "The {_field_} field may only contain alphabetic characters",
@@ -399,9 +406,11 @@
   },
 
   "CurrencyList": {
-    "currencyCode": "Currency Code",
-    "currencyName": "Currency Name",
+    "sourceCode": "Currency Source Code",
+    "targetCode": "Currency Target Code",
+    "name": "Currency Name",
     "englishName": "Currency English Name",
+    "rate": "Rate",
     "unitPriceOfDigits": "Unit Price Of Digits",
     "amountOfDigits": "Amount Of Digits",
     "action": "Action"
@@ -430,6 +439,21 @@
     "creditCardFeeRates": "Credit Card Fee Rates",
     "remark": "Remark",
     "action": "Action"
+  },
+
+  "AccountList": {
+    "createAccount": "Create Account",
+    "editAccount": "Edit Account",
+    "code": "Account Code",
+    "category": "Account Category",
+    "bank": "Affiliated Bank",
+    "name": "Account Name",
+    "currency": "Account Currency",
+    "amount": "Account Amount",
+    "remark": "Remark",
+    "action": "Action",
+    "disable_at": "Disable Date",
+    "status": "Status"
   },
 
   "RequisitionList": {

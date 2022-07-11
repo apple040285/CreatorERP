@@ -32,7 +32,7 @@ export default [
             },
             {
                 title: 'Account Data Setting',
-                route: 'BasicData-AccountDataSetting',
+                route: 'BasicData-AccountDataSettingList',
             },
         ],
     },

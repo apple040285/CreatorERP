@@ -150,14 +150,53 @@ export default [
         },
     },
     {
-        path: '/BasicData/AccountDataSetting',
-        name: 'BasicData-AccountDataSetting',
-        component: () => import('@/views/basic-data/AccountDataSetting.vue'),
+        path: '/BasicData/AccountDataSettingList',
+        name: 'BasicData-AccountDataSettingList',
+        component: () => import('@/views/basic-data/account/List.vue'),
         meta: {
             pageTitle: 'Account Data Setting',
             breadcrumb: [
                 { text: 'Basic Data' },
                 { text: 'Account Data Setting', active: true },
+            ],
+        },
+    },
+    {
+        path: '/BasicData/AccountDataSettingDetail',
+        name: 'BasicData-AccountDataSettingDetail',
+        component: () => import('@/views/basic-data/account/Detail.vue'),
+        meta: {
+            pageTitle: 'Account Data Setting',
+            breadcrumb: [
+                { text: 'Basic Data' },
+                { text: 'Account Data Setting', to: { name: 'BasicData-AccountDataSettingList' } },
+                { text: 'detail', active: true },
+            ],
+        },
+    },
+    {
+        path: '/BasicData/AccountDataSettingCreate',
+        name: 'BasicData-AccountDataSettingCreate',
+        component: () => import('@/views/basic-data/account/Crud.vue'),
+        meta: {
+            pageTitle: 'Account Data Setting',
+            breadcrumb: [
+                { text: 'Basic Data' },
+                { text: 'Account Data Setting', to: { name: 'BasicData-AccountDataSettingList' } },
+                { text: 'create', active: true },
+            ],
+        },
+    },
+    {
+        path: '/BasicData/AccountDataSettingEdit',
+        name: 'BasicData-AccountDataSettingEdit',
+        component: () => import('@/views/basic-data/account/Crud.vue'),
+        meta: {
+            pageTitle: 'Account Data Setting',
+            breadcrumb: [
+                { text: 'Basic Data' },
+                { text: 'Account Data Setting', to: { name: 'BasicData-AccountDataSettingList' } },
+                { text: 'edit', active: true },
             ],
         },
     },

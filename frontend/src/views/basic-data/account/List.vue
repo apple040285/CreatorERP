@@ -2,16 +2,15 @@
     <div>
         <b-row>
             <b-col cols="12">
-                <b-card-code :title="$t('Currency Data Setting')">
+                <b-card-code :title="$t('Account Data Setting')">
 
                     <!-- search input -->
                     <div class="custom-search d-flex justify-content-end">
                         <b-button
                             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                             variant="outline-primary"
-                            v-b-modal.modalForm
-                            @click="resetModal()"
                             class="mb-2 mr-2"
+                            :to="{ name: 'BasicData-AccountDataSettingCreate' }"
                         >
                             {{ $t('create')}}
                         </b-button>
@@ -59,16 +58,26 @@
                             slot-scope="props"
                         >
                             <span class="text-nowrap" v-if="props.column.label !== '#'">
-                                {{ $t('CurrencyList.' + props.column.label) }}
+                                {{ $t('AccountList.' + props.column.label) }}
                             </span>
                         </template>
                         <template
                             slot="table-row"
                             slot-scope="props"
                         >
-                            <!-- Column: id -->
-                            <span v-if="props.column.field === 'id'" class="text-nowrap">
+                            <!-- Column: index -->
+                            <span v-if="props.column.field === 'index'" class="text-nowrap">
                                 {{ props.row.originalIndex + 1 }}
+                            </span>
+
+                            <span v-else-if="props.column.field === 'status'" class="text-nowrap">
+                                <b-badge
+                                    :variant="statusVariant(props.row.status)"
+                                    @click="updateStatus(props.row.id, props.row.status)"
+                                    style="cursor:pointer"
+                                >
+                                    {{ $t(props.row.status) }}
+                                </b-badge>
                             </span>
 
                             <!-- Column: Action -->
@@ -76,10 +85,22 @@
                                 <span>
                                     <b-button
                                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                                        variant="outline-primary"
+                                        size="sm"
+                                        :to="{ name: 'BasicData-AccountDataSettingDetail', query: { id: props.row.id } }"
+                                        class="mr-1"
+                                    >
+                                        <feather-icon
+                                            icon="FilePlusIcon"
+                                        />
+                                        <span>{{ $t('detail') }}</span>
+                                    </b-button>
+                                    <b-button
+                                        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                         variant="outline-success"
                                         size="sm"
                                         class="mr-50"
-                                        @click="editMethod(props.row.id)"
+                                        :to="{ name: 'BasicData-AccountDataSettingEdit', query: { id: props.row.id } }"
                                     >
                                         <feather-icon
                                             icon="Edit2Icon"
@@ -159,123 +180,15 @@
                 </b-card-code>
             </b-col>
         </b-row>
-        <!-- create & edit modal -->
-        <b-modal
-            id="modalForm"
-            cancel-variant="outline-secondary"
-            :title="showData.id ? $t('edit') : $t('create')"
-            :cancel-title="$t('back')"
-            scrollable
-            :ok-title="$t('Submit')"
-            @ok.prevent="validationModalForm"
-            ref="modalForm"
-        >
-            <b-form @submit.prevent>
-                <validation-observer ref="modalRules">
-                    <b-form-group id="currencyTargetCode">
-                        <label for="TargetCode">{{ $t('CurrencyList.targetCode') }}</label>
-                        <validation-provider
-                            #default="{ errors }"
-                            name="currencyTargetCode"
-                            rules="required"
-                        >
-                            <b-form-input
-                                v-model="showData.target_code"
-                                type="text"
-                                :placeholder="$t('CurrencyList.targetCode')"
-                            />
-                            <small class="text-danger">{{ errors[0] }}</small>
-                        </validation-provider>
-                    </b-form-group>
-                    <b-form-group id="currencySourceCode">
-                        <label for="sourceCode">{{ $t('CurrencyList.sourceCode') }}</label>
-                        <validation-provider
-                            #default="{ errors }"
-                            name="currencySourceCode"
-                            rules="required"
-                        >
-                            <b-form-input
-                                v-model="showData.source_code"
-                                type="text"
-                                :placeholder="$t('CurrencyList.sourceCode')"
-                            />
-                            <small class="text-danger">{{ errors[0] }}</small>
-                        </validation-provider>
-                    </b-form-group>
-                    <b-form-group id="currencyName">
-                        <label for="name">{{ $t('CurrencyList.name') }}</label>
-                        <validation-provider
-                            #default="{ errors }"
-                            name="currencyName"
-                            rules="required"
-                        >
-                            <b-form-input
-                                v-model="showData.name"
-                                type="text"
-                                :placeholder="$t('CurrencyList.name')"
-                            />
-                            <small class="text-danger">{{ errors[0] }}</small>
-                        </validation-provider>
-                    </b-form-group>
-                    <b-form-group id="currencyRate">
-                        <label for="rate">{{ $t('CurrencyList.rate') }}</label>
-                        <validation-provider
-                            #default="{ errors }"
-                            name="currencyRate"
-                            rules="required"
-                        >
-                            <b-form-input
-                                v-model="showData.rate"
-                                type="number"
-                                :placeholder="$t('CurrencyList.rate')"
-                            />
-                            <small class="text-danger">{{ errors[0] }}</small>
-                        </validation-provider>
-                    </b-form-group>
-                    <b-form-group id="currencyUnitPriceOfDigits">
-                        <label for="unitPriceOfDigits">{{ $t('CurrencyList.unitPriceOfDigits') }}</label>
-                        <validation-provider
-                            #default="{ errors }"
-                            name="currencyUnitPriceOfDigits"
-                            rules="required"
-                        >
-                            <b-form-input
-                                v-model="showData.unit_price_of_digits"
-                                type="number"
-                                :placeholder="$t('CurrencyList.unitPriceOfDigits')"
-                            />
-                            <small class="text-danger">{{ errors[0] }}</small>
-                        </validation-provider>
-                    </b-form-group>
-                    <b-form-group id="currencyAmountOfDigits">
-                        <label for="amountOfDigits">{{ $t('CurrencyList.amountOfDigits') }}</label>
-                        <validation-provider
-                            #default="{ errors }"
-                            name="currencyAmountOfDigits"
-                            rules="required"
-                        >
-                            <b-form-input
-                                v-model="showData.amount_of_digits"
-                                type="number"
-                                :placeholder="$t('CurrencyList.amountOfDigits')"
-                            />
-                            <small class="text-danger">{{ errors[0] }}</small>
-                        </validation-provider>
-                    </b-form-group>
-                </validation-observer>
-            </b-form>
-        </b-modal>
     </div>
 </template>
 
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
-    BRow, BCol, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BButton, BSpinner
+    BRow, BCol, BBadge, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BButton, BSpinner
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import { required } from '@validations'
 import Ripple from 'vue-ripple-directive'
 import axios from "@axios";
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
@@ -285,6 +198,7 @@ export default {
         BCardCode,
         BRow,
         BCol,
+        BBadge,
         VueGoodTable,
         BPagination,
         BFormGroup,
@@ -292,8 +206,6 @@ export default {
         BFormInput,
         BFormSelect,
         BButton,
-        ValidationProvider,
-        ValidationObserver,
         ToastificationContent,
         BSpinner
     },
@@ -302,29 +214,33 @@ export default {
     },
     data() {
         return {
-            apiPath: '/currencies',
-            required,
+            apiPath: '/accounts',
             columns: [
                 { label: '#', field: 'id' },
-                { label: 'sourceCode', field: 'source_code' },
-                { label: 'targetCode', field: 'target_code' },
+                { label: 'code', field: 'code' },
+                { label: 'category', field: 'category' },
+                { label: 'bank', field: 'bank' },
                 { label: 'name', field: 'name' },
-                { label: 'rate', field: 'rate' },
-                { label: 'unitPriceOfDigits', field: 'unit_price_of_digits' },
-                { label: 'amountOfDigits', field: 'amount_of_digits' },
+                { label: 'currency', field: 'currency' },
+                { label: 'amount', field: 'amount' },
+                { label: 'disable_at', field: 'disable_at' },
+                { label: 'status', field: 'status' },
                 { label: 'action', field: 'action' },
             ],
-            rows: [],
-            showData: {},
-            defaultData: {
-                id : null,
-                source_code : '',
-                target_code : '',
-                name : '',
-                rate : 0,
-                unit_price_of_digits : 0,
-                amount_of_digits : 0,
-            },
+            rows: [
+                {
+                    id: 1,
+                    code: '001',
+                    category: '現金帳戶',
+                    bank: '中國信託',
+                    name: 'Dennis',
+                    currency: '美金',
+                    amount: 100,
+                    disable_at: '',
+                    status: 'active'
+                }
+            ],
+            status: '',
             isLoading: false,
             totalRecords: 0,
             serverParams: {
@@ -338,6 +254,18 @@ export default {
                 perPage: 10,
                 searchTerm: '',
             }
+        }
+    },
+    computed: {
+        statusVariant() {
+            const statusColor = {
+                /* eslint-disable key-spacing */
+                active     : 'light-success',
+                disable     : 'light-danger',
+                /* eslint-enable key-spacing */
+            }
+
+            return status => statusColor[status]
         }
     },
     methods: {
@@ -362,28 +290,6 @@ export default {
             });
             this.getList();
         },
-        validationModalForm() {
-            this.$refs.modalRules.validate().then(success => {
-                if (success) {
-                    if(this.showData.id) {
-                        this.updateMethod();
-                    }else {
-                        this.createMethod();
-                    }
-                }else {
-                    const modalRulesErrors = Object.keys(this.$refs.modalRules.errors);
-                    modalRulesErrors.some(element => {
-                        if(this.$refs.modalRules.errors[element].length > 0){
-                            document.querySelector(`#${element} input`).focus();
-                            return true;
-                        }
-                    });
-                }
-            })
-        },
-        resetModal() {
-            this.showData = Object.assign({}, this.showData, this.defaultData)
-        },
         getList() {
             axios
             .post(`${this.apiPath}/list`, this.serverParams)
@@ -393,75 +299,6 @@ export default {
                 this.totalRecords = meta.total;
             })
             .catch(error => console.error (error))
-        },
-        editMethod(id) {
-            axios
-            .get(`${this.apiPath}/${id}`)
-            .then(response => {
-                this.showData = response.data;
-                this.$refs['modalForm'].show();
-            })
-            .catch(error => console.error (error))
-        },
-        updateMethod() {
-            axios
-            .put(`${this.apiPath}/${this.showData.id}`, this.showData)
-            .then(() => {
-                this.$refs['modalForm'].hide();
-                this.getList();
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('updatedSuccess')}`,
-                    icon: 'CoffeeIcon',
-                    variant: 'success',
-                    text: `${this.$t('Currency Data Setting')} ${this.$t('updatedSuccess')}!`,
-                    },
-                })
-            })
-            .catch(error => {
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('updatedFailed')}`,
-                    icon: 'XIcon',
-                    variant: 'danger',
-                    text: error.response.data.message,
-                    },
-                })
-            })
-        },
-        createMethod() {
-            axios
-            .post(`${this.apiPath}`, this.showData)
-            .then(() => {
-                this.$refs['modalForm'].hide();
-                this.getList();
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('createdSuccess')}`,
-                    icon: 'CoffeeIcon',
-                    variant: 'success',
-                    text: `${this.$t('Currency Data Setting')} ${this.$t('createdSuccess')}!`,
-                    },
-                })
-            })
-            .catch(error => {
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('createdFailed')}`,
-                    icon: 'XIcon',
-                    variant: 'danger',
-                    text: error.response.data.message,
-                    },
-                })
-            })
         },
         deleteMethod(id) {
             axios
@@ -475,7 +312,7 @@ export default {
                     title: `${this.$t('deletedSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${this.$t('Currency Data Setting')} ${this.$t('deletedSuccess')}!`,
+                    text: `${this.$t('Account Data Setting')} ${this.$t('deletedSuccess')}!`,
                     },
                 })
             })
@@ -492,6 +329,36 @@ export default {
                 })
             })
         },
+        updateStatus(id, oldStatus) {
+            this.status = (oldStatus == 'active') ? 'disable' : 'active';
+            axios
+            .post(`${this.apiPath}/${id}/status`, { status : this.status })
+            .then(() => {
+                this.getList();
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedSuccess')}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${this.$t('Account Data Setting')} ${this.$t('updatedSuccess')}!`,
+                    },
+                })
+            })
+            .catch(error => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
+            })
+        }
     },
     created() {
         this.getList();
