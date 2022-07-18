@@ -16,6 +16,8 @@ class CurrencyController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('currencies.read');
+
         $data = tap(
             Currency::search($request->input('searchTerm'))->paginate($request->input('perPage')),
             function ($paginatedInstance) use ($request) {
@@ -38,6 +40,8 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('currencies.add');
+
         $data = $request->validate([
             'source_code'           => 'required|unique:currencies',
             'target_code'           => 'required|unique:currencies',
@@ -71,6 +75,8 @@ class CurrencyController extends Controller
      */
     public function show(Request $request, $id)
     {
+        $this->authorize('currencies.read');
+
         try {
             $data = Currency::findOrFail($id);
 
@@ -92,11 +98,13 @@ class CurrencyController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('currencies.update');
+
         $data = $request->validate([
-            'source_code'       => 'required|unique:currencies,source_code,' . $id,
-            'target_code'       => 'required|unique:currencies,target_code,' . $id,
-            'name'              => 'required|unique:currencies,name,' . $id,
-            'rate'              => 'required',
+            'source_code'           => 'required|unique:currencies,source_code,' . $id,
+            'target_code'           => 'required|unique:currencies,target_code,' . $id,
+            'name'                  => 'required|unique:currencies,name,' . $id,
+            'rate'                  => 'required',
             'buying_rate'           => 'nullable',
             'selling_rate'          => 'nullable',
             'unit_price_of_digits'  => 'nullable',
@@ -128,6 +136,8 @@ class CurrencyController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        $this->authorize('currencies.delete');
+
         try {
             DB::beginTransaction();
             $data = Currency::findOrFail($id)->delete();
