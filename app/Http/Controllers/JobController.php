@@ -17,6 +17,8 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('jobs.read');
+
         $data = tap(
             Job::search($request->input('searchTerm'))->paginate($request->input('perPage')),
             function ($paginatedInstance) use ($request) {
@@ -31,6 +33,13 @@ class JobController extends Controller
         return $this->success($data);
     }
 
+    public function options(Request $request)
+    {
+        $data = Job::all();
+
+        return $this->success($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -39,6 +48,8 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('jobs.add');
+
         $data = $request->validate([
             'code'      => 'required|unique:jobs',
             'name'      => 'required|unique:jobs',
@@ -66,6 +77,8 @@ class JobController extends Controller
      */
     public function show(Request $request, $id)
     {
+        $this->authorize('jobs.read');
+
         try {
             $data = Job::findOrFail($id);
 
@@ -87,6 +100,8 @@ class JobController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('jobs.update');
+
         $data = $request->validate([
             'code'      => 'required|unique:jobs,code,' . $id,
             'name'      => 'required|unique:jobs,name,' . $id,
@@ -118,6 +133,8 @@ class JobController extends Controller
      */
     public function updateStatus(Request $request, $id)
     {
+        $this->authorize('jobs.update');
+
         $data = $request->validate([
             'status' => 'required|in:active,disable',
         ]);
@@ -149,6 +166,8 @@ class JobController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        $this->authorize('jobs.delete');
+
         try {
             DB::beginTransaction();
             $data = Job::findOrFail($id)->delete();

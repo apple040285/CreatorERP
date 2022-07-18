@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 50)->comment('代號');
+            $table->string('code', 50)->unique()->comment('代號');
             $table->string('name', 50)->comment('職位名稱');
             $table->string('remark')->nullable()->comment('備註');
             $table->string('status')->default('active')->comment('備註');
