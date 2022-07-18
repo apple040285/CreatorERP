@@ -30,6 +30,11 @@ class Router extends BaseRouter
         if (method_exists($controller, 'updateStatus')) {
             $this->post("$name/{{$model}}/status", "$controller@updateStatus")->name($name . '.updateStatus');
         }
+
+        // 獲得選項
+        if (method_exists($controller, 'options')) {
+            $this->post("$name/options", "$controller@options")->name($name . '.options');
+        }
         return parent::apiResource($name, $controller, $options);
     }
 }
