@@ -6,16 +6,16 @@ use App\Enum\StatusEnum;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
-use Wildside\Userstamps\Userstamps;
 
 class Department extends Model
 {
     use HasFactory;
 
-    use Searchable;
+    // 搜尋器
+    use \Laravel\Scout\Searchable;
 
-    use Userstamps;
+    // 創建人 and 更新人
+    use \Wildside\Userstamps\Userstamps;
 
     protected $guarded = [];
 

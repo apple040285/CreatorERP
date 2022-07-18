@@ -17,15 +17,25 @@ class DepartmentController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('departments.read');
+
         $data = tap(
             Department::search($request->input('searchTerm'))->paginate($request->input('perPage')),
             function ($paginatedInstance) use ($request) {
                 $sortCollection = $paginatedInstance->sortBy([
                     $request->collect('sort')->map(fn ($m) => [$m['field'], $m['type']])[0]
                 ]);
+                $sortCollection->load('creator', 'editor');
                 return $paginatedInstance->setCollection($sortCollection);
             }
         );
+
+        return $this->success($data);
+    }
+
+    public function options(Request $request)
+    {
+        $data = Department::all();
 
         return $this->success($data);
     }
@@ -38,6 +48,8 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('departments.add');
+
         $data = $request->validate([
             'code'      => 'required|unique:departments',
             'name'      => 'required|unique:departments',
@@ -65,6 +77,8 @@ class DepartmentController extends Controller
      */
     public function show(Request $request, $id)
     {
+        $this->authorize('departments.read');
+
         try {
             $data = Department::findOrFail($id);
 
@@ -86,6 +100,8 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('departments.update');
+
         $data = $request->validate([
             'code'      => 'required|unique:departments,code,' . $id,
             'name'      => 'required|unique:departments,name,' . $id,
@@ -117,6 +133,8 @@ class DepartmentController extends Controller
      */
     public function updateStatus(Request $request, $id)
     {
+        $this->authorize('departments.update');
+
         $data = $request->validate([
             'status' => 'required|in:active,disable',
         ]);
@@ -148,6 +166,8 @@ class DepartmentController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        $this->authorize('departments.delete');
+
         try {
             DB::beginTransaction();
             $data = Department::findOrFail($id)->delete();
