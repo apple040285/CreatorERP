@@ -17,9 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('code', 50)->unique()->comment('專案代號');
             $table->string('name', 50)->comment('專案名稱');
+            $table->timestamp('invalid_at')->nullable()->comment('無效時間');
             $table->string('remark')->nullable()->comment('備註');
-            $table->string('status')->default('active')->comment('備註');
-            $table->timestamp('disable_at')->nullable()->comment('停用時間');
             $table->unsignedBigInteger('created_by')->nullable()->comment('創建人');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('更新人');
             $table->timestamps();
