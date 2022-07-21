@@ -52,6 +52,9 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
     // 人員管理
     Route::apiResource('/staffs', Controllers\StaffController::class);
 
+    // 帳戶管理
+    Route::apiResource('/bank_accounts', Controllers\BankAccountController::class);
+
     /** @var 產品操作 */
 
     // 產品分類
