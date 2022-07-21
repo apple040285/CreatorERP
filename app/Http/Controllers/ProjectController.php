@@ -44,9 +44,10 @@ class ProjectController extends Controller
         $this->authorize('projects.add');
 
         $data = $request->validate([
-            'code'      => 'required|unique:departments',
-            'name'      => 'required|unique:departments',
-            'remark'    => 'nullable',
+            'code'          => 'required|unique:projects',
+            'name'          => 'required|unique:projects',
+            'invalid_at'    => 'nullable|date',
+            'remark'        => 'nullable',
         ]);
 
         try {
@@ -96,9 +97,10 @@ class ProjectController extends Controller
         $this->authorize('projects.update');
 
         $data = $request->validate([
-            'code'      => 'required|unique:projects,code,' . $id,
-            'name'      => 'required|unique:projects,name,' . $id,
-            'remark'    => 'nullable',
+            'code'          => 'required|unique:projects,code,' . $id,
+            'name'          => 'required|unique:projects,name,' . $id,
+            'invalid_at'    => 'nullable|date',
+            'remark'        => 'nullable',
         ]);
 
         try {
@@ -107,40 +109,6 @@ class ProjectController extends Controller
 
             DB::commit();
             return $this->success('更新成功');
-        } catch (ModelNotFoundException $e) {
-            DB::rollBack();
-            return $this->notFound('找無此資料');
-        } catch (\Exception $e) {
-            report($e);
-            DB::rollBack();
-            return $this->badRequest('請聯絡管理員');
-        }
-    }
-
-    /**
-     * Update the status resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateStatus(Request $request, $id)
-    {
-        $this->authorize('projects.update');
-
-        $data = $request->validate([
-            'status' => 'required|in:active,disable',
-        ]);
-
-        try {
-            DB::beginTransaction();
-            $data = Project::findOrFail($id)->update([
-                'status' => $data['status'],
-                'disable_at' => $data['status'] === StatusEnum::停用 ? now() : null,
-            ]);
-
-            DB::commit();
-            return $this->success('狀態更新成功');
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
             return $this->notFound('找無此資料');
