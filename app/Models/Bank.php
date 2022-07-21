@@ -15,8 +15,10 @@ class Bank extends Model
     // 創建人 and 更新人
     use \Wildside\Userstamps\Userstamps;
 
+    protected $guarded = [];
+
     protected $casts = [
-        'created_at'        => 'datetime:Y-m-d H:m:s',
-        'updated_at'        => 'datetime:Y-m-d H:m:s',
+        'created_at' => 'datetime:Y-m-d',
+        'updated_at' => 'datetime:Y-m-d',
     ];
 }
