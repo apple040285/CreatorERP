@@ -35,7 +35,7 @@ class JobController extends Controller
 
     public function options(Request $request)
     {
-        $data = Job::all();
+        $data = Job::whereStatus(StatusEnum::啟用->value)->get();
 
         return $this->success($data);
     }
@@ -142,8 +142,8 @@ class JobController extends Controller
         try {
             DB::beginTransaction();
             $data = Job::findOrFail($id)->update([
-                'status' => $data['status'],
-                'disable_at' => $data['status'] === StatusEnum::停用 ? now() : null,
+                'status'        => $data['status'],
+                'disable_at'    => $data['status'] === StatusEnum::停用->value ? now() : null,
             ]);
 
             DB::commit();
