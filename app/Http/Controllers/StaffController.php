@@ -25,7 +25,7 @@ class StaffController extends Controller
                 $sortCollection = $paginatedInstance->sortBy([
                     $request->collect('sort')->map(fn ($m) => [$m['field'], $m['type']])[0]
                 ]);
-                $sortCollection->load('creator', 'editor', 'department', 'job');
+                $sortCollection->load('department', 'job', 'creator', 'editor');
                 return $paginatedInstance->setCollection($sortCollection);
             }
         );
@@ -44,19 +44,24 @@ class StaffController extends Controller
         $this->authorize('staffs.add');
 
         $data = $request->validate([
-            'department_id'     => 'required|exists:departments,id',
-            'job_id'            => 'required|exists:jobs,id',
-            'code'              => 'required|unique:staff',
-            'name'              => 'required|unique:staff',
-            'email'             => 'nullable|unique:staff',
-            'alias'             => 'nullable|unique:staff',
-            'telephone'         => 'nullable|string',
-            'cellphone'         => 'nullable|string',
-            'residence_address' => 'nullable|string',
-            'mailing_address'   => 'nullable|string',
-            'arrival_date'      => 'required|date',
-            'resignation_date'  => 'nullable|date',
-            'remark'            => 'nullable|string',
+            'department_id'         => 'required|exists:departments,id',
+            'job_id'                => 'required|exists:jobs,id',
+            'code'                  => 'required|unique:staff',
+            'name'                  => 'required|unique:staff',
+            'email'                 => 'nullable|unique:staff',
+            'alias'                 => 'nullable|unique:staff',
+            'telephone'             => 'nullable|string',
+            'cellphone'             => 'nullable|string',
+            'residence_address'     => 'nullable|string',
+            'mailing_address'       => 'nullable|string',
+            'arrival_date'          => 'required|date',
+            'resignation_date'      => 'nullable|date',
+            'remark'                => 'nullable|string',
+            // Custom Columns
+            'emergency_contact_one'             => 'required|string',
+            'emergency_contact_one_number'      => 'required|string',
+            'emergency_contact_two'             => 'nullable|string',
+            'emergency_contact_two_number'      => 'nullable|string',
         ]);
 
         try {
@@ -84,6 +89,7 @@ class StaffController extends Controller
 
         try {
             $data = Staff::findOrFail($id);
+            $data->load('creator', 'editor', 'department', 'job');
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
@@ -106,19 +112,24 @@ class StaffController extends Controller
         $this->authorize('staffs.update');
 
         $data = $request->validate([
-            'department_id'     => 'required|exists:departments,id',
-            'job_id'            => 'required|exists:jobs,id',
-            'code'              => 'required|unique:staff,code,' . $id,
-            'name'              => 'required|unique:staff,name,' . $id,
-            'email'             => 'nullable|unique:staff,email,' . $id,
-            'alias'             => 'nullable|unique:staff,alias,' . $id,
-            'telephone'         => 'nullable|string',
-            'cellphone'         => 'nullable|string',
-            'residence_address' => 'nullable|string',
-            'mailing_address'   => 'nullable|string',
-            'arrival_date'      => 'required|date',
-            'resignation_date'  => 'nullable|date',
-            'remark'            => 'nullable|string',
+            'department_id'         => 'required|exists:departments,id',
+            'job_id'                => 'required|exists:jobs,id',
+            'code'                  => 'required|unique:staff,code,' . $id,
+            'name'                  => 'required|unique:staff,name,' . $id,
+            'email'                 => 'nullable|unique:staff,email,' . $id,
+            'alias'                 => 'nullable|unique:staff,alias,' . $id,
+            'telephone'             => 'nullable|string',
+            'cellphone'             => 'nullable|string',
+            'residence_address'     => 'nullable|string',
+            'mailing_address'       => 'nullable|string',
+            'arrival_date'          => 'required|date',
+            'resignation_date'      => 'nullable|date',
+            'remark'                => 'nullable|string',
+            // Custom Columns
+            'emergency_contact_one'             => 'required|string',
+            'emergency_contact_one_number'      => 'required|string',
+            'emergency_contact_two'             => 'nullable|string',
+            'emergency_contact_two_number'      => 'nullable|string',
         ]);
 
         try {
@@ -131,6 +142,7 @@ class StaffController extends Controller
             DB::rollBack();
             return $this->notFound('找無此資料');
         } catch (\Exception $e) {
+            info($e->getMessage());
             report($e);
             DB::rollBack();
             return $this->badRequest('請聯絡管理員');
