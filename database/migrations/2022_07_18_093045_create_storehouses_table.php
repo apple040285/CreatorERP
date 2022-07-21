@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('code', 50)->unique()->comment('倉庫代號');
             $table->string('name', 50)->comment('倉庫名稱');
+            $table->string('contact_person', 50)->nullable()->comment('聯絡人');
             $table->string('phone', 50)->nullable()->comment('電話號碼');
             $table->string('fax', 50)->nullable()->comment('倉庫傳真');
             $table->string('address', 50)->nullable()->comment('倉庫地址');
