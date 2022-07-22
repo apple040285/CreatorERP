@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('sku', 50)->nullable()->comment('規格');
             $table->string('unit', 50)->nullable()->comment('單位');
             $table->string('barcode', 50)->nullable()->comment('國際條碼');
+            $table->unsignedBigInteger('created_by')->nullable()->comment('創建人');
+            $table->unsignedBigInteger('updated_by')->nullable()->comment('更新人');
             $table->timestamps();
         });
     }

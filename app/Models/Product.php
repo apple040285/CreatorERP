@@ -16,4 +16,15 @@ class Product extends Model
     use \Wildside\Userstamps\Userstamps;
 
     protected $guarded = [];
+
+    protected $casts = [
+        'images'        => 'array',
+        'created_at'    => 'datetime:Y-m-d',
+        'updated_at'    => 'datetime:Y-m-d',
+    ];
+
+    public function stock_products()
+    {
+        return $this->belongsToMany(Storehouse::class, 'storehouse_products')->withPivot('stock', 'safety_stock');
+    }
 }
