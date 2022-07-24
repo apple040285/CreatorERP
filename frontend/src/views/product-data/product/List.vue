@@ -220,7 +220,7 @@ export default {
                 { label: 'code', field: 'code' },
                 { label: 'name', field: 'name' },
                 { label: 'englishName', field: 'alias' },
-                { label: 'specification', field: 'specification' },
+                { label: 'specification', field: 'sku' },
                 { label: 'unit', field: 'unit' },
                 { label: 'status', field: 'status' },
                 { label: 'action', field: 'action' },

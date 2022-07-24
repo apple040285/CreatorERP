@@ -377,7 +377,7 @@
                                 :options="storehouseOption"
                                 :placeholder="$t('ProductModal.selectWarehouse')"
                                 :reduce="option => option.id"
-                                :readonly="storehousesData.id"
+                                :disabled="storehousesData.id ? true : false"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -626,15 +626,23 @@ export default {
         },
         editMethod() {
             axios
-            .get(`${this.apiPath}/${this.defaultData.id}`)
+            .get(`${this.apiPath}/${this.showData.id}`)
             .then(response => {
-                this.defaultData = response.data;
+                this.showData = response.data;
+                this.showData.storehouses.map(item => {
+                    this.showData.storehouses.push({
+                        ...item,
+                        stock: item.pivot.stock,
+                        safety_stock: item.pivot.safety_stock,
+                    })
+                })
+                this.rows = this.showData.storehouses;
             })
             .catch(error => console.error (error))
         },
         updateMethod() {
             axios
-            .put(`${this.apiPath}/${this.defaultData.id}`, this.defaultData)
+            .put(`${this.apiPath}/${this.showData.id}`, this.showData)
             .then(() => {
                 this.$toast({
                     component: ToastificationContent,
@@ -678,16 +686,16 @@ export default {
                 this.showData.storehouses.push(this.storehousesData);
                 this.rows = JSON.parse(JSON.stringify(this.showData.storehouses));
             } else if (storehouseIndex !== -1 && this.storehouseModalId === null) {
-              this.$toast({
-                  component: ToastificationContent,
-                  position: 'top-right',
-                  props: {
-                  title: `${this.$t('createdFailed')}`,
-                  icon: 'XIcon',
-                  variant: 'danger',
-                  text: `${this.$t('ProductList.storehousesCreatedFailed')}`,
-                  },
-              })
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('createdFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: `${this.$t('ProductList.storehousesCreatedFailed')}`,
+                    },
+                })
             } else {
                 Object.assign(this.showData.storehouses[storehouseIndex], this.storehousesData);
             }
@@ -718,7 +726,7 @@ export default {
         },
     },
     mounted() {
-      this.showData = this.defaultData
+        this.showData = this.defaultData;
         axios
         .post('categories/options')
         .then(response => {
@@ -754,7 +762,7 @@ export default {
             })
         })
         if(this.$route.query.id) {
-            this.defaultData.id = this.$route.query.id;
+            this.showData.id = this.$route.query.id;
             this.editMethod();
         }
     },
