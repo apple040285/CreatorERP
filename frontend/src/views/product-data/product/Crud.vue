@@ -708,7 +708,7 @@ export default {
                     footerClass: "d-block mx-auto"
                 })
                 .then(value => {
-                    if(value) {
+                    if (value) {
                         const storehouseIndex = this.showData.storehouses.findIndex(storehouse => storehouse.id === row.id)
                         const tableRowIndex = this.rows.findIndex(tableRow => tableRow.id === row.id)
                         if (storehouseIndex !== -1) this.showData.storehouses.splice(storehouseIndex, 1);
