@@ -14,7 +14,7 @@
                                     rules="required"
                                 >
                                     <b-form-input
-                                        v-model="defaultData.code"
+                                        v-model="showData.code"
                                         type="text"
                                         :placeholder="$t('ProductList.code')"
                                     />
@@ -32,7 +32,7 @@
                                     rules="required"
                                 >
                                     <b-form-input
-                                        v-model="defaultData.name"
+                                        v-model="showData.name"
                                         type="text"
                                         :placeholder="$t('ProductList.name')"
                                     />
@@ -45,7 +45,7 @@
                             <b-form-group>
                                 <label for="englishName">{{ $t('ProductList.englishName') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.alias"
+                                    v-model="showData.alias"
                                     type="text"
                                     :placeholder="$t('ProductList.englishName')"
                                 />
@@ -59,7 +59,7 @@
                                 <label for="img">{{ $t('ProductList.img') }}</label>
                                 <b-form-file
                                     accept="image/*"
-                                    v-model="defaultData.images"
+                                    v-model="showData.picture"
                                     :placeholder="$t('ProductList.imgPlaceHolder')"
                                     :drop-placeholder="$t('ProductList.imgDropPlaceHolder')"
                                 />
@@ -70,7 +70,7 @@
                             <b-form-group>
                                 <label for="invoiceName">{{ $t('ProductList.invoiceName') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.invoice_name"
+                                    v-model="showData.invoice_name"
                                     type="text"
                                     :placeholder="$t('ProductList.invoiceName')"
                                 />
@@ -86,7 +86,7 @@
                                     rules="required"
                                 >
                                     <b-form-input
-                                        v-model="defaultData.sku"
+                                        v-model="showData.sku"
                                         type="text"
                                         :placeholder="$t('ProductList.specification')"
                                     />
@@ -107,7 +107,7 @@
                                 >
                                     <v-select
                                         label="name"
-                                        v-model="defaultData.category_id"
+                                        v-model="showData.product_category_id"
                                         :options="categoryOption"
                                         :placeholder="$t('ProductList.selectCategory')"
                                         :reduce="option => option.id"
@@ -126,7 +126,7 @@
                                     rules="required"
                                 >
                                     <b-form-input
-                                        v-model="defaultData.unit"
+                                        v-model="showData.unit"
                                         type="text"
                                         :placeholder="$t('ProductList.unit')"
                                     />
@@ -139,7 +139,7 @@
                             <b-form-group>
                                 <label for="barcode">{{ $t('ProductList.barcode') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.barcode"
+                                    v-model="showData.barcode"
                                     type="text"
                                     :placeholder="$t('ProductList.barcode')"
                                 />
@@ -154,7 +154,7 @@
                                 <b-form-textarea
                                     :placeholder="$t('ProductList.remark')"
                                     rows="3"
-                                    v-model="defaultData.remark"
+                                    v-model="showData.remark"
                                     autocomplete="off"
                                 />
                             </b-form-group>
@@ -249,7 +249,7 @@
                                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                 variant="outline-danger"
                                 size="sm"
-                                @click="removeData(props.row.id)"
+                                @click="removeData(props.row)"
                             >
                                 <feather-icon
                                     icon="Trash2Icon"
@@ -494,6 +494,7 @@ export default {
                 searchTerm: '',
             },
             showData: {},
+            storehouseModalId: null,
             storehousesData: {
                 id: null,
                 stock: 0,
@@ -504,7 +505,7 @@ export default {
                 code: '',
                 name: '',
                 alias: '',
-                images: null,
+                picture: null,
                 invoice_name: '',
                 sku: '',
                 product_category_id: '',
@@ -513,11 +514,16 @@ export default {
                 remark: '',
                 storehouses: []
             },
+            defaultStorehouseData: {
+                id: null,
+                stock: 0,
+                safety_stock: 0,
+            },
             categoryOption: [],
             storehouseOption: [],
             columns: [
                 { label: '#', field: 'id' },
-                { label: 'warehouse', field: 'storehouse' },
+                { label: 'warehouse', field: 'name' },
                 { label: 'stock', field: 'stock' },
                 { label: 'expectedToEnter', field: 'expectedToEnter' },
                 { label: 'predict', field: 'predict' },
@@ -591,7 +597,7 @@ export default {
         },
         createMethod() {
             axios
-            .post(`${this.apiPath}`, this.showData)
+            .post(`${this.apiPath}`, this.showData, { mimeType: 'multipart/form-data' })
             .then(() => {
                 this.$toast({
                     component: ToastificationContent,
@@ -656,64 +662,40 @@ export default {
             })
         },
         resetModal() {
-            this.storehousesData = Object.assign({}, this.storehousesData, this.defaultData)
+            this.storehouseModalId = null
+            this.storehousesData = Object.assign({}, this.storehousesData, this.defaultStorehouseData)
         },
         editData(data) {
+            this.storehouseModalId = data.id
             this.storehousesData = data;
             this.$refs['modalForm'].show();
         },
         dataPush() {
-            let key = this.showData.storehouses.findIndex((element) => element.id == this.storehousesData.id);
-            if(key == '-1') {
+            const storehouseFind = this.storehouseOption.find(storehouse => storehouse.id === this.storehousesData.id)
+            const storehouseIndex = this.showData.storehouses.findIndex((element) => element.id == this.storehousesData.id);
+            if (storehouseIndex === -1) {
+                this.storehousesData = Object.assign(this.storehousesData, storehouseFind)
                 this.showData.storehouses.push(this.storehousesData);
-                this.rows = this.showData.storehouses;
-            }else{
-                if(this.storehousesData.id == null){
-                    this.$toast({
-                        component: ToastificationContent,
-                        position: 'top-right',
-                        props: {
-                        title: `${this.$t('createdFailed')}`,
-                        icon: 'XIcon',
-                        variant: 'danger',
-                        text: `${this.$t('ProductList.storehousesCreatedFailed')}`,
-                        },
-                    })
-                }else{
-                    Object.assign(this.showData.storehouses[key], this.storehousesData);
-                }
+                this.rows = JSON.parse(JSON.stringify(this.showData.storehouses));
+            } else if (storehouseIndex !== -1 && this.storehouseModalId === null) {
+              this.$toast({
+                  component: ToastificationContent,
+                  position: 'top-right',
+                  props: {
+                  title: `${this.$t('createdFailed')}`,
+                  icon: 'XIcon',
+                  variant: 'danger',
+                  text: `${this.$t('ProductList.storehousesCreatedFailed')}`,
+                  },
+              })
+            } else {
+                Object.assign(this.showData.storehouses[storehouseIndex], this.storehousesData);
             }
             this.$nextTick(() => {
                 this.$refs['modalForm'].toggle('#toggle-btn')
             })
         },
-        // dataPush() {
-        //     let key = this.showData.storehouses.findIndex((element) => element.id == this.storehousesData.id);
-        //     if(key == '-1'){
-        //         if(this.storehousesData.id){
-        //             this.showData.storehouses.push(this.storehousesData);
-        //             this.rows = this.showData.storehouses;
-        //         }else{
-        //             Object.assign(this.showData.storehouses[key], this.storehousesData);
-        //         }
-        //     }else{
-        //         this.$toast({
-        //             component: ToastificationContent,
-        //             position: 'top-right',
-        //             props: {
-        //             title: `${this.$t('createdFailed')}`,
-        //             icon: 'XIcon',
-        //             variant: 'danger',
-        //             text: `${this.$t('ProductList.storehousesCreatedFailed')}`,
-        //             },
-        //         })
-        //         return false;
-        //     }
-        //     this.$nextTick(() => {
-        //         this.$refs['modalForm'].toggle('#toggle-btn')
-        //     })
-        // },
-        removeData(key) {
+        removeData(row) {
             this.$bvModal
                 .msgBoxConfirm(this.$t('checkDelete'), {
                     size: 'sm',
@@ -726,11 +708,17 @@ export default {
                     footerClass: "d-block mx-auto"
                 })
                 .then(value => {
-                    if(value) this.rows.splice(key,1);
+                    if(value) {
+                        const storehouseIndex = this.showData.storehouses.findIndex(storehouse => storehouse.id === row.id)
+                        const tableRowIndex = this.rows.findIndex(tableRow => tableRow.id === row.id)
+                        if (storehouseIndex !== -1) this.showData.storehouses.splice(storehouseIndex, 1);
+                        if (tableRowIndex !== -1) this.rows.splice(tableRowIndex, 1);
+                    }
                 })
         },
     },
     mounted() {
+      this.showData = this.defaultData
         axios
         .post('categories/options')
         .then(response => {
