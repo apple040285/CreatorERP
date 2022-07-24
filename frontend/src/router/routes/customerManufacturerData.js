@@ -41,6 +41,7 @@ export default [
         name: 'CustomerManufacturerData-CustomerManufacturerDataCreate',
         component: () => import('@/views/customer-manufacturer-data/customerManufacturer/Crud.vue'),
         meta: {
+            navActiveLink: 'CustomerManufacturerData-CustomerManufacturerDataList',
             pageTitle: 'Customer/Manufacturer Data',
             breadcrumb: [
                 { text: 'Customer/Manufacturer Data' },
