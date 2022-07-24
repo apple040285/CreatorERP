@@ -16,7 +16,7 @@
                     <b-form-group>
                         <div class="d-flex align-items-center">
                             <b-form-input
-                                v-model="searchTerm"
+                                v-model="serverParams.searchTerm"
                                 :placeholder="$t('table.Search')"
                                 type="text"
                                 class="d-inline-block"
@@ -26,19 +26,32 @@
                 </div>
 
                 <!-- table -->
-                <vue-good-table
-                    :columns="columns"
-                    :rows="rows"
-                    :rtl="direction"
-                    :search-options="{
-                        enabled: true,
-                        externalQuery: searchTerm
-                    }"
-                    :pagination-options="{
-                        enabled: true,
-                        perPage:pageLength
-                    }"
-                >
+                    <vue-good-table
+                        mode="remote"
+                        @on-page-change="onPageChange"
+                        @on-sort-change="onSortChange"
+                        @on-per-page-change="onPerPageChange"
+                        :totalRows="totalRecords"
+                        :isLoading.sync="isLoading"
+                        :pagination-options="{
+                            enabled: true,
+                        }"
+                        :search-options="{
+                            enabled: true,
+                            externalQuery: serverParams.searchTerm
+                        }"
+                        @on-search="onSearch"
+                        :sort-options="{
+                            enabled: true,
+                        }"
+                        :rows="rows"
+                        :columns="columns"
+                    >
+                    <template #loadingContent>
+                        <div class="text-center">
+                            <b-spinner variant="primary" label="Text Centered" />
+                        </div>
+                    </template>
                     <template
                         slot="table-column"
                         slot-scope="props"
@@ -87,7 +100,7 @@
                                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                     variant="outline-success"
                                     size="sm"
-                                    v-if="props.row.approvalStatus=='draft'"
+                                    v-if="props.row.approvalStatus=='underReview'"
                                     :to="{ name: 'ProcurementOperation-RequisitionEdit', query: { id: props.row.id } }"
                                 >
                                     <feather-icon
@@ -115,7 +128,7 @@
                                     {{ $t('table.Showing') }} 1 {{ $t('table.to') }}
                                 </span>
                                 <b-form-select
-                                    v-model="pageLength"
+                                    v-model="serverParams.perPage"
                                     :options="['5','10']"
                                     class="mx-1"
                                     @input="(value)=>props.perPageChanged({currentPerPage:value})"
@@ -126,7 +139,7 @@
                                 <b-pagination
                                     :value="1"
                                     :total-rows="props.total"
-                                    :per-page="pageLength"
+                                    :per-page="serverParams.perPage"
                                     first-number
                                     last-number
                                     align="right"
@@ -160,10 +173,11 @@
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
-    BRow, BCol, BBadge, BPagination, BFormGroup, BFormInput, BFormSelect, BButton
+    BRow, BCol, BBadge, BPagination, BFormGroup, BFormInput, BFormSelect, BButton, BSpinner
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import Ripple from 'vue-ripple-directive'
+import axios from "@axios";
 
 export default {
     components: {
@@ -176,95 +190,108 @@ export default {
         BFormGroup,
         BFormInput,
         BFormSelect,
-        BButton
+        BButton,
+        BSpinner
     },
     directives: {
         Ripple,
     },
     data() {
         return {
-        pageLength: 5,
-        columns: [
-            { label: '#', field: 'id' },
-            { label: 'requisitionDate', field: 'requisitionDate' },
-            { label: 'requisitionNo', field: 'requisitionNo' },
-            { label: 'manufacturer', field: 'manufacturer' },
-            { label: 'buyer', field: 'buyer' },
-            { label: 'preDeliveryDate', field: 'preDeliveryDate' },
-            { label: 'project', field: 'project' },
-            { label: 'status', field: 'status' },
-            { label: 'approvalStatus', field: 'approvalStatus' },
-            { label: 'action', field: 'action' },
-        ],
-        rows: [
-            {
-                id: 1,
-                requisitionDate: "2022/06/22",
-                requisitionNo: '20220622001',
-                manufacturer: '廠商A',
-                buyer: 'dennis',
-                preDeliveryDate: '2022/06/30',
-                project: 'ABC123',
-                status: 'openCase',
-                approvalStatus: 'void',
-            },
-            {
-                id: 2,
-                requisitionDate: "2022/06/22",
-                requisitionNo: '20220622001',
-                manufacturer: '廠商A',
-                buyer: 'dennis',
-                preDeliveryDate: '2022/06/30',
-                project: 'ABC123',
-                status: 'openCase',
-                approvalStatus: 'underReview',
-            },
-            {
-                id: 3,
-                requisitionDate: "2022/06/22",
-                requisitionNo: '20220622001',
-                manufacturer: '廠商A',
-                buyer: 'dennis',
-                preDeliveryDate: '2022/06/30',
-                project: 'ABC123',
-                status: 'invalid',
-                approvalStatus: 'audited',
-            },
-            {
-                id: 4,
-                requisitionDate: "2022/06/22",
-                requisitionNo: '20220622001',
-                manufacturer: '廠商A',
-                buyer: 'dennis',
-                preDeliveryDate: '2022/06/30',
-                project: 'ABC123',
-                status: 'caseClosed',
-                approvalStatus: 'audited',
-            },
-            {
-                id: 5,
-                requisitionDate: "2022/06/22",
-                requisitionNo: '20220622001',
-                manufacturer: '廠商A',
-                buyer: 'dennis',
-                preDeliveryDate: '2022/06/30',
-                project: 'ABC123',
-                status: 'caseClosed',
-                approvalStatus: 'draft',
-            },
-            {
-                id: 6,
-                requisitionDate: "2022/06/22",
-                requisitionNo: '20220622001',
-                manufacturer: '廠商A',
-                buyer: 'dennis',
-                preDeliveryDate: '2022/06/30',
-                project: 'ABC123',
-                status: 'invalid',
-                approvalStatus: 'audited',
-            },
-        ],
-        searchTerm: '',
+            apiPath: '/requisitions',
+            columns: [
+                { label: '#', field: 'id' },
+                { label: 'requisitionDate', field: 'requisitionDate' },
+                { label: 'requisitionNo', field: 'requisitionNo' },
+                { label: 'manufacturer', field: 'manufacturer' },
+                { label: 'buyer', field: 'buyer' },
+                { label: 'preDeliveryDate', field: 'preDeliveryDate' },
+                { label: 'project', field: 'project' },
+                { label: 'status', field: 'status' },
+                { label: 'approvalStatus', field: 'approvalStatus' },
+                { label: 'action', field: 'action' },
+            ],
+            rows: [
+                {
+                    id: 1,
+                    requisitionDate: "2022/06/22",
+                    requisitionNo: '20220622001',
+                    manufacturer: '廠商A',
+                    buyer: 'dennis',
+                    preDeliveryDate: '2022/06/30',
+                    project: 'ABC123',
+                    status: 'openCase',
+                    approvalStatus: 'void',
+                },
+                {
+                    id: 2,
+                    requisitionDate: "2022/06/22",
+                    requisitionNo: '20220622001',
+                    manufacturer: '廠商A',
+                    buyer: 'dennis',
+                    preDeliveryDate: '2022/06/30',
+                    project: 'ABC123',
+                    status: 'openCase',
+                    approvalStatus: 'underReview',
+                },
+                {
+                    id: 3,
+                    requisitionDate: "2022/06/22",
+                    requisitionNo: '20220622001',
+                    manufacturer: '廠商A',
+                    buyer: 'dennis',
+                    preDeliveryDate: '2022/06/30',
+                    project: 'ABC123',
+                    status: 'invalid',
+                    approvalStatus: 'audited',
+                },
+                {
+                    id: 4,
+                    requisitionDate: "2022/06/22",
+                    requisitionNo: '20220622001',
+                    manufacturer: '廠商A',
+                    buyer: 'dennis',
+                    preDeliveryDate: '2022/06/30',
+                    project: 'ABC123',
+                    status: 'caseClosed',
+                    approvalStatus: 'audited',
+                },
+                {
+                    id: 5,
+                    requisitionDate: "2022/06/22",
+                    requisitionNo: '20220622001',
+                    manufacturer: '廠商A',
+                    buyer: 'dennis',
+                    preDeliveryDate: '2022/06/30',
+                    project: 'ABC123',
+                    status: 'caseClosed',
+                    approvalStatus: 'audited',
+                },
+                {
+                    id: 6,
+                    requisitionDate: "2022/06/22",
+                    requisitionNo: '20220622001',
+                    manufacturer: '廠商A',
+                    buyer: 'dennis',
+                    preDeliveryDate: '2022/06/30',
+                    project: 'ABC123',
+                    status: 'invalid',
+                    approvalStatus: 'audited',
+                },
+            ],
+            isLoading: false,
+            totalRecords: 0,
+            serverParams: {
+                sort: [
+                    {
+                        field: '',
+                        type: ''
+                    }
+                ],
+                page: 1,
+                perPage: 10,
+                searchTerm: '',
+            }
         }
     },
     computed: {
@@ -272,7 +299,6 @@ export default {
             const statusColor = {
                 /* eslint-disable key-spacing */
                 audited : 'light-success',
-                draft     : 'light-primary',
                 underReview     : 'light-warning',
                 void     : 'light-danger',
                 caseClosed     : 'light-success',
@@ -283,7 +309,43 @@ export default {
 
             return status => statusColor[status]
         },
-    }
+    },
+    methods: {
+        onSearch({searchTerm}) {
+            this.serverParams.searchTerm = searchTerm
+            this.getList()
+        },
+        updateParams(newProps) {
+            this.serverParams = Object.assign({}, this.serverParams, newProps);
+        },
+        onPageChange(params) {
+            this.updateParams({page: params.currentPage});
+            this.getList();
+        },
+        onPerPageChange(params) {
+            this.updateParams({perPage: params.currentPerPage});
+            this.getList();
+        },
+        onSortChange(params) {
+            this.updateParams({
+                sort: params,
+            });
+            this.getList();
+        },
+        getList() {
+            axios
+            .post(`${this.apiPath}/list`, this.serverParams)
+            .then(response => {
+                const { data, meta } = response.data
+                this.rows = data;
+                this.totalRecords = meta.total;
+            })
+            .catch(error => console.error (error))
+        },
+    },
+    created() {
+        this.getList();
+    },
 }
 </script>
 

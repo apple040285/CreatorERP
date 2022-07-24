@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import axios from "@axios";
 import { BTabs, BTab } from 'bootstrap-vue'
 import BasicInformation from './BasicInformation.vue'
 import OtherRemark from './OtherRemark.vue'
@@ -60,36 +61,18 @@ export default {
     },
     data() {
         return {
-            id: '',
-            data: {
-                code: '',
-                name: '',
-                englishName: '',
-                departmentName: '',
-                departmentNameOption: ['人事部', '會計部'],
-                telephone: '',
-                cellphone: '',
-                jobName: '',
-                jobNameOption: ['主管', '員工'],
-                residenceAddress: '',
-                mailingAddress: '',
-                emergencyContactOne: '',
-                emergencyContactOneNumber: '',
-                emergencyContactTwo: '',
-                emergencyContactTwoNumber: '',
-                appointmentDate: '',
-                resignationDate: '',
-                email: '',
-                remark: '',
-            },
+            data: {},
         }
     },
     mounted() {
-        if(this.$route.query.id) this.id = this.$route.query.id;
+        if(this.$route.query.id) {
+            axios
+            .get(`staffs/${this.$route.query.id}`)
+            .then(response => {
+                this.data = response.data;
+            })
+            .catch(error => console.error (error))
+        }
     },
 }
 </script>
-
-<style lang="scss">
-@import '@core/scss/vue/libs/vue-good-table.scss';
-</style>

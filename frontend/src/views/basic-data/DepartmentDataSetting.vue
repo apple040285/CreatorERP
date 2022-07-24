@@ -264,10 +264,10 @@ import {
     BRow, BCol, BBadge, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BFormTextarea, BButton, BCardText, BSpinner
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
+import axios from "@axios";
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
 import Ripple from 'vue-ripple-directive'
-import axios from "@axios";
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
@@ -473,32 +473,48 @@ export default {
             })
         },
         deleteMethod(id) {
-            axios
-            .delete(`${this.apiPath}/${id}`)
-            .then(() => {
-                this.getList();
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('deletedSuccess')}`,
-                    icon: 'CoffeeIcon',
-                    variant: 'success',
-                    text: `${this.$t('Department Data Setting')} ${this.$t('deletedSuccess')}!`,
-                    },
-                })
-            })
-            .catch(error => {
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('deletedFailed')}`,
-                    icon: 'XIcon',
-                    variant: 'danger',
-                    text: error.response.data.message,
-                    },
-                })
+            this.$swal({
+                title: `${this.$t('checkDelete')}`,
+                text: `${this.$t('cantRevert')}`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: `${this.$t('yes')}`,
+                cancelButtonText: `${this.$t('no')}`,
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-danger ml-1',
+                },
+                buttonsStyling: false,
+            }).then(result => {
+                if (result.value) {
+                    axios
+                    .delete(`${this.apiPath}/${id}`)
+                    .then(() => {
+                        this.getList();
+                        this.$toast({
+                            component: ToastificationContent,
+                            position: 'top-right',
+                            props: {
+                            title: `${this.$t('deletedSuccess')}`,
+                            icon: 'CoffeeIcon',
+                            variant: 'success',
+                            text: `${this.$t('Department Data Setting')} ${this.$t('deletedSuccess')}!`,
+                            },
+                        })
+                    })
+                    .catch(error => {
+                        this.$toast({
+                            component: ToastificationContent,
+                            position: 'top-right',
+                            props: {
+                            title: `${this.$t('deletedFailed')}`,
+                            icon: 'XIcon',
+                            variant: 'danger',
+                            text: error.response.data.message,
+                            },
+                        })
+                    })
+                }
             })
         },
         showRemark(value) {
@@ -543,5 +559,6 @@ export default {
 </script>
 
 <style lang="scss" >
+@import '@core/scss/vue/libs/vue-sweetalert.scss';
 @import '@core/scss/vue/libs/vue-good-table.scss';
 </style>

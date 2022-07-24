@@ -29,7 +29,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('StaffList.englishName')">
                     <b-form-input
-                        :value="basicInformation.englishName"
+                        :value="basicInformation.alias"
                         :placeholder="$t('StaffList.englishName')"
                         type="text"
                         readonly
@@ -40,7 +40,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('StaffList.departmentName')">
                     <b-form-input
-                        :value="basicInformation.departmentName"
+                        :value="basicInformation.department && basicInformation.department.name"
                         :placeholder="$t('StaffList.departmentName')"
                         type="text"
                         readonly
@@ -77,7 +77,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('StaffList.jobName')">
                     <b-form-input
-                        :value="basicInformation.jobName"
+                        :value="basicInformation.job && basicInformation.job.name"
                         :placeholder="$t('StaffList.jobName')"
                         type="text"
                         readonly
@@ -88,7 +88,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('StaffList.residenceAddress')">
                     <b-form-input
-                        :value="basicInformation.residenceAddress"
+                        :value="basicInformation.residence_address"
                         :placeholder="$t('StaffList.residenceAddress')"
                         type="text"
                         readonly
@@ -101,7 +101,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('StaffList.mailingAddress')">
                     <b-form-input
-                        :value="basicInformation.mailingAddress"
+                        :value="basicInformation.mailing_address"
                         :placeholder="$t('StaffList.mailingAddress')"
                         type="text"
                         readonly
@@ -125,7 +125,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('StaffList.emergencyContactOne')">
                     <b-form-input
-                        :value="basicInformation.emergencyContactOne"
+                        :value="basicInformation.emergency_contact_one"
                         :placeholder="$t('StaffList.emergencyContactOne')"
                         type="text"
                         readonly
@@ -136,7 +136,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('StaffList.emergencyContactOneNumber')">
                     <b-form-input
-                        :value="basicInformation.emergencyContactOneNumber"
+                        :value="basicInformation.emergency_contact_one_number"
                         :placeholder="$t('StaffList.emergencyContactOneNumber')"
                         type="text"
                         readonly
@@ -149,7 +149,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('StaffList.emergencyContactTwo')">
                     <b-form-input
-                        :value="basicInformation.emergencyContactTwo"
+                        :value="basicInformation.emergency_contact_two"
                         :placeholder="$t('StaffList.emergencyContactTwo')"
                         type="text"
                         readonly
@@ -160,7 +160,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('StaffList.emergencyContactTwoNumber')">
                     <b-form-input
-                        :value="basicInformation.emergencyContactTwoNumber"
+                        :value="basicInformation.emergency_contact_two_number"
                         :placeholder="$t('StaffList.emergencyContactTwoNumber')"
                         type="text"
                         readonly
@@ -173,7 +173,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('StaffList.appointmentDate')">
                     <b-form-input
-                        :value="basicInformation.appointmentDate"
+                        :value="basicInformation.arrival_date"
                         :placeholder="$t('StaffList.appointmentDate')"
                         type="text"
                         readonly
@@ -184,7 +184,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('StaffList.resignationDate')">
                     <b-form-input
-                        :value="basicInformation.resignationDate"
+                        :value="basicInformation.resignation_date"
                         :placeholder="$t('StaffList.resignationDate')"
                         type="text"
                         readonly
@@ -215,9 +215,6 @@ export default {
             type: Object,
             default: () => {},
         },
-    },
-    mounted() {
-        if(this.$route.query.id) this.id = this.$route.query.id;
-    },
+    }
 }
 </script>

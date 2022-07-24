@@ -27,12 +27,17 @@
                     perPage:productList.pageLength
                 }"
             >
+                <template #loadingContent>
+                    <div class="text-center">
+                        <b-spinner variant="primary" label="Text Centered" />
+                    </div>
+                </template>
                 <template
                     slot="table-column"
                     slot-scope="props"
                 >
                     <span class="text-nowrap" v-if="props.column.label !== '#'">
-                        {{$t('ProductList.' + props.column.label) }}
+                        {{$t('RequisitionList.ProductList.' + props.column.label) }}
                     </span>
                 </template>
                 <template
@@ -130,7 +135,7 @@
 </template>
 
 <script>
-import { BButton, BCard, BFormSelect, BPagination, BFormGroup, BFormInput } from 'bootstrap-vue'
+import { BButton, BCard, BFormSelect, BPagination, BFormGroup, BFormInput, BSpinner } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import Ripple from 'vue-ripple-directive'
 import { heightFade } from '@core/directives/animations'
@@ -144,6 +149,7 @@ export default {
         BFormGroup,
         BFormInput,
         VueGoodTable,
+        BSpinner
     },
     directives: {
         Ripple,

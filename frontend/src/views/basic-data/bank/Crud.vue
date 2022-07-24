@@ -31,7 +31,7 @@
                                 rules="required"
                             >
                                 <b-form-input
-                                    v-model="defaultData.swiftCode"
+                                    v-model="defaultData.swift_code"
                                     type="text"
                                     :placeholder="$t('BankList.swiftCode')"
                                 />
@@ -64,7 +64,7 @@
                         <b-form-group id="englishName">
                             <label for="englishName">{{ $t('BankList.englishName') }}</label>
                             <b-form-input
-                                v-model="defaultData.englishName"
+                                v-model="defaultData.alias"
                                 type="text"
                                 :placeholder="$t('BankList.englishName')"
                             />
@@ -75,7 +75,7 @@
                         <b-form-group id="telephone">
                             <label for="telephone">{{ $t('BankList.telephone') }}</label>
                             <b-form-input
-                                v-model="defaultData.telephone"
+                                v-model="defaultData.phone"
                                 type="text"
                                 :placeholder="$t('BankList.telephone')"
                             />
@@ -86,7 +86,7 @@
                         <b-form-group id="creditCardFeeRates">
                             <label for="creditCardFeeRates">{{ $t('BankList.creditCardFeeRates') }}</label>
                             <b-form-input
-                                v-model="defaultData.creditCardFeeRates"
+                                v-model="defaultData.rate"
                                 type="number"
                                 :placeholder="$t('BankList.creditCardFeeRates')"
                             />
@@ -140,10 +140,10 @@ import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
     BRow, BCol, BFormGroup, BForm, BFormInput, BFormSelect, BFormTextarea, BButton
 } from 'bootstrap-vue'
+import axios from "@axios";
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
 import Ripple from 'vue-ripple-directive'
-import axios from "@axios";
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
@@ -171,11 +171,11 @@ export default {
             defaultData: {
                 id : null,
                 code: '',
-                swiftCode: '',
+                swift_code: '',
                 name: '',
-                englishName: '',
-                telephone: '',
-                creditCardFeeRates: '0',
+                alias: '',
+                phone: '',
+                rate: '0',
                 remark: '',
             },
         }

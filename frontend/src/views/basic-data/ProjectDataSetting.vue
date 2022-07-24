@@ -225,7 +225,7 @@
                     >
                         <label for="expiration_date">{{ $t('ProjectList.expiration_date') }}</label>
                         <flat-pickr
-                            v-model="showData.expiration_date"
+                            v-model="showData.invalid_at"
                             class="form-control"
                             :placeholder="$t('ProjectList.expiration_date')"
                             id="expiration_date-datepicker"
@@ -305,7 +305,7 @@ export default {
                 { label: '#', field: 'id' },
                 { label: 'code', field: 'code' },
                 { label: 'name', field: 'name' },
-                { label: 'expiration_date', field: 'expiration_date' },
+                { label: 'expiration_date', field: 'invalid_at' },
                 { label: 'created_by', field: 'creator.name' },
                 { label: 'created_at', field: 'created_at' },
                 { label: 'updated_by', field: 'editor.name' },
@@ -321,7 +321,7 @@ export default {
                 id : null,
                 code : '',
                 name : '',
-                expiration_date : '',
+                invalid_at : '',
                 remark : '',
             },
             isLoading: false,
@@ -463,32 +463,48 @@ export default {
             })
         },
         deleteMethod(id) {
-            axios
-            .delete(`${this.apiPath}/${id}`)
-            .then(() => {
-                this.getList();
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('deletedSuccess')}`,
-                    icon: 'CoffeeIcon',
-                    variant: 'success',
-                    text: `${this.$t('Project Data Setting')} ${this.$t('deletedSuccess')}!`,
-                    },
-                })
-            })
-            .catch(error => {
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('deletedFailed')}`,
-                    icon: 'XIcon',
-                    variant: 'danger',
-                    text: error.response.data.message,
-                    },
-                })
+            this.$swal({
+                title: `${this.$t('checkDelete')}`,
+                text: `${this.$t('cantRevert')}`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: `${this.$t('yes')}`,
+                cancelButtonText: `${this.$t('no')}`,
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-danger ml-1',
+                },
+                buttonsStyling: false,
+            }).then(result => {
+                if (result.value) {
+                    axios
+                    .delete(`${this.apiPath}/${id}`)
+                    .then(() => {
+                        this.getList();
+                        this.$toast({
+                            component: ToastificationContent,
+                            position: 'top-right',
+                            props: {
+                            title: `${this.$t('deletedSuccess')}`,
+                            icon: 'CoffeeIcon',
+                            variant: 'success',
+                            text: `${this.$t('Project Data Setting')} ${this.$t('deletedSuccess')}!`,
+                            },
+                        })
+                    })
+                    .catch(error => {
+                        this.$toast({
+                            component: ToastificationContent,
+                            position: 'top-right',
+                            props: {
+                            title: `${this.$t('deletedFailed')}`,
+                            icon: 'XIcon',
+                            variant: 'danger',
+                            text: error.response.data.message,
+                            },
+                        })
+                    })
+                }
             })
         },
         showRemark(value) {

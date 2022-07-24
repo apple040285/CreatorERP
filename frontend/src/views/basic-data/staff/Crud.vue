@@ -13,7 +13,7 @@
                                 rules="required"
                             >
                                 <b-form-input
-                                    v-model="code"
+                                    v-model="defaultData.code"
                                     type="text"
                                     :placeholder="$t('StaffList.code')"
                                 />
@@ -31,7 +31,7 @@
                                 rules="required"
                             >
                                 <b-form-input
-                                    v-model="name"
+                                    v-model="defaultData.name"
                                     type="text"
                                     :placeholder="$t('StaffList.name')"
                                 />
@@ -44,7 +44,7 @@
                         <b-form-group id="englishName">
                             <label for="englishName">{{ $t('StaffList.englishName') }}</label>
                             <b-form-input
-                                v-model="englishName"
+                                v-model="defaultData.alias"
                                 type="text"
                                 :placeholder="$t('StaffList.englishName')"
                             />
@@ -62,9 +62,11 @@
                                 rules="required"
                             >
                                 <v-select
-                                    v-model="departmentName"
-                                    :options="departmentNameOption"
-                                    :placeholder="$t('StaffList.departmentName')"
+                                    label="name"
+                                    v-model="defaultData.department_id"
+                                    :options="departmentOption"
+                                    :placeholder="$t('StaffList.selectDepartment')"
+                                    :reduce="option => option.id"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
@@ -75,7 +77,7 @@
                         <b-form-group id="telephone">
                             <label for="telephone">{{ $t('StaffList.telephone') }}</label>
                             <b-form-input
-                                v-model="telephone"
+                                v-model="defaultData.telephone"
                                 type="text"
                                 :placeholder="$t('StaffList.telephone')"
                             />
@@ -86,7 +88,7 @@
                         <b-form-group id="cellphone">
                             <label for="cellphone">{{ $t('StaffList.cellphone') }}</label>
                             <b-form-input
-                                v-model="cellphone"
+                                v-model="defaultData.cellphone"
                                 type="text"
                                 :placeholder="$t('StaffList.cellphone')"
                             />
@@ -104,9 +106,11 @@
                                 rules="required"
                             >
                                 <v-select
-                                    v-model="jobName"
-                                    :options="jobNameOption"
-                                    :placeholder="$t('StaffList.jobName')"
+                                    label="name"
+                                    v-model="defaultData.job_id"
+                                    :options="jobOption"
+                                    :placeholder="$t('StaffList.selectJob')"
+                                    :reduce="option => option.id"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
@@ -117,7 +121,7 @@
                         <b-form-group id="residenceAddress">
                             <label for="residenceAddress">{{ $t('StaffList.residenceAddress') }}</label>
                             <b-form-input
-                                v-model="residenceAddress"
+                                v-model="defaultData.residence_address"
                                 type="text"
                                 :placeholder="$t('StaffList.residenceAddress')"
                             />
@@ -128,7 +132,7 @@
                         <b-form-group id="mailingAddress">
                             <label for="mailingAddress">{{ $t('StaffList.mailingAddress') }}</label>
                             <b-form-input
-                                v-model="mailingAddress"
+                                v-model="defaultData.mailing_address"
                                 type="text"
                                 :placeholder="$t('StaffList.mailingAddress')"
                             />
@@ -146,7 +150,7 @@
                                 rules="email"
                             >
                                 <b-form-input
-                                    v-model="email"
+                                    v-model="defaultData.email"
                                     type="text"
                                     :placeholder="$t('StaffList.email')"
                                 />
@@ -164,7 +168,7 @@
                                 rules="required"
                             >
                                 <b-form-input
-                                    v-model="emergencyContactOne"
+                                    v-model="defaultData.emergency_contact_one"
                                     type="text"
                                     :placeholder="$t('StaffList.emergencyContactOne')"
                                 />
@@ -182,7 +186,7 @@
                                 rules="required"
                             >
                                 <b-form-input
-                                    v-model="emergencyContactOneNumber"
+                                    v-model="defaultData.emergency_contact_one_number"
                                     type="text"
                                     :placeholder="$t('StaffList.emergencyContactOneNumber')"
                                 />
@@ -197,7 +201,7 @@
                         <b-form-group id="emergencyContactTwo">
                             <label for="emergencyContactTwo">{{ $t('StaffList.emergencyContactTwo') }}</label>
                             <b-form-input
-                                v-model="emergencyContactTwo"
+                                v-model="defaultData.emergency_contact_two"
                                 type="text"
                                 :placeholder="$t('StaffList.emergencyContactTwo')"
                             />
@@ -208,7 +212,7 @@
                         <b-form-group id="emergencyContactTwoNumber">
                             <label for="emergencyContactTwoNumber">{{ $t('StaffList.emergencyContactTwoNumber') }}</label>
                             <b-form-input
-                                v-model="emergencyContactTwoNumber"
+                                v-model="defaultData.emergency_contact_two_number"
                                 type="text"
                                 :placeholder="$t('StaffList.emergencyContactTwoNumber')"
                             />
@@ -227,7 +231,7 @@
                                 rules="required"
                             >
                                 <flat-pickr
-                                    v-model="appointmentDate"
+                                    v-model="defaultData.arrival_date"
                                     class="form-control"
                                     :placeholder="$t('StaffList.appointmentDate')"
                                     id="appointmentDate-datepicker"
@@ -246,7 +250,7 @@
                         >
                             <label for="resignationDate">{{ $t('StaffList.resignationDate') }}</label>
                             <flat-pickr
-                                v-model="resignationDate"
+                                v-model="defaultData.resignation_date"
                                 class="form-control"
                                 :placeholder="$t('StaffList.resignationDate')"
                                 id="resignationDate-datepicker"
@@ -260,7 +264,7 @@
                             <b-form-textarea
                                 :placeholder="$t('remark')"
                                 rows="3"
-                                v-model="remark"
+                                v-model="defaultData.remark"
                                 autocomplete="off"
                             />
                         </b-form-group>
@@ -304,8 +308,8 @@ import flatPickr from 'vue-flatpickr-component'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required, email } from '@validations'
 import Ripple from 'vue-ripple-directive'
-import axios from "@axios";
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import axios from "@axios";
 
 export default {
     components: {
@@ -335,24 +339,24 @@ export default {
             defaultData: {
                 code: '',
                 name: '',
-                englishName: '',
-                departmentName: '',
-                departmentNameOption: ['人事部', '會計部'],
+                alias: '',
+                department_id: '',
                 telephone: '',
                 cellphone: '',
-                jobName: '',
-                jobNameOption: ['主管', '員工'],
-                residenceAddress: '',
-                mailingAddress: '',
-                emergencyContactOne: '',
-                emergencyContactOneNumber: '',
-                emergencyContactTwo: '',
-                emergencyContactTwoNumber: '',
-                appointmentDate: '',
-                resignationDate: '',
+                job_id: '',
+                residence_address: '',
+                mailing_address: '',
+                emergency_contact_one: '',
+                emergency_contact_one_number: '',
+                emergency_contact_two: '',
+                emergency_contact_two_number: '',
+                arrival_date: '',
+                resignation_date: '',
                 email: '',
                 remark: '',
             },
+            departmentOption: [],
+            jobOption: [],
         }
     },
     methods: {
@@ -443,6 +447,41 @@ export default {
         },
     },
     mounted() {
+        axios
+        .post('departments/options')
+        .then(response => {
+            this.departmentOption = response.data;
+        })
+        .catch(error => {
+            this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                title: `${this.$t('createdFailed')}`,
+                icon: 'XIcon',
+                variant: 'danger',
+                text: error.response.data.message,
+                },
+            })
+        })
+
+        axios
+        .post('jobs/options')
+        .then(response => {
+            this.jobOption = response.data;
+        })
+        .catch(error => {
+            this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                title: `${this.$t('createdFailed')}`,
+                icon: 'XIcon',
+                variant: 'danger',
+                text: error.response.data.message,
+                },
+            })
+        })
         if(this.$route.query.id) {
             this.defaultData.id = this.$route.query.id;
             this.editMethod();

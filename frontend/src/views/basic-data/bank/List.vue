@@ -66,7 +66,7 @@
                             slot-scope="props"
                         >
                             <!-- Column: index -->
-                            <span v-if="props.column.field === 'index'" class="text-nowrap">
+                            <span v-if="props.column.field === 'id'" class="text-nowrap">
                                 {{ props.row.originalIndex + 1 }}
                             </span>
 
@@ -178,9 +178,9 @@ import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
     BRow, BCol, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BButton, BSpinner
 } from 'bootstrap-vue'
+import axios from "@axios";
 import { VueGoodTable } from 'vue-good-table'
 import Ripple from 'vue-ripple-directive'
-import axios from "@axios";
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
@@ -207,22 +207,13 @@ export default {
             columns: [
                 { label: '#', field: 'id' },
                 { label: 'code', field: 'code' },
-                { label: 'swiftCode', field: 'swiftCode' },
+                { label: 'swiftCode', field: 'swift_code' },
                 { label: 'name', field: 'name' },
-                { label: 'englishName', field: 'englishName' },
-                { label: 'telephone', field: 'telephone' },
+                { label: 'englishName', field: 'alias' },
+                { label: 'telephone', field: 'phone' },
                 { label: 'action', field: 'action' },
             ],
-            rows: [
-                {
-                    id: 1,
-                    code: '001',
-                    swiftCode: '822',
-                    name: '中國信託',
-                    englishName: 'CTBC',
-                    telephone: '0987654321',
-                }
-            ],
+            rows: [],
             isLoading: false,
             totalRecords: 0,
             serverParams: {
@@ -271,32 +262,48 @@ export default {
             .catch(error => console.error (error))
         },
         deleteMethod(id) {
-            axios
-            .delete(`${this.apiPath}/${id}`)
-            .then(() => {
-                this.getList();
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('deletedSuccess')}`,
-                    icon: 'CoffeeIcon',
-                    variant: 'success',
-                    text: `${this.$t('Bank Data Setting')} ${this.$t('deletedSuccess')}!`,
-                    },
-                })
-            })
-            .catch(error => {
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('deletedFailed')}`,
-                    icon: 'XIcon',
-                    variant: 'danger',
-                    text: error.response.data.message,
-                    },
-                })
+            this.$swal({
+                title: `${this.$t('checkDelete')}`,
+                text: `${this.$t('cantRevert')}`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: `${this.$t('yes')}`,
+                cancelButtonText: `${this.$t('no')}`,
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-danger ml-1',
+                },
+                buttonsStyling: false,
+            }).then(result => {
+                if (result.value) {
+                    axios
+                    .delete(`${this.apiPath}/${id}`)
+                    .then(() => {
+                        this.getList();
+                        this.$toast({
+                            component: ToastificationContent,
+                            position: 'top-right',
+                            props: {
+                            title: `${this.$t('deletedSuccess')}`,
+                            icon: 'CoffeeIcon',
+                            variant: 'success',
+                            text: `${this.$t('Bank Data Setting')} ${this.$t('deletedSuccess')}!`,
+                            },
+                        })
+                    })
+                    .catch(error => {
+                        this.$toast({
+                            component: ToastificationContent,
+                            position: 'top-right',
+                            props: {
+                            title: `${this.$t('deletedFailed')}`,
+                            icon: 'XIcon',
+                            variant: 'danger',
+                            text: error.response.data.message,
+                            },
+                        })
+                    })
+                }
             })
         },
     },

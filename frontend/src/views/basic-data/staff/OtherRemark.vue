@@ -7,7 +7,7 @@
                 <b-col cols="6">
                     <b-form-group :label="$t('created_by')">
                         <b-form-input
-                            :value="otherRemark.created_by"
+                            :value="otherRemark.creator && otherRemark.creator.name"
                             :placeholder="$t('created_by')"
                             type="text"
                             readonly
@@ -29,7 +29,7 @@
                 <b-col cols="6">
                     <b-form-group :label="$t('updated_by')">
                         <b-form-input
-                            :value="otherRemark.updated_by"
+                            :value="otherRemark.editor && otherRemark.editor.name"
                             :placeholder="$t('updated_by')"
                             type="text"
                             readonly

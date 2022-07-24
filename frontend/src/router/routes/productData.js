@@ -1,8 +1,8 @@
 export default [
     {
-        path: '/ProductData/ProductDataSetting',
-        name: 'ProductData-ProductDataSetting',
-        component: () => import('@/views/product-data/ProductDataSetting.vue'),
+        path: '/ProductData/ProductDataSettingList',
+        name: 'ProductData-ProductDataSettingList',
+        component: () => import('@/views/product-data/product/List.vue'),
         meta: {
             pageTitle: 'Product Data Setting',
             breadcrumb: [
@@ -12,14 +12,92 @@ export default [
         },
     },
     {
-        path: '/ProductData/WarehouseDataSetting',
-        name: 'ProductData-WarehouseDataSetting',
-        component: () => import('@/views/product-data/WarehouseDataSetting.vue'),
+        path: '/ProductData/ProductDataSettingDetail',
+        name: 'ProductData-ProductDataSettingDetail',
+        component: () => import('@/views/product-data/product/Detail.vue'),
+        meta: {
+            pageTitle: 'Product Data Setting',
+            breadcrumb: [
+                { text: 'Product Data' },
+                { text: 'Product Data Setting', to: { name: 'ProductData-ProductDataSettingList' } },
+                { text: 'detail', active: true },
+            ],
+        },
+    },
+    {
+        path: '/ProductData/ProductDataSettingCreate',
+        name: 'ProductData-ProductDataSettingCreate',
+        component: () => import('@/views/product-data/product/Crud.vue'),
+        meta: {
+            pageTitle: 'Product Data Setting',
+            breadcrumb: [
+                { text: 'Product Data' },
+                { text: 'Product Data Setting', to: { name: 'ProductData-ProductDataSettingList' } },
+                { text: 'create', active: true },
+            ],
+        },
+    },
+    {
+        path: '/ProductData/ProductDataSettingEdit',
+        name: 'ProductData-ProductDataSettingEdit',
+        component: () => import('@/views/product-data/product/Crud.vue'),
+        meta: {
+            pageTitle: 'Product Data Setting',
+            breadcrumb: [
+                { text: 'Product Data' },
+                { text: 'Product Data Setting', to: { name: 'ProductData-ProductDataSettingList' } },
+                { text: 'edit', active: true },
+            ],
+        },
+    },
+    {
+        path: '/ProductData/WarehouseDataSettingList',
+        name: 'ProductData-WarehouseDataSettingList',
+        component: () => import('@/views/product-data/warehouse/List.vue'),
         meta: {
             pageTitle: 'Warehouse Data Setting',
             breadcrumb: [
                 { text: 'Product Data' },
                 { text: 'Warehouse Data Setting', active: true },
+            ],
+        },
+    },
+    {
+        path: '/ProductData/WarehouseDataSettingDetail',
+        name: 'ProductData-WarehouseDataSettingDetail',
+        component: () => import('@/views/product-data/warehouse/Detail.vue'),
+        meta: {
+            pageTitle: 'Warehouse Data Setting',
+            breadcrumb: [
+                { text: 'Product Data' },
+                { text: 'Warehouse Data Setting', to: { name: 'ProductData-WarehouseDataSettingList' } },
+                { text: 'detail', active: true },
+            ],
+        },
+    },
+    {
+        path: '/ProductData/WarehouseDataSettingCreate',
+        name: 'ProductData-WarehouseDataSettingCreate',
+        component: () => import('@/views/product-data/warehouse/Crud.vue'),
+        meta: {
+            pageTitle: 'Warehouse Data Setting',
+            breadcrumb: [
+                { text: 'Product Data' },
+                { text: 'Warehouse Data Setting', to: { name: 'ProductData-WarehouseDataSettingList' } },
+                { text: 'create', active: true },
+            ],
+        },
+    },
+    {
+        path: '/ProductData/WarehouseDataSettingEdit',
+        name: 'ProductData-WarehouseDataSettingEdit',
+        component: () => import('@/views/product-data/warehouse/Crud.vue'),
+        meta: {
+            pageTitle: 'Warehouse Data Setting',
+            breadcrumb: [
+                { text: 'Product Data' },
+                { text: 'Warehouse Data Setting', to: { name: 'ProductData-WarehouseDataSettingList' } },
+                { text: 'edit', active: true },
             ],
         },
     },

@@ -152,7 +152,7 @@ export default [
     {
         path: '/BasicData/AccountDataSettingList',
         name: 'BasicData-AccountDataSettingList',
-        component: () => import('@/views/basic-data/account/List.vue'),
+        component: () => import('@/views/basic-data/bank_account/List.vue'),
         meta: {
             pageTitle: 'Account Data Setting',
             breadcrumb: [
@@ -164,7 +164,7 @@ export default [
     {
         path: '/BasicData/AccountDataSettingDetail',
         name: 'BasicData-AccountDataSettingDetail',
-        component: () => import('@/views/basic-data/account/Detail.vue'),
+        component: () => import('@/views/basic-data/bank_account/Detail.vue'),
         meta: {
             pageTitle: 'Account Data Setting',
             breadcrumb: [
@@ -177,7 +177,7 @@ export default [
     {
         path: '/BasicData/AccountDataSettingCreate',
         name: 'BasicData-AccountDataSettingCreate',
-        component: () => import('@/views/basic-data/account/Crud.vue'),
+        component: () => import('@/views/basic-data/bank_account/Crud.vue'),
         meta: {
             pageTitle: 'Account Data Setting',
             breadcrumb: [
@@ -190,7 +190,7 @@ export default [
     {
         path: '/BasicData/AccountDataSettingEdit',
         name: 'BasicData-AccountDataSettingEdit',
-        component: () => import('@/views/basic-data/account/Crud.vue'),
+        component: () => import('@/views/basic-data/bank_account/Crud.vue'),
         meta: {
             pageTitle: 'Account Data Setting',
             breadcrumb: [

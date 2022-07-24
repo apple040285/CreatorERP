@@ -1,0 +1,779 @@
+<template>
+    <div>
+        <b-card-code :title="$route.name == 'ProductData-ProductDataSettingCreate' ?  $t('ProductList.createProduct') : $t('ProductList.editProduct')">
+            <b-form @submit.prevent>
+                <validation-observer ref="simpleRules">
+                    <b-row>
+                        <!-- code -->
+                        <b-col cols="4">
+                            <b-form-group id="productCode">
+                                <label for="code">{{ $t('ProductList.code') }}</label>
+                                <validation-provider
+                                    #default="{ errors }"
+                                    name="productCode"
+                                    rules="required"
+                                >
+                                    <b-form-input
+                                        v-model="defaultData.code"
+                                        type="text"
+                                        :placeholder="$t('ProductList.code')"
+                                    />
+                                    <small class="text-danger">{{ errors[0] }}</small>
+                                </validation-provider>
+                            </b-form-group>
+                        </b-col>
+                        <!-- name -->
+                        <b-col cols="4">
+                            <b-form-group id="productName">
+                                <label for="name">{{ $t('ProductList.name') }}</label>
+                                <validation-provider
+                                    #default="{ errors }"
+                                    name="productName"
+                                    rules="required"
+                                >
+                                    <b-form-input
+                                        v-model="defaultData.name"
+                                        type="text"
+                                        :placeholder="$t('ProductList.name')"
+                                    />
+                                    <small class="text-danger">{{ errors[0] }}</small>
+                                </validation-provider>
+                            </b-form-group>
+                        </b-col>
+                        <!-- englishName -->
+                        <b-col cols="4">
+                            <b-form-group>
+                                <label for="englishName">{{ $t('ProductList.englishName') }}</label>
+                                <b-form-input
+                                    v-model="defaultData.alias"
+                                    type="text"
+                                    :placeholder="$t('ProductList.englishName')"
+                                />
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <!-- img -->
+                        <b-col cols="4">
+                            <b-form-group>
+                                <label for="img">{{ $t('ProductList.img') }}</label>
+                                <b-form-file
+                                    accept="image/*"
+                                    v-model="defaultData.images"
+                                    :placeholder="$t('ProductList.imgPlaceHolder')"
+                                    :drop-placeholder="$t('ProductList.imgDropPlaceHolder')"
+                                />
+                            </b-form-group>
+                        </b-col>
+                        <!-- invoice_name -->
+                        <b-col cols="4">
+                            <b-form-group>
+                                <label for="invoiceName">{{ $t('ProductList.invoiceName') }}</label>
+                                <b-form-input
+                                    v-model="defaultData.invoice_name"
+                                    type="text"
+                                    :placeholder="$t('ProductList.invoiceName')"
+                                />
+                            </b-form-group>
+                        </b-col>
+                        <!-- specification -->
+                        <b-col cols="4">
+                            <b-form-group id="productSpecification">
+                                <label for="productSpecification">{{ $t('ProductList.specification') }}</label>
+                                <validation-provider
+                                    #default="{ errors }"
+                                    name="productSpecification"
+                                    rules="required"
+                                >
+                                    <b-form-input
+                                        v-model="defaultData.sku"
+                                        type="text"
+                                        :placeholder="$t('ProductList.specification')"
+                                    />
+                                    <small class="text-danger">{{ errors[0] }}</small>
+                                </validation-provider>
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <!-- category -->
+                        <b-col cols="4">
+                            <b-form-group id="productCategory">
+                                <label for="productCategory">{{ $t('ProductList.category') }}</label>
+                                <validation-provider
+                                    #default="{ errors }"
+                                    name="productCategory"
+                                    rules="required"
+                                >
+                                    <v-select
+                                        label="name"
+                                        v-model="defaultData.category_id"
+                                        :options="categoryOption"
+                                        :placeholder="$t('ProductList.selectCategory')"
+                                        :reduce="option => option.id"
+                                    />
+                                    <small class="text-danger">{{ errors[0] }}</small>
+                                </validation-provider>
+                            </b-form-group>
+                        </b-col>
+                        <!-- unit -->
+                        <b-col cols="4">
+                            <b-form-group id="productUnit">
+                                <label for="productUnit">{{ $t('ProductList.unit') }}</label>
+                                <validation-provider
+                                    #default="{ errors }"
+                                    name="productUnit"
+                                    rules="required"
+                                >
+                                    <b-form-input
+                                        v-model="defaultData.unit"
+                                        type="text"
+                                        :placeholder="$t('ProductList.unit')"
+                                    />
+                                    <small class="text-danger">{{ errors[0] }}</small>
+                                </validation-provider>
+                            </b-form-group>
+                        </b-col>
+                        <!-- barcode -->
+                        <b-col cols="4">
+                            <b-form-group>
+                                <label for="barcode">{{ $t('ProductList.barcode') }}</label>
+                                <b-form-input
+                                    v-model="defaultData.barcode"
+                                    type="text"
+                                    :placeholder="$t('ProductList.barcode')"
+                                />
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <!--  Remark -->
+                        <b-col cols="4">
+                            <b-form-group>
+                                <label for="remark">{{ $t('ProductList.remark') }}</label>
+                                <b-form-textarea
+                                    :placeholder="$t('ProductList.remark')"
+                                    rows="3"
+                                    v-model="defaultData.remark"
+                                    autocomplete="off"
+                                />
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                </validation-observer>
+            </b-form>
+        </b-card-code>
+        <b-card-code :title="$t('ProductModal.warehouseInformation')">
+
+            <!-- search input -->
+            <div class="custom-search d-flex justify-content-end">
+                <b-button
+                    v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+                    v-b-modal.modalForm
+                    variant="outline-primary"
+                    class="mb-2 mr-2"
+                    @click="resetModal()"
+                >
+                    {{ $t('create')}}
+                </b-button>
+                <b-form-group>
+                    <div class="d-flex align-items-center">
+                        <b-form-input
+                            v-model="serverParams.searchTerm"
+                            :placeholder="$t('table.Search')"
+                            type="text"
+                            class="d-inline-block"
+                        />
+                    </div>
+                </b-form-group>
+            </div>
+
+            <vue-good-table
+                mode="remote"
+                @on-page-change="onPageChange"
+                @on-sort-change="onSortChange"
+                @on-per-page-change="onPerPageChange"
+                :totalRows="totalRecords"
+                :isLoading.sync="isLoading"
+                :pagination-options="{
+                    enabled: true,
+                }"
+                :search-options="{
+                    enabled: true,
+                    externalQuery: serverParams.searchTerm
+                }"
+                @on-search="onSearch"
+                :sort-options="{
+                    enabled: true,
+                }"
+                :rows="rows"
+                :columns="columns"
+            >
+                <template #loadingContent>
+                    <div class="text-center">
+                        <b-spinner variant="primary" label="Text Centered" />
+                    </div>
+                </template>
+                <template
+                    slot="table-column"
+                    slot-scope="props"
+                >
+                    <span class="text-nowrap" v-if="props.column.label !== '#'">
+                        {{$t('ProductList.' + props.column.label) }}
+                    </span>
+                </template>
+                <template
+                    slot="table-row"
+                    slot-scope="props"
+                >
+                    <!-- Column: index -->
+                    <span v-if="props.column.field === 'id'" class="text-nowrap">
+                        {{ props.row.originalIndex + 1 }}
+                    </span>
+                    <!-- Column: Action -->
+                    <span v-else-if="props.column.field === 'action'" class="text-nowrap">
+                        <span>
+                            <b-button
+                                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                                variant="outline-success"
+                                size="sm"
+                                class="mr-50"
+                                @click="editData(props.row)"
+                            >
+                                <feather-icon
+                                    icon="Edit2Icon"
+                                />
+                                <span>{{ $t('edit') }}</span>
+                            </b-button>
+                            <b-button
+                                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                                variant="outline-danger"
+                                size="sm"
+                                @click="removeData(props.row.id)"
+                            >
+                                <feather-icon
+                                    icon="Trash2Icon"
+                                />
+                                <span>{{ $t('delete') }}</span>
+                            </b-button>
+                        </span>
+                    </span>
+
+                    <!-- Column: Common -->
+                    <span v-else class="text-nowrap">
+                        {{ props.formattedRow[props.column.field] }}
+                    </span>
+                </template>
+                <!-- pagination -->
+                <template
+                    slot="pagination-bottom"
+                    slot-scope="props"
+                >
+                    <div class="d-flex justify-content-between flex-wrap">
+                        <div class="d-flex align-items-center mb-0 mt-1">
+                            <span class="text-nowrap ">
+                                {{ $t('table.Showing') }} 1 {{ $t('table.to') }}
+                            </span>
+                            <b-form-select
+                                v-model="serverParams.perPage"
+                                :options="['5','10']"
+                                class="mx-1"
+                                @input="(value)=>props.perPageChanged({currentPerPage:value})"
+                            />
+                            <span class="text-nowrap"> {{ $t('table.of') }} {{ props.total }} {{ $t('table.entries') }} </span>
+                        </div>
+                        <div>
+                            <b-pagination
+                                :value="1"
+                                :total-rows="props.total"
+                                :per-page="serverParams.perPage"
+                                first-number
+                                last-number
+                                align="right"
+                                prev-class="prev-item"
+                                next-class="next-item"
+                                class="mt-1 mb-0"
+                                @input="(value)=>props.pageChanged({currentPage:value})"
+                            >
+                                <template #prev-text>
+                                    <feather-icon
+                                        icon="ChevronLeftIcon"
+                                        size="18"
+                                    />
+                                </template>
+                                <template #next-text>
+                                    <feather-icon
+                                        icon="ChevronRightIcon"
+                                        size="18"
+                                    />
+                                </template>
+                            </b-pagination>
+                        </div>
+                    </div>
+                </template>
+            </vue-good-table>
+        </b-card-code>
+        <template>
+            <div class="demo-spacing-0">
+                <b-alert
+                    v-height-fade.appear
+                    fade
+                    variant="danger"
+                    :show="alertShow"
+                    dismissible
+                    @dismissed="alertShow = false"
+                >
+                    <div class="alert-body">
+                        <span>{{ $t('ProductList.warehouseDataCheck') }}</span>
+                    </div>
+                </b-alert>
+                <b-row>
+                    <!-- submit -->
+                    <b-col class="text-right">
+                        <b-button
+                            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                            type="submit"
+                            variant="primary"
+                            @click.prevent="validationForm"
+                        >
+                            {{ $t('Submit') }}
+                        </b-button>
+                    </b-col>
+                    <b-col>
+                        <b-button
+                            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                            type="button"
+                            variant="secondary"
+                            :to="{ name: 'ProductData-ProductDataSettingList' }"
+                        >
+                            {{ $t('back') }}
+                        </b-button>
+                    </b-col>
+                </b-row>
+            </div>
+        </template>
+        <!-- create & edit modal -->
+        <b-modal
+            id="modalForm"
+            cancel-variant="outline-secondary"
+            :title="storehousesData.id ? $t('edit') : $t('create')"
+            :cancel-title="$t('back')"
+            :ok-title="$t('Submit')"
+            @ok.prevent="validationModalForm"
+            ref="modalForm"
+        >
+            <b-form @submit.prevent>
+                <validation-observer ref="modalRules">
+                    <b-form-group id="productWarehouse">
+                        <label for="productWarehouse">{{ $t('ProductList.warehouse') }}</label>
+                        <validation-provider
+                            #default="{ errors }"
+                            name="productWarehouse"
+                            rules="required"
+                        >
+                            <v-select
+                                label="name"
+                                v-model="storehousesData.id"
+                                :options="storehouseOption"
+                                :placeholder="$t('ProductModal.selectWarehouse')"
+                                :reduce="option => option.id"
+                                :readonly="storehousesData.id"
+                            />
+                            <small class="text-danger">{{ errors[0] }}</small>
+                        </validation-provider>
+                    </b-form-group>
+                    <b-form-group id="productStock">
+                        <label for="productStock">{{ $t('ProductList.stock') }}</label>
+                        <validation-provider
+                            #default="{ errors }"
+                            name="productStock"
+                            rules="required"
+                        >
+                            <b-form-input
+                                v-model="storehousesData.stock"
+                                type="number"
+                                :placeholder="$t('ProductList.stock')"
+                            />
+                            <small class="text-danger">{{ errors[0] }}</small>
+                        </validation-provider>
+                    </b-form-group>
+                    <b-form-group>
+                        <label for="safetyStock">{{ $t('ProductList.safetyStock') }}</label>
+                        <b-form-input
+                            v-model="storehousesData.safety_stock"
+                            type="number"
+                            :placeholder="$t('ProductList.safetyStock')"
+                        />
+                    </b-form-group>
+                </validation-observer>
+            </b-form>
+        </b-modal>
+    </div>
+</template>
+
+<script>
+import BCardCode from '@core/components/b-card-code'
+import vSelect from 'vue-select'
+import { VueGoodTable } from 'vue-good-table'
+import { heightFade } from '@core/directives/animations'
+import {
+    BAlert,
+    BRow,
+    BCol,
+    BFormGroup,
+    BFormInput,
+    BFormCheckbox,
+    BForm,
+    BButton,
+    BFormText,
+    BFormDatalist,
+    BInputGroup,
+    BInputGroupPrepend,
+    BInputGroupAppend,
+    BFormTextarea,
+    BPagination,
+    BFormSelect,
+    BCardText,
+    BFormFile,
+    BSpinner
+} from 'bootstrap-vue'
+import Ripple from 'vue-ripple-directive'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import { required } from '@validations'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import axios from "@axios";
+
+export default {
+    components: {
+        BAlert,
+        BCardCode,
+        BRow,
+        BCol,
+        BFormGroup,
+        BInputGroup,
+        BInputGroupPrepend,
+        BFormInput,
+        BFormCheckbox,
+        BForm,
+        BFormText,
+        BButton,
+        BFormDatalist,
+        ValidationProvider,
+        ValidationObserver,
+        BInputGroupAppend,
+        vSelect,
+        BFormTextarea,
+        BPagination,
+        BFormSelect,
+        VueGoodTable,
+        BCardText,
+        BFormFile,
+        BSpinner
+    },
+    directives: {
+        Ripple,
+        'height-fade': heightFade,
+    },
+    data() {
+        return {
+            apiPath: '/products',
+            required,
+            alertShow: 'false',
+            modalCreateFlag : true,
+            isLoading: false,
+            totalRecords: 0,
+            serverParams: {
+                sort: [
+                    {
+                        field: '',
+                        type: ''
+                    }
+                ],
+                page: 1,
+                perPage: 10,
+                searchTerm: '',
+            },
+            showData: {},
+            storehousesData: {
+                id: null,
+                stock: 0,
+                safety_stock: 0,
+            },
+            defaultData: {
+                id : null,
+                code: '',
+                name: '',
+                alias: '',
+                images: null,
+                invoice_name: '',
+                sku: '',
+                product_category_id: '',
+                unit: '',
+                barcode: '',
+                remark: '',
+                storehouses: []
+            },
+            categoryOption: [],
+            storehouseOption: [],
+            columns: [
+                { label: '#', field: 'id' },
+                { label: 'warehouse', field: 'storehouse' },
+                { label: 'stock', field: 'stock' },
+                { label: 'expectedToEnter', field: 'expectedToEnter' },
+                { label: 'predict', field: 'predict' },
+                { label: 'estimatedStock', field: 'estimatedStock' },
+                { label: 'safetyStock', field: 'safety_stock' },
+                { label: 'action', field: 'action' },
+            ],
+            rows: [],
+        }
+    },
+    methods: {
+        onSearch({searchTerm}) {
+            this.serverParams.searchTerm = searchTerm
+            this.getList()
+        },
+        updateParams(newProps) {
+            this.serverParams = Object.assign({}, this.serverParams, newProps);
+        },
+        onPageChange(params) {
+            this.updateParams({page: params.currentPage});
+            this.getList();
+        },
+        onPerPageChange(params) {
+            this.updateParams({perPage: params.currentPerPage});
+            this.getList();
+        },
+        onSortChange(params) {
+            this.updateParams({
+                sort: params,
+            });
+            this.getList();
+        },
+        validationForm() {
+            this.$refs.simpleRules.validate().then(success => {
+                if(this.rows.length > 0) {
+                    this.alertShow = 'false';
+                }else {
+                    this.alertShow = '';
+                }
+                if (success && this.rows.length > 0) {
+                    if(this.showData.id) {
+                        this.updateMethod();
+                    }else {
+                        this.createMethod();
+                    }
+                }else {
+                    const simpleRulesErrors = Object.keys(this.$refs.simpleRules.errors);
+                    simpleRulesErrors.some(element => {
+                        if(this.$refs.simpleRules.errors[element].length > 0){
+                            document.querySelector(`#${element} input`).focus();
+                            return true;
+                        }
+                    });
+                }
+            })
+        },
+        validationModalForm() {
+            this.$refs.modalRules.validate().then(success => {
+                if (success) {
+                    this.dataPush();
+                }else {
+                    const modalRulesErrors = Object.keys(this.$refs.modalRules.errors);
+                    modalRulesErrors.some(element => {
+                        if(this.$refs.modalRules.errors[element].length > 0){
+                            document.querySelector(`#${element} input`).focus();
+                            return true;
+                        }
+                    });
+                }
+            })
+        },
+        createMethod() {
+            axios
+            .post(`${this.apiPath}`, this.showData)
+            .then(() => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('createdSuccess')}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${this.$t('Product Data Setting')} ${this.$t('createdSuccess')}!`,
+                    },
+                })
+                this.$router.push({name:'ProductData-ProductDataSettingList'});
+            })
+            .catch(error => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('createdFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
+            })
+        },
+        editMethod() {
+            axios
+            .get(`${this.apiPath}/${this.defaultData.id}`)
+            .then(response => {
+                this.defaultData = response.data;
+            })
+            .catch(error => console.error (error))
+        },
+        updateMethod() {
+            axios
+            .put(`${this.apiPath}/${this.defaultData.id}`, this.defaultData)
+            .then(() => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedSuccess')}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${this.$t('Product Data Setting')} ${this.$t('updatedSuccess')}!`,
+                    },
+                })
+                this.$router.push({name:'ProductData-ProductDataSettingList'});
+            })
+            .catch(error => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
+            })
+        },
+        resetModal() {
+            this.storehousesData = Object.assign({}, this.storehousesData, this.defaultData)
+        },
+        editData(data) {
+            this.storehousesData = data;
+            this.$refs['modalForm'].show();
+        },
+        dataPush() {
+            let key = this.showData.storehouses.findIndex((element) => element.id == this.storehousesData.id);
+            if(key == '-1') {
+                this.showData.storehouses.push(this.storehousesData);
+                this.rows = this.showData.storehouses;
+            }else{
+                if(this.storehousesData.id == null){
+                    this.$toast({
+                        component: ToastificationContent,
+                        position: 'top-right',
+                        props: {
+                        title: `${this.$t('createdFailed')}`,
+                        icon: 'XIcon',
+                        variant: 'danger',
+                        text: `${this.$t('ProductList.storehousesCreatedFailed')}`,
+                        },
+                    })
+                }else{
+                    Object.assign(this.showData.storehouses[key], this.storehousesData);
+                }
+            }
+            this.$nextTick(() => {
+                this.$refs['modalForm'].toggle('#toggle-btn')
+            })
+        },
+        // dataPush() {
+        //     let key = this.showData.storehouses.findIndex((element) => element.id == this.storehousesData.id);
+        //     if(key == '-1'){
+        //         if(this.storehousesData.id){
+        //             this.showData.storehouses.push(this.storehousesData);
+        //             this.rows = this.showData.storehouses;
+        //         }else{
+        //             Object.assign(this.showData.storehouses[key], this.storehousesData);
+        //         }
+        //     }else{
+        //         this.$toast({
+        //             component: ToastificationContent,
+        //             position: 'top-right',
+        //             props: {
+        //             title: `${this.$t('createdFailed')}`,
+        //             icon: 'XIcon',
+        //             variant: 'danger',
+        //             text: `${this.$t('ProductList.storehousesCreatedFailed')}`,
+        //             },
+        //         })
+        //         return false;
+        //     }
+        //     this.$nextTick(() => {
+        //         this.$refs['modalForm'].toggle('#toggle-btn')
+        //     })
+        // },
+        removeData(key) {
+            this.$bvModal
+                .msgBoxConfirm(this.$t('checkDelete'), {
+                    size: 'sm',
+                    okVariant: 'primary',
+                    okTitle: this.$t('yes'),
+                    cancelTitle: this.$t('no'),
+                    cancelVariant: 'outline-secondary',
+                    hideHeaderClose: false,
+                    centered: true,
+                    footerClass: "d-block mx-auto"
+                })
+                .then(value => {
+                    if(value) this.rows.splice(key,1);
+                })
+        },
+    },
+    mounted() {
+        axios
+        .post('categories/options')
+        .then(response => {
+            this.categoryOption = response.data;
+        })
+        .catch(error => {
+            this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                title: `${this.$t('createdFailed')}`,
+                icon: 'XIcon',
+                variant: 'danger',
+                text: error.response.data.message,
+                },
+            })
+        })
+        axios
+        .post('storehouses/options')
+        .then(response => {
+            this.storehouseOption = response.data;
+        })
+        .catch(error => {
+            this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                title: `${this.$t('createdFailed')}`,
+                icon: 'XIcon',
+                variant: 'danger',
+                text: error.response.data.message,
+                },
+            })
+        })
+        if(this.$route.query.id) {
+            this.defaultData.id = this.$route.query.id;
+            this.editMethod();
+        }
+    },
+}
+</script>
+
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-select.scss';
+@import '@core/scss/vue/libs/vue-good-table.scss';
+</style>

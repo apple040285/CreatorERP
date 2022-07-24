@@ -50,6 +50,7 @@
 import { BTabs, BTab } from 'bootstrap-vue'
 import BasicInformation from './BasicInformation.vue'
 import OtherRemark from './OtherRemark.vue'
+import axios from "@axios";
 
 export default {
     components: {
@@ -60,29 +61,18 @@ export default {
     },
     data() {
         return {
-            id: '',
-            data: {
-                id: 1,
-                code: '001',
-                swiftCode: '822',
-                name: '中國信託',
-                englishName: 'CTBC',
-                telephone: '0987654321',
-                creditCardFeeRates: '0.5',
-                created_by: 'Dennis',
-                created_at: '2022/06/30',
-                updated_by: 'Dennis',
-                updated_at: '2022/06/30',
-                remark: 'test',
-            },
+            data: {},
         }
     },
     mounted() {
-        if(this.$route.query.id) this.id = this.$route.query.id;
+        if(this.$route.query.id) {
+            axios
+            .get(`banks/${this.$route.query.id}`)
+            .then(response => {
+                this.data = response.data;
+            })
+            .catch(error => console.error (error))
+        }
     },
 }
 </script>
-
-<style lang="scss">
-@import '@core/scss/vue/libs/vue-good-table.scss';
-</style>

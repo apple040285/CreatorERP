@@ -165,10 +165,10 @@
             cancel-variant="outline-secondary"
             :title="showData.id ? $t('edit') : $t('create')"
             :cancel-title="$t('back')"
-            scrollable
             :ok-title="$t('Submit')"
             @ok.prevent="validationModalForm"
             ref="modalForm"
+            no-close-on-backdrop
         >
             <b-form @submit.prevent>
                 <validation-observer ref="modalRules">
@@ -239,10 +239,10 @@
                             name="currencyUnitPriceOfDigits"
                             rules="required"
                         >
-                            <b-form-input
+                            <v-select
                                 v-model="showData.unit_price_of_digits"
-                                type="number"
                                 :placeholder="$t('CurrencyList.unitPriceOfDigits')"
+                                :options="[0,1,2,3,4,5,6]"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -254,10 +254,10 @@
                             name="currencyAmountOfDigits"
                             rules="required"
                         >
-                            <b-form-input
+                            <v-select
                                 v-model="showData.amount_of_digits"
-                                type="number"
                                 :placeholder="$t('CurrencyList.amountOfDigits')"
+                                :options="[0,1,2,3,4]"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -273,11 +273,12 @@ import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
     BRow, BCol, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BButton, BSpinner
 } from 'bootstrap-vue'
+import vSelect from 'vue-select'
 import { VueGoodTable } from 'vue-good-table'
+import axios from "@axios";
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
 import Ripple from 'vue-ripple-directive'
-import axios from "@axios";
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
@@ -291,6 +292,7 @@ export default {
         BForm,
         BFormInput,
         BFormSelect,
+        vSelect,
         BButton,
         ValidationProvider,
         ValidationObserver,
@@ -464,32 +466,48 @@ export default {
             })
         },
         deleteMethod(id) {
-            axios
-            .delete(`${this.apiPath}/${id}`)
-            .then(() => {
-                this.getList();
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('deletedSuccess')}`,
-                    icon: 'CoffeeIcon',
-                    variant: 'success',
-                    text: `${this.$t('Currency Data Setting')} ${this.$t('deletedSuccess')}!`,
-                    },
-                })
-            })
-            .catch(error => {
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('deletedFailed')}`,
-                    icon: 'XIcon',
-                    variant: 'danger',
-                    text: error.response.data.message,
-                    },
-                })
+            this.$swal({
+                title: `${this.$t('checkDelete')}`,
+                text: `${this.$t('cantRevert')}`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: `${this.$t('yes')}`,
+                cancelButtonText: `${this.$t('no')}`,
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-danger ml-1',
+                },
+                buttonsStyling: false,
+            }).then(result => {
+                if (result.value) {
+                    axios
+                    .delete(`${this.apiPath}/${id}`)
+                    .then(() => {
+                        this.getList();
+                        this.$toast({
+                            component: ToastificationContent,
+                            position: 'top-right',
+                            props: {
+                            title: `${this.$t('deletedSuccess')}`,
+                            icon: 'CoffeeIcon',
+                            variant: 'success',
+                            text: `${this.$t('Currency Data Setting')} ${this.$t('deletedSuccess')}!`,
+                            },
+                        })
+                    })
+                    .catch(error => {
+                        this.$toast({
+                            component: ToastificationContent,
+                            position: 'top-right',
+                            props: {
+                            title: `${this.$t('deletedFailed')}`,
+                            icon: 'XIcon',
+                            variant: 'danger',
+                            text: error.response.data.message,
+                            },
+                        })
+                    })
+                }
             })
         },
     },
@@ -500,5 +518,6 @@ export default {
 </script>
 
 <style lang="scss" >
+@import '@core/scss/vue/libs/vue-select.scss';
 @import '@core/scss/vue/libs/vue-good-table.scss';
 </style>

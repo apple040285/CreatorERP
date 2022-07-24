@@ -208,23 +208,13 @@ export default {
                 { label: '#', field: 'id' },
                 { label: 'code', field: 'code' },
                 { label: 'name', field: 'name' },
-                { label: 'englishName', field: 'englishName' },
-                { label: 'departmentName', field: 'departmentName' },
+                { label: 'englishName', field: 'alias' },
+                { label: 'departmentName', field: 'department.name' },
                 { label: 'cellphone', field: 'cellphone' },
-                { label: 'appointmentDate', field: 'appointmentDate' },
+                { label: 'appointmentDate', field: 'arrival_date' },
                 { label: 'action', field: 'action' },
             ],
-            rows: [
-                {
-                    id : 1,
-                    code : 'a',
-                    name : 'Dennis',
-                    englishName : 'Dennis',
-                    departmentName : '會計部',
-                    cellphone : '0987654321',
-                    appointmentDate : '2022/07/05',
-                }
-            ],
+            rows: [],
             isLoading: false,
             totalRecords: 0,
             serverParams: {
@@ -273,32 +263,48 @@ export default {
             .catch(error => console.error (error))
         },
         deleteMethod(id) {
-            axios
-            .delete(`${this.apiPath}/${id}`)
-            .then(() => {
-                this.getList();
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('deletedSuccess')}`,
-                    icon: 'CoffeeIcon',
-                    variant: 'success',
-                    text: `${this.$t('Job Data Setting')} ${this.$t('deletedSuccess')}!`,
-                    },
-                })
-            })
-            .catch(error => {
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('deletedFailed')}`,
-                    icon: 'XIcon',
-                    variant: 'danger',
-                    text: error.response.data.message,
-                    },
-                })
+            this.$swal({
+                title: `${this.$t('checkDelete')}`,
+                text: `${this.$t('cantRevert')}`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: `${this.$t('yes')}`,
+                cancelButtonText: `${this.$t('no')}`,
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-danger ml-1',
+                },
+                buttonsStyling: false,
+            }).then(result => {
+                if (result.value) {
+                    axios
+                    .delete(`${this.apiPath}/${id}`)
+                    .then(() => {
+                        this.getList();
+                        this.$toast({
+                            component: ToastificationContent,
+                            position: 'top-right',
+                            props: {
+                            title: `${this.$t('deletedSuccess')}`,
+                            icon: 'CoffeeIcon',
+                            variant: 'success',
+                            text: `${this.$t('Job Data Setting')} ${this.$t('deletedSuccess')}!`,
+                            },
+                        })
+                    })
+                    .catch(error => {
+                        this.$toast({
+                            component: ToastificationContent,
+                            position: 'top-right',
+                            props: {
+                            title: `${this.$t('deletedFailed')}`,
+                            icon: 'XIcon',
+                            variant: 'danger',
+                            text: error.response.data.message,
+                            },
+                        })
+                    })
+                }
             })
         },
     },

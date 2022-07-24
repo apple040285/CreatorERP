@@ -16,7 +16,7 @@
                                     rules="required"
                                 >
                                     <flat-pickr
-                                        v-model="requisitionDate"
+                                        v-model="defaultData.requisitionDate"
                                         class="form-control"
                                         :placeholder="$t('RequisitionList.requisitionDate')"
                                         id="requisitionDate-datepicker"
@@ -29,9 +29,11 @@
                         <b-col cols="4">
                             <b-form-group>
                                 <v-select
-                                    v-model="manufacturer"
+                                    label="name"
+                                    v-model="defaultData.manufacturer_id"
                                     :options="manufacturerOption"
                                     :placeholder="$t('RequisitionModal.selectManufacturer')"
+                                    :reduce="option => option.id"
                                 />
                             </b-form-group>
                         </b-col>
@@ -44,21 +46,27 @@
                                     rules="required"
                                 >
                                     <v-select
-                                        v-model="currency"
+                                        label="name"
+                                        v-model="defaultData.currency_id"
                                         :options="currencyOption"
                                         :placeholder="$t('RequisitionModal.selectCurrency')"
+                                        :reduce="option => option.id"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
                             </b-form-group>
                         </b-col>
+                    </b-row>
+                    <b-row>
                         <!-- Transfer No -->
                         <b-col cols="4">
                             <b-form-group>
                                 <v-select
-                                    v-model="transferNo"
+                                    label="name"
+                                    v-model="defaultData.transferNo_id"
                                     :options="transferNoOption"
                                     :placeholder="$t('RequisitionModal.selectTransferNo')"
+                                    :reduce="option => option.id"
                                 />
                             </b-form-group>
                         </b-col>
@@ -66,9 +74,11 @@
                         <b-col cols="4">
                             <b-form-group>
                                 <v-select
-                                    v-model="project"
+                                    label="name"
+                                    v-model="defaultData.project_id"
                                     :options="projectOption"
                                     :placeholder="$t('RequisitionModal.selectProject')"
+                                    :reduce="option => option.id"
                                 />
                             </b-form-group>
                         </b-col>
@@ -81,14 +91,18 @@
                                     rules="required"
                                 >
                                     <v-select
-                                        v-model="buyer"
+                                        label="name"
+                                        v-model="defaultData.buyer_id"
                                         :options="buyerOption"
                                         :placeholder="$t('RequisitionModal.selectBuyer')"
+                                        :reduce="option => option.id"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
                             </b-form-group>
                         </b-col>
+                    </b-row>
+                    <b-row>
                         <!--  Purchase Department -->
                         <b-col cols="4">
                             <b-form-group id="purchaseDepartment">
@@ -98,9 +112,11 @@
                                     rules="required"
                                 >
                                     <v-select
-                                        v-model="purchaseDepartment"
-                                        :options="purchaseDepartmentOption"
+                                        label="name"
+                                        v-model="defaultData.Department_id"
+                                        :options="DepartmentOption"
                                         :placeholder="$t('RequisitionModal.selectPurchaseDepartment')"
+                                        :reduce="option => option.id"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -118,7 +134,7 @@
                                     rules="required"
                                 >
                                     <flat-pickr
-                                        v-model="preDeliveryDate"
+                                        v-model="defaultData.preDeliveryDate"
                                         class="form-control"
                                         :placeholder="$t('RequisitionList.preDeliveryDate')"
                                         id="preDeliveryDate-datepicker"
@@ -133,7 +149,7 @@
                                 <b-form-textarea
                                     :placeholder="$t('remark')"
                                     rows="3"
-                                    v-model="remark"
+                                    v-model="defaultData.remark"
                                     autocomplete="off"
                                 />
                             </b-form-group>
@@ -151,14 +167,14 @@
                     v-b-modal.modalForm
                     variant="outline-primary"
                     class="mb-2 mr-2"
-                    @click="modalCreateFlag=true;resetModal()"
+                    @click="resetModal()"
                 >
                     {{ $t('create')}}
                 </b-button>
                 <b-form-group>
                     <div class="d-flex align-items-center">
                         <b-form-input
-                            v-model="searchTerm"
+                            v-model="serverParams.searchTerm"
                             :placeholder="$t('table.Search')"
                             type="text"
                             class="d-inline-block"
@@ -168,24 +184,37 @@
             </div>
 
             <vue-good-table
-                :columns="columns"
-                :rows="rows"
-                :rtl="direction"
-                :search-options="{
-                    enabled: true,
-                    externalQuery: searchTerm
-                }"
+                mode="remote"
+                @on-page-change="onPageChange"
+                @on-sort-change="onSortChange"
+                @on-per-page-change="onPerPageChange"
+                :totalRows="totalRecords"
+                :isLoading.sync="isLoading"
                 :pagination-options="{
                     enabled: true,
-                    perPage:pageLength
                 }"
+                :search-options="{
+                    enabled: true,
+                    externalQuery: serverParams.searchTerm
+                }"
+                @on-search="onSearch"
+                :sort-options="{
+                    enabled: true,
+                }"
+                :rows="rows"
+                :columns="columns"
             >
+                <template #loadingContent>
+                    <div class="text-center">
+                        <b-spinner variant="primary" label="Text Centered" />
+                    </div>
+                </template>
                 <template
                     slot="table-column"
                     slot-scope="props"
                 >
                     <span class="text-nowrap" v-if="props.column.label !== '#'">
-                        {{$t('ProductList.' + props.column.label) }}
+                        {{$t('RequisitionList.ProductList.' + props.column.label) }}
                     </span>
                 </template>
                 <template
@@ -193,7 +222,7 @@
                     slot-scope="props"
                 >
                     <!-- Column: index -->
-                    <span v-if="props.column.field === 'index'" class="text-nowrap">
+                    <span v-if="props.column.field === 'id'" class="text-nowrap">
                         {{ props.row.originalIndex + 1 }}
                     </span>
                     <span v-else-if="props.column.field === 'productRemark'" class="text-nowrap">
@@ -202,6 +231,7 @@
                                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                 variant="outline-primary"
                                 size="sm"
+                                class="mr-50"
                                 @click="showRemark(rows[props.row.originalIndex].productRemark)"
                             >
                                 <feather-icon
@@ -219,7 +249,7 @@
                                 variant="outline-success"
                                 size="sm"
                                 class="mr-1"
-                                @click="modalCreateFlag=false;editModal(props.row.originalIndex)"
+                                @click="resetModal()"
                             >
                                 <feather-icon
                                     icon="Edit2Icon"
@@ -230,7 +260,7 @@
                                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                 variant="outline-danger"
                                 size="sm"
-                                @click="removeProductData(props.row.originalIndex)"
+                                @click="removeData(props.row.originalIndex)"
                             >
                                 <feather-icon
                                     icon="Trash2Icon"
@@ -256,7 +286,7 @@
                                 {{ $t('table.Showing') }} 1 {{ $t('table.to') }}
                             </span>
                             <b-form-select
-                                v-model="pageLength"
+                                v-model="serverParams.perPage"
                                 :options="['5','10']"
                                 class="mx-1"
                                 @input="(value)=>props.perPageChanged({currentPerPage:value})"
@@ -267,7 +297,7 @@
                             <b-pagination
                                 :value="1"
                                 :total-rows="props.total"
-                                :per-page="pageLength"
+                                :per-page="serverParams.perPage"
                                 first-number
                                 last-number
                                 align="right"
@@ -337,9 +367,8 @@
         <b-modal
             id="modalForm"
             cancel-variant="outline-secondary"
-            :title="modalCreateFlag ? $t('create') : $t('edit')"
+            :title="showData.id ? $t('edit') : $t('create')"
             :cancel-title="$t('back')"
-            scrollable
             :ok-title="$t('Submit')"
             @ok.prevent="validationModalForm"
             ref="modalForm"
@@ -347,14 +376,14 @@
             <b-form @submit.prevent>
                 <validation-observer ref="modalRules">
                     <b-form-group>
-                        <label for="productName">{{ $t('ProductList.productName') }}</label>
+                        <label for="productName">{{ $t('RequisitionList.ProductList.productName') }}</label>
                         <validation-provider
                             #default="{ errors }"
                             name="productName"
                             rules="required"
                         >
                             <v-select
-                                v-model="productName"
+                                v-model="showData.product"
                                 :options="productOption"
                                 :placeholder="$t('RequisitionModal.selectProductName')"
                                 id="productName"
@@ -363,42 +392,42 @@
                         </validation-provider>
                     </b-form-group>
                     <b-form-group>
-                        <label for="productNo">{{ $t('ProductList.productNo') }}</label>
+                        <label for="productNo">{{ $t('RequisitionList.ProductList.productNo') }}</label>
                         <b-form-input
-                            v-model="productNo"
+                            v-model="showData.productNo"
                             type="text"
-                            :placeholder="$t('ProductList.productNo')"
+                            :placeholder="$t('RequisitionList.ProductList.productNo')"
                             readonly
                         />
                     </b-form-group>
                     <b-form-group>
-                        <label for="specification">{{ $t('ProductList.specification') }}</label>
+                        <label for="specification">{{ $t('RequisitionList.ProductList.specification') }}</label>
                         <b-form-input
-                            v-model="specification"
+                            v-model="showData.specification"
                             type="text"
-                            :placeholder="$t('ProductList.specification')"
+                            :placeholder="$t('RequisitionList.ProductList.specification')"
                             readonly
                         />
                     </b-form-group>
                     <b-form-group>
-                        <label for="unit">{{ $t('ProductList.unit') }}</label>
+                        <label for="unit">{{ $t('RequisitionList.ProductList.unit') }}</label>
                         <b-form-input
-                            v-model="unit"
+                            v-model="showData.unit"
                             type="text"
-                            :placeholder="$t('ProductList.unit')"
+                            :placeholder="$t('RequisitionList.ProductList.unit')"
                             readonly
                         />
                     </b-form-group>
                     <b-form-group>
-                        <label for="storehouse">{{ $t('ProductList.storehouse') }}</label>
+                        <label for="storehouse">{{ $t('RequisitionList.ProductList.storehouse') }}</label>
                         <v-select
-                            v-model="storehouse"
+                            v-model="showData.storehouse"
                             :options="storehouseOption"
                             :placeholder="$t('RequisitionModal.selectStorehouse')"
                         />
                     </b-form-group>
                     <b-form-group id="quantity">
-                        <label for="quantity">{{ $t('ProductList.quantity') }}</label>
+                        <label for="quantity">{{ $t('RequisitionList.ProductList.quantity') }}</label>
                         <validation-provider
                             #default="{ errors }"
                             name="quantity"
@@ -406,14 +435,14 @@
                         >
                             <b-form-input
                                 type="number"
-                                v-model="quantity"
+                                v-model="showData.quantity"
                                 min="0"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
                     <b-form-group id="unitPrice">
-                        <label for="unitPrice">{{ $t('ProductList.unitPrice') }}</label>
+                        <label for="unitPrice">{{ $t('RequisitionList.ProductList.unitPrice') }}</label>
                         <validation-provider
                             #default="{ errors }"
                             name="unitPrice"
@@ -421,33 +450,33 @@
                         >
                             <b-form-input
                                 type="number"
-                                v-model="unitPrice"
+                                v-model="showData.unitPrice"
                                 min="0"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
                     <b-form-group>
-                        <label for="amount">{{ $t('ProductList.amount') }}</label>
+                        <label for="amount">{{ $t('RequisitionList.ProductList.amount') }}</label>
                         <b-form-input
                             id="amount"
                             type="number"
-                            v-model="amount"
+                            v-model="showData.amount"
                             min="0"
                             autocomplete="off"
                         />
                     </b-form-group>
                     <b-form-group id="productPreDeliveryDate">
-                        <label for="productPreDeliveryDate-datepicker">{{ $t('ProductList.productPreDeliveryDate') }}</label>
+                        <label for="productPreDeliveryDate-datepicker">{{ $t('RequisitionList.ProductList.productPreDeliveryDate') }}</label>
                         <validation-provider
                             #default="{ errors }"
                             name="productPreDeliveryDate"
                             rules="required"
                         >
                             <flat-pickr
-                                v-model="productPreDeliveryDate"
+                                v-model="showData.productPreDeliveryDate"
                                 class="form-control"
-                                :placeholder="$t('ProductList.productPreDeliveryDate')"
+                                :placeholder="$t('RequisitionList.ProductList.productPreDeliveryDate')"
                                 id="productPreDeliveryDate-datepicker"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
@@ -459,7 +488,7 @@
                             id="productRemark"
                             :placeholder="$t('remark')"
                             rows="3"
-                            v-model="productRemark"
+                            v-model="showData.productRemark"
                             autocomplete="off"
                         />
                     </b-form-group>
@@ -505,11 +534,14 @@ import {
     BFormTextarea,
     BPagination,
     BFormSelect,
-    BCardText
+    BCardText,
+    BSpinner
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import axios from "@axios";
 
 export default {
     components: {
@@ -535,7 +567,8 @@ export default {
         BPagination,
         BFormSelect,
         VueGoodTable,
-        BCardText
+        BCardText,
+        BSpinner
     },
     directives: {
         Ripple,
@@ -613,6 +646,27 @@ export default {
         }
     },
     methods: {
+        onSearch({searchTerm}) {
+            this.serverParams.searchTerm = searchTerm
+            this.getList()
+        },
+        updateParams(newProps) {
+            this.serverParams = Object.assign({}, this.serverParams, newProps);
+        },
+        onPageChange(params) {
+            this.updateParams({page: params.currentPage});
+            this.getList();
+        },
+        onPerPageChange(params) {
+            this.updateParams({perPage: params.currentPerPage});
+            this.getList();
+        },
+        onSortChange(params) {
+            this.updateParams({
+                sort: params,
+            });
+            this.getList();
+        },
         validationForm() {
             this.$refs.simpleRules.validate().then(success => {
                 if(this.rows.length > 0) {

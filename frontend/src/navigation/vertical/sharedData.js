@@ -42,11 +42,11 @@ export default [
         children: [
             {
                 title: 'Product Data Setting',
-                route: 'ProductData-ProductDataSetting',
+                route: 'ProductData-ProductDataSettingList',
             },
             {
                 title: 'Warehouse Data Setting',
-                route: 'ProductData-WarehouseDataSetting',
+                route: 'ProductData-WarehouseDataSettingList',
             },
             {
                 title: 'Product Category Setting',
@@ -64,7 +64,7 @@ export default [
             },
             {
                 title: 'Customer/Manufacturer Data',
-                route: 'CustomerManufacturerData-CustomerManufacturerData',
+                route: 'CustomerManufacturerData-CustomerManufacturerDataList',
             },
         ],
     },

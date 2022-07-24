@@ -16,7 +16,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('BankList.swiftCode')">
                     <b-form-input
-                        :value="basicInformation.swiftCode"
+                        :value="basicInformation.swift_code"
                         :placeholder="$t('BankList.swiftCode')"
                         type="text"
                         readonly
@@ -40,7 +40,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('BankList.englishName')">
                     <b-form-input
-                        :value="basicInformation.englishName"
+                        :value="basicInformation.alias"
                         :placeholder="$t('BankList.englishName')"
                         type="text"
                         readonly
@@ -53,7 +53,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('BankList.telephone')">
                     <b-form-input
-                        :value="basicInformation.telephone"
+                        :value="basicInformation.phone"
                         :placeholder="$t('BankList.telephone')"
                         type="text"
                         readonly
@@ -64,7 +64,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('BankList.creditCardFeeRates')">
                     <b-form-input
-                        :value="basicInformation.creditCardFeeRates"
+                        :value="basicInformation.rate"
                         :placeholder="$t('BankList.creditCardFeeRates')"
                         type="text"
                         readonly
@@ -95,9 +95,6 @@ export default {
             type: Object,
             default: () => {},
         },
-    },
-    mounted() {
-        if(this.$route.query.id) this.id = this.$route.query.id;
     },
 }
 </script>
