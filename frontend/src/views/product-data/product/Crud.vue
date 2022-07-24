@@ -628,15 +628,15 @@ export default {
             axios
             .get(`${this.apiPath}/${this.showData.id}`)
             .then(response => {
-                this.showData = response.data;
-                this.showData.storehouses.map(item => {
-                    this.showData.storehouses.push({
-                        ...item,
-                        stock: item.pivot.stock,
-                        safety_stock: item.pivot.safety_stock,
-                    })
-                })
-                this.rows = this.showData.storehouses;
+                let product = response.data
+                product.storehouses = product.storehouses.map(item => ({
+                  ...item,
+                  stock: item.pivot.stock,
+                  safety_stock: item.pivot.safety_stock,
+                }))
+
+                this.showData = JSON.parse(JSON.stringify(product));
+                this.rows = JSON.parse(JSON.stringify(product.storehouses));
             })
             .catch(error => console.error (error))
         },
