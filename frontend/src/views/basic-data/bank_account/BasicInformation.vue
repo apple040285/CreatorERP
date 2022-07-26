@@ -16,7 +16,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('AccountList.category')">
                     <b-form-input
-                        :value="basicInformation.category && basicInformation.category.name"
+                        :value="$t('AccountList.'+basicInformation.type)"
                         :placeholder="$t('AccountList.category')"
                         type="text"
                         readonly

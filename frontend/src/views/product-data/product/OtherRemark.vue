@@ -47,6 +47,17 @@
                         />
                     </b-form-group>
                 </b-col>
+                <!-- status -->
+                <b-col cols="6">
+                    <b-form-group :label="$t('status')">
+                        <b-form-input
+                            :value="$t(otherRemark.status)"
+                            :placeholder="$t('status')"
+                            type="text"
+                            readonly
+                        />
+                    </b-form-group>
+                </b-col>
                 <!--  Remark -->
                 <b-col cols="6">
                     <b-form-group :label="$t('remark')">

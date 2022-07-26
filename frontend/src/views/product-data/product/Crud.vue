@@ -630,9 +630,9 @@ export default {
             .then(response => {
                 let product = response.data
                 product.storehouses = product.storehouses.map(item => ({
-                  ...item,
-                  stock: item.pivot.stock,
-                  safety_stock: item.pivot.safety_stock,
+                    ...item,
+                    stock: item.pivot.stock,
+                    safety_stock: item.pivot.safety_stock,
                 }))
 
                 this.showData = JSON.parse(JSON.stringify(product));

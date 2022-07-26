@@ -17,6 +17,7 @@ export default [
         component: () => import('@/views/product-data/product/Detail.vue'),
         meta: {
             pageTitle: 'Product Data Setting',
+            navActiveLink: 'ProductData-ProductDataSettingList',
             breadcrumb: [
                 { text: 'Product Data' },
                 { text: 'Product Data Setting', to: { name: 'ProductData-ProductDataSettingList' } },
@@ -30,6 +31,7 @@ export default [
         component: () => import('@/views/product-data/product/Crud.vue'),
         meta: {
             pageTitle: 'Product Data Setting',
+            navActiveLink: 'ProductData-ProductDataSettingList',
             breadcrumb: [
                 { text: 'Product Data' },
                 { text: 'Product Data Setting', to: { name: 'ProductData-ProductDataSettingList' } },
@@ -43,6 +45,7 @@ export default [
         component: () => import('@/views/product-data/product/Crud.vue'),
         meta: {
             pageTitle: 'Product Data Setting',
+            navActiveLink: 'ProductData-ProductDataSettingList',
             breadcrumb: [
                 { text: 'Product Data' },
                 { text: 'Product Data Setting', to: { name: 'ProductData-ProductDataSettingList' } },
@@ -68,6 +71,7 @@ export default [
         component: () => import('@/views/product-data/warehouse/Detail.vue'),
         meta: {
             pageTitle: 'Warehouse Data Setting',
+            navActiveLink: 'ProductData-WarehouseDataSettingList',
             breadcrumb: [
                 { text: 'Product Data' },
                 { text: 'Warehouse Data Setting', to: { name: 'ProductData-WarehouseDataSettingList' } },
@@ -81,6 +85,7 @@ export default [
         component: () => import('@/views/product-data/warehouse/Crud.vue'),
         meta: {
             pageTitle: 'Warehouse Data Setting',
+            navActiveLink: 'ProductData-WarehouseDataSettingList',
             breadcrumb: [
                 { text: 'Product Data' },
                 { text: 'Warehouse Data Setting', to: { name: 'ProductData-WarehouseDataSettingList' } },
@@ -94,6 +99,7 @@ export default [
         component: () => import('@/views/product-data/warehouse/Crud.vue'),
         meta: {
             pageTitle: 'Warehouse Data Setting',
+            navActiveLink: 'ProductData-WarehouseDataSettingList',
             breadcrumb: [
                 { text: 'Product Data' },
                 { text: 'Warehouse Data Setting', to: { name: 'ProductData-WarehouseDataSettingList' } },

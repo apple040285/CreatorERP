@@ -17,7 +17,6 @@
             <vue-good-table
                 :columns="productList.columns"
                 :rows="productList.rows"
-                :rtl="direction"
                 :search-options="{
                     enabled: true,
                     externalQuery: productList.searchTerm

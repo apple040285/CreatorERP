@@ -29,6 +29,7 @@ export default [
         component: () => import('@/views/customer-manufacturer-data/customerManufacturer/Detail.vue'),
         meta: {
             pageTitle: 'Customer/Manufacturer Data',
+            navActiveLink: 'CustomerManufacturerData-CustomerManufacturerDataList',
             breadcrumb: [
                 { text: 'Customer/Manufacturer Data' },
                 { text: 'Customer/Manufacturer Data', to: { name: 'CustomerManufacturerData-CustomerManufacturerDataList' } },
@@ -41,8 +42,8 @@ export default [
         name: 'CustomerManufacturerData-CustomerManufacturerDataCreate',
         component: () => import('@/views/customer-manufacturer-data/customerManufacturer/Crud.vue'),
         meta: {
-            navActiveLink: 'CustomerManufacturerData-CustomerManufacturerDataList',
             pageTitle: 'Customer/Manufacturer Data',
+            navActiveLink: 'CustomerManufacturerData-CustomerManufacturerDataList',
             breadcrumb: [
                 { text: 'Customer/Manufacturer Data' },
                 { text: 'Customer/Manufacturer Data', to: { name: 'CustomerManufacturerData-CustomerManufacturerDataList' } },
@@ -56,6 +57,7 @@ export default [
         component: () => import('@/views/customer-manufacturer-data/customerManufacturer/Crud.vue'),
         meta: {
             pageTitle: 'Customer/Manufacturer Data',
+            navActiveLink: 'CustomerManufacturerData-CustomerManufacturerDataList',
             breadcrumb: [
                 { text: 'Customer/Manufacturer Data' },
                 { text: 'Customer/Manufacturer Data', to: { name: 'CustomerManufacturerData-CustomerManufacturerDataList' } },

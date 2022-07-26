@@ -63,7 +63,7 @@
                             <!-- invoiceName -->
                             <b-form-group :label="$t('ProductList.invoiceName')">
                                 <b-form-input
-                                    :value="basicInformation.invoiceName"
+                                    :value="basicInformation.invoice_name"
                                     :placeholder="$t('ProductList.invoiceName')"
                                     type="text"
                                     readonly
@@ -76,7 +76,7 @@
                             <!-- specification -->
                             <b-form-group :label="$t('ProductList.specification')">
                                 <b-form-input
-                                    :value="basicInformation.specification"
+                                    :value="basicInformation.sku"
                                     :placeholder="$t('ProductList.specification')"
                                     type="text"
                                     readonly
@@ -87,7 +87,7 @@
                             <!-- category -->
                             <b-form-group :label="$t('ProductList.category')">
                                 <b-form-input
-                                    :value="basicInformation.category"
+                                    :value="basicInformation.category && basicInformation.category.name"
                                     :placeholder="$t('ProductList.category')"
                                     type="text"
                                     readonly
@@ -124,7 +124,7 @@
                             <!-- averageCost -->
                             <b-form-group :label="$t('ProductList.averageCost')">
                                 <b-form-input
-                                    :value="basicInformation.averageCost"
+                                    :value="basicInformation.average_cost"
                                     :placeholder="$t('ProductList.averageCost')"
                                     type="text"
                                     readonly
@@ -135,7 +135,7 @@
                             <!-- currentTotalCost -->
                             <b-form-group :label="$t('ProductList.currentTotalCost')">
                                 <b-form-input
-                                    :value="basicInformation.currentTotalCost"
+                                    :value="basicInformation.current_total_cost"
                                     :placeholder="$t('ProductList.currentTotalCost')"
                                     type="text"
                                     readonly

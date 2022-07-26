@@ -24,6 +24,25 @@
                 />
             </b-tab>
 
+            <!-- storehousesList -->
+            <b-tab>
+
+                <!-- title -->
+                <template #title>
+                    <feather-icon
+                        icon="PackageIcon"
+                        size="18"
+                        class="mr-50"
+                    />
+                    <span class="font-weight-bold">{{ $t('ProductModal.warehouseInformation') }}</span>
+                </template>
+
+                <storehouse-list
+                    v-if="storehouseListData"
+                    :storehouse-list="storehouseListData"
+                />
+            </b-tab>
+
             <!-- Other Remark -->
             <b-tab>
 
@@ -51,6 +70,7 @@ import axios from "@axios";
 import { BTabs, BTab } from 'bootstrap-vue'
 import BasicInformation from './BasicInformation.vue'
 import OtherRemark from './OtherRemark.vue'
+import StorehouseList from './StorehouseList.vue';
 
 export default {
     components: {
@@ -58,10 +78,25 @@ export default {
         BTab,
         BasicInformation,
         OtherRemark,
+        StorehouseList,
     },
     data() {
         return {
             data: {},
+            storehouseListData: {
+                pageLength: 5,
+                searchTerm: '',
+                columns: [
+                    { label: '#', field: 'id', type: 'number'},
+                    { label: 'warehouse', field: 'name' },
+                    { label: 'stock', field: 'pivot.stock', type: 'number' },
+                    { label: 'expectedToEnter', field: 'expectedToEnter', type: 'number' },
+                    { label: 'predict', field: 'predict', type: 'number' },
+                    { label: 'estimatedStock', field: 'estimatedStock', type: 'number' },
+                    { label: 'safetyStock', field: 'pivot.safety_stock', type: 'number' },
+                ],
+                rows: []
+            },
         }
     },
     mounted() {
@@ -69,7 +104,11 @@ export default {
             axios
             .get(`products/${this.$route.query.id}`)
             .then(response => {
-                this.data = response.data;
+                const data = response.data
+                this.data = data;
+                this.storehouseListData.rows = JSON.parse(JSON.stringify(data.storehouses));
+                console.log(this.data);
+                console.log(this.storehouseListData.rows);
             })
             .catch(error => console.error (error))
         }

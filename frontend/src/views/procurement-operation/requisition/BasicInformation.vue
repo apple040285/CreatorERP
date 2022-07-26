@@ -180,6 +180,7 @@
 import {
     BButton, BForm, BFormGroup, BFormInput, BRow, BCol, BCard
 } from 'bootstrap-vue'
+import Ripple from 'vue-ripple-directive'
 
 export default {
     components: {
@@ -190,6 +191,9 @@ export default {
         BRow,
         BCol,
         BCard,
+    },
+    directives: {
+        Ripple,
     },
     props: {
         basicInformation: {

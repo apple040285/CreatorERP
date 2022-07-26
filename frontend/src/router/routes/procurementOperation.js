@@ -17,6 +17,7 @@ export default [
         component: () => import('@/views/procurement-operation/requisition/Crud.vue'),
         meta: {
             pageTitle: 'Requisition',
+            navActiveLink: 'ProcurementOperation-RequisitionList',
             breadcrumb: [
                 { text: 'Procurement Operation' },
                 { text: 'Requisition', to: { name: 'ProcurementOperation-RequisitionList' } },
@@ -30,6 +31,7 @@ export default [
         component: () => import('@/views/procurement-operation/requisition/Crud.vue'),
         meta: {
             pageTitle: 'Requisition',
+            navActiveLink: 'ProcurementOperation-RequisitionList',
             breadcrumb: [
                 { text: 'Procurement Operation' },
                 { text: 'Requisition', to: { name: 'ProcurementOperation-RequisitionList' } },
@@ -43,6 +45,7 @@ export default [
         component: () => import('@/views/procurement-operation/requisition/Detail.vue'),
         meta: {
             pageTitle: 'Requisition',
+            navActiveLink: 'ProcurementOperation-RequisitionList',
             breadcrumb: [
                 { text: 'Procurement Operation' },
                 { text: 'Requisition', to: { name: 'ProcurementOperation-RequisitionList' } },
