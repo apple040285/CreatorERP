@@ -179,7 +179,7 @@
                 <b-form-group>
                     <div class="d-flex align-items-center">
                         <b-form-input
-                            v-model="serverParams.searchTerm"
+                            v-model="searchTerm"
                             :placeholder="$t('table.Search')"
                             type="text"
                             class="d-inline-block"
@@ -188,26 +188,18 @@
                 </b-form-group>
             </div>
 
+            <!-- table -->
             <vue-good-table
-                mode="remote"
-                @on-page-change="onPageChange"
-                @on-sort-change="onSortChange"
-                @on-per-page-change="onPerPageChange"
-                :totalRows="totalRecords"
-                :isLoading.sync="isLoading"
-                :pagination-options="{
-                    enabled: true,
-                }"
+                :columns="columns"
+                :rows="rows"
                 :search-options="{
                     enabled: true,
-                    externalQuery: serverParams.searchTerm
+                    externalQuery: searchTerm
                 }"
-                @on-search="onSearch"
-                :sort-options="{
+                :pagination-options="{
                     enabled: true,
+                    perPage:pageLength
                 }"
-                :rows="rows"
-                :columns="columns"
             >
                 <template #loadingContent>
                     <div class="text-center">
@@ -275,7 +267,7 @@
                                 {{ $t('table.Showing') }} 1 {{ $t('table.to') }}
                             </span>
                             <b-form-select
-                                v-model="serverParams.perPage"
+                                v-model="pageLength"
                                 :options="['5','10']"
                                 class="mx-1"
                                 @input="(value)=>props.perPageChanged({currentPerPage:value})"
@@ -286,7 +278,7 @@
                             <b-pagination
                                 :value="1"
                                 :total-rows="props.total"
-                                :per-page="serverParams.perPage"
+                                :per-page="pageLength"
                                 first-number
                                 last-number
                                 align="right"
@@ -377,7 +369,7 @@
                                 :options="storehouseOption"
                                 :placeholder="$t('ProductModal.selectWarehouse')"
                                 :reduce="option => option.id"
-                                :disabled="storehousesData.id ? true : false"
+                                :disabled="storehouseModalId ? true : false"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -480,19 +472,6 @@ export default {
             required,
             alertShow: 'false',
             modalCreateFlag : true,
-            isLoading: false,
-            totalRecords: 0,
-            serverParams: {
-                sort: [
-                    {
-                        field: '',
-                        type: ''
-                    }
-                ],
-                page: 1,
-                perPage: 10,
-                searchTerm: '',
-            },
             showData: {},
             storehouseModalId: null,
             storehousesData: {
@@ -521,41 +500,22 @@ export default {
             },
             categoryOption: [],
             storehouseOption: [],
+            pageLength: 5,
+            searchTerm: '',
             columns: [
-                { label: '#', field: 'id' },
+                { label: '#', field: 'id', type: 'number' },
                 { label: 'warehouse', field: 'name' },
-                { label: 'stock', field: 'stock' },
-                { label: 'expectedToEnter', field: 'expectedToEnter' },
-                { label: 'predict', field: 'predict' },
-                { label: 'estimatedStock', field: 'estimatedStock' },
-                { label: 'safetyStock', field: 'safety_stock' },
+                { label: 'stock', field: 'stock', type: 'number' },
+                { label: 'expectedToEnter', field: 'expectedToEnter', type: 'number' },
+                { label: 'predict', field: 'predict', type: 'number' },
+                { label: 'estimatedStock', field: 'estimatedStock', type: 'number' },
+                { label: 'safetyStock', field: 'safety_stock', type: 'number' },
                 { label: 'action', field: 'action' },
             ],
             rows: [],
         }
     },
     methods: {
-        onSearch({searchTerm}) {
-            this.serverParams.searchTerm = searchTerm
-            this.getList()
-        },
-        updateParams(newProps) {
-            this.serverParams = Object.assign({}, this.serverParams, newProps);
-        },
-        onPageChange(params) {
-            this.updateParams({page: params.currentPage});
-            this.getList();
-        },
-        onPerPageChange(params) {
-            this.updateParams({perPage: params.currentPerPage});
-            this.getList();
-        },
-        onSortChange(params) {
-            this.updateParams({
-                sort: params,
-            });
-            this.getList();
-        },
         validationForm() {
             this.$refs.simpleRules.validate().then(success => {
                 if(this.rows.length > 0) {
