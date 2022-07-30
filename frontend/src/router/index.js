@@ -50,6 +50,11 @@ const router = new VueRouter({
         ],
       },
     },
+    {
+      path: '/role',
+      name: 'role',
+      component: () => import('@/views/RoleEdit.vue'),
+    },
     ...basicData,
     ...productData,
     ...customerManufacturerData,
