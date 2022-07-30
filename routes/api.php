@@ -65,6 +65,10 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     // 倉庫管理
     Route::apiResource('/storehouses', Controllers\StorehouseController::class);
+
+    Route::apiResource('/customer-manufacturers-categories', Controllers\CustomerManufacturerCategoryController::class);
+
+    Route::apiResource('/customer-manufacturers', Controllers\CustomerManufacturerController::class);
 });
 
 // 測試用
