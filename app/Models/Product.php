@@ -23,8 +23,14 @@ class Product extends Model
         'updated_at'    => 'datetime:Y-m-d',
     ];
 
-    public function stock_products()
+    public function category()
     {
-        return $this->belongsToMany(Storehouse::class, 'storehouse_products')->withPivot('stock', 'safety_stock');
+        return $this->belongsTo(ProductCategory::class, 'product_category_id');
+    }
+
+    public function storehouses()
+    {
+        return $this->belongsToMany(Storehouse::class, 'storehouse_has_products')
+            ->withPivot(/*'id as id2', 'stock as stock', 'safety_stock as safety_stock', */'id', 'stock', 'safety_stock');
     }
 }

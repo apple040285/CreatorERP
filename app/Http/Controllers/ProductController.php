@@ -25,7 +25,7 @@ class ProductController extends Controller
                 $sortCollection = $paginatedInstance->sortBy([
                     $request->collect('sort')->map(fn ($m) => [$m['field'], $m['type']])[0]
                 ]);
-                $sortCollection->load('stock_products', 'creator', 'editor');
+                $sortCollection->load('category', 'storehouses', 'creator', 'editor');
                 return $paginatedInstance->setCollection($sortCollection);
             }
         );
@@ -48,14 +48,16 @@ class ProductController extends Controller
             'code'                  => 'required|unique:products',
             'name'                  => 'required|unique:products',
             'alias'                 => 'nullable|unique:products',
+            'picture'               => 'nullable|string',
             'images'                => 'nullable|array',
             'invoice_name'          => 'nullable|string',
             'sku'                   => 'required|string',
             'unit'                  => 'required|string',
             'barcode'               => 'nullable',
+            'remark'                => 'nullable',
         ]);
 
-        $stock_products_attributes = $request->validate([
+        $storehouses_attributes = $request->validate([
             'storehouses.*.id'              => 'nullable|distinct|exists:storehouses,id|integer',
             'storehouses.*.stock'           => 'nullable|min:0|integer',
             'storehouses.*.safety_stock'    => 'nullable|min:0|integer',
@@ -65,8 +67,8 @@ class ProductController extends Controller
             DB::beginTransaction();
             $data = Product::create($attributes);
 
-            $storehouses_ids = collect($stock_products_attributes['storehouses'])->mapWithKeys(fn ($item) => [$item['id'] => collect($item)->except('id')]);
-            $data->stock_products()->sync($storehouses_ids->toArray());
+            $storehouses_ids = collect($storehouses_attributes['storehouses'])->mapWithKeys(fn ($item) => [$item['id'] => collect($item)->except('id')]);
+            $data->storehouses()->sync($storehouses_ids->toArray());
 
             DB::commit();
             return $this->created($data);
@@ -89,6 +91,7 @@ class ProductController extends Controller
 
         try {
             $data = Product::findOrFail($id);
+            $data->load('category', 'storehouses', 'creator', 'editor');
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
@@ -115,14 +118,17 @@ class ProductController extends Controller
             'code'                  => 'required|unique:products,code,' . $id,
             'name'                  => 'required|unique:products,name,' . $id,
             'alias'                 => 'nullable|unique:products,alias,' . $id,
+            'picture'               => 'nullable',
             'images'                => 'nullable|array',
             'invoice_name'          => 'nullable|string',
             'sku'                   => 'required|string',
             'unit'                  => 'required|string',
             'barcode'               => 'nullable',
+            'remark'                => 'nullable',
+            'status'                => 'required|string',
         ]);
 
-        $stock_products_attributes = $request->validate([
+        $storehouses_attributes = $request->validate([
             'storehouses.*.id'              => 'nullable|distinct|exists:storehouses,id|integer',
             'storehouses.*.stock'           => 'nullable|min:0|integer',
             'storehouses.*.safety_stock'    => 'nullable|min:0|integer',
@@ -132,8 +138,8 @@ class ProductController extends Controller
             DB::beginTransaction();
             $data = Product::findOrFail($id);
 
-            $storehouses_ids = collect($stock_products_attributes['storehouses'])->mapWithKeys(fn ($item) => [$item['id'] => collect($item)->except('id')]);
-            $data->stock_products()->sync($storehouses_ids->toArray());
+            $storehouses_ids = collect($storehouses_attributes['storehouses'])->mapWithKeys(fn ($item) => [$item['id'] => collect($item)->except('id')]);
+            $data->storehouses()->sync($storehouses_ids->toArray());
 
             $data->update($attributes);
 
@@ -168,7 +174,6 @@ class ProductController extends Controller
             DB::beginTransaction();
             $data = Product::findOrFail($id)->update([
                 'status'        => $data['status'],
-                'disable_at'    => $data['status'] === StatusEnum::停用->value ? now() : null,
             ]);
 
             DB::commit();

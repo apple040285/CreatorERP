@@ -33,6 +33,13 @@ class StorehouseController extends Controller
         return $this->success($data);
     }
 
+    public function options(Request $request)
+    {
+        $data = Storehouse::whereStatus(StatusEnum::啟用->value)->get();
+
+        return $this->success($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

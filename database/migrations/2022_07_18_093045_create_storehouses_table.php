@@ -28,6 +28,17 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by')->nullable()->comment('更新人');
             $table->timestamps();
         });
+
+        Schema::create('storehouse_has_products', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('storehouse_id')->comment('關聯所屬倉庫');
+            $table->unsignedBigInteger('product_id')->comment('關聯所屬商品');
+            $table->integer('stock')->nullable()->comment('現有庫存量');
+            $table->integer('safety_stock')->default(0)->comment('安全庫存量');
+            $table->unsignedBigInteger('created_by')->nullable()->comment('創建人');
+            $table->unsignedBigInteger('updated_by')->nullable()->comment('更新人');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -37,6 +48,7 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('storehouse_has_products');
         Schema::dropIfExists('storehouses');
     }
 };
