@@ -54,7 +54,7 @@
                                     slot-scope="{ node, shouldShowCount, count, labelClassName, countClassName }"
                                     :class="labelClassName"
                                 >
-                                {{ node.raw.text }}
+                                {{ $t(node.raw.text) }}
                                 <span
                                     v-if="shouldShowCount"
                                     :class="countClassName"
@@ -64,10 +64,10 @@
                                 </label>
 
                                 <div
-                                    t="value-label"
+                                    slot="value-label"
                                     slot-scope="{ node }"
                                 >
-                                {{ node.raw.text }}
+                                {{ $t(node.raw.text) }}
                                 </div>
                             </treeselect>
                         </b-td>
@@ -174,5 +174,24 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+    .vue-treeselect >>> .vue-treeselect__multi-value-item {
+        background-color: #7367f0;
+    }
+    .vue-treeselect >>> .vue-treeselect__multi-value-label, .vue-treeselect >>> .vue-treeselect__value-remove {
+        color: #fff;
+    }
+    .vue-treeselect--focused:not(.vue-treeselect--open) >>> .vue-treeselect__control {
+        border-color: #7367f0;
+        box-shadow: 0 3px 10px 0 rgb(34 41 47 / 10%);
+    }
+    .vue-treeselect >>> .vue-treeselect__checkbox--checked {
+        background-color: #7367f0;
+        border-color: #7367f0;
+        box-shadow: 0 3px 10px 0 rgb(34 41 47 / 10%);
+    }
+    .vue-treeselect >>> .vue-treeselect__checkbox--unchecked {
+        border-color: #7367f0;
+        box-shadow: 0 3px 10px 0 rgb(34 41 47 / 10%);
+    }
 </style>
