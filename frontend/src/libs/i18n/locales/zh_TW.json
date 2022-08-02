@@ -3,10 +3,13 @@
     "names": {
       "Name": "名稱",
       "Email": "信箱",
+      "Account": "帳號",
       "Password": "密碼",
       "Old Password": "舊密碼",
       "New Password": "新密碼",
       "Confirm the new password": "確認新密碼",
+      "Confirm the password": "確認密碼",
+      "group": "群組",
       "requisitionDate": "請購日期",
       "currency": "幣別",
       "buyer": "請購人員",
@@ -28,6 +31,8 @@
       "currencyName": "幣別名稱",
       "currencyEnglishName": "幣別英文名稱",
       "currencyRate": "匯率",
+      "currencyUnitPriceOfDigits": "單價位數",
+      "currencyAmountOfDigits": "金額位數",
       "projectCode": "專案代號",
       "projectName": "專案名稱",
       "expiration_date": "失效日期",
@@ -50,6 +55,9 @@
       "customerManufacturerFullName": "全稱",
       "customerManufacturerBelong": "歸屬",
       "customerManufacturerCategory": "分類",
+      "customManufacturerCategoryCode": "類別代號",
+      "customManufacturerCategoryName": "類別名稱",
+      "CustomManufacturerCategory": "類別歸屬",
       "customerManufacturerTaxDeductionCategory": "扣稅類別",
       "customerManufacturerAccountSettingMethod": "立帳方式",
       "productCode": "產品編號",
@@ -97,6 +105,14 @@
   },
   "Welcome": "歡迎",
   "Dashboard": "儀表板",
+
+  "SYSTEM MANAGEMENT": "系統管理",
+
+  "Permission Setting": "權限設置",
+  "Group Permission Setting": "群組權限設定",
+  "Role Management": "角色管理",
+  "Staff Account Setting": "員工帳號設定",
+  "Create Staff Account": "新增員工帳號",
 
   "SHARED DATA": "共用資料",
 
@@ -256,7 +272,9 @@
     "englishName": "幣別英文名稱",
     "rate": "匯率",
     "unitPriceOfDigits": "單價位數",
+    "selectUnitPriceOfDigits": "請選擇單價位數",
     "amountOfDigits": "金額位數",
+    "selectAmountOfDigits": "請選擇金額位數",
     "action": "操作"
   },
 
@@ -382,6 +400,7 @@
     "name": "類別名稱",
     "englishName": "英文名稱",
     "category": "類別歸屬",
+    "selectCategory": "請選擇類別歸屬",
     "remark": "備註",
     "disable_at": "停用日期",
     "status": "狀態",
@@ -431,6 +450,18 @@
     "updated_by": "異動人員",
     "updated_at": "異動時間",
     "action": "操作"
+  },
+
+  "CustomerManufacturerModal": {
+    "addressInformation": "地址資訊",
+    "addressName": "地址名稱",
+    "postalCode": "郵遞區號",
+    "address": "地址",
+    "contactPerson": "聯絡人",
+    "telephone": "電話",
+    "cellphone": "手機",
+    "line": "Line",
+    "email": "信箱"
   },
 
   "RequisitionList": {
@@ -484,6 +515,24 @@
     "productInformation": "產品資訊",
     "productName": "產品名稱",
     "selectProductName": "請選擇產品",
-    "selectStorehouse": "請選擇倉庫"
+    "selectStorehouse": "請選擇倉庫",
+    "productsCreatedFailed": "商品已存在"
+  },
+
+  "PermissionSetting": {
+    "group": "群組",
+    "selectGroup": "請選擇群組",
+    "name": "名稱",
+    "account": "帳號",
+    "password": "密碼",
+    "oldPassword": "舊密碼",
+    "newPassword": "新密碼",
+    "confirmPassword": "確認密碼",
+    "staff": "員工",
+    "selectStaff": "請選擇員工",
+    "role": "角色",
+    "permission": "權限",
+    "menu": "選單",
+    "selectPermission": "請選擇權限"
   }
 }

@@ -1,8 +1,28 @@
 <template>
-    <b-card-code :title="$t('Update Administrator Information')">
+    <b-card-code :title="$t('Create Staff Account')">
         <validation-observer ref="simpleRules">
             <b-form @submit.prevent>
                 <b-row>
+                    <!-- group -->
+                    <b-col cols="12">
+                        <b-form-group id="group">
+                            <label for="group">{{ $t('PermissionSetting.group') }}</label>
+                            <validation-provider
+                                #default="{ errors }"
+                                name="group"
+                                rules="required"
+                            >
+                                <v-select
+                                    label="name"
+                                    v-model="group_id"
+                                    :options="groupOption"
+                                    :placeholder="$t('PermissionSetting.selectGroup')"
+                                    :reduce="option => option.id"
+                                />
+                                <small class="text-danger">{{ errors[0] }}</small>
+                            </validation-provider>
+                        </b-form-group>
+                    </b-col>
                     <!-- username -->
                     <b-col cols="12">
                         <b-form-group
@@ -39,30 +59,40 @@
                             :label="$t('PermissionSetting.account')"
                             label-for="fh-account"
                         >
-                            <b-input-group class="input-group-merge">
-                                <b-input-group-prepend is-text>
-                                    <feather-icon icon="UserIcon"/>
-                                </b-input-group-prepend>
-                                <b-form-input
-                                    id="fh-account"
-                                    type="text"
-                                    :placeholder="$t('PermissionSetting.account')"
-                                    v-model="account"
-                                    readonly
-                                />
-                            </b-input-group>
+                            <validation-provider
+                                #default="{ errors }"
+                                name="Account"
+                                rules="required"
+                            >
+                                <b-input-group
+                                    class="input-group-merge"
+                                    :class="errors.length > 0 ? 'is-invalid' : ''"
+                                >
+                                    <b-input-group-prepend is-text>
+                                        <feather-icon icon="UserIcon"/>
+                                    </b-input-group-prepend>
+                                    <b-form-input
+                                        id="fh-account"
+                                        type="text"
+                                        :placeholder="$t('PermissionSetting.account')"
+                                        v-model="account"
+                                        :state="errors.length > 0 ? false:null"
+                                    />
+                                </b-input-group>
+                                <small class="text-danger">{{ errors[0] }}</small>
+                            </validation-provider>
                         </b-form-group>
                     </b-col>
 
-                    <!-- Old Password -->
+                    <!-- Password -->
                     <b-col cols="12">
                         <b-form-group
-                            :label="$t('PermissionSetting.oldPassword')"
+                            :label="$t('PermissionSetting.password')"
                             label-for="fh-old-password"
                         >
                             <validation-provider
                                 #default="{ errors }"
-                                name="Old Password"
+                                name="Password"
                                 rules="required|password"
                             >
                                 <b-input-group
@@ -73,10 +103,10 @@
                                         <feather-icon icon="LockIcon" />
                                     </b-input-group-prepend>
                                     <b-form-input
-                                        id="fh-old-password"
-                                        v-model="oldPassword"
+                                        id="fh-password"
+                                        v-model="password"
                                         type="password"
-                                        :placeholder="$t('PermissionSetting.oldPassword')"
+                                        :placeholder="$t('PermissionSetting.password')"
                                         :state="errors.length > 0 ? false:null"
                                     />
                                 </b-input-group>
@@ -85,48 +115,16 @@
                         </b-form-group>
                     </b-col>
 
-                    <!-- New Password -->
-                    <b-col cols="12">
-                        <b-form-group
-                            :label="$t('PermissionSetting.newPassword')"
-                            label-for="fh-new-password"
-                        >
-                            <validation-provider
-                                #default="{ errors }"
-                                name="New Password"
-                                vid="New Password"
-                                rules="required"
-                            >
-                                <b-input-group
-                                    class="input-group-merge"
-                                    :class="errors.length > 0 ? 'is-invalid' : ''"
-                                >
-                                    <b-input-group-prepend is-text>
-                                        <feather-icon icon="LockIcon" />
-                                    </b-input-group-prepend>
-                                    <b-form-input
-                                        id="fh-new-password"
-                                        v-model="newPassword"
-                                        type="password"
-                                        :placeholder="$t('PermissionSetting.newPassword')"
-                                        :state="errors.length > 0 ? false:null"
-                                    />
-                                </b-input-group>
-                                <small class="text-danger">{{ errors[0] }}</small>
-                            </validation-provider>
-                        </b-form-group>
-                    </b-col>
-
-                    <!-- New Password Confirm -->
+                    <!-- Password Confirm -->
                     <b-col cols="12">
                         <b-form-group
                             :label="$t('PermissionSetting.confirmPassword')"
-                            label-for="fh-new-password-confirm"
+                            label-for="fh-password-confirm"
                         >
                             <validation-provider
                                 #default="{ errors }"
-                                name="Confirm the new password"
-                                rules="required|confirmed:New Password"
+                                name="Confirm the password"
+                                rules="required|confirmed:password"
                             >
                                 <b-input-group
                                     class="input-group-merge"
@@ -136,8 +134,8 @@
                                         <feather-icon icon="LockIcon" />
                                     </b-input-group-prepend>
                                     <b-form-input
-                                        id="fh-new-password-confirm"
-                                        v-model="newPasswordConfirm"
+                                        id="fh-password-confirm"
+                                        v-model="passwordConfirm"
                                         type="password"
                                         :placeholder="$t('PermissionSetting.confirmPassword')"
                                         :state="errors.length > 0 ? false:null"
@@ -145,6 +143,19 @@
                                 </b-input-group>
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
+                        </b-form-group>
+                    </b-col>
+                    <!-- staff -->
+                    <b-col cols="12">
+                        <b-form-group id="staff">
+                            <label for="staff">{{ $t('PermissionSetting.staff') }}</label>
+                            <v-select
+                                label="staff"
+                                v-model="staff"
+                                :options="staffOption"
+                                :placeholder="$t('PermissionSetting.selectStaff')"
+                                :reduce="option => option.id"
+                            />
                         </b-form-group>
                     </b-col>
 
@@ -181,11 +192,14 @@ import {
     BInputGroup,
     BInputGroupPrepend,
 } from 'bootstrap-vue'
+import vSelect from 'vue-select'
 import Ripple from 'vue-ripple-directive'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import {
     required, confirmed, password,
 } from '@validations'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import axios from "@axios";
 
 export default {
     components: {
@@ -203,20 +217,25 @@ export default {
         BFormDatalist,
         ValidationProvider,
         ValidationObserver,
+        vSelect,
+        ToastificationContent
     },
     directives: {
         Ripple,
     },
     data() {
         return {
+            group_id: '',
             name: '',
             account: '',
-            oldPassword: '',
-            newPassword: '',
-            newPasswordConfirm: '',
+            password: '',
+            passwordConfirm: '',
             required,
             password,
             confirmed,
+            groupOption: [],
+            staff: '',
+            staffOption: [],
         }
     },
     methods: {
@@ -230,11 +249,44 @@ export default {
         },
     },
     mounted() {
-        this.$store.dispatch('auth/checkUser')
-            .then(response => {
-                this.name = response.data.name;
-                this.account = response.data.account;
+        axios
+        .post('departments/options')
+        .then(response => {
+            this.groupOption = response.data;
+        })
+        .catch(error => {
+            this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                title: `${this.$t('createdFailed')}`,
+                icon: 'XIcon',
+                variant: 'danger',
+                text: error.response.data.message,
+                },
             })
+        })
+        axios
+        .post('staff/options')
+        .then(response => {
+            this.staffOption = response.data;
+        })
+        .catch(error => {
+            this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                title: `${this.$t('createdFailed')}`,
+                icon: 'XIcon',
+                variant: 'danger',
+                text: error.response.data.message,
+                },
+            })
+        })
     },
 }
 </script>
+
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-select.scss';
+</style>

@@ -107,8 +107,6 @@ export default {
                 const data = response.data
                 this.data = data;
                 this.storehouseListData.rows = JSON.parse(JSON.stringify(data.storehouses));
-                console.log(this.data);
-                console.log(this.storehouseListData.rows);
             })
             .catch(error => console.error (error))
         }

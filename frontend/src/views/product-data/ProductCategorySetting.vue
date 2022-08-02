@@ -210,6 +210,7 @@
                                 v-model="showData.code"
                                 type="text"
                                 :placeholder="$t('ProductCategoryList.code')"
+                                :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -225,6 +226,7 @@
                                 v-model="showData.name"
                                 type="text"
                                 :placeholder="$t('ProductCategoryList.name')"
+                                :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>

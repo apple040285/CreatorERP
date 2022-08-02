@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import axios from "@axios";
 import { BTabs, BTab } from 'bootstrap-vue'
 import BasicInformation from './BasicInformation.vue'
 import OtherRemark from './OtherRemark.vue'
@@ -81,75 +82,38 @@ export default {
     },
     data() {
         return {
-            id: '',
-            data: {
-                requisitionDate: '2022-06-23',
-                requisitionNo: '20220624001',
-                manufacturer: '台積電',
-                currency: 'NTD',
-                transferNo: 'A123',
-                project: '母親節專案',
-                buyer: 'dennis',
-                purchaseDepartment: '人事部',
-                preDeliveryDate: '2022-06-30',
-                totalEstimatedAmount: '1,000',
-                estimatedTotalInLocalCurrency: '1,000',
-                status: 'draft',
-                approvalStatus: 'audited',
-                created_by: 'dennis',
-                created_at: '2022-06-27',
-                updated_by: 'dennis',
-                updated_at: '2022-06-27',
-                remark: 'test',
-                id: ''
-            },
+            data: {},
             productListData: {
                 pageLength: 5,
                 searchTerm: '',
                 columns: [
-                    { label: '#', field: 'index' },
-                    { label: 'productNo', field: 'productNo' },
-                    { label: 'productName', field: 'productName' },
+                    { label: '#', field: 'id', type: 'number' },
+                    { label: 'productNo', field: 'code' },
+                    { label: 'productName', field: 'name' },
                     { label: 'specification', field: 'specification' },
                     { label: 'unit', field: 'unit' },
                     { label: 'storehouse', field: 'storehouse' },
                     { label: 'quantity', field: 'quantity', type: 'number' },
-                    { label: 'unitPrice', field: 'unitPrice' },
-                    { label: 'amount', field: 'amount' },
-                    { label: 'productPreDeliveryDate', field: 'productPreDeliveryDate' },
-                    { label: 'productRemark', field: 'productRemark' },
+                    { label: 'unitPrice', field: 'unitPrice', type: 'number' },
+                    { label: 'amount', field: 'amount', type: 'number' },
+                    { label: 'productPreDeliveryDate', field: 'preDeliveryDate' },
+                    { label: 'productRemark', field: 'remark' },
                 ],
-                rows: [
-                    {
-                        productNo: 'A123456',
-                        productName : '麥香',
-                        specification : '小',
-                        unit : '箱',
-                        storehouse : '北',
-                        quantity : 10,
-                        unitPrice : 500,
-                        amount : 100,
-                        productPreDeliveryDate : '2022-06-30',
-                        productRemark : 'test',
-                    },
-                    {
-                        productNo: 'A123456',
-                        productName : '麥香',
-                        specification : '小',
-                        unit : '箱',
-                        storehouse : '北',
-                        quantity : 100,
-                        unitPrice : 500,
-                        amount : 100,
-                        productPreDeliveryDate : '2022-06-30',
-                        productRemark : 'test',
-                    }
-                ]
+                rows: []
             },
         }
     },
     mounted() {
-        if(this.$route.query.id) this.id = this.$route.query.id;
+        if(this.$route.query.id) {
+            axios
+            .get(`requisition/${this.$route.query.id}`)
+            .then(response => {
+                const data = response.data
+                this.data = data;
+                this.productListData.rows = JSON.parse(JSON.stringify(data.products));
+            })
+            .catch(error => console.error (error))
+        }
     },
 }
 </script>

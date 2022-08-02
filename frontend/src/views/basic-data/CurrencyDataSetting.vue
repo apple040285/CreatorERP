@@ -183,6 +183,7 @@
                                 v-model="showData.target_code"
                                 type="text"
                                 :placeholder="$t('CurrencyList.targetCode')"
+                                :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -198,6 +199,7 @@
                                 v-model="showData.source_code"
                                 type="text"
                                 :placeholder="$t('CurrencyList.sourceCode')"
+                                :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -213,6 +215,7 @@
                                 v-model="showData.name"
                                 type="text"
                                 :placeholder="$t('CurrencyList.name')"
+                                :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -228,6 +231,7 @@
                                 v-model="showData.rate"
                                 type="number"
                                 :placeholder="$t('CurrencyList.rate')"
+                                :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -241,8 +245,8 @@
                         >
                             <v-select
                                 v-model="showData.unit_price_of_digits"
-                                :placeholder="$t('CurrencyList.unitPriceOfDigits')"
-                                :options="[0,1,2,3,4,5,6]"
+                                :placeholder="$t('CurrencyList.selectUnitPriceOfDigits')"
+                                :options="unit_price_of_digits_option"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -256,8 +260,8 @@
                         >
                             <v-select
                                 v-model="showData.amount_of_digits"
-                                :placeholder="$t('CurrencyList.amountOfDigits')"
-                                :options="[0,1,2,3,4]"
+                                :placeholder="$t('CurrencyList.selectAmountOfDigits')"
+                                :options="amount_of_digits_option"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -319,14 +323,16 @@ export default {
             rows: [],
             showData: {},
             defaultData: {
-                id : null,
-                source_code : '',
-                target_code : '',
-                name : '',
-                rate : 0,
-                unit_price_of_digits : 0,
-                amount_of_digits : 0,
+                id: null,
+                source_code: '',
+                target_code: '',
+                name: '',
+                rate: '',
+                unit_price_of_digits: '',
+                amount_of_digits: '',
             },
+            unit_price_of_digits_option: ['0','1','2','3','4','5','6'],
+            amount_of_digits_option: ['0','1','2','3','4'],
             isLoading: false,
             totalRecords: 0,
             serverParams: {

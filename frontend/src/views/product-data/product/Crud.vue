@@ -17,6 +17,7 @@
                                         v-model="showData.code"
                                         type="text"
                                         :placeholder="$t('ProductList.code')"
+                                        :state="errors.length > 0 ? false:null"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -35,6 +36,7 @@
                                         v-model="showData.name"
                                         type="text"
                                         :placeholder="$t('ProductList.name')"
+                                        :state="errors.length > 0 ? false:null"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -89,6 +91,7 @@
                                         v-model="showData.sku"
                                         type="text"
                                         :placeholder="$t('ProductList.specification')"
+                                        :state="errors.length > 0 ? false:null"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -129,6 +132,7 @@
                                         v-model="showData.unit"
                                         type="text"
                                         :placeholder="$t('ProductList.unit')"
+                                        :state="errors.length > 0 ? false:null"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -385,6 +389,7 @@
                                 v-model="storehousesData.stock"
                                 type="number"
                                 :placeholder="$t('ProductList.stock')"
+                                :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -471,14 +476,9 @@ export default {
             apiPath: '/products',
             required,
             alertShow: 'false',
-            modalCreateFlag : true,
             showData: {},
             storehouseModalId: null,
-            storehousesData: {
-                id: null,
-                stock: 0,
-                safety_stock: 0,
-            },
+            storehousesData: {},
             defaultData: {
                 id : null,
                 code: '',

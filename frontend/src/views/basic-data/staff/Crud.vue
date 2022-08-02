@@ -16,6 +16,7 @@
                                     v-model="defaultData.code"
                                     type="text"
                                     :placeholder="$t('StaffList.code')"
+                                    :state="errors.length > 0 ? false:null"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
@@ -34,6 +35,7 @@
                                     v-model="defaultData.name"
                                     type="text"
                                     :placeholder="$t('StaffList.name')"
+                                    :state="errors.length > 0 ? false:null"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
@@ -153,6 +155,7 @@
                                     v-model="defaultData.email"
                                     type="text"
                                     :placeholder="$t('StaffList.email')"
+                                    :state="errors.length > 0 ? false:null"
                                 />
                             <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
@@ -171,6 +174,7 @@
                                     v-model="defaultData.emergency_contact_one"
                                     type="text"
                                     :placeholder="$t('StaffList.emergencyContactOne')"
+                                    :state="errors.length > 0 ? false:null"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
@@ -189,6 +193,7 @@
                                     v-model="defaultData.emergency_contact_one_number"
                                     type="text"
                                     :placeholder="$t('StaffList.emergencyContactOneNumber')"
+                                    :state="errors.length > 0 ? false:null"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
@@ -233,8 +238,8 @@
                                 <flat-pickr
                                     v-model="defaultData.arrival_date"
                                     class="form-control"
-                                    :placeholder="$t('StaffList.appointmentDate')"
                                     id="appointmentDate-datepicker"
+                                    :placeholder="$t('StaffList.appointmentDate')"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>

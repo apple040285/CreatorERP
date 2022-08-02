@@ -16,6 +16,7 @@
                                     v-model="defaultData.code"
                                     type="text"
                                     :placeholder="$t('BankList.code')"
+                                    :state="errors.length > 0 ? false:null"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
@@ -34,6 +35,7 @@
                                     v-model="defaultData.swift_code"
                                     type="text"
                                     :placeholder="$t('BankList.swiftCode')"
+                                    :state="errors.length > 0 ? false:null"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>
@@ -52,6 +54,7 @@
                                     v-model="defaultData.name"
                                     type="text"
                                     :placeholder="$t('BankList.name')"
+                                    :state="errors.length > 0 ? false:null"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
                             </validation-provider>

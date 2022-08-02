@@ -174,7 +174,7 @@
                 <b-form-group>
                     <div class="d-flex align-items-center">
                         <b-form-input
-                            v-model="serverParams.searchTerm"
+                            v-model="searchTerm"
                             :placeholder="$t('table.Search')"
                             type="text"
                             class="d-inline-block"
@@ -183,26 +183,18 @@
                 </b-form-group>
             </div>
 
+            <!-- table -->
             <vue-good-table
-                mode="remote"
-                @on-page-change="onPageChange"
-                @on-sort-change="onSortChange"
-                @on-per-page-change="onPerPageChange"
-                :totalRows="totalRecords"
-                :isLoading.sync="isLoading"
-                :pagination-options="{
-                    enabled: true,
-                }"
+                :columns="columns"
+                :rows="rows"
                 :search-options="{
                     enabled: true,
-                    externalQuery: serverParams.searchTerm
+                    externalQuery: searchTerm
                 }"
-                @on-search="onSearch"
-                :sort-options="{
+                :pagination-options="{
                     enabled: true,
+                    perPage:pageLength
                 }"
-                :rows="rows"
-                :columns="columns"
             >
                 <template #loadingContent>
                     <div class="text-center">
@@ -225,14 +217,14 @@
                     <span v-if="props.column.field === 'id'" class="text-nowrap">
                         {{ props.row.originalIndex + 1 }}
                     </span>
-                    <span v-else-if="props.column.field === 'productRemark'" class="text-nowrap">
+                    <span v-else-if="props.column.field === 'remark'" class="text-nowrap">
                         <span>
                             <b-button
                                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                 variant="outline-primary"
                                 size="sm"
                                 class="mr-50"
-                                @click="showRemark(rows[props.row.originalIndex].productRemark)"
+                                @click="showRemark(rows[props.row.originalIndex].remark)"
                             >
                                 <feather-icon
                                     icon="EyeIcon"
@@ -249,7 +241,7 @@
                                 variant="outline-success"
                                 size="sm"
                                 class="mr-1"
-                                @click="resetModal()"
+                                @click="editData(props.row)"
                             >
                                 <feather-icon
                                     icon="Edit2Icon"
@@ -260,7 +252,7 @@
                                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                 variant="outline-danger"
                                 size="sm"
-                                @click="removeData(props.row.originalIndex)"
+                                @click="removeData(props.row)"
                             >
                                 <feather-icon
                                     icon="Trash2Icon"
@@ -286,7 +278,7 @@
                                 {{ $t('table.Showing') }} 1 {{ $t('table.to') }}
                             </span>
                             <b-form-select
-                                v-model="serverParams.perPage"
+                                v-model="pageLength"
                                 :options="['5','10']"
                                 class="mx-1"
                                 @input="(value)=>props.perPageChanged({currentPerPage:value})"
@@ -297,7 +289,7 @@
                             <b-pagination
                                 :value="1"
                                 :total-rows="props.total"
-                                :per-page="serverParams.perPage"
+                                :per-page="pageLength"
                                 first-number
                                 last-number
                                 align="right"
@@ -367,7 +359,7 @@
         <b-modal
             id="modalForm"
             cancel-variant="outline-secondary"
-            :title="showData.id ? $t('edit') : $t('create')"
+            :title="productsData.id ? $t('edit') : $t('create')"
             :cancel-title="$t('back')"
             :ok-title="$t('Submit')"
             @ok.prevent="validationModalForm"
@@ -437,6 +429,7 @@
                                 type="number"
                                 v-model="showData.quantity"
                                 min="0"
+                                :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -452,6 +445,7 @@
                                 type="number"
                                 v-model="showData.unitPrice"
                                 min="0"
+                                :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -474,7 +468,7 @@
                             rules="required"
                         >
                             <flat-pickr
-                                v-model="showData.productPreDeliveryDate"
+                                v-model="showData.preDeliveryDate"
                                 class="form-control"
                                 :placeholder="$t('RequisitionList.ProductList.productPreDeliveryDate')"
                                 id="productPreDeliveryDate-datepicker"
@@ -505,7 +499,7 @@
             scrollable
         >
             <b-card-text>
-                {{ remarkDetail }}
+                {{ showData.remarkDetail }}
             </b-card-text>
         </b-modal>
     </div>
@@ -576,63 +570,68 @@ export default {
     },
     data() {
         return {
-            editId: 0,
+            apiPath: '/requisition',
             required,
-            requisitionDate: '',
-            manufacturer: '',
-            manufacturerOption: ['台積電', '日月光', '環球晶'],
-            currency: '',
-            currencyOption: ['NTD', 'USD', 'RMB', 'JPY'],
-            transferNo: '',
-            transferNoOption: ['A123', 'B123', 'C123'],
-            project: '',
-            projectOption: ['母親節專案', '父親節專案'],
-            buyer: '',
-            buyerOption: ['dennis', 'ryan'],
-            purchaseDepartment: '',
-            purchaseDepartmentOption: ['人事部', '會計部'],
-            preDeliveryDate: '',
-            remark: '',
-            remarkDetail: '',
             alertShow: 'false',
-
+            showData: {},
+            productModalId: null,
             productsData: {},
-            //modal form
-            modalCreateFlag : true,
-            productNo: '',
-            productName: '',
+            defaultData: {
+                requisitionDate: '',
+                manufacturer: '',
+                currency: '',
+                transferNo: '',
+                project: '',
+                buyer: '',
+                purchaseDepartment: '',
+                preDeliveryDate: '',
+                remark: '',
+                remarkDetail: '',
+                products: []
+            },
+            manufacturerOption: ['台積電', '日月光', '環球晶'],
+            currencyOption: ['NTD', 'USD', 'RMB', 'JPY'],
+            transferNoOption: ['A123', 'B123', 'C123'],
+            projectOption: ['母親節專案', '父親節專案'],
+            buyerOption: ['dennis', 'ryan'],
+            purchaseDepartmentOption: ['人事部', '會計部'],
+
+            defaultProductsData: {
+                code: '',
+                name: '',
+                specification: '',
+                unit: '',
+                storehouse: '',
+                quantity: 0,
+                unitPrice: '',
+                amount: '',
+                preDeliveryDate: '',
+                remark: '',
+            },
             productOption: ['桌子', '椅子'],
-            specification: '',
-            unit: '',
-            storehouse: '',
             storehouseOption: ['北', '中', '南'],
-            quantity: 0,
-            unitPrice: '',
-            amount: '',
-            productPreDeliveryDate: '',
-            productRemark: '',
-            editRowId: '',
 
             pageLength: 5,
             searchTerm: '',
             columns: [
-                { label: '#', field: 'index' },
-                { label: 'productNo', field: 'productNo' },
-                { label: 'productName', field: 'productName' },
+                { label: '#', field: 'id', type: 'number' },
+                { label: 'productNo', field: 'code' },
+                { label: 'productName', field: 'name' },
                 { label: 'specification', field: 'specification' },
                 { label: 'unit', field: 'unit' },
                 { label: 'storehouse', field: 'storehouse' },
-                { label: 'quantity', field: 'quantity' },
-                { label: 'unitPrice', field: 'unitPrice' },
-                { label: 'amount', field: 'amount' },
-                { label: 'productPreDeliveryDate', field: 'productPreDeliveryDate' },
-                { label: 'productRemark', field: 'productRemark' },
+                { label: 'quantity', field: 'quantity', type: 'number' },
+                { label: 'unitPrice', field: 'unitPrice', type: 'number' },
+                { label: 'amount', field: 'amount', type: 'number' },
+                { label: 'productPreDeliveryDate', field: 'preDeliveryDate' },
+                { label: 'productRemark', field: 'remark' },
                 { label: 'action', field: 'action' },
             ],
             rows: [
                 {
-                    productNo : 'A123456',
-                    productName : '麥香',
+                    id: 1,
+                    code : 'A123456',
+                    name : '麥香',
                     specification : '小',
                     unit : '箱',
                     storehouse : '北',
@@ -640,33 +639,12 @@ export default {
                     unitPrice : 500,
                     amount : 100,
                     productPreDeliveryDate : '2022-06-30',
-                    productRemark : 'test',
+                    remark : 'test',
                 }
             ]
         }
     },
     methods: {
-        onSearch({searchTerm}) {
-            this.serverParams.searchTerm = searchTerm
-            this.getList()
-        },
-        updateParams(newProps) {
-            this.serverParams = Object.assign({}, this.serverParams, newProps);
-        },
-        onPageChange(params) {
-            this.updateParams({page: params.currentPage});
-            this.getList();
-        },
-        onPerPageChange(params) {
-            this.updateParams({perPage: params.currentPerPage});
-            this.getList();
-        },
-        onSortChange(params) {
-            this.updateParams({
-                sort: params,
-            });
-            this.getList();
-        },
         validationForm() {
             this.$refs.simpleRules.validate().then(success => {
                 if(this.rows.length > 0) {
@@ -675,7 +653,11 @@ export default {
                     this.alertShow = '';
                 }
                 if (success && this.rows.length > 0) {
-                    //
+                    if(this.showData.id) {
+                        this.updateMethod();
+                    }else {
+                        this.createMethod();
+                    }
                 }else {
                     const simpleRulesErrors = Object.keys(this.$refs.simpleRules.errors);
                     simpleRulesErrors.some(element => {
@@ -690,7 +672,7 @@ export default {
         validationModalForm() {
             this.$refs.modalRules.validate().then(success => {
                 if (success) {
-                    this.productDataPush();
+                    this.dataPush();
                 }else {
                     const modalRulesErrors = Object.keys(this.$refs.modalRules.errors);
                     modalRulesErrors.some(element => {
@@ -702,52 +684,115 @@ export default {
                 }
             })
         },
-        resetModal() {
-            this.productName = '';
-            this.specification = '';
-            this.unit = '';
-            this.storehouse = '';
-            this.quantity = 0;
-            this.unitPrice = '';
-            this.amount = '';
-            this.productPreDeliveryDate = this.preDeliveryDate;
-            this.productRemark = '';
+        createMethod() {
+            axios
+            .post(`${this.apiPath}`, this.showData)
+            .then(() => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('createdSuccess')}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${this.$t('Requisition')} ${this.$t('createdSuccess')}!`,
+                    },
+                })
+                this.$router.push({name:'ProcurementOperation-RequisitionList'});
+            })
+            .catch(error => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('createdFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
+            })
         },
-        editModal(key) {
-            this.editRowId = key;
-            this.productName = this.rows[key].productName;
-            this.specification = this.rows[key].specification;
-            this.unit = this.rows[key].unit;
-            this.storehouse = this.rows[key].storehouse;
-            this.quantity = this.rows[key].quantity;
-            this.unitPrice = this.rows[key].unitPrice;
-            this.amount = this.rows[key].amount;
-            this.productPreDeliveryDate = this.rows[key].productPreDeliveryDate;
-            this.productRemark = this.rows[key].productRemark;
+        editMethod() {
+            axios
+            .get(`${this.apiPath}/${this.showData.id}`)
+            .then(response => {
+                let requisition = response.data
+                requisition.products = requisition.products.map(item => ({
+                    ...item,
+                    // stock: item.pivot.stock,
+                    // safety_stock: item.pivot.safety_stock,
+                }))
+
+                this.showData = JSON.parse(JSON.stringify(requisition));
+                this.rows = JSON.parse(JSON.stringify(requisition.products));
+            })
+            .catch(error => console.error (error))
+        },
+        updateMethod() {
+            axios
+            .put(`${this.apiPath}/${this.showData.id}`, this.showData)
+            .then(() => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedSuccess')}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${this.$t('Requisition')} ${this.$t('updatedSuccess')}!`,
+                    },
+                })
+                this.$router.push({name:'ProcurementOperation-RequisitionList'});
+            })
+            .catch(error => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
+            })
+        },
+        resetModal() {
+            this.productModalId = null
+            this.productsData = Object.assign({}, this.productsData, this.defaultProductsData)
+        },
+        editData(data) {
+            this.productModalId = data.id
+            this.productsData = data;
             this.$refs['modalForm'].show();
         },
-        productDataPush() {
-            this.productsData = {
-                productName : this.productName,
-                specification : this.specification,
-                unit : this.unit,
-                storehouse : this.storehouse,
-                quantity : this.quantity,
-                unitPrice : this.unitPrice,
-                amount : this.amount,
-                productPreDeliveryDate : this.productPreDeliveryDate,
-                productRemark : this.productRemark,
-            };
-            if(this.modalCreateFlag){
-                this.rows.push(this.productsData);
-            }else{
-                Object.assign(this.rows[this.editRowId], this.productsData);
+        dataPush() {
+            const productFind = this.productOption.find(product => product.id === this.productsData.id)
+            const productIndex = this.showData.products.findIndex((element) => element.id == this.productsData.id);
+            if (productIndex === -1) {
+                this.productsData = Object.assign(this.productsData, productFind)
+                this.showData.products.push(this.productsData);
+                this.rows = JSON.parse(JSON.stringify(this.showData.products));
+            } else if (productIndex !== -1 && this.productModalId === null) {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('createdFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: `${this.$t('RequisitionModal.productsCreatedFailed')}`,
+                    },
+                })
+            } else {
+                Object.assign(this.showData.products[productIndex], this.productsData);
             }
             this.$nextTick(() => {
                 this.$refs['modalForm'].toggle('#toggle-btn')
             })
         },
-        removeProductData(key) {
+        removeData(row) {
             this.$bvModal
                 .msgBoxConfirm(this.$t('checkDelete'), {
                     size: 'sm',
@@ -760,16 +805,60 @@ export default {
                     footerClass: "d-block mx-auto"
                 })
                 .then(value => {
-                    if(value) this.rows.splice(key,1);
+                    if (value) {
+                        const productIndex = this.showData.products.findIndex(product => product.id === row.id)
+                        const tableRowIndex = this.rows.findIndex(tableRow => tableRow.id === row.id)
+                        if (productIndex !== -1) this.showData.products.splice(productIndex, 1);
+                        if (tableRowIndex !== -1) this.rows.splice(tableRowIndex, 1);
+                    }
                 })
         },
         showRemark(value) {
-            this.remarkDetail = value;
+            console.log(value);
+            this.showData.remarkDetail = value;
             this.$refs['remarkDetail'].show();
         }
     },
     mounted() {
-        if(this.$route.query.id) this.editId = this.$route.query.id;
+        this.showData = this.defaultData;
+        axios
+        .post('manufacturers/options')
+        .then(response => {
+            this.manufacturerOption = response.data;
+        })
+        .catch(error => {
+            this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                title: `${this.$t('createdFailed')}`,
+                icon: 'XIcon',
+                variant: 'danger',
+                text: error.response.data.message,
+                },
+            })
+        })
+        axios
+        .post('currencies/options')
+        .then(response => {
+            this.currencyOption = response.data;
+        })
+        .catch(error => {
+            this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                title: `${this.$t('createdFailed')}`,
+                icon: 'XIcon',
+                variant: 'danger',
+                text: error.response.data.message,
+                },
+            })
+        })
+        if(this.$route.query.id) {
+            this.showData.id = this.$route.query.id;
+            this.editMethod();
+        }
     },
 }
 </script>

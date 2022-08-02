@@ -210,6 +210,7 @@
                                 v-model="showData.code"
                                 type="text"
                                 :placeholder="$t('CustomManufacturerCategoryList.code')"
+                                :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -225,6 +226,7 @@
                                 v-model="showData.name"
                                 type="text"
                                 :placeholder="$t('CustomManufacturerCategoryList.name')"
+                                :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -245,9 +247,9 @@
                             rules="required"
                         >
                             <v-select
-                                v-model="showData.category"
-                                :options="showData.categoryOption"
-                                :placeholder="$t('CustomManufacturerCategoryList.category')"
+                                v-model="showData.type"
+                                :options="typeOption"
+                                :placeholder="$t('CustomManufacturerCategoryList.selectCategory')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -320,14 +322,14 @@ export default {
     },
     data() {
         return {
-            apiPath: '/productsCategories',
+            apiPath: '/customer-manufacturers-categories',
             required,
             columns: [
                 { label: '#', field: 'id' },
                 { label: 'code', field: 'code' },
                 { label: 'name', field: 'name' },
-                { label: 'englishName', field: 'englishName' },
-                { label: 'category', field: 'category' },
+                { label: 'englishName', field: 'alias' },
+                { label: 'category', field: 'type' },
                 { label: 'disable_at', field: 'disable_at' },
                 { label: 'created_by', field: 'creator.name' },
                 { label: 'created_at', field: 'created_at' },
@@ -345,13 +347,13 @@ export default {
                 id : null,
                 code : '',
                 name : '',
-                englishName : '',
-                category : '',
-                categoryOption : ['客戶', '廠商'],
+                alias : '',
+                type : '',
                 disable_at : '',
-                status : 0,
+                status : '',
                 remark : '',
             },
+            typeOption : ['客戶', '廠商'],
             isLoading: false,
             totalRecords: 0,
             serverParams: {

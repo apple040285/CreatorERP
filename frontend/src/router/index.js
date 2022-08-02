@@ -5,6 +5,7 @@ import store from '@/store'
 // Routes
 import { isUserLoggedIn } from '@/auth/utils'
 
+import permissionSetting from './routes/permissionSetting'
 import basicData from './routes/basicData'
 import productData from './routes/productData'
 import customerManufacturerData from './routes/customerManufacturerData'
@@ -50,11 +51,7 @@ const router = new VueRouter({
         ],
       },
     },
-    {
-      path: '/role',
-      name: 'role',
-      component: () => import('@/views/RoleEdit.vue'),
-    },
+    ...permissionSetting,
     ...basicData,
     ...productData,
     ...customerManufacturerData,

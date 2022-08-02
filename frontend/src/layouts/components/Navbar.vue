@@ -45,7 +45,10 @@
           />
         </template>
 
-        <b-dropdown-item link-class="d-flex align-items-center">
+        <b-dropdown-item
+          link-class="d-flex align-items-center"
+          :to="{name: 'Administrator-Information'}"
+        >
           <feather-icon
             size="16"
             icon="UserIcon"

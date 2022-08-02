@@ -1,3 +1,4 @@
+import systemManagement from './systemManagement'
 import sharedData from './sharedData'
 import purchasingManagement from './purchasingManagement'
 import salesManagement from './salesManagement'
@@ -10,6 +11,7 @@ export default [
     route: 'dashboard',
     icon: 'HomeIcon',
   },
+  ...systemManagement,
   ...sharedData,
   ...purchasingManagement,
   ...salesManagement,
@@ -20,7 +22,8 @@ export default [
   },
   {
     title: 'Administrator',
-    icon: 'ToolIcon',
+    route: 'Administrator-Information',
+    icon: 'UserIcon',
     children: [
       {
         title: 'Information',
