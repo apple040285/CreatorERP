@@ -5,7 +5,7 @@ import store from '@/store'
 // Routes
 import { isUserLoggedIn } from '@/auth/utils'
 
-import permissionSetting from './routes/permissionSetting'
+import systemManagement from './routes/systemManagement'
 import basicData from './routes/basicData'
 import productData from './routes/productData'
 import customerManufacturerData from './routes/customerManufacturerData'
@@ -51,7 +51,7 @@ const router = new VueRouter({
         ],
       },
     },
-    ...permissionSetting,
+    ...systemManagement,
     ...basicData,
     ...productData,
     ...customerManufacturerData,

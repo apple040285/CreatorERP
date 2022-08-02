@@ -1,5 +1,5 @@
 <template>
-    <b-card-code :title="$t('Create Staff Account')">
+    <b-card-code :title="$t('Create Account')">
         <validation-observer ref="simpleRules">
             <b-form @submit.prevent>
                 <b-row>

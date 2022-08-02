@@ -1,23 +1,15 @@
 export default [
     {
-        header: 'SYSTEM MANAGEMENT',
+    header: 'SYSTEM MANAGEMENT',
     },
     {
-        title: 'Permission Setting',
-        icon: 'ToolIcon',
-        children: [
-            {
-                title: 'Group Permission Setting',
-                route: 'PermissionSetting-GroupPermissionSetting',
-            },
-            {
-                title: 'Role Management',
-                route: 'PermissionSetting-RoleManagement',
-            },
-            {
-                title: 'Staff Account Setting',
-                route: 'PermissionSetting-StaffAccountSetting',
-            },
-        ],
+        title: 'Role Management',
+        route: 'SystemManagement-RoleManagementList',
+        icon: 'UserCheckIcon',
+    },
+    {
+        title: 'Account Management',
+        route: 'SystemManagement-AccountManagementList',
+        icon: 'UsersIcon',
     },
 ]
