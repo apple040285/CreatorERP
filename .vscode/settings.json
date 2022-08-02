@@ -1,0 +1,23 @@
+{
+    "vetur.format.defaultFormatter.js": "vscode-typescript",
+    "vetur.format.defaultFormatter.html": "js-beautify-html",
+    "vetur.format.defaultFormatterOptions": {
+        "js-beautify-html": {
+            // "wrap_line_length": 220,
+            // 對屬性進行換行。
+            // - auto: 僅在超出行長度時才對屬性進行換行。
+            // - force: 對除第一個屬性外的其他每個屬性進行換行。
+            // - force-aligned: 對除第一個屬性外的其他每個屬性進行換行，並保持對齊。
+            // - force-expand-multiline: 對每個屬性進行換行。
+            // - aligned-multiple: 當超出折行長度時，將屬性進行垂直對齊。
+            "wrap_attributes": "force-expand-multiline",
+            "end_with_newline": false
+        },
+        "prettyhtml": {
+            "printWidth": 100,
+            "singleQuote": false,
+            "wrapAttributes": false,
+            "sortAttributes": false
+        }
+    }
+}

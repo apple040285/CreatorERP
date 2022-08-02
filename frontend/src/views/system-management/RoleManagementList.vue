@@ -1,5 +1,14 @@
 <template>
-    <div>
-        列表
-    </div>
+  <div>
+    a
+  </div>
 </template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style>
+</style>

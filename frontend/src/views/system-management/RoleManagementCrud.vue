@@ -12,13 +12,13 @@
                 trim
                 placeholder="name"
             />
-        </b-form-group>
+            </b-form-group>
 
-        <!-- 權限表 -->
-        <b-form-group
-            :label="$t('PermissionSetting.permission')"
-            label-for="permission"
-        >
+            <!-- 權限表 -->
+            <b-form-group
+                :label="$t('PermissionSetting.permission')"
+                label-for="permission"
+            >
             <b-table-simple
                 hover
                 responsive
@@ -37,7 +37,7 @@
                         :key="key"
                     >
                         <b-th class="text-nowrap">
-                        {{ group.text || group.label }}
+                            {{ group.text || group.label }}
                         </b-th>
                         <b-td>
                             <treeselect
@@ -54,27 +54,25 @@
                                     slot-scope="{ node, shouldShowCount, count, labelClassName, countClassName }"
                                     :class="labelClassName"
                                 >
-                                {{ $t(node.raw.text) }}
-                                <span
-                                    v-if="shouldShowCount"
-                                    :class="countClassName"
-                                >
-                                    ({{ count }})
-                                </span>
+                                    {{ $t(node.raw.text) }}
+                                    <span
+                                        v-if="shouldShowCount"
+                                        :class="countClassName"
+                                    >
+                                        ({{ count }})
+                                    </span>
                                 </label>
 
                                 <div
                                     slot="value-label"
                                     slot-scope="{ node }"
                                 >
-                                {{ $t(node.raw.text) }}
+                                    {{ $t(node.raw.text) }}
                                 </div>
                             </treeselect>
                         </b-td>
                     </b-tr>
-
                 </b-tbody>
-
             </b-table-simple>
         </b-form-group>
 
@@ -87,28 +85,13 @@
         >
             {{ $t('Submit') }}
         </b-button>
-
-        <app-collapse>
-            <app-collapse-item title="演示版">
-                <v-jstree
-                v-if="showData.toGroup"
-                :data="showData.toGroup"
-                show-checkbox
-                multiple
-                collapse
-                allow-batch
-                allow-transition
-                whole-row
-                />
-            </app-collapse-item>
-        </app-collapse>
     </b-card>
 </template>
 
 <script>
 import {
-    BCard, BCardText, BLink, BTableSimple, BThead, BTbody, BTr, BTh, BTd,
-    BFormGroup, BFormInput, BButton
+  BCard, BCardText, BLink, BTableSimple, BThead, BTbody, BTr, BTh, BTd,
+  BFormGroup, BFormInput, BButton
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { ref } from '@vue/composition-api'
