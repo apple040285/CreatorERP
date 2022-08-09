@@ -1,5 +1,5 @@
 <template>
-    <b-card-code :title="$t('Create Account')">
+    <b-card-code :title="$route.name == 'SystemManagement-AccountManagementCreate' ?  $t('Create Account') : $t('Edit Account')">
         <validation-observer ref="simpleRules">
             <b-form @submit.prevent>
                 <b-row>
