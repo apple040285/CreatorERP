@@ -65,7 +65,8 @@
       "productCategory": "Product Category",
       "productUnit": "Product Unit",
       "productWarehouse": "Warehouse",
-      "productStock": "Stock"
+      "productStock": "Stock",
+      "addressName": "Address Name"
     },
     "messages": {
       "alpha": "The {_field_} field may only contain alphabetic characters",
@@ -172,6 +173,7 @@
   "PERSONAL CENTER": "PERSONAL CENTER",
   "Administrator": "Administrator",
   "Information": "Information",
+  "Change Password": "Change Password",
   "Logout": "Logout",
 
   "Update Administrator Information": "Update Administrator Information",
@@ -211,6 +213,28 @@
   "disable": "Disable",
   "disable_at": "Disable Date",
   "status": "Status",
+
+  "RoleManagementList": {
+    "name": "Role Name",
+    "permission": "Permission",
+    "created_by": "Created By",
+    "created_at": "Created At",
+    "updated_by": "Updated By",
+    "updated_at": "Updated At",
+    "active": "Active"
+  },
+
+  "AccountManagementList": {
+    "name": "Name",
+    "account": "Account",
+    "role": "Role",
+    "staff": "Staff",
+    "created_by": "Created By",
+    "created_at": "Created At",
+    "updated_by": "Updated By",
+    "updated_at": "Updated At",
+    "active": "Active"
+  },
 
   "DepartmentList": {
     "code": "Department Code",
@@ -421,7 +445,9 @@
     "shortName": "Short Name",
     "englishName": "English Name",
     "belong": "Belong",
+    "selectBelong": "Select The Belong",
     "category": "Category",
+    "selectCategory": "Select The Category",
     "industry": "Industry",
     "personInCharge": "Person In Charge",
     "contactPersonOne": "Contact Person One",
@@ -436,14 +462,20 @@
     "companyAddress": "Company Address",
     "zipCode": "Zip Code",
     "currency": "Currency",
+    "selectCurrency": "Select The Currency",
     "taxDeductionCategory": "Tax Deduction Category",
+    "selectTaxDeductionCategory": "Select The Tax Deduction Category",
     "accountSettingMethod": "Account Setting Method",
+    "selectAccountSettingMethod": "Select The Account Setting Method",
     "businessPeople": "Business People",
+    "selectBusinessPeople": "Select The Business People",
     "monthlyBillingDate": "Monthly Billing Date",
     "paymentMethod": "Payment Method",
+    "selectPaymentMethod": "Select The Payment Method",
     "days": "Days",
     "otherInstructions": "Other Instructions",
     "electronicInvoiceType": "Electronic Invoice Type",
+    "selectElectronicInvoiceType": "Select The Electronic Invoice Type",
     "remark": "Remark",
     "disable_at": "Disable Date",
     "status": "Status",
@@ -463,7 +495,9 @@
     "telephone": "Telephone",
     "cellphone": "Cellphone",
     "line": "Line",
-    "email": "Email"
+    "email": "Email",
+    "contactDetails": "Contact Details",
+    "action": "Action"
   },
 
   "RequisitionList": {
@@ -522,8 +556,8 @@
   },
 
   "PermissionSetting": {
-    "group": "Group",
-    "selectGroup": "Select The Group",
+    "role": "Role",
+    "selectRole": "Select The Role",
     "name": "Name",
     "account": "Account",
     "password": "Password",
@@ -532,7 +566,6 @@
     "confirmPassword": "Confirm The Password",
     "staff": "Staff",
     "selectStaff": "Select The Staff",
-    "role": "Role",
     "permission": "Permission",
     "menu": "Menu",
     "selectPermission": "Select The Permission"

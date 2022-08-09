@@ -37,7 +37,7 @@
                         :key="key"
                     >
                         <b-th class="text-nowrap">
-                            {{ group.text || group.label }}
+                            {{ $t(group.text) || $t(group.label) }}
                         </b-th>
                         <b-td>
                             <treeselect
@@ -80,7 +80,7 @@
             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             type="submit"
             variant="primary"
-            class="mr-1 text-right"
+            class="d-block mx-auto"
             @click="update"
         >
             {{ $t('Submit') }}

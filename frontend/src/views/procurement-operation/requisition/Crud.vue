@@ -16,7 +16,7 @@
                                     rules="required"
                                 >
                                     <flat-pickr
-                                        v-model="defaultData.requisitionDate"
+                                        v-model="showData.requisitionDate"
                                         class="form-control"
                                         :placeholder="$t('RequisitionList.requisitionDate')"
                                         id="requisitionDate-datepicker"
@@ -30,7 +30,7 @@
                             <b-form-group>
                                 <v-select
                                     label="name"
-                                    v-model="defaultData.manufacturer_id"
+                                    v-model="showData.manufacturer_id"
                                     :options="manufacturerOption"
                                     :placeholder="$t('RequisitionModal.selectManufacturer')"
                                     :reduce="option => option.id"
@@ -47,7 +47,7 @@
                                 >
                                     <v-select
                                         label="name"
-                                        v-model="defaultData.currency_id"
+                                        v-model="showData.currency_id"
                                         :options="currencyOption"
                                         :placeholder="$t('RequisitionModal.selectCurrency')"
                                         :reduce="option => option.id"
@@ -63,7 +63,7 @@
                             <b-form-group>
                                 <v-select
                                     label="name"
-                                    v-model="defaultData.transferNo_id"
+                                    v-model="showData.transferNo_id"
                                     :options="transferNoOption"
                                     :placeholder="$t('RequisitionModal.selectTransferNo')"
                                     :reduce="option => option.id"
@@ -75,7 +75,7 @@
                             <b-form-group>
                                 <v-select
                                     label="name"
-                                    v-model="defaultData.project_id"
+                                    v-model="showData.project_id"
                                     :options="projectOption"
                                     :placeholder="$t('RequisitionModal.selectProject')"
                                     :reduce="option => option.id"
@@ -92,7 +92,7 @@
                                 >
                                     <v-select
                                         label="name"
-                                        v-model="defaultData.buyer_id"
+                                        v-model="showData.buyer_id"
                                         :options="buyerOption"
                                         :placeholder="$t('RequisitionModal.selectBuyer')"
                                         :reduce="option => option.id"
@@ -113,7 +113,7 @@
                                 >
                                     <v-select
                                         label="name"
-                                        v-model="defaultData.Department_id"
+                                        v-model="showData.Department_id"
                                         :options="DepartmentOption"
                                         :placeholder="$t('RequisitionModal.selectPurchaseDepartment')"
                                         :reduce="option => option.id"
@@ -134,7 +134,7 @@
                                     rules="required"
                                 >
                                     <flat-pickr
-                                        v-model="defaultData.preDeliveryDate"
+                                        v-model="showData.preDeliveryDate"
                                         class="form-control"
                                         :placeholder="$t('RequisitionList.preDeliveryDate')"
                                         id="preDeliveryDate-datepicker"
@@ -149,7 +149,7 @@
                                 <b-form-textarea
                                     :placeholder="$t('remark')"
                                     rows="3"
-                                    v-model="defaultData.remark"
+                                    v-model="showData.remark"
                                     autocomplete="off"
                                 />
                             </b-form-group>
@@ -224,7 +224,7 @@
                                 variant="outline-primary"
                                 size="sm"
                                 class="mr-50"
-                                @click="showRemark(rows[props.row.originalIndex].remark)"
+                                @click="showRemark(props.row)"
                             >
                                 <feather-icon
                                     icon="EyeIcon"
@@ -359,7 +359,7 @@
         <b-modal
             id="modalForm"
             cancel-variant="outline-secondary"
-            :title="productsData.id ? $t('edit') : $t('create')"
+            :title="productModalId != null ? $t('edit') : $t('create')"
             :cancel-title="$t('back')"
             :ok-title="$t('Submit')"
             @ok.prevent="validationModalForm"
@@ -499,7 +499,7 @@
             scrollable
         >
             <b-card-text>
-                {{ showData.remarkDetail }}
+                {{ remarkDetail }}
             </b-card-text>
         </b-modal>
     </div>
@@ -586,9 +586,9 @@ export default {
                 purchaseDepartment: '',
                 preDeliveryDate: '',
                 remark: '',
-                remarkDetail: '',
                 products: []
             },
+            remarkDetail: '',
             manufacturerOption: ['台積電', '日月光', '環球晶'],
             currencyOption: ['NTD', 'USD', 'RMB', 'JPY'],
             transferNoOption: ['A123', 'B123', 'C123'],
@@ -763,30 +763,16 @@ export default {
             this.productsData = Object.assign({}, this.productsData, this.defaultProductsData)
         },
         editData(data) {
-            this.productModalId = data.id
+            this.productModalId = data.originalIndex;
             this.productsData = data;
             this.$refs['modalForm'].show();
         },
         dataPush() {
-            const productFind = this.productOption.find(product => product.id === this.productsData.id)
-            const productIndex = this.showData.products.findIndex((element) => element.id == this.productsData.id);
-            if (productIndex === -1) {
-                this.productsData = Object.assign(this.productsData, productFind)
+            if (this.productModalId == null) {
                 this.showData.products.push(this.productsData);
                 this.rows = JSON.parse(JSON.stringify(this.showData.products));
-            } else if (productIndex !== -1 && this.productModalId === null) {
-                this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                    title: `${this.$t('createdFailed')}`,
-                    icon: 'XIcon',
-                    variant: 'danger',
-                    text: `${this.$t('RequisitionModal.productsCreatedFailed')}`,
-                    },
-                })
             } else {
-                Object.assign(this.showData.products[productIndex], this.productsData);
+                Object.assign(this.showData.products[this.productModalId], this.productsData);
             }
             this.$nextTick(() => {
                 this.$refs['modalForm'].toggle('#toggle-btn')
@@ -806,16 +792,16 @@ export default {
                 })
                 .then(value => {
                     if (value) {
-                        const productIndex = this.showData.products.findIndex(product => product.id === row.id)
-                        const tableRowIndex = this.rows.findIndex(tableRow => tableRow.id === row.id)
-                        if (productIndex !== -1) this.showData.products.splice(productIndex, 1);
-                        if (tableRowIndex !== -1) this.rows.splice(tableRowIndex, 1);
+                        const tableRowIndex = this.rows.hasOwnProperty(row.originalIndex);
+                        if (tableRowIndex) {
+                            this.showData.products.splice(row.originalIndex, 1);
+                            this.rows.splice(row.originalIndex, 1);
+                        }
                     }
                 })
         },
         showRemark(value) {
-            console.log(value);
-            this.showData.remarkDetail = value;
+            this.remarkDetail = value.remark;
             this.$refs['remarkDetail'].show();
         }
     },

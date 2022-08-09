@@ -14,7 +14,7 @@
                                     rules="required"
                                 >
                                     <b-form-input
-                                        v-model="defaultData.code"
+                                        v-model="showData.code"
                                         type="text"
                                         :placeholder="$t('CustomerManufacturerList.code')"
                                         :state="errors.length > 0 ? false:null"
@@ -33,7 +33,7 @@
                                     rules="required"
                                 >
                                     <b-form-input
-                                        v-model="defaultData.fullName"
+                                        v-model="showData.fullName"
                                         type="text"
                                         :placeholder="$t('CustomerManufacturerList.fullName')"
                                         :state="errors.length > 0 ? false:null"
@@ -47,7 +47,7 @@
                             <b-form-group id="shortName">
                                 <label for="shortName">{{ $t('CustomerManufacturerList.shortName') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.shortName"
+                                    v-model="showData.shortName"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.shortName')"
                                 />
@@ -60,7 +60,7 @@
                             <b-form-group id="englishName">
                                 <label for="englishName">{{ $t('CustomerManufacturerList.englishName') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.englishName"
+                                    v-model="showData.englishName"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.englishName')"
                                 />
@@ -76,9 +76,9 @@
                                     rules="required"
                                 >
                                     <v-select
-                                        v-model="defaultData.belong"
-                                        :options="defaultData.belongOption"
-                                        :placeholder="$t('CustomerManufacturerList.belong')"
+                                        v-model="showData.belong"
+                                        :options="belongOption"
+                                        :placeholder="$t('CustomerManufacturerList.selectBelong')"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -94,9 +94,9 @@
                                     rules="required"
                                 >
                                     <v-select
-                                        v-model="defaultData.category"
-                                        :options="defaultData.categoryOption"
-                                        :placeholder="$t('CustomerManufacturerList.category')"
+                                        v-model="showData.category"
+                                        :options="categoryOption"
+                                        :placeholder="$t('CustomerManufacturerList.selectCategory')"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -109,7 +109,7 @@
                             <b-form-group id="industry">
                                 <label for="industry">{{ $t('CustomerManufacturerList.industry') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.industry"
+                                    v-model="showData.industry"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.industry')"
                                 />
@@ -120,7 +120,7 @@
                             <b-form-group id="personInCharge">
                                 <label for="personInCharge">{{ $t('CustomerManufacturerList.personInCharge') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.personInCharge"
+                                    v-model="showData.personInCharge"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.personInCharge')"
                                 />
@@ -131,7 +131,7 @@
                             <b-form-group id="contactPersonOne">
                                 <label for="contactPersonOne">{{ $t('CustomerManufacturerList.contactPersonOne') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.contactPersonOne"
+                                    v-model="showData.contactPersonOne"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.contactPersonOne')"
                                 />
@@ -144,7 +144,7 @@
                             <b-form-group id="contactPersonTwo">
                                 <label for="contactPersonTwo">{{ $t('CustomerManufacturerList.contactPersonTwo') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.contactPersonTwo"
+                                    v-model="showData.contactPersonTwo"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.contactPersonTwo')"
                                 />
@@ -155,7 +155,7 @@
                             <b-form-group id="phoneOne">
                                 <label for="phoneOne">{{ $t('CustomerManufacturerList.phoneOne') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.phoneOne"
+                                    v-model="showData.phoneOne"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.phoneOne')"
                                 />
@@ -166,7 +166,7 @@
                             <b-form-group id="phoneTwo">
                                 <label for="phoneTwo">{{ $t('CustomerManufacturerList.phoneTwo') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.phoneTwo"
+                                    v-model="showData.phoneTwo"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.phoneTwo')"
                                 />
@@ -179,7 +179,7 @@
                             <b-form-group id="email">
                                 <label for="email">{{ $t('CustomerManufacturerList.email') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.email"
+                                    v-model="showData.email"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.email')"
                                 />
@@ -190,7 +190,7 @@
                             <b-form-group id="fax">
                                 <label for="fax">{{ $t('CustomerManufacturerList.fax') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.fax"
+                                    v-model="showData.fax"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.fax')"
                                 />
@@ -201,7 +201,7 @@
                             <b-form-group id="unicode">
                                 <label for="unicode">{{ $t('CustomerManufacturerList.unicode') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.unicode"
+                                    v-model="showData.unicode"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.unicode')"
                                 />
@@ -214,7 +214,7 @@
                             <b-form-group id="invoiceName">
                                 <label for="invoiceName">{{ $t('CustomerManufacturerList.invoiceName') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.invoiceName"
+                                    v-model="showData.invoiceName"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.invoiceName')"
                                 />
@@ -225,7 +225,7 @@
                             <b-form-group id="invoiceAddress">
                                 <label for="invoiceAddress">{{ $t('CustomerManufacturerList.invoiceAddress') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.invoiceAddress"
+                                    v-model="showData.invoiceAddress"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.invoiceAddress')"
                                 />
@@ -236,7 +236,7 @@
                             <b-form-group id="companyAddress">
                                 <label for="companyAddress">{{ $t('CustomerManufacturerList.companyAddress') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.companyAddress"
+                                    v-model="showData.companyAddress"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.companyAddress')"
                                 />
@@ -249,7 +249,7 @@
                             <b-form-group id="zipCode">
                                 <label for="zipCode">{{ $t('CustomerManufacturerList.zipCode') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.zipCode"
+                                    v-model="showData.zipCode"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.zipCode')"
                                 />
@@ -263,7 +263,7 @@
                             >
                                 <label for="disable_at">{{ $t('CustomerManufacturerList.disable_at') }}</label>
                                 <flat-pickr
-                                    v-model="defaultData.disable_at"
+                                    v-model="showData.disable_at"
                                     class="form-control"
                                     :placeholder="$t('CustomerManufacturerList.disable_at')"
                                     id="disable_at-datepicker"
@@ -280,9 +280,9 @@
                                     rules="required"
                                 >
                                     <v-select
-                                        v-model="defaultData.currency"
-                                        :options="defaultData.currencyOption"
-                                        :placeholder="$t('CustomerManufacturerList.currency')"
+                                        v-model="showData.currency"
+                                        :options="currencyOption"
+                                        :placeholder="$t('CustomerManufacturerList.selectCurrency')"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -300,9 +300,9 @@
                                     rules="required"
                                 >
                                     <v-select
-                                        v-model="defaultData.taxDeductionCategory"
-                                        :options="defaultData.taxDeductionCategoryOption"
-                                        :placeholder="$t('CustomerManufacturerList.taxDeductionCategory')"
+                                        v-model="showData.taxDeductionCategory"
+                                        :options="taxDeductionCategoryOption"
+                                        :placeholder="$t('CustomerManufacturerList.selectTaxDeductionCategory')"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -318,9 +318,9 @@
                                     rules="required"
                                 >
                                     <v-select
-                                        v-model="defaultData.accountSettingMethod"
-                                        :options="defaultData.accountSettingMethodOption"
-                                        :placeholder="$t('CustomerManufacturerList.accountSettingMethod')"
+                                        v-model="showData.accountSettingMethod"
+                                        :options="accountSettingMethodOption"
+                                        :placeholder="$t('CustomerManufacturerList.selectAccountSettingMethod')"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -331,9 +331,9 @@
                             <b-form-group id="businessPeople">
                                 <label for="businessPeople">{{ $t('CustomerManufacturerList.businessPeople') }}</label>
                                 <v-select
-                                    v-model="defaultData.businessPeople"
-                                    :options="defaultData.businessPeopleOption"
-                                    :placeholder="$t('CustomerManufacturerList.businessPeople')"
+                                    v-model="showData.businessPeople"
+                                    :options="businessPeopleOption"
+                                    :placeholder="$t('CustomerManufacturerList.selectBusinessPeople')"
                                 />
                             </b-form-group>
                         </b-col>
@@ -344,9 +344,9 @@
                             <b-form-group id="paymentMethod">
                                 <label for="paymentMethod">{{ $t('CustomerManufacturerList.paymentMethod') }}</label>
                                 <v-select
-                                    v-model="defaultData.paymentMethod"
-                                    :options="defaultData.paymentMethodOption"
-                                    :placeholder="$t('CustomerManufacturerList.paymentMethod')"
+                                    v-model="showData.paymentMethod"
+                                    :options="paymentMethodOption"
+                                    :placeholder="$t('CustomerManufacturerList.selectPaymentMethod')"
                                     @input="paymentMethodChange"
                                 />
                             </b-form-group>
@@ -356,12 +356,12 @@
                             <b-form-group id="monthlyBillingDate">
                                 <label for="monthlyBillingDate">{{ $t('CustomerManufacturerList.monthlyBillingDate') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.monthlyBillingDate"
+                                    v-model="showData.monthlyBillingDate"
                                     type="number"
                                     min="1"
                                     max="31"
                                     :placeholder="$t('CustomerManufacturerList.monthlyBillingDate')"
-                                    :readonly="defaultData.paymentMethod != '月結'"
+                                    :readonly="showData.paymentMethod != '月結'"
                                 />
                             </b-form-group>
                         </b-col>
@@ -370,11 +370,11 @@
                             <b-form-group id="days">
                                 <label for="days">{{ $t('CustomerManufacturerList.days') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.days"
+                                    v-model="showData.days"
                                     type="number"
                                     min="1"
                                     :placeholder="$t('CustomerManufacturerList.days')"
-                                    :readonly="defaultData.paymentMethod != '月結' && defaultData.paymentMethod != '貨到付款'"
+                                    :readonly="showData.paymentMethod != '月結' && showData.paymentMethod != '貨到付款'"
                                 />
                             </b-form-group>
                         </b-col>
@@ -385,10 +385,10 @@
                             <b-form-group id="otherInstructions">
                                 <label for="otherInstructions">{{ $t('CustomerManufacturerList.otherInstructions') }}</label>
                                 <b-form-input
-                                    v-model="defaultData.otherInstructions"
+                                    v-model="showData.otherInstructions"
                                     type="text"
                                     :placeholder="$t('CustomerManufacturerList.otherInstructions')"
-                                    :readonly="defaultData.paymentMethod != '其他'"
+                                    :readonly="showData.paymentMethod != '其他'"
                                 />
                             </b-form-group>
                         </b-col>
@@ -397,9 +397,9 @@
                             <b-form-group id="electronicInvoiceType">
                                 <label for="electronicInvoiceType">{{ $t('CustomerManufacturerList.electronicInvoiceType') }}</label>
                                 <v-select
-                                    v-model="defaultData.electronicInvoiceType"
-                                    :options="defaultData.electronicInvoiceTypeOption"
-                                    :placeholder="$t('CustomerManufacturerList.electronicInvoiceType')"
+                                    v-model="showData.electronicInvoiceType"
+                                    :options="electronicInvoiceTypeOption"
+                                    :placeholder="$t('CustomerManufacturerList.selectElectronicInvoiceType')"
                                 />
                             </b-form-group>
                         </b-col>
@@ -410,7 +410,7 @@
                                 <b-form-textarea
                                     :placeholder="$t('CustomerManufacturerList.remark')"
                                     rows="3"
-                                    v-model="defaultData.remark"
+                                    v-model="showData.remark"
                                     autocomplete="off"
                                 />
                             </b-form-group>
@@ -419,7 +419,7 @@
                 </validation-observer>
             </b-form>
         </b-card-code>
-        <b-card-code :title="$t('CustomerManufacturerList.addressInformation')">
+        <b-card-code :title="$t('CustomerManufacturerModal.addressInformation')">
 
             <!-- search input -->
             <div class="custom-search d-flex justify-content-end">
@@ -467,7 +467,7 @@
                     slot-scope="props"
                 >
                     <span class="text-nowrap" v-if="props.column.label !== '#'">
-                        {{$t('ProductList.' + props.column.label) }}
+                        {{$t('CustomerManufacturerModal.' + props.column.label) }}
                     </span>
                 </template>
                 <template
@@ -477,6 +477,22 @@
                     <!-- Column: index -->
                     <span v-if="props.column.field === 'id'" class="text-nowrap">
                         {{ props.row.originalIndex + 1 }}
+                    </span>
+                    <span v-else-if="props.column.field === 'detail'" class="text-nowrap">
+                        <span>
+                            <b-button
+                                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                                variant="outline-primary"
+                                size="sm"
+                                class="mr-50"
+                                @click="showDetail(props.row)"
+                            >
+                                <feather-icon
+                                    icon="EyeIcon"
+                                />
+                                <span>{{ $t('detail') }}</span>
+                            </b-button>
+                        </span>
                     </span>
                     <!-- Column: Action -->
                     <span v-else-if="props.column.field === 'action'" class="text-nowrap">
@@ -592,7 +608,7 @@
         <b-modal
             id="modalForm"
             cancel-variant="outline-secondary"
-            :title="addressData.id ? $t('edit') : $t('create')"
+            :title="addressModalId != null ? $t('edit') : $t('create')"
             :cancel-title="$t('back')"
             :ok-title="$t('Submit')"
             @ok.prevent="validationModalForm"
@@ -611,7 +627,6 @@
                                 v-model="addressData.address_name"
                                 type="text"
                                 :placeholder="$t('CustomerManufacturerModal.addressName')"
-                                :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -626,19 +641,11 @@
                     </b-form-group>
                     <b-form-group id="address">
                         <label for="address">{{ $t('CustomerManufacturerModal.address') }}</label>
-                        <validation-provider
-                            #default="{ errors }"
-                            name="address"
-                            rules="required"
-                        >
-                            <b-form-input
-                                v-model="addressData.address_name"
-                                type="text"
-                                :placeholder="$t('CustomerManufacturerModal.address')"
-                                :state="errors.length > 0 ? false:null"
-                            />
-                            <small class="text-danger">{{ errors[0] }}</small>
-                        </validation-provider>
+                        <b-form-input
+                            v-model="addressData.address"
+                            type="text"
+                            :placeholder="$t('CustomerManufacturerModal.address')"
+                        />
                     </b-form-group>
                     <b-form-group>
                         <label for="contactPerson">{{ $t('CustomerManufacturerModal.contactPerson') }}</label>
@@ -674,13 +681,71 @@
                     </b-form-group>
                     <b-form-group>
                         <label for="email">{{ $t('CustomerManufacturerModal.email') }}</label>
-                        <b-form-input
-                            v-model="addressData.email"
-                            type="text"
-                            :placeholder="$t('CustomerManufacturerModal.email')"
-                        />
+                        <validation-provider
+                            #default="{ errors }"
+                            name="addressEmail"
+                            rules="email"
+                        >
+                            <b-form-input
+                                v-model="addressData.email"
+                                type="text"
+                                :placeholder="$t('CustomerManufacturerModal.email')"
+                            />
+                            <small class="text-danger">{{ errors[0] }}</small>
+                        </validation-provider>
                     </b-form-group>
                 </validation-observer>
+            </b-form>
+        </b-modal>
+        <!-- detail modal -->
+        <b-modal
+            :title="$t('detail')"
+            ok-only
+            :ok-title="$t('back')"
+            ref="contactDetail"
+            ok-variant="secondary"
+        >
+            <b-form>
+                <b-form-group id="contactPerson">
+                    <label for="contactPerson">{{ $t('CustomerManufacturerModal.contactPerson') }}</label>
+                    <b-form-input
+                        v-model="contactDetail.contact_person"
+                        type="text"
+                        readonly
+                    />
+                </b-form-group>
+                <b-form-group id="telephone">
+                    <label for="telephone">{{ $t('CustomerManufacturerModal.telephone') }}</label>
+                    <b-form-input
+                        v-model="contactDetail.telephone"
+                        type="text"
+                        readonly
+                    />
+                </b-form-group>
+                <b-form-group id="cellphone">
+                    <label for="cellphone">{{ $t('CustomerManufacturerModal.cellphone') }}</label>
+                    <b-form-input
+                        v-model="contactDetail.cellphone"
+                        type="text"
+                        readonly
+                    />
+                </b-form-group>
+                <b-form-group id="line">
+                    <label for="line">{{ $t('CustomerManufacturerModal.line') }}</label>
+                    <b-form-input
+                        v-model="contactDetail.line"
+                        type="text"
+                        readonly
+                    />
+                </b-form-group>
+                <b-form-group id="email">
+                    <label for="email">{{ $t('CustomerManufacturerModal.email') }}</label>
+                    <b-form-input
+                        v-model="contactDetail.email"
+                        type="text"
+                        readonly
+                    />
+                </b-form-group>
             </b-form>
         </b-modal>
     </div>
@@ -689,13 +754,13 @@
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
-    BRow, BCol, BFormGroup, BForm, BFormInput, BFormSelect, BFormTextarea, BButton, BSpinner
+    BRow, BCol, BFormGroup, BForm, BFormInput, BFormSelect, BFormTextarea, BButton, BSpinner, BPagination,
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import { required } from '@validations'
+import { required, email } from '@validations'
 import Ripple from 'vue-ripple-directive'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import axios from "@axios";
@@ -717,7 +782,8 @@ export default {
         ValidationObserver,
         ToastificationContent,
         VueGoodTable,
-        BSpinner
+        BSpinner,
+        BPagination,
     },
     directives: {
         Ripple,
@@ -726,6 +792,10 @@ export default {
         return {
             apiPath: '/customerManufacturers',
             required,
+            email,
+            showData: {},
+            addressModalId: null,
+            addressData: {},
             defaultData: {
                 id : null,
                 code: '',
@@ -733,9 +803,7 @@ export default {
                 shortName: '',
                 englishName: '',
                 belong: '',
-                belongOption: ['客戶', '廠商'],
                 category: '',
-                categoryOption: ['原料商'],
                 industry: '',
                 personInCharge: '',
                 contactPersonOne: '',
@@ -751,34 +819,60 @@ export default {
                 zipCode: '',
                 disable_at: '',
                 currency: '',
-                currencyOption: ['美金'],
                 taxDeductionCategory: '',
-                taxDeductionCategoryOption: ['不計稅', '應稅內含', '應稅外加'],
                 accountSettingMethod: '',
-                accountSettingMethodOption: ['單張立帳', '不立帳', '收到發票才立帳'],
                 businessPeople: '',
-                businessPeopleOption: ['dennis'],
                 paymentMethod: '',
-                paymentMethodOption: ['月結', '貨到付款', '其他'],
                 monthlyBillingDate: '',
                 days: '',
                 otherInstructions: '',
                 electronicInvoiceType: '',
-                electronicInvoiceTypeOption: ['B2B', 'B2C'],
                 remark: '',
+                address: []
             },
+            defaultAddressData: {
+                address_name: '',
+                postal_code: '',
+                address: '',
+                contact_person: '',
+                telephone: '',
+                cellphone: '',
+                line: '',
+                email: '',
+            },
+            belongOption: ['客戶', '廠商'],
+            categoryOption: ['原料商'],
+            currencyOption: ['美金'],
+            taxDeductionCategoryOption: ['不計稅', '應稅內含', '應稅外加'],
+            accountSettingMethodOption: ['單張立帳', '不立帳', '收到發票才立帳'],
+            businessPeopleOption: ['dennis'],
+            paymentMethodOption: ['月結', '貨到付款', '其他'],
+            electronicInvoiceTypeOption: ['B2B', 'B2C'],
+
+            pageLength: 5,
+            searchTerm: '',
+            columns: [
+                { label: '#', field: 'id', type: 'number' },
+                { label: 'addressName', field: 'address_name' },
+                { label: 'postalCode', field: 'postal_code' },
+                { label: 'address', field: 'address' },
+                { label: 'contactDetails', field: 'detail' },
+                { label: 'action', field: 'action' },
+            ],
+            rows: [],
+            contactDetail: {}
         }
     },
     methods: {
         paymentMethodChange() {
-            this.defaultData.monthlyBillingDate = '';
-            this.defaultData.days = '';
-            this.defaultData.otherInstructions = '';
+            this.showData.monthlyBillingDate = '';
+            this.showData.days = '';
+            this.showData.otherInstructions = '';
         },
         validationForm() {
             this.$refs.simpleRules.validate().then(success => {
                 if (success) {
-                    if(this.defaultData.id) {
+                    if(this.showData.id) {
                         this.updateMethod();
                     }else {
                         this.createMethod();
@@ -794,9 +888,24 @@ export default {
                 }
             })
         },
+        validationModalForm() {
+            this.$refs.modalRules.validate().then(success => {
+                if (success) {
+                    this.dataPush();
+                }else {
+                    const modalRulesErrors = Object.keys(this.$refs.modalRules.errors);
+                    modalRulesErrors.some(element => {
+                        if(this.$refs.modalRules.errors[element].length > 0){
+                            document.querySelector(`#${element} input`).focus();
+                            return true;
+                        }
+                    });
+                }
+            })
+        },
         createMethod() {
             axios
-            .post(`${this.apiPath}`, this.defaultData)
+            .post(`${this.apiPath}`, this.showData)
             .then(() => {
                 this.$toast({
                     component: ToastificationContent,
@@ -825,15 +934,21 @@ export default {
         },
         editMethod() {
             axios
-            .get(`${this.apiPath}/${this.defaultData.id}`)
+            .get(`${this.apiPath}/${this.showData.id}`)
             .then(response => {
-                this.defaultData = response.data;
+                let data = response.data;
+                data.address = data.address.map(item => ({
+                    ...item,
+                }))
+
+                this.showData = JSON.parse(JSON.stringify(data));
+                this.rows = JSON.parse(JSON.stringify(data.address));
             })
             .catch(error => console.error (error))
         },
         updateMethod() {
             axios
-            .put(`${this.apiPath}/${this.defaultData.id}`, this.defaultData)
+            .put(`${this.apiPath}/${this.showData.id}`, this.showData)
             .then(() => {
                 this.$toast({
                     component: ToastificationContent,
@@ -860,10 +975,57 @@ export default {
                 })
             })
         },
+        resetModal() {
+            this.addressModalId = null
+            this.addressData = Object.assign({}, this.addressData, this.defaultAddressData)
+        },
+        editData(data) {
+            this.addressModalId = data.originalIndex;
+            this.addressData = data;
+            this.$refs['modalForm'].show();
+        },
+        dataPush() {
+            if (this.addressModalId == null) {
+                this.showData.address.push(this.addressData);
+                this.rows = JSON.parse(JSON.stringify(this.showData.address));
+            } else {
+                Object.assign(this.showData.address[this.addressModalId], this.addressData);
+            }
+            this.$nextTick(() => {
+                this.$refs['modalForm'].toggle('#toggle-btn')
+            })
+        },
+        removeData(row) {
+            this.$bvModal
+                .msgBoxConfirm(this.$t('checkDelete'), {
+                    size: 'sm',
+                    okVariant: 'primary',
+                    okTitle: this.$t('yes'),
+                    cancelTitle: this.$t('no'),
+                    cancelVariant: 'outline-secondary',
+                    hideHeaderClose: false,
+                    centered: true,
+                    footerClass: "d-block mx-auto"
+                })
+                .then(value => {
+                    if (value) {
+                        const tableRowIndex = this.rows.hasOwnProperty(row.originalIndex);
+                        if (tableRowIndex) {
+                            this.showData.address.splice(row.originalIndex, 1);
+                            this.rows.splice(row.originalIndex, 1);
+                        }
+                    }
+                })
+        },
+        showDetail(value) {
+            this.contactDetail = value;
+            this.$refs['contactDetail'].show();
+        }
     },
     mounted() {
+        this.showData = this.defaultData;
         if(this.$route.query.id) {
-            this.defaultData.id = this.$route.query.id;
+            this.showData.id = this.$route.query.id;
             this.editMethod();
         }
     },
@@ -873,4 +1035,5 @@ export default {
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
 @import '@core/scss/vue/libs/vue-flatpicker.scss';
+@import '@core/scss/vue/libs/vue-good-table.scss';
 </style>

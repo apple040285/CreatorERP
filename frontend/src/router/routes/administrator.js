@@ -7,7 +7,7 @@ export default [
             pageTitle: 'Information',
             breadcrumb: [
                 { text: 'Administrator' },
-                { text: 'Information', active: true },
+                { text: 'Change Password', active: true },
             ],
         },
     },

@@ -24,6 +24,25 @@
                 />
             </b-tab>
 
+            <!-- addressList -->
+            <b-tab>
+
+                <!-- title -->
+                <template #title>
+                    <feather-icon
+                        icon="HomeIcon"
+                        size="18"
+                        class="mr-50"
+                    />
+                    <span class="font-weight-bold">{{ $t('CustomerManufacturerModal.addressInformation') }}</span>
+                </template>
+
+                <address-list
+                    v-if="addressListData"
+                    :address-list="addressListData"
+                />
+            </b-tab>
+
             <!-- Other Remark -->
             <b-tab>
 
@@ -47,9 +66,11 @@
 </template>
 
 <script>
+import axios from "@axios";
 import { BTabs, BTab } from 'bootstrap-vue'
 import BasicInformation from './BasicInformation.vue'
 import OtherRemark from './OtherRemark.vue'
+import AddressList from './AddressList.vue';
 
 export default {
     components: {
@@ -57,10 +78,10 @@ export default {
         BTab,
         BasicInformation,
         OtherRemark,
+        AddressList
     },
     data() {
         return {
-            id: '',
             data: {
                 id: 1,
                 code: '001',
@@ -99,10 +120,32 @@ export default {
                 disable_at : '',
                 status : 'active',
             },
+            addressListData: {
+                pageLength: 5,
+                searchTerm: '',
+                contactDetail: '',
+                columns: [
+                    { label: '#', field: 'id', type: 'number' },
+                    { label: 'addressName', field: 'address_name' },
+                    { label: 'postalCode', field: 'postal_code' },
+                    { label: 'address', field: 'address' },
+                    { label: 'contactDetails', field: 'detail' },
+                ],
+                rows: []
+            },
         }
     },
     mounted() {
-        if(this.$route.query.id) this.id = this.$route.query.id;
+        if(this.$route.query.id) {
+            axios
+            .get(`customerManufacturers/${this.$route.query.id}`)
+            .then(response => {
+                const data = response.data
+                this.data = data;
+                this.addressListData.rows = JSON.parse(JSON.stringify(data.address));
+            })
+            .catch(error => console.error (error))
+        }
     },
 }
 </script>

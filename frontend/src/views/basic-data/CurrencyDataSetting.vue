@@ -331,8 +331,8 @@ export default {
                 unit_price_of_digits: '',
                 amount_of_digits: '',
             },
-            unit_price_of_digits_option: ['0','1','2','3','4','5','6'],
-            amount_of_digits_option: ['0','1','2','3','4'],
+            unit_price_of_digits_option: ['0', '1', '2', '3', '4', '5', '6'],
+            amount_of_digits_option: ['0', '1', '2', '3', '4'],
             isLoading: false,
             totalRecords: 0,
             serverParams: {

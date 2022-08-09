@@ -54,7 +54,7 @@
             icon="UserIcon"
             class="mr-50"
           />
-          <span>{{ $t('Information') }}</span>
+          <span>{{ $t('Change Password') }}</span>
         </b-dropdown-item>
 
         <!-- <b-dropdown-item link-class="d-flex align-items-center">

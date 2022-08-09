@@ -65,7 +65,8 @@
       "productCategory": "產品分類",
       "productUnit": "產品單位",
       "productWarehouse": "倉庫",
-      "productStock": "庫存"
+      "productStock": "庫存",
+      "addressName": "地址名稱"
     },
     "messages": {
       "alpha": "{_field_} 須以英文組成",
@@ -172,6 +173,7 @@
   "PERSONAL CENTER": "個人中心",
   "Administrator": "管理員",
   "Information": "管理員信息",
+  "Change Password": "修改密碼",
   "Logout": "登出",
 
   "Update Administrator Information": "更新管理員信息",
@@ -211,6 +213,28 @@
   "disable": "停用",
   "disable_at8": "停用日期",
   "status": "狀態",
+
+  "RoleManagementList": {
+    "name": "角色名稱",
+    "permission": "權限",
+    "created_by": "創建人員",
+    "created_at": "創建時間",
+    "updated_by": "異動人員",
+    "updated_at": "異動時間",
+    "action": "操作"
+  },
+
+  "AccountManagementList": {
+    "name": "名稱",
+    "account": "帳號",
+    "role": "角色",
+    "staff": "員工",
+    "created_by": "創建人員",
+    "created_at": "創建時間",
+    "updated_by": "異動人員",
+    "updated_at": "異動時間",
+    "action": "操作"
+  },
 
   "DepartmentList": {
     "code": "部門代號",
@@ -421,7 +445,9 @@
     "shortName": "簡稱",
     "englishName": "英文名稱",
     "belong": "歸屬",
+    "selectBelong": "請選擇歸屬",
     "category": "類別",
+    "selectCategory": "請選擇類別",
     "industry": "行業別",
     "personInCharge": "負責人員",
     "contactPersonOne": "聯絡人一",
@@ -436,14 +462,20 @@
     "companyAddress": "公司地址",
     "zipCode": "郵政編碼",
     "currency": "幣別",
+    "selectCurrency": "請選擇幣別",
     "taxDeductionCategory": "扣稅類別",
+    "selectTaxDeductionCategory": "請選擇扣稅類別",
     "accountSettingMethod": "立帳方式",
+    "selectAccountSettingMethod": "請選擇立帳方式",
     "businessPeople": "業務人員",
+    "selectBusinessPeople": "請選擇業務人員",
     "monthlyBillingDate": "每月結帳日",
     "paymentMethod": "收付款方式",
+    "selectPaymentMethod": "請選擇收付款方式",
     "days": "天數",
     "otherInstructions": "其他說明",
     "electronicInvoiceType": "電子發票類型",
+    "selectElectronicInvoiceType": "請選擇電子發票類型",
     "remark": "備註",
     "disable_at": "停用日期",
     "status": "狀態",
@@ -463,7 +495,9 @@
     "telephone": "電話",
     "cellphone": "手機",
     "line": "Line",
-    "email": "信箱"
+    "email": "信箱",
+    "contactDetails": "聯絡詳情",
+    "action": "操作"
   },
 
   "RequisitionList": {
@@ -522,8 +556,8 @@
   },
 
   "PermissionSetting": {
-    "group": "群組",
-    "selectGroup": "請選擇群組",
+    "role": "角色",
+    "selectRole": "請選擇角色",
     "name": "名稱",
     "account": "帳號",
     "password": "密碼",
@@ -532,7 +566,6 @@
     "confirmPassword": "確認密碼",
     "staff": "員工",
     "selectStaff": "請選擇員工",
-    "role": "角色",
     "permission": "權限",
     "menu": "選單",
     "selectPermission": "請選擇權限"

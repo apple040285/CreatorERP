@@ -3,20 +3,20 @@
         <validation-observer ref="simpleRules">
             <b-form @submit.prevent>
                 <b-row>
-                    <!-- group -->
+                    <!-- role -->
                     <b-col cols="12">
-                        <b-form-group id="group">
-                            <label for="group">{{ $t('PermissionSetting.group') }}</label>
+                        <b-form-group id="role">
+                            <label for="role">{{ $t('PermissionSetting.role') }}</label>
                             <validation-provider
                                 #default="{ errors }"
-                                name="group"
+                                name="role"
                                 rules="required"
                             >
                                 <v-select
                                     label="name"
-                                    v-model="group_id"
-                                    :options="groupOption"
-                                    :placeholder="$t('PermissionSetting.selectGroup')"
+                                    v-model="role_id"
+                                    :options="roleOption"
+                                    :placeholder="$t('PermissionSetting.selectRole')"
                                     :reduce="option => option.id"
                                 />
                                 <small class="text-danger">{{ errors[0] }}</small>
@@ -165,7 +165,7 @@
                             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                             type="submit"
                             variant="primary"
-                            class="mr-1 text-right"
+                            class="d-block mx-auto"
                             @click.prevent="validationForm"
                         >
                             {{ $t('Submit') }}
@@ -225,7 +225,7 @@ export default {
     },
     data() {
         return {
-            group_id: '',
+            role_id: '',
             name: '',
             account: '',
             password: '',
@@ -233,7 +233,7 @@ export default {
             required,
             password,
             confirmed,
-            groupOption: [],
+            roleOption: [],
             staff: '',
             staffOption: [],
         }
@@ -252,7 +252,7 @@ export default {
         axios
         .post('departments/options')
         .then(response => {
-            this.groupOption = response.data;
+            this.roleOption = response.data;
         })
         .catch(error => {
             this.$toast({

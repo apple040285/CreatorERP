@@ -17,18 +17,4 @@ export default [
   ...salesManagement,
   ...inventoryManagement,
   ...accountReceivableManagement,
-  {
-    header: 'PERSONAL CENTER',
-  },
-  {
-    title: 'Administrator',
-    route: 'Administrator-Information',
-    icon: 'UserIcon',
-    children: [
-      {
-        title: 'Information',
-        route: 'Administrator-Information',
-      },
-    ],
-  },
 ]

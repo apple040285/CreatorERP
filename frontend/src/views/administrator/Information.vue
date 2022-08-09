@@ -1,5 +1,5 @@
 <template>
-    <b-card-code :title="$t('Update Administrator Information')">
+    <b-card-code :title="$t('Change Password')">
         <validation-observer ref="simpleRules">
             <b-form @submit.prevent>
                 <b-row>
@@ -154,7 +154,7 @@
                             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                             type="submit"
                             variant="primary"
-                            class="mr-1 text-right"
+                            class="d-block mx-auto"
                             @click.prevent="validationForm"
                         >
                             {{ $t('Submit') }}
