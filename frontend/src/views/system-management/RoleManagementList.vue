@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div>
         <b-row>
             <b-col cols="12">
@@ -318,6 +319,34 @@ export default {
     created() {
         this.getList();
     },
+=======
+  <div>
+    <b-button
+      v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+      variant="outline-success"
+      size="sm"
+      class="mr-50"
+      :to="{ name: 'SystemManagement-RoleManagementCreate', query: { id: 1 } }"
+    >
+      <feather-icon
+        icon="Edit2Icon"
+        class="mr-25"
+      />
+      <span>測試</span>
+    </b-button>
+  </div>
+</template>
+
+<script>
+import {
+  BButton,
+} from 'bootstrap-vue'
+
+export default {
+  components: {
+    BButton,
+  },
+>>>>>>> 210fd35589589e4340b5638efd5c0fd3c2bb2119
 }
 </script>
 
