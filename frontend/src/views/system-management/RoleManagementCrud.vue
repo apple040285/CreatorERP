@@ -31,7 +31,6 @@
           </b-tr>
         </b-thead>
 
-<<<<<<< HEAD
                 <b-tbody v-if="showData.toGroup">
                     <b-tr
                         v-for="(group, key) in showData.toGroup"
@@ -49,25 +48,6 @@
                                 :placeholder="$t('PermissionSetting.selectPermission')"
                                 :show-count="true"
                             >
-=======
-        <b-tbody v-if="showData.toGroup">
-          <b-tr
-            v-for="(group, key) in showData.toGroup"
-            :key="key"
-          >
-            <b-th class="text-nowrap">
-              {{ group.text || group.label }}
-            </b-th>
-            <b-td>
-              <treeselect
-                v-model="group.values"
-                :value-consists-of="`ALL`"
-                :multiple="true"
-                :options="group.children"
-                :placeholder="$t('PermissionSetting.selectPermission')"
-                :show-count="true"
-              >
->>>>>>> 210fd35589589e4340b5638efd5c0fd3c2bb2119
 
                 <label
                   slot="option-label"
@@ -96,7 +76,6 @@
       </b-table-simple>
     </b-form-group>
 
-<<<<<<< HEAD
         <b-button
             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             type="submit"
@@ -107,18 +86,6 @@
             {{ $t('Submit') }}
         </b-button>
     </b-card>
-=======
-    <b-button
-      v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-      type="submit"
-      variant="primary"
-      class="mr-1 text-right"
-      @click="update"
-    >
-      {{ $t('Submit') }}
-    </b-button>
-  </b-card>
->>>>>>> 210fd35589589e4340b5638efd5c0fd3c2bb2119
 </template>
 
 <script>
