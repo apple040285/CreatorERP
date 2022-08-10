@@ -70,23 +70,6 @@
                                 {{ props.row.originalIndex + 1 }}
                             </span>
 
-                            <span v-else-if="props.column.field === 'permission'" class="text-nowrap">
-                                <span>
-                                    <b-button
-                                        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                                        variant="outline-primary"
-                                        size="sm"
-                                        @click="showPermission(props.row.permission)"
-                                    >
-                                        <feather-icon
-                                            icon="EyeIcon"
-                                            class="mr-25"
-                                        />
-                                        <span>{{ $t('detail') }}</span>
-                                    </b-button>
-                                </span>
-                            </span>
-
                             <!-- Column: Action -->
                             <span v-else-if="props.column.field === 'action'" class="text-nowrap">
                                 <span>
@@ -211,7 +194,6 @@ export default {
             columns: [
                 { label: '#', field: 'id' },
                 { label: 'name', field: 'name' },
-                { label: 'permission', field: 'permission' },
                 { label: 'created_by', field: 'creator.name' },
                 { label: 'created_at', field: 'created_at' },
                 { label: 'updated_by', field: 'editor.name' },
@@ -265,9 +247,6 @@ export default {
                 this.totalRecords = meta.total;
             })
             .catch(error => console.error (error))
-        },
-        showPermission(data) {
-          console.log(data);
         },
         deleteMethod(id) {
             this.$swal({
