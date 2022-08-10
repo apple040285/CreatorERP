@@ -55,8 +55,11 @@ export default {
       return new Promise((resolve, reject) => {
         axios.get('/auth/user')
           .then(response => {
-            commit('UPDATE_NAME', response.data.name)
-            localStorage.setItem('userData', JSON.stringify(response.data))
+            const { user, ability } = response.data
+            commit('UPDATE_NAME', user.name)
+            localStorage.setItem('userData', JSON.stringify(user))
+
+            router.app.$ability.update(ability)
             resolve(response)
           })
           .catch(error => {
