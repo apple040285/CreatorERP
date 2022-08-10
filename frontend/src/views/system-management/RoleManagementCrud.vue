@@ -202,11 +202,11 @@ export default {
         root.$http
           .post(`/roles`, showData.value)
           .then(response => {
-            this.$toast({
+            root.$toast({
                 component: ToastificationContent,
                 position: 'top-right',
                 props: {
-                title: `${this.$t('updatedFailed')}`,
+                title: `${root.$t('updatedFailed')}`,
                 icon: 'XIcon',
                 variant: 'danger',
                 text: error.response.data.message,
