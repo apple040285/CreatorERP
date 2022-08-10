@@ -206,11 +206,11 @@ export default {
                 component: ToastificationContent,
                 position: 'top-right',
                 props: {
-                title: `${root.$t('updatedFailed')}`,
+                title: `${root.$t('createdSuccess')}`,
                 icon: 'XIcon',
-                variant: 'danger',
-                text: error.response.data.message,
-                },
+                variant: 'success',
+                text: `${root.$t('PermissionSetting.permission')} ${root.$t('createdSuccess')}!`,
+              },
             })
           })
       }
