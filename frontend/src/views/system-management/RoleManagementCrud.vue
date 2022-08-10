@@ -187,14 +187,14 @@ export default {
         root.$http
           .put(`/roles/${root.$route.query.id}`, showData.value)
           .then(response => {
-            this.$toast({
+            root.$toast({
                 component: ToastificationContent,
                 position: 'top-right',
                 props: {
-                title: `${this.$t('updatedSuccess')}`,
+                title: `${root.$t('updatedSuccess')}`,
                 icon: 'CoffeeIcon',
                 variant: 'success',
-                text: `${this.$t('PermissionSetting.permission')} ${this.$t('updatedSuccess')}!`,
+                text: `${root.$t('PermissionSetting.permission')} ${root.$t('updatedSuccess')}!`,
                 },
             })
           })
