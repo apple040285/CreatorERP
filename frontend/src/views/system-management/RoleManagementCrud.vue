@@ -1,5 +1,5 @@
 <template>
-  <b-card>
+  <b-card v-if="showData">
     <!-- 角色名 -->
     <b-form-group
       :label="$t('PermissionSetting.role')"
@@ -31,30 +31,37 @@
           </b-tr>
         </b-thead>
 
-                <b-tbody v-if="showData.toGroup">
-                    <b-tr
-                        v-for="(group, key) in showData.toGroup"
-                        :key="key"
-                    >
-                        <b-th class="text-nowrap">
-                            {{ $t(group.text) || $t(group.label) }}
-                        </b-th>
-                        <b-td>
-                            <treeselect
-                                v-model="group.values"
-                                :value-consists-of="`ALL`"
-                                :multiple="true"
-                                :options="group.children"
-                                :placeholder="$t('PermissionSetting.selectPermission')"
-                                :show-count="true"
-                            >
-
+        <b-tbody v-if="permissionsGroup">
+          <b-tr
+            v-for="(group, key) in permissionsGroup"
+            :key="key"
+          >
+            <b-th class="text-nowrap">
+              {{ group.name }}
+            </b-th>
+            <b-td>
+              <treeselect
+                ref="treeselect"
+                :value-consists-of="`ALL`"
+                :multiple="true"
+                :options="group.children"
+                placeholder="尚未選擇權限"
+                :show-count="true"
+                :value="getValue(group)"
+                @input="updateValue($event, key)"
+              >
                 <label
                   slot="option-label"
-                  slot-scope="{ node, shouldShowCount, count, labelClassName, countClassName }"
+                  slot-scope="{
+                    node,
+                    shouldShowCount,
+                    count,
+                    labelClassName,
+                    countClassName,
+                  }"
                   :class="labelClassName"
                 >
-                  {{ $t(node.raw.text) }}
+                  {{ node.raw.name }}
                   <span
                     v-if="shouldShowCount"
                     :class="countClassName"
@@ -67,7 +74,7 @@
                   slot="value-label"
                   slot-scope="{ node }"
                 >
-                  {{ $t(node.raw.text) }}
+                  {{ node.raw.name }}
                 </div>
               </treeselect>
             </b-td>
@@ -81,7 +88,7 @@
             type="submit"
             variant="primary"
             class="d-block mx-auto"
-            @click="update"
+            @click="onSubmit"
         >
             {{ $t('Submit') }}
         </b-button>
@@ -128,29 +135,106 @@ export default {
   directives: {
     Ripple,
   },
-  setup(_, ctx) {
-    const showData = ref({})
+  setup(_, { root, refs }) {
+    function flatten(
+      root,
+      parent = null,
+      depth = 0,
+      key = "id",
+      flat = [],
+      pick = () => { }
+    ) {
+      if (Array.isArray(root)) {
+        root.forEach((child) => flatten(child, root[key], depth, key, flat, pick));
+      } else {
+        flat.push({
+          parent,
+          [key]: root[key],
+          depth: depth++,
+          ...pick(root, parent, depth, key, flat),
+        });
 
-    ctx.root.$http
-      .get('/auth/roles/1')
+        if (root.children) {
+          flatten(root.children, root[key], depth, key, flat, pick);
+        }
+      }
+    }
+
+    const showData = ref(null)
+
+    const permissionsGroup = ref([])
+
+    root.$http
+      .get('/auth/permissions/group')
       .then(response => {
         const data = response.data
-        showData.value = JSON.parse(JSON.stringify(data))
+        permissionsGroup.value = JSON.parse(JSON.stringify(data))
       })
 
-    const update = () => {
-      ctx.root.$http
-        .put('/auth/roles/1', showData.value)
+    if (root.$route.query.id) {
+      root.$http
+        .get(`/auth/roles/${root.$route.query.id}`)
+        .then(response => {
+          const data = response.data
+          showData.value = JSON.parse(JSON.stringify(data))
+        })
+    } else {
+      showData.value = {}
     }
 
-    const updateValue = (state, value) => {
-      console.log(state, value);
+    const onSubmit = () => {
+      if (root.$route.query.id) {
+        root.$http
+          .put(`/auth/roles/${root.$route.query.id}`, showData.value)
+          .then(response => {
+            const data = response.data
+            console.log(data);
+          })
+      } else {
+        root.$http
+          .post(`/auth/roles`, showData.value)
+          .then(response => {
+            const data = response.data
+            console.log(data);
+          })
+      }
     }
+
+    // 獲得值
+    const getValue = (tree) => {
+      if (!showData.value) return [];
+      if (!showData.value.permissions) return [];
+
+      let flat = [];
+
+      flatten(tree, null, 0, "id", flat, (root) => ({
+        title: root.id,
+      }));
+
+      const names = flat.map((m) => m.id);
+
+      return showData.value.permissions.filter((value) => names.includes(value));
+    };
+
+    // 更新權限表
+    const updateValue = (values, index) => {
+      const { treeselect } = refs;
+
+      let sumWithInitial = [];
+      treeselect.forEach((element) => {
+        sumWithInitial = sumWithInitial.concat(element.internalValue);
+      });
+
+      // 更新權限
+      showData.value.permissions = sumWithInitial
+    };
 
     return {
       showData,
-      update,
+      permissionsGroup,
 
+      onSubmit,
+      getValue,
       updateValue,
     }
   },
