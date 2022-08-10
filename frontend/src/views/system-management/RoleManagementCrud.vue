@@ -165,7 +165,7 @@ export default {
     const permissionsGroup = ref([])
 
     root.$http
-      .get('/auth/permissions/group')
+      .get('/permissions/group')
       .then(response => {
         const data = response.data
         permissionsGroup.value = JSON.parse(JSON.stringify(data))
@@ -173,7 +173,7 @@ export default {
 
     if (root.$route.query.id) {
       root.$http
-        .get(`/auth/roles/${root.$route.query.id}`)
+        .get(`/roles/${root.$route.query.id}`)
         .then(response => {
           const data = response.data
           showData.value = JSON.parse(JSON.stringify(data))
@@ -185,17 +185,15 @@ export default {
     const onSubmit = () => {
       if (root.$route.query.id) {
         root.$http
-          .put(`/auth/roles/${root.$route.query.id}`, showData.value)
+          .put(`/roles/${root.$route.query.id}`, showData.value)
           .then(response => {
             const data = response.data
-            console.log(data);
           })
       } else {
         root.$http
-          .post(`/auth/roles`, showData.value)
+          .post(`/roles`, showData.value)
           .then(response => {
             const data = response.data
-            console.log(data);
           })
       }
     }

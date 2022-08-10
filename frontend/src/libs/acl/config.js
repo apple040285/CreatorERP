@@ -5,4 +5,11 @@ export const initialAbility = [
   },
 ]
 
+export const adminAbility = [
+  {
+    action: 'manage',
+    subject: 'all',
+  },
+]
+
 export const _ = undefined

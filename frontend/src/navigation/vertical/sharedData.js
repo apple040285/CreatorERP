@@ -9,30 +9,37 @@ export default [
             {
                 title: 'Department Data Setting',
                 route: 'BasicData-DepartmentDataSetting',
+                action: 'departments.read',
             },
             {
                 title: 'Job Data Setting',
                 route: 'BasicData-JobDataSetting',
+                action: 'jobs.read',
             },
             {
                 title: 'Staff Data Setting',
                 route: 'BasicData-StaffDataSettingList',
+                action: 'staffs.read',
             },
             {
                 title: 'Currency Data Setting',
                 route: 'BasicData-CurrencyDataSetting',
+                action: 'currencies.read',
             },
             {
                 title: 'Project Data Setting',
                 route: 'BasicData-ProjectDataSetting',
+                action: 'projects.read',
             },
             {
                 title: 'Bank Data Setting',
                 route: 'BasicData-BankDataSettingList',
+                action: 'banks.read',
             },
             {
                 title: 'Account Data Setting',
                 route: 'BasicData-AccountDataSettingList',
+                action: 'bank_accounts.read',
             },
         ],
     },
@@ -43,14 +50,17 @@ export default [
             {
                 title: 'Product Data Setting',
                 route: 'ProductData-ProductDataSettingList',
+                action: 'products.read',
             },
             {
                 title: 'Warehouse Data Setting',
                 route: 'ProductData-WarehouseDataSettingList',
+                action: 'storehouses.read',
             },
             {
                 title: 'Product Category Setting',
                 route: 'ProductData-ProductCategorySetting',
+                action: 'categories.read',
             },
         ],
     },
@@ -61,10 +71,12 @@ export default [
             {
                 title: 'Customer/Manufacturer Category',
                 route: 'CustomerManufacturerData-CustomerManufacturerCategory',
+                action: 'customer_manufacturer_categories.read',
             },
             {
                 title: 'Customer/Manufacturer Data',
                 route: 'CustomerManufacturerData-CustomerManufacturerDataList',
+                action: 'customer_manufacturers.read',
             },
         ],
     },

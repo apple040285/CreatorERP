@@ -7,7 +7,7 @@ import { getCurrentInstance } from '@vue/composition-api'
  * @param {String} action CASL Actions // https://casl.js.org/v4/en/guide/intro#basics
  * @param {String} subject CASL Subject // https://casl.js.org/v4/en/guide/intro#basics
  */
-export const can = (action, subject) => {
+export const can = (action, subject = 'Auth') => {
   const vm = getCurrentInstance().proxy
   return vm.$can ? vm.$can(action, subject) : true
 }

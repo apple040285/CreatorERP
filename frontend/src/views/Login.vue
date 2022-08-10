@@ -190,6 +190,7 @@ import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
   BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox, BCardText, BCardTitle, BImg, BForm, BButton,
 } from 'bootstrap-vue'
+import { initialAbility, adminAbility } from '@/libs/acl/config'
 import useJwt from '@/auth/jwt/useJwt'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
@@ -261,8 +262,8 @@ export default {
             .then(response => {
               const { userData } = response.data
               useJwt.setToken(response.data.access_token)
+
               useJwt.setRefreshToken(response.data.refresh_token)
-              //   this.$ability.update(userData.ability)
 
               // ? This is just for demo purpose as well.
               // ? Because we are showing eCommerce app's cart items count in navbar
@@ -271,7 +272,11 @@ export default {
               // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
               //   this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
               this.$store.dispatch('auth/checkUser')
-                .then(() => {
+                .then(response2 => {
+                  const data = response2.data
+
+                  this.$ability.update(data.ability)
+
                   this.$router.replace('/')
                     .then(() => {
                       this.$toast({

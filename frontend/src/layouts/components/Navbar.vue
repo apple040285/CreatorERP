@@ -108,6 +108,7 @@ import {
 } from 'bootstrap-vue'
 import DarkToggler from '@core/layouts/components/app-navbar/components/DarkToggler.vue'
 import Locale from '@core/layouts/components/app-navbar/components/Locale.vue'
+import { initialAbility } from '@/libs/acl/config'
 import useJwt from '@/auth/jwt/useJwt'
 
 export default {
@@ -140,7 +141,7 @@ export default {
       localStorage.removeItem('userData')
 
       // Reset ability
-      // this.$ability.update(initialAbility)
+      this.$ability.update(initialAbility)
 
       // Redirect to login page
       this.$router.push({ name: 'auth-login' })

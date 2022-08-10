@@ -1,15 +1,17 @@
 export default [
     {
-    header: 'SYSTEM MANAGEMENT',
+      header: 'SYSTEM MANAGEMENT',
     },
     {
-        title: 'Role Management',
-        route: 'SystemManagement-RoleManagementList',
-        icon: 'UserCheckIcon',
+      title: 'Role Management',
+      route: 'SystemManagement-RoleManagementList',
+      icon: 'UserCheckIcon',
+      action: 'roles.read',
     },
     {
-        title: 'Account Management',
-        route: 'SystemManagement-AccountManagementList',
-        icon: 'UsersIcon',
+      title: 'Account Management',
+      route: 'SystemManagement-AccountManagementList',
+      icon: 'UsersIcon',
+      action: 'users.read',
     },
 ]

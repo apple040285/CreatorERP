@@ -2,16 +2,16 @@ import Vue from 'vue'
 import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
 
+import i18n from '@/libs/i18n'
 import router from './router'
 import store from './store'
 import App from './App.vue'
-
-import i18n from '@/libs/i18n'
 
 // Global Components
 import './global-components'
 
 // 3rd party plugins
+import '@/libs/acl'
 import '@/libs/portal-vue'
 import '@/libs/toastification'
 import '@/libs/sweet-alerts'
