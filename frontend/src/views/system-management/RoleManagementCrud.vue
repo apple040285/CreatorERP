@@ -187,13 +187,31 @@ export default {
         root.$http
           .put(`/roles/${root.$route.query.id}`, showData.value)
           .then(response => {
-            const data = response.data
+            this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                title: `${this.$t('updatedSuccess')}`,
+                icon: 'CoffeeIcon',
+                variant: 'success',
+                text: `${this.$t('PermissionSetting.permission')} ${this.$t('updatedSuccess')}!`,
+                },
+            })
           })
       } else {
         root.$http
           .post(`/roles`, showData.value)
           .then(response => {
-            const data = response.data
+            this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                title: `${this.$t('updatedFailed')}`,
+                icon: 'XIcon',
+                variant: 'danger',
+                text: error.response.data.message,
+                },
+            })
           })
       }
     }
