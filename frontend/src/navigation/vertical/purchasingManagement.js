@@ -16,7 +16,7 @@ export default [
             },
             {
                 title: 'Procurement Voucher',
-                route: 'ProcurementOperation-ProcurementVoucher',
+                route: 'ProcurementOperation-ProcurementVoucherList',
             },
         ],
     },

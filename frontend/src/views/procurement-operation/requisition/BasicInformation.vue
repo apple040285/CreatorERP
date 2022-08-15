@@ -126,7 +126,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.status')">
                     <b-form-input
-                        :value="$t('RequisitionList.' + basicInformation.status)"
+                        :value="basicInformation.status"
                         :placeholder="$t('RequisitionList.status')"
                         type="text"
                         readonly
@@ -137,7 +137,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('RequisitionList.approvalStatus')">
                     <b-form-input
-                        :value="$t('RequisitionList.' + basicInformation.approvalStatus)"
+                        :value="basicInformation.approvalStatus"
                         :placeholder="$t('RequisitionList.approvalStatus')"
                         type="text"
                         readonly

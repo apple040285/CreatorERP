@@ -10,6 +10,7 @@
                                 label-for="requisitionDate-datepicker"
                                 id="requisitionDate"
                             >
+                                <label for="requisitionDate">{{ $t('RequisitionList.requisitionDate') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
                                     name="requisitionDate"
@@ -28,6 +29,7 @@
                         <!-- Manufacturer -->
                         <b-col cols="4">
                             <b-form-group>
+                                <label for="manufacturer">{{ $t('RequisitionList.manufacturer') }}</label>
                                 <v-select
                                     label="name"
                                     v-model="showData.manufacturer_id"
@@ -40,6 +42,7 @@
                         <!-- Currency -->
                         <b-col cols="4">
                             <b-form-group id="currency">
+                                <label for="currency">{{ $t('RequisitionList.currency') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
                                     name="currency"
@@ -61,6 +64,7 @@
                         <!-- Transfer No -->
                         <b-col cols="4">
                             <b-form-group>
+                                <label for="currency">{{ $t('RequisitionList.currency') }}</label>
                                 <v-select
                                     label="name"
                                     v-model="showData.transferNo_id"
@@ -73,6 +77,7 @@
                         <!-- Project No -->
                         <b-col cols="4">
                             <b-form-group>
+                                <label for="project">{{ $t('RequisitionList.project') }}</label>
                                 <v-select
                                     label="name"
                                     v-model="showData.project_id"
@@ -85,6 +90,7 @@
                         <!--  Buyer -->
                         <b-col cols="4">
                             <b-form-group id="buyer">
+                                <label for="buyer">{{ $t('RequisitionList.buyer') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
                                     name="buyer"
@@ -106,6 +112,7 @@
                         <!--  Purchase Department -->
                         <b-col cols="4">
                             <b-form-group id="purchaseDepartment">
+                                <label for="purchaseDepartment">{{ $t('RequisitionList.purchaseDepartment') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
                                     name="purchaseDepartment"
@@ -128,6 +135,7 @@
                                 label-for="preDeliveryDate-datepicker"
                                 id="preDeliveryDate"
                             >
+                                <label for="preDeliveryDate">{{ $t('RequisitionList.preDeliveryDate') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
                                     name="preDeliveryDate"
@@ -146,6 +154,7 @@
                         <!--  Remark -->
                         <b-col cols="4">
                             <b-form-group>
+                                <label for="remark">{{ $t('remark') }}</label>
                                 <b-form-textarea
                                     :placeholder="$t('remark')"
                                     rows="3"
@@ -623,6 +632,8 @@ export default {
                 { label: 'quantity', field: 'quantity', type: 'number' },
                 { label: 'unitPrice', field: 'unitPrice', type: 'number' },
                 { label: 'amount', field: 'amount', type: 'number' },
+                { label: 'numberOfTransfers', field: 'numberOfTransfers', type: 'number' },
+                { label: 'untransferredQuantity', field: 'untransferredQuantity', type: 'number' },
                 { label: 'productPreDeliveryDate', field: 'preDeliveryDate' },
                 { label: 'productRemark', field: 'remark' },
                 { label: 'action', field: 'action' },

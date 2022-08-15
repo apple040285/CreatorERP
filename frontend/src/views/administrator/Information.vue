@@ -9,27 +9,19 @@
                             :label="$t('PermissionSetting.name')"
                             label-for="fh-name"
                         >
-                            <validation-provider
-                                #default="{ errors }"
-                                name="Name"
-                                rules="required"
+                            <b-input-group
+                                class="input-group-merge"
                             >
-                                <b-input-group
-                                    class="input-group-merge"
-                                    :class="errors.length > 0 ? 'is-invalid' : ''"
-                                >
-                                    <b-input-group-prepend is-text>
-                                        <feather-icon icon="UserIcon" />
-                                    </b-input-group-prepend>
-                                    <b-form-input
-                                        id="fh-name"
-                                        :placeholder="$t('PermissionSetting.name')"
-                                        v-model="name"
-                                        :state="errors.length > 0 ? false:null"
-                                    />
-                                </b-input-group>
-                                <small class="text-danger">{{ errors[0] }}</small>
-                            </validation-provider>
+                                <b-input-group-prepend is-text>
+                                    <feather-icon icon="UserIcon" />
+                                </b-input-group-prepend>
+                                <b-form-input
+                                    id="fh-name"
+                                    v-model="defaultData.name"
+                                    readonly
+                                    :placeholder="$t('PermissionSetting.name')"
+                                />
+                            </b-input-group>
                         </b-form-group>
                     </b-col>
 
@@ -47,7 +39,7 @@
                                     id="fh-account"
                                     type="text"
                                     :placeholder="$t('PermissionSetting.account')"
-                                    v-model="account"
+                                    v-model="defaultData.account"
                                     readonly
                                 />
                             </b-input-group>
@@ -63,7 +55,7 @@
                             <validation-provider
                                 #default="{ errors }"
                                 name="Old Password"
-                                rules="required|password"
+                                rules="required"
                             >
                                 <b-input-group
                                     class="input-group-merge"
@@ -74,7 +66,7 @@
                                     </b-input-group-prepend>
                                     <b-form-input
                                         id="fh-old-password"
-                                        v-model="oldPassword"
+                                        v-model="defaultData.currentPassword"
                                         type="password"
                                         :placeholder="$t('PermissionSetting.oldPassword')"
                                         :state="errors.length > 0 ? false:null"
@@ -106,7 +98,7 @@
                                     </b-input-group-prepend>
                                     <b-form-input
                                         id="fh-new-password"
-                                        v-model="newPassword"
+                                        v-model="defaultData.newPassword"
                                         type="password"
                                         :placeholder="$t('PermissionSetting.newPassword')"
                                         :state="errors.length > 0 ? false:null"
@@ -137,7 +129,7 @@
                                     </b-input-group-prepend>
                                     <b-form-input
                                         id="fh-new-password-confirm"
-                                        v-model="newPasswordConfirm"
+                                        v-model="defaultData.newPasswordConfirm"
                                         type="password"
                                         :placeholder="$t('PermissionSetting.confirmPassword')"
                                         :state="errors.length > 0 ? false:null"
@@ -184,8 +176,11 @@ import {
 import Ripple from 'vue-ripple-directive'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import {
-    required, confirmed, password,
+    required, confirmed
 } from '@validations'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import axios from "@axios";
+import useJwt from '@/auth/jwt/useJwt'
 
 export default {
     components: {
@@ -209,31 +204,85 @@ export default {
     },
     data() {
         return {
-            name: '',
-            account: '',
-            oldPassword: '',
-            newPassword: '',
-            newPasswordConfirm: '',
+            apiPath: '/auth/reset/password',
+            defaultData: {
+                name: '',
+                account: '',
+                currentPassword: '',
+                newPassword: '',
+                newPasswordConfirm: '',
+            },
             required,
-            password,
             confirmed,
         }
     },
     methods: {
         validationForm() {
             this.$refs.simpleRules.validate().then(success => {
+                console.log(success);
                 if (success) {
-                // eslint-disable-next-line
-                // alert('form submitted!')
+                    this.updateMethod();
+                }else {
+                    const simpleRulesErrors = Object.keys(this.$refs.simpleRules.errors);
+                    simpleRulesErrors.some(element => {
+                        if(this.$refs.simpleRules.errors[element].length > 0){
+                            document.querySelector(`#${element} input`).focus();
+                            return true;
+                        }
+                    });
                 }
             })
+        },
+        updateMethod() {
+            axios
+            .post(`${this.apiPath}`, this.defaultData)
+            .then(() => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedSuccess')}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${this.$t('PermissionSetting.password')} ${this.$t('updatedSuccess')}!`,
+                    },
+                })
+                this.logout();
+            })
+            .catch(error => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
+            })
+        },
+        logout() {
+            // Remove userData from localStorage
+            // ? You just removed token from localStorage. If you like, you can also make API call to backend to blacklist used token
+            localStorage.removeItem(useJwt.jwtConfig.storageTokenKeyName)
+            localStorage.removeItem(useJwt.jwtConfig.storageRefreshTokenKeyName)
+
+            // Remove userData from localStorage
+            localStorage.removeItem('userData')
+
+            // Reset ability
+            // this.$ability.update(initialAbility)
+
+            // Redirect to login page
+            this.$router.push({ name: 'auth-login' })
         },
     },
     mounted() {
         this.$store.dispatch('auth/checkUser')
             .then(response => {
-                this.name = response.data.name;
-                this.account = response.data.account;
+                this.defaultData.name = response.data.user.name;
+                this.defaultData.account = response.data.user.account;
             })
     },
 }

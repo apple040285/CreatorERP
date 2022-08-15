@@ -300,10 +300,19 @@
                                     rules="required"
                                 >
                                     <v-select
+                                        label="label"
                                         v-model="showData.taxDeductionCategory"
                                         :options="taxDeductionCategoryOption"
                                         :placeholder="$t('CustomerManufacturerList.selectTaxDeductionCategory')"
-                                    />
+                                        :reduce="option => option.value"
+                                    >
+                                        <template v-slot:option="{ label }">
+                                        {{ $t('CustomerManufacturerList.'+label) }}
+                                        </template>
+                                        <template #selected-option="{ label }">
+                                            {{ $t('CustomerManufacturerList.'+label) }}
+                                        </template>
+                                    </v-select>
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
                             </b-form-group>
@@ -318,10 +327,19 @@
                                     rules="required"
                                 >
                                     <v-select
+                                        label="label"
                                         v-model="showData.accountSettingMethod"
                                         :options="accountSettingMethodOption"
                                         :placeholder="$t('CustomerManufacturerList.selectAccountSettingMethod')"
-                                    />
+                                        :reduce="option => option.value"
+                                    >
+                                        <template v-slot:option="{ label }">
+                                        {{ $t('CustomerManufacturerList.'+label) }}
+                                        </template>
+                                        <template #selected-option="{ label }">
+                                            {{ $t('CustomerManufacturerList.'+label) }}
+                                        </template>
+                                    </v-select>
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
                             </b-form-group>
@@ -344,11 +362,20 @@
                             <b-form-group id="paymentMethod">
                                 <label for="paymentMethod">{{ $t('CustomerManufacturerList.paymentMethod') }}</label>
                                 <v-select
+                                    label="label"
                                     v-model="showData.paymentMethod"
                                     :options="paymentMethodOption"
                                     :placeholder="$t('CustomerManufacturerList.selectPaymentMethod')"
+                                    :reduce="option => option.value"
                                     @input="paymentMethodChange"
-                                />
+                                >
+                                    <template v-slot:option="{ label }">
+                                    {{ $t('CustomerManufacturerList.'+label) }}
+                                    </template>
+                                    <template #selected-option="{ label }">
+                                        {{ $t('CustomerManufacturerList.'+label) }}
+                                    </template>
+                                </v-select>
                             </b-form-group>
                         </b-col>
                         <!-- monthlyBillingDate -->
@@ -656,6 +683,14 @@
                         />
                     </b-form-group>
                     <b-form-group>
+                        <label for="department">{{ $t('CustomerManufacturerModal.department') }}</label>
+                        <b-form-input
+                            v-model="addressData.department"
+                            type="text"
+                            :placeholder="$t('CustomerManufacturerModal.department')"
+                        />
+                    </b-form-group>
+                    <b-form-group>
                         <label for="telephone">{{ $t('CustomerManufacturerModal.telephone') }}</label>
                         <b-form-input
                             v-model="addressData.telephone"
@@ -681,18 +716,20 @@
                     </b-form-group>
                     <b-form-group>
                         <label for="email">{{ $t('CustomerManufacturerModal.email') }}</label>
-                        <validation-provider
-                            #default="{ errors }"
-                            name="addressEmail"
-                            rules="email"
-                        >
-                            <b-form-input
-                                v-model="addressData.email"
-                                type="text"
-                                :placeholder="$t('CustomerManufacturerModal.email')"
-                            />
-                            <small class="text-danger">{{ errors[0] }}</small>
-                        </validation-provider>
+                        <b-form-input
+                            v-model="addressData.email"
+                            type="text"
+                            :placeholder="$t('CustomerManufacturerModal.email')"
+                        />
+                    </b-form-group>
+                    <b-form-group>
+                        <label for="remark">{{ $t('CustomerManufacturerModal.remark') }}</label>
+                        <b-form-textarea
+                            :placeholder="$t('CustomerManufacturerList.remark')"
+                            rows="3"
+                            v-model="addressData.remark"
+                            autocomplete="off"
+                        />
                     </b-form-group>
                 </validation-observer>
             </b-form>
@@ -835,18 +872,32 @@ export default {
                 postal_code: '',
                 address: '',
                 contact_person: '',
+                department: '',
                 telephone: '',
                 cellphone: '',
                 line: '',
                 email: '',
+                remark: '',
             },
-            belongOption: ['客戶', '廠商'],
+            belongOption: ['customer', 'manufacturer'],
             categoryOption: ['原料商'],
             currencyOption: ['美金'],
-            taxDeductionCategoryOption: ['不計稅', '應稅內含', '應稅外加'],
-            accountSettingMethodOption: ['單張立帳', '不立帳', '收到發票才立帳'],
+            taxDeductionCategoryOption: [
+                {label: 'taxFree', value: 'taxFree'},
+                {label: 'taxableIncluded', value: 'taxableIncluded'},
+                {label: 'taxablePlus', value: 'taxablePlus'}
+            ],
+            accountSettingMethodOption: [
+                {label: 'singleBill', value: 'singleBill'},
+                {label: 'noBill', value: 'noBill'},
+                {label: 'billingAfterReceiptOfInvoice', value: 'billingAfterReceiptOfInvoice'}
+            ],
             businessPeopleOption: ['dennis'],
-            paymentMethodOption: ['月結', '貨到付款', '其他'],
+            paymentMethodOption: [
+                {label: 'monthly', value: 'monthly'},
+                {label: 'cashOnDelivery', value: 'cashOnDelivery'},
+                {label: 'other', value: 'other'}
+            ],
             electronicInvoiceTypeOption: ['B2B', 'B2C'],
 
             pageLength: 5,

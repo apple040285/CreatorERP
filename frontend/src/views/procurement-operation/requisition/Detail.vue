@@ -96,6 +96,8 @@ export default {
                     { label: 'quantity', field: 'quantity', type: 'number' },
                     { label: 'unitPrice', field: 'unitPrice', type: 'number' },
                     { label: 'amount', field: 'amount', type: 'number' },
+                    { label: 'numberOfTransfers', field: 'numberOfTransfers', type: 'number' },
+                    { label: 'untransferredQuantity', field: 'untransferredQuantity', type: 'number' },
                     { label: 'productPreDeliveryDate', field: 'preDeliveryDate' },
                     { label: 'productRemark', field: 'remark' },
                 ],

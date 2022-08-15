@@ -293,7 +293,16 @@ export default {
                 })
             })
             .catch(error => {
-              this.$refs.loginForm.setErrors(error.response.data.error)
+              this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('Login Failed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
             })
         }
       })
