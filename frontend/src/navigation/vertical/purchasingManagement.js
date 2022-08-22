@@ -26,7 +26,7 @@ export default [
         children: [
             {
                 title: 'Purchase Voucher',
-                route: 'PurchaseOperation-PurchaseVoucher',
+                route: 'PurchaseOperation-PurchaseVoucherList',
             },
             {
                 title: 'Returned Purchase Invoice',

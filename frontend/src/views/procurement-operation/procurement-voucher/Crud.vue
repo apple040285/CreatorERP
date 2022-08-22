@@ -4,23 +4,23 @@
             <b-form @submit.prevent>
                 <validation-observer ref="simpleRules">
                     <b-row>
-                        <!-- Purchase Date -->
+                        <!-- procurement Date -->
                         <b-col cols="4">
                             <b-form-group
-                                label-for="purchaseDate-datepicker"
-                                id="purchaseDate"
+                                label-for="procurementDate-datepicker"
+                                id="procurementDate"
                             >
-                                <label for="purchaseDate">{{ $t('ProcurementVoucherList.purchaseDate') }}</label>
+                                <label for="procurementDate">{{ $t('ProcurementVoucherList.procurementDate') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
-                                    name="purchaseDate"
+                                    name="procurementDate"
                                     rules="required"
                                 >
                                     <flat-pickr
-                                        v-model="showData.purchaseDate"
+                                        v-model="showData.procurementDate"
                                         class="form-control"
-                                        :placeholder="$t('ProcurementVoucherList.purchaseDate')"
-                                        id="purchaseDate-datepicker"
+                                        :placeholder="$t('ProcurementVoucherList.procurementDate')"
+                                        id="procurementDate-datepicker"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -116,21 +116,43 @@
                         </b-col>
                     </b-row>
                     <b-row>
-                        <!--  Purchase Department -->
+                        <!--  procurement Department -->
                         <b-col cols="4">
-                            <b-form-group id="purchaseDepartment">
-                                <label for="purchaseDepartment">{{ $t('ProcurementVoucherList.purchaseDepartment') }}</label>
+                            <b-form-group id="procurementDepartment">
+                                <label for="procurementDepartment">{{ $t('ProcurementVoucherList.procurementDepartment') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
-                                    name="purchaseDepartment"
+                                    name="procurementDepartment"
                                     rules="required"
                                 >
                                     <v-select
                                         label="name"
                                         v-model="showData.Department_id"
                                         :options="DepartmentOption"
-                                        :placeholder="$t('ProcurementVoucherModal.selectPurchaseDepartment')"
+                                        :placeholder="$t('ProcurementVoucherModal.selectProcurementDepartment')"
                                         :reduce="option => option.id"
+                                    />
+                                    <small class="text-danger">{{ errors[0] }}</small>
+                                </validation-provider>
+                            </b-form-group>
+                        </b-col>
+                        <!--  Pre-Delivery Date -->
+                        <b-col cols="4">
+                            <b-form-group
+                                label-for="preDeliveryDate-datepicker"
+                                id="preDeliveryDate"
+                            >
+                                <label for="preDeliveryDate">{{ $t('ProcurementVoucherList.preDeliveryDate') }}</label>
+                                <validation-provider
+                                    #default="{ errors }"
+                                    name="preDeliveryDate"
+                                    rules="required"
+                                >
+                                    <flat-pickr
+                                        v-model="showData.preDeliveryDate"
+                                        class="form-control"
+                                        :placeholder="$t('ProcurementVoucherList.preDeliveryDate')"
+                                        id="preDeliveryDate-datepicker"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -163,6 +185,8 @@
                                 </validation-provider>
                             </b-form-group>
                         </b-col>
+                    </b-row>
+                    <b-row>
                         <!-- accountSettingMethod -->
                         <b-col cols="4">
                             <b-form-group id="procurementVoucherAccountSettingMethod">
@@ -190,41 +214,6 @@
                                 </validation-provider>
                             </b-form-group>
                         </b-col>
-                    </b-row>
-                    <b-row>
-                        <!--  Pre-Delivery Date -->
-                        <b-col cols="4">
-                            <b-form-group
-                                label-for="preDeliveryDate-datepicker"
-                                id="preDeliveryDate"
-                            >
-                                <label for="preDeliveryDate">{{ $t('ProcurementVoucherList.preDeliveryDate') }}</label>
-                                <validation-provider
-                                    #default="{ errors }"
-                                    name="preDeliveryDate"
-                                    rules="required"
-                                >
-                                    <flat-pickr
-                                        v-model="showData.preDeliveryDate"
-                                        class="form-control"
-                                        :placeholder="$t('ProcurementVoucherList.preDeliveryDate')"
-                                        id="preDeliveryDate-datepicker"
-                                    />
-                                    <small class="text-danger">{{ errors[0] }}</small>
-                                </validation-provider>
-                            </b-form-group>
-                        </b-col>
-                        <!-- deposit -->
-                        <b-col cols="4">
-                            <b-form-group id="deposit">
-                                <label for="deposit">{{ $t('ProcurementVoucherList.deposit') }}</label>
-                                <b-form-input
-                                    v-model="showData.deposit"
-                                    type="text"
-                                    :placeholder="$t('ProcurementVoucherList.deposit')"
-                                />
-                            </b-form-group>
-                        </b-col>
                         <!-- discount -->
                         <b-col cols="4">
                             <b-form-group id="discount">
@@ -236,8 +225,6 @@
                                 />
                             </b-form-group>
                         </b-col>
-                    </b-row>
-                    <b-row>
                         <!-- untaxedAmount -->
                         <b-col cols="4">
                             <b-form-group id="untaxedAmount">
@@ -250,6 +237,8 @@
                                 />
                             </b-form-group>
                         </b-col>
+                    </b-row>
+                    <b-row>
                         <!-- tax -->
                         <b-col cols="4">
                             <b-form-group id="tax">
@@ -274,8 +263,6 @@
                                 />
                             </b-form-group>
                         </b-col>
-                    </b-row>
-                    <b-row>
                         <!-- totalLocalCurrency -->
                         <b-col cols="4">
                             <b-form-group id="totalLocalCurrency">
@@ -288,6 +275,8 @@
                                 />
                             </b-form-group>
                         </b-col>
+                    </b-row>
+                    <b-row>
                         <!--  Remark -->
                         <b-col cols="4">
                             <b-form-group>
@@ -299,6 +288,16 @@
                                     autocomplete="off"
                                 />
                             </b-form-group>
+                        </b-col>
+                        <b-col cols="4">
+                            <b-button
+                                v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+                                v-b-modal.depositModalForm
+                                variant="outline-primary"
+                                class="mt-2"
+                            >
+                                {{ $t('ProcurementVoucherList.deposit')}}
+                            </b-button>
                         </b-col>
                     </b-row>
                 </validation-observer>
@@ -473,7 +472,7 @@
                     @dismissed="alertShow = false"
                 >
                     <div class="alert-body">
-                        <span>{{ $t('ProductList.productDataCheck') }}</span>
+                        <span>{{ $t('ProcurementVoucherList.ProductList.productDataCheck') }}</span>
                     </div>
                 </b-alert>
                 <b-row>
@@ -501,6 +500,24 @@
                 </b-row>
             </div>
         </template>
+        <b-modal
+            id="depositModalForm"
+            :title="$t('ProcurementVoucherList.deposit')"
+            :ok-title="$t('Submit')"
+            ref="depositModalForm"
+        >
+            <b-form>
+                <b-form-group>
+                    <label for="productName">{{ $t('ProcurementVoucherList.deposit.productName') }}</label>
+                    <v-select
+                        v-model="productsData.product"
+                        :options="productOption"
+                        :placeholder="$t('ProcurementVoucherModal.selectProductName')"
+                        id="productName"
+                    />
+                </b-form-group>
+            </b-form>
+        </b-modal>
         <!-- create & edit modal -->
         <b-modal
             id="modalForm"
@@ -521,7 +538,7 @@
                             rules="required"
                         >
                             <v-select
-                                v-model="showData.product"
+                                v-model="productsData.product"
                                 :options="productOption"
                                 :placeholder="$t('ProcurementVoucherModal.selectProductName')"
                                 id="productName"
@@ -532,7 +549,7 @@
                     <b-form-group>
                         <label for="productNo">{{ $t('ProcurementVoucherList.ProductList.productNo') }}</label>
                         <b-form-input
-                            v-model="showData.productNo"
+                            v-model="productsData.productNo"
                             type="text"
                             :placeholder="$t('ProcurementVoucherList.ProductList.productNo')"
                             readonly
@@ -541,7 +558,7 @@
                     <b-form-group>
                         <label for="specification">{{ $t('ProcurementVoucherList.ProductList.specification') }}</label>
                         <b-form-input
-                            v-model="showData.specification"
+                            v-model="productsData.specification"
                             type="text"
                             :placeholder="$t('ProcurementVoucherList.ProductList.specification')"
                             readonly
@@ -550,7 +567,7 @@
                     <b-form-group>
                         <label for="unit">{{ $t('ProcurementVoucherList.ProductList.unit') }}</label>
                         <b-form-input
-                            v-model="showData.unit"
+                            v-model="productsData.unit"
                             type="text"
                             :placeholder="$t('ProcurementVoucherList.ProductList.unit')"
                             readonly
@@ -559,7 +576,7 @@
                     <b-form-group>
                         <label for="storehouse">{{ $t('ProcurementVoucherList.ProductList.storehouse') }}</label>
                         <v-select
-                            v-model="showData.storehouse"
+                            v-model="productsData.storehouse"
                             :options="storehouseOption"
                             :placeholder="$t('ProcurementVoucherModal.selectStorehouse')"
                         />
@@ -573,7 +590,7 @@
                         >
                             <b-form-input
                                 type="number"
-                                v-model="showData.quantity"
+                                v-model="productsData.quantity"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
                                 :placeholder="$t('ProcurementVoucherList.ProductList.quantity')"
@@ -590,10 +607,27 @@
                         >
                             <b-form-input
                                 type="number"
-                                v-model="showData.unitPrice"
+                                v-model="productsData.unitPrice"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
                                 :placeholder="$t('ProcurementVoucherList.ProductList.unitPrice')"
+                            />
+                            <small class="text-danger">{{ errors[0] }}</small>
+                        </validation-provider>
+                    </b-form-group>
+                    <b-form-group id="discount">
+                        <label for="discount">{{ $t('ProcurementVoucherList.ProductList.discount') }}</label>
+                        <validation-provider
+                            #default="{ errors }"
+                            name="discount"
+                            rules="required"
+                        >
+                            <b-form-input
+                                type="number"
+                                v-model="productsData.discount"
+                                min="0"
+                                :state="errors.length > 0 ? false:null"
+                                :placeholder="$t('ProcurementVoucherList.ProductList.discount')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -607,7 +641,7 @@
                         >
                             <b-form-input
                                 type="number"
-                                v-model="showData.untaxedAmount"
+                                v-model="productsData.untaxedAmount"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
                                 :placeholder="$t('ProcurementVoucherList.ProductList.untaxedAmount')"
@@ -624,7 +658,7 @@
                         >
                             <b-form-input
                                 type="number"
-                                v-model="showData.tax"
+                                v-model="productsData.tax"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
                                 :placeholder="$t('ProcurementVoucherList.ProductList.tax')"
@@ -637,7 +671,7 @@
                         <b-form-input
                             id="amount"
                             type="number"
-                            v-model="showData.amount"
+                            v-model="productsData.amount"
                             min="0"
                             autocomplete="off"
                             :placeholder="$t('ProcurementVoucherList.ProductList.amount')"
@@ -652,7 +686,7 @@
                         >
                             <b-form-input
                                 type="number"
-                                v-model="showData.untaxedLocalCurrency"
+                                v-model="productsData.untaxedLocalCurrency"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
                                 :placeholder="$t('ProcurementVoucherList.ProductList.untaxedLocalCurrency')"
@@ -669,7 +703,7 @@
                         >
                             <b-form-input
                                 type="number"
-                                v-model="showData.localCurrencyTax"
+                                v-model="productsData.localCurrencyTax"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
                                 :placeholder="$t('ProcurementVoucherList.ProductList.localCurrencyTax')"
@@ -686,7 +720,7 @@
                         >
                             <b-form-input
                                 type="number"
-                                v-model="showData.amountInLocalCurrency"
+                                v-model="productsData.amountInLocalCurrency"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
                                 :placeholder="$t('ProcurementVoucherList.ProductList.amountInLocalCurrency')"
@@ -702,7 +736,7 @@
                             rules="required"
                         >
                             <flat-pickr
-                                v-model="showData.preDeliveryDate"
+                                v-model="productsData.preDeliveryDate"
                                 class="form-control"
                                 :placeholder="$t('ProcurementVoucherList.ProductList.productPreDeliveryDate')"
                                 id="productPreDeliveryDate-datepicker"
@@ -716,7 +750,7 @@
                             id="productRemark"
                             :placeholder="$t('remark')"
                             rows="3"
-                            v-model="showData.productRemark"
+                            v-model="productsData.productRemark"
                             autocomplete="off"
                         />
                     </b-form-group>
@@ -811,13 +845,14 @@ export default {
             productModalId: null,
             productsData: {},
             defaultData: {
-                purchaseDate: '',
+                procurementDate: '',
                 manufacturer: '',
                 currency: '',
                 transferNo: '',
                 project: '',
                 procurementStaff: '',
-                purchaseDepartment: '',
+                invoice: '',
+                procurementDepartment: '',
                 taxDeductionCategory: '',
                 accountSettingMethod: '',
                 deposit: '',
@@ -836,7 +871,7 @@ export default {
             transferNoOption: ['A123', 'B123', 'C123'],
             projectOption: ['母親節專案', '父親節專案'],
             procurementStaffOption: ['dennis', 'ryan'],
-            purchaseDepartmentOption: ['人事部', '會計部'],
+            procurementDepartmentOption: ['人事部', '會計部'],
             taxDeductionCategoryOption: [
                 {label: 'taxFree', value: 'taxFree'},
                 {label: 'taxableIncluded', value: 'taxableIncluded'},
@@ -856,6 +891,7 @@ export default {
                 storehouse: '',
                 quantity: 0,
                 unitPrice: '',
+                discount: '',
                 untaxedAmount: '',
                 tax: '',
                 amount: '',

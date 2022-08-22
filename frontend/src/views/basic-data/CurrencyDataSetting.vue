@@ -243,11 +243,11 @@
                             name="currencyUnitPriceOfDigits"
                             rules="required"
                         >
-                            <v-select
-                                v-model="showData.unit_price_of_digits"
-                                :placeholder="$t('CurrencyList.selectUnitPriceOfDigits')"
-                                :options="unit_price_of_digits_option"
-                            />
+                            <b-form-select v-model="showData.unit_price_of_digits" :options="unit_price_of_digits_option">
+                                <template #first>
+                                    <b-form-select-option :value="null">{{ $t('CurrencyList.selectUnitPriceOfDigits') }}</b-form-select-option>
+                                </template>
+                            </b-form-select>
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
@@ -258,11 +258,11 @@
                             name="currencyAmountOfDigits"
                             rules="required"
                         >
-                            <v-select
-                                v-model="showData.amount_of_digits"
-                                :placeholder="$t('CurrencyList.selectAmountOfDigits')"
-                                :options="amount_of_digits_option"
-                            />
+                            <b-form-select v-model="showData.amount_of_digits" :options="amount_of_digits_option">
+                                <template #first>
+                                    <b-form-select-option :value="null">{{ $t('CurrencyList.selectUnitPriceOfDigits') }}</b-form-select-option>
+                                </template>
+                            </b-form-select>
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
@@ -275,7 +275,7 @@
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
-    BRow, BCol, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BButton, BSpinner
+    BRow, BCol, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BFormSelectOption, BButton, BSpinner
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import { VueGoodTable } from 'vue-good-table'
@@ -296,6 +296,7 @@ export default {
         BForm,
         BFormInput,
         BFormSelect,
+        BFormSelectOption,
         vSelect,
         BButton,
         ValidationProvider,
@@ -328,8 +329,8 @@ export default {
                 target_code: '',
                 name: '',
                 rate: '',
-                unit_price_of_digits: '',
-                amount_of_digits: '',
+                unit_price_of_digits: null,
+                amount_of_digits: null,
             },
             unit_price_of_digits_option: ['0', '1', '2', '3', '4', '5', '6'],
             amount_of_digits_option: ['0', '1', '2', '3', '4'],

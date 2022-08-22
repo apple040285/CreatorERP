@@ -201,8 +201,8 @@ export default {
             apiPath: '/procurementVoucher',
             columns: [
                 { label: '#', field: 'id' },
-                { label: 'purchaseDate', field: 'purchaseDate' },
-                { label: 'purchaseNo', field: 'purchaseNo' },
+                { label: 'procurementDate', field: 'procurementDate' },
+                { label: 'procurementNo', field: 'procurementNo' },
                 { label: 'manufacturer', field: 'manufacturer' },
                 { label: 'procurementStaff', field: 'procurementStaff' },
                 { label: 'preDeliveryDate', field: 'preDeliveryDate' },
@@ -214,8 +214,8 @@ export default {
             rows: [
                 {
                     id: 1,
-                    purchaseDate: "2022/06/22",
-                    purchaseNo: '20220622001',
+                    procurementDate: "2022/06/22",
+                    procurementNo: '20220622001',
                     manufacturer: '廠商A',
                     procurementStaff: 'dennis',
                     preDeliveryDate: '2022/06/30',
@@ -225,8 +225,8 @@ export default {
                 },
                 {
                     id: 2,
-                    purchaseDate: "2022/06/22",
-                    purchaseNo: '20220622001',
+                    procurementDate: "2022/06/22",
+                    procurementNo: '20220622001',
                     manufacturer: '廠商A',
                     procurementStaff: 'dennis',
                     preDeliveryDate: '2022/06/30',
@@ -236,8 +236,8 @@ export default {
                 },
                 {
                     id: 3,
-                    purchaseDate: "2022/06/22",
-                    purchaseNo: '20220622001',
+                    procurementDate: "2022/06/22",
+                    procurementNo: '20220622001',
                     manufacturer: '廠商A',
                     procurementStaff: 'dennis',
                     preDeliveryDate: '2022/06/30',
@@ -247,8 +247,8 @@ export default {
                 },
                 {
                     id: 4,
-                    purchaseDate: "2022/06/22",
-                    purchaseNo: '20220622001',
+                    procurementDate: "2022/06/22",
+                    procurementNo: '20220622001',
                     manufacturer: '廠商A',
                     procurementStaff: 'dennis',
                     preDeliveryDate: '2022/06/30',
@@ -258,8 +258,8 @@ export default {
                 },
                 {
                     id: 5,
-                    purchaseDate: "2022/06/22",
-                    purchaseNo: '20220622001',
+                    procurementDate: "2022/06/22",
+                    procurementNo: '20220622001',
                     manufacturer: '廠商A',
                     procurementStaff: 'dennis',
                     preDeliveryDate: '2022/06/30',
@@ -269,8 +269,8 @@ export default {
                 },
                 {
                     id: 6,
-                    purchaseDate: "2022/06/22",
-                    purchaseNo: '20220622001',
+                    procurementDate: "2022/06/22",
+                    procurementNo: '20220622001',
                     manufacturer: '廠商A',
                     procurementStaff: 'dennis',
                     preDeliveryDate: '2022/06/30',

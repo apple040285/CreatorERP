@@ -22,7 +22,7 @@ export default [
         children: [
             {
                 title: 'Sales Voucher',
-                route: 'SalesOperation-SalesVoucher',
+                route: 'SalesOperation-SalesVoucherList',
             },
             {
                 title: 'Returned Sales Invoice',

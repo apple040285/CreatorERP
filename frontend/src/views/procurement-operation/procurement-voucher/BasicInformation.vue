@@ -1,23 +1,23 @@
 <template>
     <b-card>
         <b-row>
-            <!-- purchaseDate -->
+            <!-- procurementDate -->
             <b-col cols="6">
-                <b-form-group :label="$t('ProcurementVoucherList.purchaseDate')">
+                <b-form-group :label="$t('ProcurementVoucherList.procurementDate')">
                     <b-form-input
-                        :value="basicInformation.purchaseDate"
-                        :placeholder="$t('ProcurementVoucherList.purchaseDate')"
+                        :value="basicInformation.procurementDate"
+                        :placeholder="$t('ProcurementVoucherList.procurementDate')"
                         type="text"
                         readonly
                     />
                 </b-form-group>
             </b-col>
-            <!-- purchaseNo -->
+            <!-- procurementNo -->
             <b-col cols="6">
-                <b-form-group :label="$t('ProcurementVoucherList.purchaseNo')">
+                <b-form-group :label="$t('ProcurementVoucherList.procurementNo')">
                     <b-form-input
-                        :value="basicInformation.purchaseNo"
-                        :placeholder="$t('ProcurementVoucherList.purchaseNo')"
+                        :value="basicInformation.procurementNo"
+                        :placeholder="$t('ProcurementVoucherList.procurementNo')"
                         type="text"
                         readonly
                     />
@@ -78,12 +78,23 @@
                     />
                 </b-form-group>
             </b-col>
-            <!--  Purchase Department -->
+            <!--  procurement Department -->
             <b-col cols="6">
-                <b-form-group :label="$t('ProcurementVoucherList.purchaseDepartment')">
+                <b-form-group :label="$t('ProcurementVoucherList.procurementDepartment')">
                     <b-form-input
-                        :value="basicInformation.purchaseDepartment"
-                        :placeholder="$t('ProcurementVoucherList.purchaseDepartment')"
+                        :value="basicInformation.procurementDepartment"
+                        :placeholder="$t('ProcurementVoucherList.procurementDepartment')"
+                        type="text"
+                        readonly
+                    />
+                </b-form-group>
+            </b-col>
+            <!--  invoice -->
+            <b-col cols="6">
+                <b-form-group :label="$t('ProcurementVoucherList.invoice')">
+                    <b-form-input
+                        :value="basicInformation.invoice"
+                        :placeholder="$t('ProcurementVoucherList.invoice')"
                         type="text"
                         readonly
                     />

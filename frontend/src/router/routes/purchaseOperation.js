@@ -1,13 +1,55 @@
 export default [
     {
-        path: '/PurchaseOperation/PurchaseVoucher',
-        name: 'PurchaseOperation-PurchaseVoucher',
-        component: () => import('@/views/purchase-operation/PurchaseVoucher.vue'),
+        path: '/PurchaseOperation/PurchaseVoucherList',
+        name: 'PurchaseOperation-PurchaseVoucherList',
+        component: () => import('@/views/purchase-operation/purchase-voucher/List.vue'),
         meta: {
             pageTitle: 'Purchase Voucher',
             breadcrumb: [
                 { text: 'Purchase Operation' },
                 { text: 'Purchase Voucher', active: true },
+            ],
+        },
+    },
+    {
+        path: '/PurchaseOperation/PurchaseVoucherCreate',
+        name: 'PurchaseOperation-PurchaseVoucherCreate',
+        component: () => import('@/views/purchase-operation/purchase-voucher/Crud.vue'),
+        meta: {
+            pageTitle: 'Purchase Voucher',
+            navActiveLink: 'PurchaseOperation-PurchaseVoucherList',
+            breadcrumb: [
+                { text: 'Purchase Operation' },
+                { text: 'Purchase Voucher', to: { name: 'PurchaseOperation-PurchaseVoucherList' } },
+                { text: 'create', active: true },
+            ],
+        },
+    },
+    {
+        path: '/PurchaseOperation/PurchaseVoucherEdit',
+        name: 'PurchaseOperation-PurchaseVoucherEdit',
+        component: () => import('@/views/purchase-operation/purchase-voucher/Crud.vue'),
+        meta: {
+            pageTitle: 'Purchase Voucher',
+            navActiveLink: 'PurchaseOperation-PurchaseVoucherList',
+            breadcrumb: [
+                { text: 'Purchase Operation' },
+                { text: 'Purchase Voucher', to: { name: 'PurchaseOperation-PurchaseVoucherList' } },
+                { text: 'edit', active: true },
+            ],
+        },
+    },
+    {
+        path: '/PurchaseOperation/PurchaseVoucherDetail',
+        name: 'PurchaseOperation-PurchaseVoucherDetail',
+        component: () => import('@/views/purchase-operation/purchase-voucher/Detail.vue'),
+        meta: {
+            pageTitle: 'Purchase Voucher',
+            navActiveLink: 'PurchaseOperation-PurchaseVoucherList',
+            breadcrumb: [
+                { text: 'Purchase Operation' },
+                { text: 'Purchase Voucher', to: { name: 'PurchaseOperation-PurchaseVoucherList' } },
+                { text: 'detail', active: true },
             ],
         },
     },
