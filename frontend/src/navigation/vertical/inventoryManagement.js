@@ -7,12 +7,16 @@ export default [
         icon: 'FileTextIcon',
         children: [
             {
+                title: 'Adjustment Category',
+                route: 'AdjustTheTransferOperation-AdjustmentCategory',
+            },
+            {
                 title: 'Adjustment Voucher',
-                route: 'AdjustTheTransferOperation-AdjustmentVoucher',
+                route: 'AdjustTheTransferOperation-AdjustmentVoucherList',
             },
             {
                 title: 'Transfer Voucher',
-                route: 'AdjustTheTransferOperation-TransferVoucher',
+                route: 'AdjustTheTransferOperation-TransferVoucherList',
             },
         ],
     },

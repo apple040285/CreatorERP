@@ -111,6 +111,17 @@
                     />
                 </b-form-group>
             </b-col>
+            <!-- subpoena -->
+            <b-col cols="6">
+                <b-form-group :label="$t('SalesVoucherList.subpoena')">
+                    <b-form-input
+                        :value="basicInformation.subpoena"
+                        :placeholder="$t('SalesVoucherList.subpoena')"
+                        type="text"
+                        readonly
+                    />
+                </b-form-group>
+            </b-col>
             <!--  untaxedAmount -->
             <b-col cols="6">
                 <b-form-group :label="$t('SalesVoucherList.untaxedAmount')">
