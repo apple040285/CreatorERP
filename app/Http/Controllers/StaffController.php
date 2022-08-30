@@ -33,6 +33,13 @@ class StaffController extends Controller
         return $this->success($data);
     }
 
+    public function options(Request $request)
+    {
+        $data = Staff::get();
+
+        return $this->success($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
