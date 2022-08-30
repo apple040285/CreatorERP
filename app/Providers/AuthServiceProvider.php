@@ -30,7 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         Passport::routes();
 
         Gate::before(function ($user, $ability) {
-            if (in_array($user->email, explode(',', env('USER_ADMIN_EMAILS')))) {
+            if (isAdmin($user)) {
                 return true;
             }
             return $user->checkPermissionTo($ability) ?: null;

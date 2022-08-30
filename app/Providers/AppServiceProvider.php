@@ -27,6 +27,11 @@ class AppServiceProvider extends ServiceProvider
         //     $log = count($bindings) ? vsprintf($sql, $bindings) : $sql;
         //     info($log);
         // });
+
+        // 載入全局共用函數
+        foreach (glob(app_path() . '/helpers/*.php') as $filename) {
+            require_once $filename;
+        }
     }
 
     /**
