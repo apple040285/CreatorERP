@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
@@ -143,6 +144,24 @@ class AuthController extends Controller
         return $this->success($result);
     }
 
+    public function updatePassword(Request $request)
+    {
+        $data = $request->validate([
+            'currentPassword'   => 'required',
+            'newPassword'       => 'required',
+        ]);
+
+        $user = User::find(Auth::id());
+
+        if (!Hash::check($data['currentPassword'], $user['password'])) {
+            return $this->badRequest('現在密碼輸入錯誤');
+        }
+
+        User::find(Auth::id())->update(['password' => Hash::make($data['newPassword'])]);
+
+        return $this->success('密碼更新成功');
+    }
+
     /**
      * Get the authenticated User
      *
@@ -150,7 +169,24 @@ class AuthController extends Controller
      */
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        $user = $request->user();
+
+        // 使用者
+        $data['user'] = $user->toArray();
+
+        // 權限表
+        if (isAdmin($user)) {
+            $data['ability'] = [
+                ['action' => 'manage', 'subject' => 'all']
+            ];
+        } else {
+            $data['ability'] = collect($user->getAllPermissions())
+                ->pluck('name')
+                ->map(fn ($name) => ['action' => $name, 'subject' => 'Auth'])
+                ->push(['action' => 'read', 'subject' => 'Auth']);
+        }
+
+        return $this->success($data);
     }
 
     /**
