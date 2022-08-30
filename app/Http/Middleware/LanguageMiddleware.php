@@ -16,7 +16,9 @@ class LanguageMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        app()->setLocale($request->header('Accept-Language'));
+        if ($locale = $request->header('Accept-Language')) {
+            app()->setLocale($locale);
+        }
         return $next($request);
     }
 }
