@@ -34,6 +34,13 @@ class CustomerManufacturerController extends Controller
         return $this->success($data);
     }
 
+    public function options(Request $request)
+    {
+        $data = CustomerManufacturer::get();
+
+        return $this->success($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -47,6 +54,7 @@ class CustomerManufacturerController extends Controller
         $data = $request->validate([
             'customer_manufacturer_category_id'     => 'required|exists:customer_manufacturer_categories,id',
             'currency_id'                           => 'nullable|exists:currencies,id',
+            'staff_id'                              => 'nullable|exists:staff,id',
             'code'                                  => 'required|unique:customer_manufacturers',
             'type'                                  => 'required|string',
             'full_name'                             => 'required|unique:customer_manufacturers',
@@ -55,18 +63,37 @@ class CustomerManufacturerController extends Controller
             'email'                                 => 'nullable|string',
             'fax'                                   => 'nullable|string',
             'unicode'                               => 'nullable|string',
-            'payment_type'                          => 'nullable|string',
-            'invoice_type'                          => 'nullable|string',
+            'payment_type'                          => 'nullable|string',   // payment_method
+            'invoice_type'                          => 'nullable|string',   // electronic_invoice_type
             'invoice_name'                          => 'nullable|string',
             'invoice_address'                       => 'nullable|string',
             'company_address'                       => 'nullable|string',
             'zip_code'                              => 'nullable|string',
+            'remark'                                => 'nullable|string',
             // 額外 data 資料
             'person_in_charge'                      => 'nullable|string',
             'contact_person_one'                    => 'nullable|string',
             'contact_person_two'                    => 'nullable|string',
             'phone_one'                             => 'nullable|string',
             'phone_two'                             => 'nullable|string',
+            'industry'                              => 'nullable',          // 行業別
+            'tax_deduction_category'                => 'nullable|string',   // 扣稅類別
+            'account_setting_method'                => 'nullable|string',   // 立帳方式
+            'business_people'                       => 'nullable|string',   // 業務人員
+            'monthly_billing_date'                  => 'nullable|string',   // 每月結帳日
+            'days'                                  => 'nullable|string',   // 天數
+            'other_instructions'                    => 'nullable|string',   // 其他說明
+            'address'                               => 'nullable|array',    // 地址
+            'address.*.address_name'                => 'nullable|string',
+            'address.*.postal_code'                 => 'nullable|string',
+            'address.*.address'                     => 'nullable|string',
+            'address.*.contact_person'              => 'nullable|string',
+            'address.*.telephone'                   => 'nullable|string',
+            'address.*.cellphone'                   => 'nullable|string',
+            'address.*.line'                        => 'nullable|string',
+            'address.*.email'                       => 'nullable|string',
+            'address.*.department_name'             => 'nullable|string',
+            'address.*.remark'                      => 'nullable|string',
         ]);
 
         try {
@@ -78,7 +105,7 @@ class CustomerManufacturerController extends Controller
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員'.$e->getMessage());
+            return $this->badRequest('請聯絡管理員' . $e->getMessage());
         }
     }
 
@@ -119,6 +146,7 @@ class CustomerManufacturerController extends Controller
         $data = $request->validate([
             'customer_manufacturer_category_id'     => 'required|exists:customer_manufacturer_categories,id',
             'currency_id'                           => 'nullable|exists:currencies,id',
+            'staff_id'                              => 'nullable|exists:staff,id',
             'code'                                  => 'required|unique:customer_manufacturers,' . $id,
             'type'                                  => 'required|string',
             'full_name'                             => 'required|unique:customer_manufacturers,' . $id,
@@ -133,12 +161,30 @@ class CustomerManufacturerController extends Controller
             'invoice_address'                       => 'nullable|string',
             'company_address'                       => 'nullable|string',
             'zip_code'                              => 'nullable|string',
+            'remark'                                => 'nullable|string',
             // 額外 data 資料
             'person_in_charge'                      => 'nullable|string',
             'contact_person_one'                    => 'nullable|string',
             'contact_person_two'                    => 'nullable|string',
             'phone_one'                             => 'nullable|string',
             'phone_two'                             => 'nullable|string',
+            'industry'                              => 'nullable',          // 行業別
+            'tax_deduction_category'                => 'nullable|string',   // 扣稅類別
+            'account_setting_method'                => 'nullable|string',   // 立帳方式
+            'monthly_billing_date'                  => 'nullable|string',   // 每月結帳日
+            'days'                                  => 'nullable|string',   // 天數
+            'other_instructions'                    => 'nullable|string',   // 其他說明
+            'address'                               => 'nullable|array',    // 地址
+            'address.*.address_name'                => 'nullable|string',
+            'address.*.postal_code'                 => 'nullable|string',
+            'address.*.address'                     => 'nullable|string',
+            'address.*.contact_person'              => 'nullable|string',
+            'address.*.telephone'                   => 'nullable|string',
+            'address.*.cellphone'                   => 'nullable|string',
+            'address.*.line'                        => 'nullable|string',
+            'address.*.email'                       => 'nullable|string',
+            'address.*.department_name'             => 'nullable|string',
+            'address.*.remark'                      => 'nullable|string',
         ]);
 
         try {
