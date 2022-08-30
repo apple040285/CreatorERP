@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_manufacturer_category_id')->comment('關聯所屬分類');
             $table->unsignedBigInteger('currency_id')->nullable()->comment('關聯所屬幣別');
+            $table->unsignedBigInteger('staff_id')->comment('業務人員');
             $table->string('code', 50)->unique()->comment('編號');
             $table->string('type', 50)->comment('類型歸屬');
             $table->string('full_name', 50)->comment('全稱');
