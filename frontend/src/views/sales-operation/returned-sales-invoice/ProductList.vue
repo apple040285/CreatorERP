@@ -2,7 +2,7 @@
     <div>
         <b-row>
             <b-col cols="12">
-                <b-card-code :title="$t('TransferVoucherModal.productInformation')">
+                <b-card-code :title="$t('ReturnedSalesInvoiceModal.productInformation')">
 
                     <!-- search input -->
                     <div class="custom-search d-flex justify-content-end">
@@ -39,7 +39,7 @@
                             slot-scope="props"
                         >
                             <span class="text-nowrap" v-if="props.column.label !== '#'">
-                                {{$t('TransferVoucherList.ProductList.' + props.column.label) }}
+                                {{$t('ReturnedSalesInvoiceList.ProductList.' + props.column.label) }}
                             </span>
                         </template>
                         <template

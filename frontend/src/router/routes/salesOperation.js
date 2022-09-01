@@ -54,14 +54,56 @@ export default [
         },
     },
     {
-        path: '/SalesOperation/ReturnedSalesInvoice',
-        name: 'SalesOperation-ReturnedSalesInvoice',
-        component: () => import('@/views/sales-operation/ReturnedSalesInvoice.vue'),
+        path: '/SalesOperation/ReturnedSalesInvoiceList',
+        name: 'SalesOperation-ReturnedSalesInvoiceList',
+        component: () => import('@/views/sales-operation/returned-sales-invoice/List.vue'),
         meta: {
             pageTitle: 'Returned Sales Invoice',
             breadcrumb: [
                 { text: 'Sales Operation' },
                 { text: 'Returned Sales Invoice', active: true },
+            ],
+        },
+    },
+    {
+        path: '/SalesOperation/ReturnedSalesInvoiceCreate',
+        name: 'SalesOperation-ReturnedSalesInvoiceCreate',
+        component: () => import('@/views/sales-operation/returned-sales-invoice/Crud.vue'),
+        meta: {
+            pageTitle: 'Returned Sales Invoice',
+            navActiveLink: 'SalesOperation-ReturnedSalesInvoiceList',
+            breadcrumb: [
+                { text: 'Sales Operation' },
+                { text: 'Returned Sales Invoice', to: { name: 'SalesOperation-ReturnedSalesInvoiceList' } },
+                { text: 'create', active: true },
+            ],
+        },
+    },
+    {
+        path: '/SalesOperation/ReturnedSalesInvoiceEdit',
+        name: 'SalesOperation-ReturnedSalesInvoiceEdit',
+        component: () => import('@/views/sales-operation/returned-sales-invoice/Crud.vue'),
+        meta: {
+            pageTitle: 'Returned Sales Invoice',
+            navActiveLink: 'SalesOperation-ReturnedSalesInvoiceList',
+            breadcrumb: [
+                { text: 'Sales Operation' },
+                { text: 'Returned Sales Invoice', to: { name: 'SalesOperation-ReturnedSalesInvoiceList' } },
+                { text: 'edit', active: true },
+            ],
+        },
+    },
+    {
+        path: '/SalesOperation/ReturnedSalesInvoiceDetail',
+        name: 'SalesOperation-ReturnedSalesInvoiceDetail',
+        component: () => import('@/views/sales-operation/returned-sales-invoice/Detail.vue'),
+        meta: {
+            pageTitle: 'Returned Sales Invoice',
+            navActiveLink: 'SalesOperation-ReturnedSalesInvoiceList',
+            breadcrumb: [
+                { text: 'Sales Operation' },
+                { text: 'Returned Sales Invoice', to: { name: 'SalesOperation-ReturnedSalesInvoiceList' } },
+                { text: 'detail', active: true },
             ],
         },
     },
