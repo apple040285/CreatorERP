@@ -26,7 +26,7 @@ export default [
             },
             {
                 title: 'Returned Sales Invoice',
-                route: 'SalesOperation-ReturnedSalesInvoice',
+                route: 'SalesOperation-ReturnedSalesInvoiceList',
             },
             {
                 title: 'Sales Discount Voucher',
