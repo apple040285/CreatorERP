@@ -34,7 +34,7 @@ module.exports = {
 
   // 開發階段修改 index.html 來讓 js/css 可以作用
   // 上線階段則會修改 Laravel 的樣版
-  indexPath: '../resources/views/index.blade.php',
+  indexPath: '../resources/views/application.blade.php',
 
   chainWebpack: config => {
     config.module
