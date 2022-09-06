@@ -13,13 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
 
-Route::get('/index', function () {
-    return view('index');
-})->name('index');
+Route::prefix('apps')->group(function () {
+    Route::get('/login', function () {
+        return view('login');
+    })->name('login');
 
-// Route::view('/{any}', 'index')
-//     ->where('any', '.*');
+    Route::get('/index', function () {
+        return view('index');
+    })->name('index');
+});
+
+Route::view('/{any}', 'application')
+    ->where('any', '.*');
