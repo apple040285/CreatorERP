@@ -3,7 +3,7 @@
     <div class="content-header d-flex justify-content-between align-items-center">
         <div class="content-header-menu">
             <a href="javascript:;" class="leftMenuBtn">
-                <i class="f20 icon-menu cwh0"></i>
+                <i class="fa fa-arrow-left f20 cwh0"></i>
             </a>
         </div>
         <div style="text-align: center;width:100%;">
@@ -12,6 +12,13 @@
                     <span class="f20 fw700 cwh0">
                         @yield('tipTitle')
                     </span>
+                </a>
+            </div>
+        </div>
+        <div class="content-header-search">
+            <div class="searchFrame">
+                <a href="#" class="searchBtn cwh0">
+                    <i class="fa fa-user f20 cwh0"></i>
                 </a>
             </div>
         </div>
