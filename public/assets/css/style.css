@@ -444,10 +444,6 @@ header{
 .invalidfeedback{
     color: var(--mred1);
 }
-/* 漢堡選單+回上頁 */
-.leftMenuBtn{
-    display: none;
-}
 /* 提示 */
 .tip{
     display: none;

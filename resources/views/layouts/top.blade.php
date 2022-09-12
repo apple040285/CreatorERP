@@ -3,10 +3,10 @@
     <div class="content-header d-flex justify-content-between align-items-center">
         <div class="content-header-menu">
             <a href="javascript:;" class="leftMenuBtn">
-                <i class="fa fa-arrow-left f20 cwh0"></i>
+                <i class="fa fa-bars f20 cwh0"></i>
             </a>
         </div>
-        <div style="text-align: center;width:100%;">
+        <div class="content-header-title">
             <div class="titleFrame">
                 <a href="javascript:;" class="tipBtn">
                     <span class="f20 fw700 cwh0">

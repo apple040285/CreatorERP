@@ -8,12 +8,13 @@
         <meta name="author" content="">
         <meta name="robots" content="noindex, nofollow">
         <!-- Bootstrap core CSS -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/simple-line.css" rel="stylesheet">
-        <link href="css/font-awesome.css" rel="stylesheet">
-        <link href="css/iconfont.css" rel="stylesheet">
-        <link href="css/bootstrap-select.min.css" rel="stylesheet">
-        <link href="css/style.css" rel="stylesheet">
+        <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/simple-line.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/font-awesome.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/iconfont.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/bootstrap-select.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
         @yield('style')
     </head>
     <body class="bg-dark">
@@ -27,10 +28,17 @@
         </div>
         @yield('footer')
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/bootstrap-select.min.js"></script>
+        <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('assets/js/bootstrap-select.min.js') }}"></script>
+        <script src="{{ asset('assets/js/select2.min.js') }}"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
         @yield('script')
+        <script>
+            // 左側選單開關
+            $(".leftMenuBtn").click(function() {
+                $(".leftMenu").toggleClass("show");
+            });
+        </script>
     </body>
 </html>
