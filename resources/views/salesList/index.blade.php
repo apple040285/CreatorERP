@@ -3,35 +3,32 @@
 @extends('layouts.leftMenu')
 
 @section('tipTitle')
-銷售查補
+銷售清單
 @endsection
 
 @section('content')
 <div class="row mypoint">
-    <div class="topTxt text-center mb-4 d-block mx-auto">
-        <div class="f20 fw800">日期：2022年8月31日</div>
-        <div class="f20 fw800">單號：SA20220831001</div>
-        <div class="f20 fw800">客戶名稱：金玉堂（水上）</div>
-    </div>
     <div class="pointList w-100">
         <table class="table table-striped table-hover f16">
             <thead>
                 <tr class="cgy1 fw700">
-                    <th scope="col" class="text-right" style="width:2rem;">#</th>
-                    <th scope="col">名稱</th>
-                    <th scope="col" style="width:6.25rem;" class="text-right">金額</th>
-                    <th scope="col" style="width:3rem;">操作</th>
+                    <th scope="col" style="width:7.25rem;" class="pl-4">日期</th>
+                    <th scope="col">客戶</th>
+                    <th scope="col" style="width:4rem;" class="text-right pr-4">金額</th>
+                    <th scope="col" style="width:2.75rem;">操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th scope="row" class="cgy1 fw600 text-right">1</th>
+                    <td class="text-left">
+                        <span class="f16 cgy1">2022-09-01</span>
+                    </td>
                     <td>
-                        <a href="javascript:;" class="d-flex justify-content-start align-items-center" data-toggle="modal" data-target="#detailModal">
-                            <span class="pointTxt">正版寶可夢球正版寶可夢球正版寶可夢球正版寶可夢球</span>
+                        <a href="javascript:;" class="d-flex justify-content-start align-items-start" data-toggle="modal" data-target="#detailModal">
+                            <span class="pointTxt">金玉堂（水上）</span>
                         </a>
                     </td>
-                    <td class="text-right">300</td>
+                    <td class="text-right pr-4">300</td>
                     <td class="text-center">
                         <a class="btn3Link d-block mx-auto" href="javascript:;" data-toggle="modal" data-target="#actionModal">
                             <i class="fa fa-pencil"></i>
@@ -39,13 +36,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="cgy1 fw600 text-right">2</th>
+                    <td class="text-left">
+                        <span class="f16 cgy1">2022-09-01</span>
+                    </td>
                     <td>
-                        <a href="javascript:;" class="d-flex justify-content-start align-items-center" data-toggle="modal" data-target="#detailModal">
-                            <span class="pointTxt">正版寶可夢球</span>
+                        <a href="javascript:;" class="d-flex justify-content-start align-items-start" data-toggle="modal" data-target="#detailModal">
+                            <span class="pointTxt">金玉堂（水上）</span>
                         </a>
                     </td>
-                    <td class="text-right">300</td>
+                    <td class="text-right pr-4">300</td>
                     <td class="text-center">
                         <a class="btn3Link d-block mx-auto" href="javascript:;" data-toggle="modal" data-target="#actionModal">
                             <i class="fa fa-pencil"></i>
@@ -53,13 +52,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="cgy1 fw600 text-right">3</th>
+                    <td class="text-left">
+                        <span class="f16 cgy1">2022-09-01</span>
+                    </td>
                     <td>
-                        <a href="javascript:;" class="d-flex justify-content-start align-items-center" data-toggle="modal" data-target="#detailModal">
-                            <span class="pointTxt">正版寶可夢球</span>
+                        <a href="javascript:;" class="d-flex justify-content-start align-items-start" data-toggle="modal" data-target="#detailModal">
+                            <span class="pointTxt">金玉堂（水上）</span>
                         </a>
                     </td>
-                    <td class="text-right">300</td>
+                    <td class="text-right pr-4">300</td>
                     <td class="text-center">
                         <a class="btn3Link d-block mx-auto" href="javascript:;" data-toggle="modal" data-target="#actionModal">
                             <i class="fa fa-pencil"></i>
@@ -68,15 +69,6 @@
                 </tr>
             </tbody>
         </table>
-        <div class="topTxt text-center my-2 d-block mx-auto">
-            <div class="f20 fw800">合計：5,000</div>
-        </div>
-        <div class="btnRow w-75 d-block mx-auto">
-            <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">繼續新增</a>
-        </div>
-        <div class="btnRow w-75 d-block mx-auto">
-            <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">完成/列印</a>
-        </div>
     </div>
 </div>
 <!-- Modal 詳情 -->
@@ -91,13 +83,15 @@
             </div>
             <div class="modal-body cgy3 f14">
                 <h3 class="modal-title fw800 f20 cgy2 mb-3 d-flex align-items-center">
-                    <span>正版寶可夢球</span>
+                    <span>金玉堂（水上）</span>
                 </h3>
-                <p class="my-1">產品編號 ： 8347328922828</p>
-                <p class="my-1">數量 ： 20</p>
-                <p class="my-1">單價 ： 50</p>
-                <p class="my-1">折扣 ： 8折</p>
-                <p class="my-1">金額 ： 1,000</p>
+                <p class="my-1">日期 ： 2022-09-01</p>
+                <p class="my-1">單號 ： SA20220808001</p>
+                <p class="my-1">品項 ： </p>
+                <p class="my-1">1.洗澡玩具組</p>
+                <p class="my-1">數量： 20 價格： 100 總價：2,000</p>
+                <p class="my-1">2.冰雪奇緣</p>
+                <p class="my-1">數量： 20 價格： 100 總價：2,000</p>
             </div>
         </div>
     </div>
@@ -105,7 +99,7 @@
 
 <!-- Modal 操作選單 -->
 <div class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-link3">
+    <div class="modal-dialog modal-dialog-centered modal-link3">
         <div class="modal-content">
             <div class="modal-body cgy3 f14">
                 <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>

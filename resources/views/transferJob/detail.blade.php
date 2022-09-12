@@ -11,7 +11,6 @@
     <div class="topTxt text-center mb-4 d-block mx-auto">
         <div class="f20 fw800">日期：2022年8月31日</div>
         <div class="f20 fw800">單號：SA20220831001</div>
-        <div class="f20 fw800">客戶名稱：金玉堂（水上）</div>
     </div>
     <div class="pointList w-100">
         <table class="table table-striped table-hover f16">
@@ -19,7 +18,7 @@
                 <tr class="cgy1 fw700">
                     <th scope="col" class="text-right" style="width:2rem;">#</th>
                     <th scope="col">名稱</th>
-                    <th scope="col" style="width:6.25rem;" class="text-right">金額</th>
+                    <th scope="col" style="width:6.25rem;" class="text-right">數量</th>
                     <th scope="col" style="width:3rem;">操作</th>
                 </tr>
             </thead>
@@ -68,14 +67,11 @@
                 </tr>
             </tbody>
         </table>
-        <div class="topTxt text-center my-2 d-block mx-auto">
-            <div class="f20 fw800">合計：5,000</div>
-        </div>
         <div class="btnRow w-75 d-block mx-auto">
             <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">繼續新增</a>
         </div>
         <div class="btnRow w-75 d-block mx-auto">
-            <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">完成/列印</a>
+            <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">調撥完成</a>
         </div>
     </div>
 </div>
@@ -95,9 +91,6 @@
                 </h3>
                 <p class="my-1">產品編號 ： 8347328922828</p>
                 <p class="my-1">數量 ： 20</p>
-                <p class="my-1">單價 ： 50</p>
-                <p class="my-1">折扣 ： 8折</p>
-                <p class="my-1">金額 ： 1,000</p>
             </div>
         </div>
     </div>
@@ -106,15 +99,15 @@
 <!-- Modal 操作選單 -->
 <div class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-link3">
-      <div class="modal-content">
-        <div class="modal-body cgy3 f14">
-            <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>
-            <div class="show3LinkModal f16">
-                <a class="my-2" href="javascript:;">編輯</a>
-                <a class="my-2" href="javascript:;">刪除</a>
+        <div class="modal-content">
+            <div class="modal-body cgy3 f14">
+                <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>
+                <div class="show3LinkModal f16">
+                    <a class="my-2" href="javascript:;">編輯</a>
+                    <a class="my-2" href="javascript:;">刪除</a>
+                </div>
             </div>
-        </div>        
-      </div>
+        </div>
     </div>
 </div>
 @endsection

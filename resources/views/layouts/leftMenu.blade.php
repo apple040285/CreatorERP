@@ -6,7 +6,7 @@
         </a>
     </h2>
     <h2 class="f16 fw800 w-100 border-bottom pt-3 pb-3 px-3">
-        <a href="{{ route('sales-check-index') }}" class="f16 cb1 d-flex justify-content-start align-items-center">
+        <a href="{{ route('sales-list-index') }}" class="f16 cb1 d-flex justify-content-start align-items-center">
             銷售清單
         </a>
     </h2>
@@ -16,7 +16,7 @@
         </a>
     </h2>
     <h2 class="f16 fw800 w-100 border-bottom pt-3 pb-3 px-3">
-        <a href="{{ route('sales-check-index') }}" class="f16 cb1 d-flex justify-content-start align-items-center">
+        <a href="{{ route('return-list-index') }}" class="f16 cb1 d-flex justify-content-start align-items-center">
             退貨清單
         </a>
     </h2>
@@ -26,12 +26,12 @@
         </a>
     </h2>
     <h2 class="f16 fw800 w-100 border-bottom pt-3 pb-3 px-3">
-        <a href="{{ route('sales-check-index') }}" class="f16 cb1 d-flex justify-content-start align-items-center">
+        <a href="{{ route('inventory-index') }}" class="f16 cb1 d-flex justify-content-start align-items-center">
             盤點作業
         </a>
     </h2>
     <h2 class="f16 fw800 w-100 border-bottom pt-3 pb-3 px-3">
-        <a href="{{ route('sales-check-index') }}" class="f16 cb1 d-flex justify-content-start align-items-center">
+        <a href="{{ route('historical-transactions-index') }}" class="f16 cb1 d-flex justify-content-start align-items-center">
             歷史交易
         </a>
     </h2>

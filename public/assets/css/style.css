@@ -1242,7 +1242,7 @@ header{
     position:absolute;
     display: inline-block;
     width: 6.5rem;    
-    z-index: 100;
+    z-index: 90;
     left: 0.5rem;
     top:0.385rem;
     pointer-events:none;    

@@ -106,15 +106,15 @@
 <!-- Modal 操作選單 -->
 <div class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-link3">
-      <div class="modal-content">
-        <div class="modal-body cgy3 f14">
-            <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>
-            <div class="show3LinkModal f16">
-                <a class="my-2" href="javascript:;">編輯</a>
-                <a class="my-2" href="javascript:;">刪除</a>
+        <div class="modal-content">
+            <div class="modal-body cgy3 f14">
+                <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>
+                <div class="show3LinkModal f16">
+                    <a class="my-2" href="javascript:;">編輯</a>
+                    <a class="my-2" href="javascript:;">刪除</a>
+                </div>
             </div>
-        </div>        
-      </div>
+        </div>
     </div>
 </div>
 @endsection

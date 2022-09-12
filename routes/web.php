@@ -37,6 +37,12 @@ Route::prefix('apps')->group(function () {
         })->name('sales-check-detail');
     });
 
+    Route::prefix('sales-list')->group(function () {
+        Route::get('/index', function () {
+            return view('salesList.index');
+        })->name('sales-list-index');
+    });
+
     Route::prefix('products-return')->group(function () {
         Route::get('/index', function () {
             return view('productsReturn.index');
@@ -51,14 +57,40 @@ Route::prefix('apps')->group(function () {
         })->name('products-return-detail');
     });
 
+    Route::prefix('return-list')->group(function () {
+        Route::get('/index', function () {
+            return view('returnList.index');
+        })->name('return-list-index');
+    });
+
     Route::prefix('transfer-job')->group(function () {
-        Route::get('/form', function () {
-            return view('transferJob.form');
-        })->name('transfer-job-form');
+        Route::get('/index', function () {
+            return view('transferJob.index');
+        })->name('transfer-job-index');
 
         Route::get('/detail', function () {
             return view('transferJob.detail');
         })->name('transfer-job-detail');
+    });
+
+    Route::prefix('inventory')->group(function () {
+        Route::get('/index', function () {
+            return view('inventory.index');
+        })->name('inventory-index');
+
+        Route::get('/detail', function () {
+            return view('inventory.detail');
+        })->name('inventory-detail');
+    });
+
+    Route::prefix('historical-transactions')->group(function () {
+        Route::get('/index', function () {
+            return view('historicalTransactions.index');
+        })->name('historical-transactions-index');
+
+        Route::get('/detail', function () {
+            return view('historicalTransactions.detail');
+        })->name('historical-transactions-detail');
     });
 });
 

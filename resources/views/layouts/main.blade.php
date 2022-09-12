@@ -14,6 +14,7 @@
         <link href="{{ asset('assets/css/iconfont.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/css/bootstrap-select.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/sweetalert2.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
         @yield('style')
     </head>
@@ -27,17 +28,36 @@
             </main>
         </div>
         @yield('footer')
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap-select.min.js') }}"></script>
         <script src="{{ asset('assets/js/select2.min.js') }}"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+        <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
         @yield('script')
         <script>
             // 左側選單開關
             $(".leftMenuBtn").click(function() {
                 $(".leftMenu").toggleClass("show");
+            });
+
+            // 登入按鈕
+            $(".logOut").click(function() {
+                const url = "{{ route('login') }}";
+                Swal.fire({
+                    title: '確定要登出嗎?',
+                    text: "確認後將跳轉登入頁面!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '確認',
+                    cancelButtonText: '關閉'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = url;
+                    }
+                })
             });
         </script>
     </body>

@@ -17,8 +17,8 @@
         </div>
         <div class="content-header-search">
             <div class="searchFrame">
-                <a href="#" class="searchBtn cwh0">
-                    <i class="fa fa-user f20 cwh0"></i>
+                <a href="javascript:;" class="searchBtn cwh0 logOut">
+                    <i class="f20 cwh0 fa fa-sign-out"></i>
                 </a>
             </div>
         </div>
