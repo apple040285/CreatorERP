@@ -2,6 +2,20 @@
 @extends('layouts.top')
 @extends('layouts.leftMenu')
 
+@section('style')
+<style>
+    .topStatus{
+        background-color: var(--mred1);
+    }
+    a {
+        color: var(--mred0);
+    }
+    a:hover, a:focus {
+        color: var(--mred1);
+    }
+</style>
+@endsection
+
 @section('tipTitle')
 退貨清單
 @endsection
@@ -104,8 +118,8 @@
             <div class="modal-body cgy3 f14">
                 <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>
                 <div class="show3LinkModal f16">
-                    <a class="my-2" href="javascript:;">編輯</a>
-                    <a class="my-2" href="javascript:;">刪除</a>
+                    <a class="my-4" href="javascript:;">編輯</a>
+                    <a class="my-4" href="javascript:;">刪除</a>
                 </div>
             </div>
         </div>

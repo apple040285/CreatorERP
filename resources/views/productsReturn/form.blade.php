@@ -2,6 +2,14 @@
 @extends('layouts.top')
 @extends('layouts.leftMenu')
 
+@section('style')
+<style>
+    .topStatus{
+        background-color: var(--mgreen1);
+    }
+</style>
+@endsection
+
 @section('tipTitle')
 商品退貨
 @endsection
@@ -41,10 +49,10 @@
         <input type="text" class="form-control" placeholder="國際條碼" readonly>
     </div>
     <div class="btnRow w-75 d-block mx-auto">
-        <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">下一筆</a>
+        <a href="javascript:;" class="f18 btn btn-lg btn-success d-block mt-3">下一筆</a>
     </div>
     <div class="btnRow w-75 d-block mx-auto">
-        <a href="{{ route('products-return-detail') }}" class="f18 btn btn-lg btn-primary d-block mt-3">確認</a>
+        <a href="{{ route('products-return-detail') }}" class="f18 btn btn-lg btn-success d-block mt-3">確認</a>
     </div>
 </form>
 @endsection

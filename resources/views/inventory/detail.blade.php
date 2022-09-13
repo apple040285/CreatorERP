@@ -2,6 +2,20 @@
 @extends('layouts.top')
 @extends('layouts.leftMenu')
 
+@section('style')
+<style>
+    .topStatus{
+        background-color: var(--minfo0);
+    }
+    a {
+        color: var(--minfo0);
+    }
+    a:hover, a:focus {
+        color: var(--minfo1);
+    }
+</style>
+@endsection
+
 @section('tipTitle')
 盤點作業
 @endsection
@@ -18,7 +32,7 @@
                 <tr class="cgy1 fw700">
                     <th scope="col" class="text-right" style="width:2rem;">#</th>
                     <th scope="col">名稱</th>
-                    <th scope="col" style="width:6.25rem;" class="text-right">數量</th>
+                    <th scope="col" style="width:6.75rem;" class="text-right">實際盤點數量</th>
                     <th scope="col" style="width:3rem;">操作</th>
                 </tr>
             </thead>
@@ -68,10 +82,10 @@
             </tbody>
         </table>
         <div class="btnRow w-75 d-block mx-auto">
-            <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">繼續新增</a>
+            <a href="javascript:;" class="f18 btn btn-lg btn-info d-block mt-3">繼續新增</a>
         </div>
         <div class="btnRow w-75 d-block mx-auto">
-            <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">盤點完成</a>
+            <a href="javascript:;" class="f18 btn btn-lg btn-info d-block mt-3">盤點完成</a>
         </div>
     </div>
 </div>
@@ -90,7 +104,7 @@
                     <span>正版寶可夢球</span>
                 </h3>
                 <p class="my-1">產品編號 ： 8347328922828</p>
-                <p class="my-1">數量 ： 20</p>
+                <p class="my-1">實際盤點數量 ： 20</p>
             </div>
         </div>
     </div>
@@ -103,8 +117,8 @@
             <div class="modal-body cgy3 f14">
                 <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>
                 <div class="show3LinkModal f16">
-                    <a class="my-2" href="javascript:;">編輯</a>
-                    <a class="my-2" href="javascript:;">刪除</a>
+                    <a class="my-4" href="javascript:;">編輯</a>
+                    <a class="my-4" href="javascript:;">刪除</a>
                 </div>
             </div>
         </div>

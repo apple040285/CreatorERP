@@ -2,6 +2,20 @@
 @extends('layouts.top')
 @extends('layouts.leftMenu')
 
+@section('style')
+<style>
+    .topStatus{
+        background-color: var(--mgray3);
+    }
+    a {
+        color: var(--mgray3);
+    }
+    a:hover, a:focus {
+        color: var(--mgray4);
+    }
+</style>
+@endsection
+
 @section('tipTitle')
 歷史交易
 @endsection
@@ -54,7 +68,7 @@
             </tbody>
         </table>
         <div class="btnRow w-75 d-block mx-auto">
-            <a href="{{ route('historical-transactions-index') }}" class="f18 btn btn-lg btn-primary d-block mt-3">返回</a>
+            <a href="{{ route('historical-transactions-index') }}" class="f18 btn btn-lg btn-gray d-block mt-3">返回</a>
         </div>
     </div>
 </div>

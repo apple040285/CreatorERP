@@ -1,8 +1,14 @@
 :root{
+    --mpurple0: rgb(115,103,240,1);
+    --mpurple1: rgb(94,80,238,1);
+    --minfo0: rgb(23,162,184,1);
+    --minfo1: rgb(19,132,150,1);
+    --morange0: rgb(246,167,66);
+    --morange1: rgb(255,217,124);
     --mblue0: rgb(15,101,150);
     --mblue1: rgb(26,131,201);
     --mblue2: rgb(102,175,233);
-    --mblue3: rgba(55,71,169,0.92);    
+    --mblue3: rgba(55,71,169,0.92);
     --mblue4: rgba(45,143,181,0.05);
     --mblue5: rgb(9, 111, 179);
     --mblack1: rgba(0,0,0,0.2);
@@ -57,10 +63,10 @@ input{
 input:focus,
 input:valid{
     /* color: var(--mblue1); */
-    border:0.13rem solid var(--mblue1);
+    border:0.13rem solid var(--mgray4);
 }
 .form-control:focus {
-    border-color: var(--mblue1);
+    border-color: var(--mgray4);
     box-shadow: none;
 }
 ::selection,
@@ -77,6 +83,9 @@ select option[selected] {
     background: #ff9500 -webkit-linear-gradient(bottom, #ff9500 0%, #ff9500 100%) !important;
 }
 
+.cp0{
+    color:var(--mpurple0);
+}
 .cb0{
     color:var(--mblue0);
 }
@@ -315,6 +324,63 @@ select option[selected] {
     border-radius: 0;
   }
 
+#mainFrame .btn-purple{
+    color: var(--mwhite2);
+    background-color: var(--mpurple0);
+    border-color: var(--mpurple0);
+}
+#mainFrame .btn-outline-purple{
+    color: var(--mpurple0);
+    border-color: var(--mpurple0);
+}
+#mainFrame .btn-outline-purple:hover,
+#mainFrame .btn-purple:hover,
+#mainFrame .btn-outline-purple:focus,
+#mainFrame .btn-purple:focus{
+    color: var(--mwhite0);
+    background-color: var(--mpurple1);
+    border-color: var(--mpurple1);
+    box-shadow: none;
+}
+
+#mainFrame .btn-orange{
+    color: var(--mwhite2);
+    background-color: var(--morange0);
+    border-color: var(--morange0);
+}
+#mainFrame .btn-outline-orange{
+    color: var(--morange0);
+    border-color: var(--morange0);
+}
+#mainFrame .btn-outline-orange:hover,
+#mainFrame .btn-orange:hover,
+#mainFrame .btn-outline-orange:focus,
+#mainFrame .btn-orange:focus{
+    color: var(--mwhite0);
+    background-color: var(--morange1);
+    border-color: var(--morange1);
+    box-shadow: none;
+}
+
+#mainFrame .btn-gray{
+    color: var(--mwhite2);
+    background-color: var(--mgray3);
+    border-color: var(--mgray3);
+}
+#mainFrame .btn-outline-gray{
+    color: var(--mgray3);
+    border-color: var(--mgray3);
+}
+#mainFrame .btn-outline-gray:hover,
+#mainFrame .btn-gray:hover,
+#mainFrame .btn-outline-gray:focus,
+#mainFrame .btn-gray:focus{
+    color: var(--mwhite0);
+    background-color: var(--mgray4);
+    border-color: var(--mgray4);
+    box-shadow: none;
+}
+
 #mainFrame .btn-primary{
     color: var(--mwhite2);
     background-color: var(--mblue1);
@@ -370,6 +436,25 @@ select option[selected] {
     box-shadow: none;
 }
 
+#mainFrame .btn-info{
+    color: var(--mwhite2);
+    background-color: var(--minfo0);
+    border-color: var(--minfo0);
+}
+#mainFrame .btn-outline-info{
+    color: var(--minfo0);
+    border-color: var(--minfo0);
+}
+#mainFrame .btn-outline-info:hover,
+#mainFrame .btn-info:hover,
+#mainFrame .btn-outline-info:focus,
+#mainFrame .btn-info:focus{
+    color: var(--mwhite0);
+    background-color: var(--minfo1);
+    border-color: var(--minfo1);
+    box-shadow: none;
+}
+
 #mainFrame{
     min-width: 320px;
     max-width: 768px;
@@ -394,7 +479,7 @@ header{
 } */
 .topStatus{
     height: 3.63rem;
-    background-color: var(--mblue1);
+    background-color: var(--mpurple0);
     color: var(--mwhite0);
     width: 100vw;
     max-width: var(--MaxWidth);
@@ -419,7 +504,7 @@ header{
     border-radius:0.31rem;
 }
 .form-group input.bframe{
-    border:1px solid var(--mblue1);
+    border:1px solid var(--mgray3);
 }
 .btnRowBG{
     background-color: var(--mwhite1);
@@ -434,8 +519,8 @@ header{
 }
 .codeRow input:focus,
 .codeRow input:valid{
-    color: var(--mblue1);
-    border:0.13rem solid var(--mblue1);
+    color: var(--gray3);
+    border:0.13rem solid var(--gray3);
 }
 .codeRow input.codeRowError{
     color: var(--mred1);
@@ -1234,7 +1319,7 @@ header{
     margin: 0.44rem 0 0;
 }
 .inputDate{
-    border: 0.13rem solid var(--mblue1);
+    border: 0.13rem solid var(--mgray4);
     border-radius: 0.31rem;
     position: relative;
 }

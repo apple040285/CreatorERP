@@ -2,6 +2,14 @@
 @extends('layouts.top')
 @extends('layouts.leftMenu')
 
+@section('style')
+<style>
+    .topStatus{
+        background-color: var(--morange0);
+    }
+</style>
+@endsection
+
 @section('tipTitle')
 調撥作業
 @endsection
@@ -36,10 +44,10 @@
         <input type="text" class="form-control" placeholder="國際條碼" readonly>
     </div>
     <div class="btnRow w-75 d-block mx-auto">
-        <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">下一筆</a>
+        <a href="javascript:;" class="f18 btn btn-lg btn-orange d-block mt-3">下一筆</a>
     </div>
     <div class="btnRow w-75 d-block mx-auto">
-        <a href="{{ route('transfer-job-detail') }}" class="f18 btn btn-lg btn-primary d-block mt-3">確認</a>
+        <a href="{{ route('transfer-job-detail') }}" class="f18 btn btn-lg btn-orange d-block mt-3">確認</a>
     </div>
 </form>
 @endsection

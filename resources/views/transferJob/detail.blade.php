@@ -2,6 +2,20 @@
 @extends('layouts.top')
 @extends('layouts.leftMenu')
 
+@section('style')
+<style>
+    .topStatus{
+        background-color: var(--morange0);
+    }
+    a {
+        color: var(--morange0);
+    }
+    a:hover, a:focus {
+        color: var(--morange1);
+    }
+</style>
+@endsection
+
 @section('tipTitle')
 調撥作業
 @endsection
@@ -68,10 +82,10 @@
             </tbody>
         </table>
         <div class="btnRow w-75 d-block mx-auto">
-            <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">繼續新增</a>
+            <a href="javascript:;" class="f18 btn btn-lg btn-orange d-block mt-3">繼續新增</a>
         </div>
         <div class="btnRow w-75 d-block mx-auto">
-            <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">調撥完成</a>
+            <a href="javascript:;" class="f18 btn btn-lg btn-orange d-block mt-3">調撥完成</a>
         </div>
     </div>
 </div>
@@ -103,8 +117,8 @@
             <div class="modal-body cgy3 f14">
                 <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>
                 <div class="show3LinkModal f16">
-                    <a class="my-2" href="javascript:;">編輯</a>
-                    <a class="my-2" href="javascript:;">刪除</a>
+                    <a class="my-4" href="javascript:;">編輯</a>
+                    <a class="my-4" href="javascript:;">刪除</a>
                 </div>
             </div>
         </div>

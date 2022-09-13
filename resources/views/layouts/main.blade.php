@@ -49,7 +49,7 @@
                     text: "確認後將跳轉登入頁面!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
+                    confirmButtonColor: '#7367f0',
                     cancelButtonColor: '#d33',
                     confirmButtonText: '確認',
                     cancelButtonText: '關閉'

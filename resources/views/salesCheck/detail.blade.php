@@ -2,6 +2,17 @@
 @extends('layouts.top')
 @extends('layouts.leftMenu')
 
+@section('style')
+<style>
+    a {
+        color: var(--mpurple0);
+    }
+    a:hover, a:focus {
+        color: var(--mpurple1);
+    }
+</style>
+@endsection
+
 @section('tipTitle')
 銷售查補
 @endsection
@@ -72,10 +83,10 @@
             <div class="f20 fw800">合計：5,000</div>
         </div>
         <div class="btnRow w-75 d-block mx-auto">
-            <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">繼續新增</a>
+            <a href="javascript:;" class="f18 btn btn-lg btn-purple d-block mt-3">繼續新增</a>
         </div>
         <div class="btnRow w-75 d-block mx-auto">
-            <a href="javascript:;" class="f18 btn btn-lg btn-primary d-block mt-3">完成/列印</a>
+            <a href="javascript:;" class="f18 btn btn-lg btn-purple d-block mt-3">完成/列印</a>
         </div>
     </div>
 </div>
@@ -110,8 +121,8 @@
             <div class="modal-body cgy3 f14">
                 <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>
                 <div class="show3LinkModal f16">
-                    <a class="my-2" href="javascript:;">編輯</a>
-                    <a class="my-2" href="javascript:;">刪除</a>
+                    <a class="my-4" href="javascript:;">編輯</a>
+                    <a class="my-4" href="javascript:;">刪除</a>
                 </div>
             </div>
         </div>

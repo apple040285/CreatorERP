@@ -2,6 +2,14 @@
 @extends('layouts.top')
 @extends('layouts.leftMenu')
 
+@section('style')
+<style>
+    .topStatus{
+        background-color: var(--mgray3);
+    }
+</style>
+@endsection
+
 @section('tipTitle')
 歷史交易
 @endsection
@@ -53,7 +61,7 @@
         </div>
     </div>
     <div class="btnRow w-75 d-block mx-auto">
-        <a href="{{ route('historical-transactions-detail') }}" class="f18 btn btn-lg btn-primary d-block mt-3">確認</a>
+        <a href="{{ route('historical-transactions-detail') }}" class="f18 btn btn-lg btn-gray d-block mt-3">確認</a>
     </div>
 </form>
 @endsection

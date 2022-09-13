@@ -16,7 +16,7 @@
         </select>
     </div>
     <div class="btnRow w-75 d-block mx-auto">
-        <a href="{{ route('sales-check-form') }}" class="f18 btn btn-lg btn-primary d-block mt-3">確認</a>
+        <a href="{{ route('sales-check-form') }}" class="f18 btn btn-lg btn-purple d-block mt-3">確認</a>
     </div>
 </form>
 @endsection
