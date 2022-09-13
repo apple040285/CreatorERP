@@ -44,7 +44,7 @@
         <input type="text" class="form-control" placeholder="國際條碼" readonly>
     </div>
     <div class="btnRow w-75 d-block mx-auto">
-        <a href="javascript:;" class="f18 btn btn-lg btn-orange d-block mt-3">下一筆</a>
+        <a href="javascript:;" class="f18 btn btn-lg btn-outline-orange d-block mt-3">下一筆</a>
     </div>
     <div class="btnRow w-75 d-block mx-auto">
         <a href="{{ route('transfer-job-detail') }}" class="f18 btn btn-lg btn-orange d-block mt-3">確認</a>

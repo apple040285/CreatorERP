@@ -83,10 +83,10 @@
             </tbody>
         </table>
         <div class="topTxt text-center my-2 d-block mx-auto">
-            <div class="f20 fw800">合計：5,000</div>
+            <div class="f20 fw800">合計：5000</div>
         </div>
         <div class="btnRow w-75 d-block mx-auto">
-            <a href="javascript:;" class="f18 btn btn-lg btn-success d-block mt-3">繼續新增</a>
+            <a href="javascript:;" class="f18 btn btn-lg btn-outline-success d-block mt-3">繼續新增</a>
         </div>
         <div class="btnRow w-75 d-block mx-auto">
             <a href="javascript:;" class="f18 btn btn-lg btn-success d-block mt-3">完成/列印</a>
@@ -111,7 +111,7 @@
                 <p class="my-1">數量 ： 20</p>
                 <p class="my-1">單價 ： 50</p>
                 <p class="my-1">折扣 ： 8折</p>
-                <p class="my-1">金額 ： 1,000</p>
+                <p class="my-1">金額 ： 1000</p>
             </div>
         </div>
     </div>

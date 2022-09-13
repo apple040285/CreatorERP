@@ -93,13 +93,13 @@
                 <h3 class="modal-title fw800 f20 cgy2 mb-3 d-flex align-items-center">
                     <span>金玉堂（水上）</span>
                 </h3>
-                <p class="my-1">日期 ： 2022-09-01</p>
-                <p class="my-1">單號 ： SA20220808001</p>
+                <p class="my-1">日期 ： <span class="cgy2">2022-09-01</span></p>
+                <p class="my-1">單號 ： <span class="cgy2">SA20220808001</span></p>
                 <p class="my-1">品項 ： </p>
-                <p class="my-1">1.洗澡玩具組</p>
-                <p class="my-1">數量： 20 價格： 100 總價：2,000</p>
-                <p class="my-1">2.冰雪奇緣</p>
-                <p class="my-1">數量： 20 價格： 100 總價：2,000</p>
+                <p class="my-1"><span class="cgy2">1.洗澡玩具組</span></p>
+                <p class="my-1">數量：<span class="cgy2">20</span> , 價格：<span class="cgy2">100</span> , 總價：<span class="cgy2">2000</span></p>
+                <p class="my-1"><span class="cgy2">2.冰雪奇緣</span></p>
+                <p class="my-1">數量：<span class="cgy2">20</span> , 價格：<span class="cgy2">100</span> , 總價：<span class="cgy2">2000</span></p>
             </div>
         </div>
     </div>

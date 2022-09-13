@@ -82,7 +82,7 @@
             </tbody>
         </table>
         <div class="btnRow w-75 d-block mx-auto">
-            <a href="javascript:;" class="f18 btn btn-lg btn-info d-block mt-3">繼續新增</a>
+            <a href="javascript:;" class="f18 btn btn-lg btn-outline-info d-block mt-3">繼續新增</a>
         </div>
         <div class="btnRow w-75 d-block mx-auto">
             <a href="javascript:;" class="f18 btn btn-lg btn-info d-block mt-3">盤點完成</a>
