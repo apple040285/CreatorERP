@@ -107,7 +107,6 @@
                 <p class="my-1">產品編號 ： 8347328922828</p>
                 <p class="my-1">數量 ： 20</p>
                 <p class="my-1">單價 ： 50</p>
-                <p class="my-1">折扣 ： 8折</p>
                 <p class="my-1">金額 ： 1000</p>
             </div>
         </div>
