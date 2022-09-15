@@ -33,7 +33,7 @@
                 <tr class="cgy1 fw700">
                     <th scope="col" class="text-right" style="width:2rem;">#</th>
                     <th scope="col">名稱</th>
-                    <th scope="col" style="width:6.25rem;" class="text-right">金額</th>
+                    <th scope="col" style="width:6.25rem;" class="text-right">數量</th>
                     <th scope="col" style="width:3rem;">操作</th>
                 </tr>
             </thead>
