@@ -267,7 +267,7 @@ export default {
             })
         })
         axios
-        .post('staff/options')
+        .post('staffs/options')
         .then(response => {
             this.staffOption = response.data;
         })
