@@ -963,9 +963,9 @@ export default {
             })
         },
         paymentTypeChange() {
-            this.showData.monthlyBillingDate = '';
+            this.showData.monthly_billing_date = '';
             this.showData.days = '';
-            this.showData.otherInstructions = '';
+            this.showData.other_instructions = '';
         },
         validationForm() {
             this.$refs.simpleRules.validate().then(success => {

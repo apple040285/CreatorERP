@@ -16,7 +16,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.fullName')">
                     <b-form-input
-                        :value="basicInformation.fullName"
+                        :value="basicInformation.full_name"
                         :placeholder="$t('CustomerManufacturerList.fullName')"
                         type="text"
                         readonly
@@ -29,7 +29,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.shortName')">
                     <b-form-input
-                        :value="basicInformation.shortName"
+                        :value="basicInformation.short_name"
                         :placeholder="$t('CustomerManufacturerList.shortName')"
                         type="text"
                         readonly
@@ -40,7 +40,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.englishName')">
                     <b-form-input
-                        :value="basicInformation.englishName"
+                        :value="basicInformation.alias"
                         :placeholder="$t('CustomerManufacturerList.englishName')"
                         type="text"
                         readonly
@@ -53,7 +53,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.belong')">
                     <b-form-input
-                        :value="basicInformation.belong"
+                        :value="$t('CustomerManufacturerList.'+basicInformation.category.type)"
                         :placeholder="$t('CustomerManufacturerList.belong')"
                         type="text"
                         readonly
@@ -64,7 +64,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.category')">
                     <b-form-input
-                        :value="basicInformation.category"
+                        :value="basicInformation.category.name"
                         :placeholder="$t('CustomerManufacturerList.category')"
                         type="text"
                         readonly
@@ -88,7 +88,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.personInCharge')">
                     <b-form-input
-                        :value="basicInformation.personInCharge"
+                        :value="basicInformation.person_in_charge"
                         :placeholder="$t('CustomerManufacturerList.personInCharge')"
                         type="text"
                         readonly
@@ -101,7 +101,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.contactPersonOne')">
                     <b-form-input
-                        :value="basicInformation.contactPersonOne"
+                        :value="basicInformation.contact_person_one"
                         :placeholder="$t('CustomerManufacturerList.contactPersonOne')"
                         type="text"
                         readonly
@@ -112,7 +112,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.contactPersonTwo')">
                     <b-form-input
-                        :value="basicInformation.contactPersonTwo"
+                        :value="basicInformation.contact_person_two"
                         :placeholder="$t('CustomerManufacturerList.contactPersonTwo')"
                         type="text"
                         readonly
@@ -125,7 +125,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.phoneOne')">
                     <b-form-input
-                        :value="basicInformation.phoneOne"
+                        :value="basicInformation.phone_one"
                         :placeholder="$t('CustomerManufacturerList.phoneOne')"
                         type="text"
                         readonly
@@ -136,7 +136,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.phoneTwo')">
                     <b-form-input
-                        :value="basicInformation.phoneTwo"
+                        :value="basicInformation.phone_two"
                         :placeholder="$t('CustomerManufacturerList.phoneTwo')"
                         type="text"
                         readonly
@@ -184,7 +184,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.invoiceName')">
                     <b-form-input
-                        :value="basicInformation.invoiceName"
+                        :value="basicInformation.invoice_name"
                         :placeholder="$t('CustomerManufacturerList.invoiceName')"
                         type="text"
                         readonly
@@ -197,7 +197,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.invoiceAddress')">
                     <b-form-input
-                        :value="basicInformation.invoiceAddress"
+                        :value="basicInformation.invoice_address"
                         :placeholder="$t('CustomerManufacturerList.invoiceAddress')"
                         type="text"
                         readonly
@@ -208,7 +208,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.companyAddress')">
                     <b-form-input
-                        :value="basicInformation.companyAddress"
+                        :value="basicInformation.company_address"
                         :placeholder="$t('CustomerManufacturerList.companyAddress')"
                         type="text"
                         readonly
@@ -221,7 +221,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.zipCode')">
                     <b-form-input
-                        :value="basicInformation.zipCode"
+                        :value="basicInformation.zip_code"
                         :placeholder="$t('CustomerManufacturerList.zipCode')"
                         type="text"
                         readonly
@@ -232,7 +232,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.currency')">
                     <b-form-input
-                        :value="basicInformation.currency"
+                        :value="basicInformation.currency.name"
                         :placeholder="$t('CustomerManufacturerList.currency')"
                         type="text"
                         readonly
@@ -245,7 +245,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.taxDeductionCategory')">
                     <b-form-input
-                        :value="basicInformation.taxDeductionCategory"
+                        :value="$t('CustomerManufacturerList.'+basicInformation.tax_deduction_category)"
                         :placeholder="$t('CustomerManufacturerList.taxDeductionCategory')"
                         type="text"
                         readonly
@@ -256,7 +256,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.accountSettingMethod')">
                     <b-form-input
-                        :value="basicInformation.accountSettingMethod"
+                        :value="$t('CustomerManufacturerList.'+basicInformation.account_setting_method)"
                         :placeholder="$t('CustomerManufacturerList.accountSettingMethod')"
                         type="text"
                         readonly
@@ -269,7 +269,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.businessPeople')">
                     <b-form-input
-                        :value="basicInformation.businessPeople"
+                        :value="basicInformation.staff.name"
                         :placeholder="$t('CustomerManufacturerList.businessPeople')"
                         type="text"
                         readonly
@@ -280,7 +280,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.monthlyBillingDate')">
                     <b-form-input
-                        :value="basicInformation.monthlyBillingDate"
+                        :value="basicInformation.monthly_billing_date"
                         :placeholder="$t('CustomerManufacturerList.monthlyBillingDate')"
                         type="text"
                         readonly
@@ -293,7 +293,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.paymentMethod')">
                     <b-form-input
-                        :value="basicInformation.paymentMethod"
+                        :value="$t('CustomerManufacturerList.'+basicInformation.payment_type)"
                         :placeholder="$t('CustomerManufacturerList.paymentMethod')"
                         type="text"
                         readonly
@@ -317,7 +317,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.otherInstructions')">
                     <b-form-input
-                        :value="basicInformation.otherInstructions"
+                        :value="basicInformation.other_instructions"
                         :placeholder="$t('CustomerManufacturerList.otherInstructions')"
                         type="text"
                         readonly
@@ -328,7 +328,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.electronicInvoiceType')">
                     <b-form-input
-                        :value="basicInformation.electronicInvoiceType"
+                        :value="basicInformation.invoice_type"
                         :placeholder="$t('CustomerManufacturerList.electronicInvoiceType')"
                         type="text"
                         readonly

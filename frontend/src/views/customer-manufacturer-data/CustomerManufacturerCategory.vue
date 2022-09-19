@@ -71,6 +71,10 @@
                                 {{ props.row.originalIndex + 1 }}
                             </span>
 
+                            <span v-else-if="props.column.field === 'type'" class="text-nowrap">
+                                {{ $t('CustomerManufacturerList.'+props.row.type) }}
+                            </span>
+
                             <span v-else-if="props.column.field === 'status'" class="text-nowrap">
                                 <b-badge
                                     :variant="statusVariant(props.row.status)"
@@ -234,7 +238,7 @@
                     <b-form-group id="englishName">
                         <label for="englishName">{{ $t('CustomManufacturerCategoryList.englishName') }}</label>
                         <b-form-input
-                            v-model="showData.englishName"
+                            v-model="showData.alias"
                             type="text"
                             :placeholder="$t('CustomManufacturerCategoryList.englishName')"
                         />
@@ -249,8 +253,16 @@
                             <v-select
                                 v-model="showData.type"
                                 :options="typeOption"
+                                :reduce="option => option.value"
                                 :placeholder="$t('CustomManufacturerCategoryList.selectCategory')"
-                            />
+                            >
+                                <template v-slot:option="{ label }">
+                                        {{ $t('CustomerManufacturerList.'+label) }}
+                                </template>
+                                <template #selected-option="{ label }">
+                                    {{ $t('CustomerManufacturerList.'+label) }}
+                                </template>
+                            </v-select>
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
@@ -353,7 +365,10 @@ export default {
                 status : '',
                 remark : '',
             },
-            typeOption : ['客戶', '廠商'],
+            typeOption: [
+                {label: 'customer', value: 'customer'},
+                {label: 'manufacturer', value: 'manufacturer'},
+            ],
             isLoading: false,
             totalRecords: 0,
             serverParams: {

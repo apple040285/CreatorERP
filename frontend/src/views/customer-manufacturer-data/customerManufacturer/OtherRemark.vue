@@ -51,7 +51,7 @@
                 <b-col cols="6">
                     <b-form-group :label="$t('status')">
                         <b-form-input
-                            :value="otherRemark.status"
+                            :value="$t(otherRemark.status)"
                             :placeholder="$t('status')"
                             type="text"
                             readonly

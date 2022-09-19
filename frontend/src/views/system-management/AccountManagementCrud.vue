@@ -103,6 +103,7 @@
                                         <feather-icon icon="LockIcon" />
                                     </b-input-group-prepend>
                                     <b-form-input
+                                        ref="password"
                                         id="fh-password"
                                         v-model="password"
                                         type="password"

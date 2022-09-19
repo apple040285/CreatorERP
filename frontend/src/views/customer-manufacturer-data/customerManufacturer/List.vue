@@ -85,6 +85,10 @@
                                 {{ props.row.originalIndex + 1 }}
                             </span>
 
+                            <span v-else-if="props.column.field === 'type'" class="text-nowrap">
+                                {{ $t('CustomerManufacturerList.'+props.row.type) }}
+                            </span>
+
                             <span v-else-if="props.column.field === 'status'" class="text-nowrap">
                                 <b-badge
                                     :variant="statusVariant(props.row.status)"
@@ -230,30 +234,19 @@ export default {
     },
     data() {
         return {
-            apiPath: '/customerManufacturers',
+            apiPath: '/customer-manufacturers',
             columns: [
                 { label: '#', field: 'id' },
                 { label: 'code', field: 'code' },
-                { label: 'fullName', field: 'fullName' },
-                { label: 'shortName', field: 'shortName' },
-                { label: 'category', field: 'category' },
-                { label: 'contactPersonOne', field: 'contactPersonOne' },
-                { label: 'phoneOne', field: 'phoneOne' },
+                { label: 'fullName', field: 'full_name' },
+                { label: 'shortName', field: 'short_name' },
+                { label: 'category', field: 'type' },
+                { label: 'contactPersonOne', field: 'contact_person_one' },
+                { label: 'phoneOne', field: 'phone_one' },
                 { label: 'status', field: 'status' },
                 { label: 'action', field: 'action' },
             ],
-            rows: [
-                {
-                    id: 1,
-                    code: '001',
-                    fullName: 'test123',
-                    shortName: 'test',
-                    category: '原料商',
-                    contactPersonOne: 'Dennis',
-                    phoneOne: '0987654321',
-                    status : 'active',
-                }
-            ],
+            rows: [],
             isLoading: false,
             totalRecords: 0,
             serverParams: {
