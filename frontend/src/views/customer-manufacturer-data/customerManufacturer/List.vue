@@ -8,12 +8,14 @@
                             <b-button
                                 v-ripple.400="'rgba(113, 102, 240, 0.15)'"
                                 variant="outline-primary"
+                                @click="onColumnFilter({ columnFilters: { type:'customer' } })"
                             >
                                 客戶
                             </b-button>
                             <b-button
                                 v-ripple.400="'rgba(113, 102, 240, 0.15)'"
                                 variant="outline-primary"
+                                @click="onColumnFilter({ columnFilters: { type:'manufacturer' } })"
                             >
                                 廠商
                             </b-button>
@@ -47,6 +49,7 @@
                         @on-page-change="onPageChange"
                         @on-sort-change="onSortChange"
                         @on-per-page-change="onPerPageChange"
+                        @on-column-filter="onColumnFilter"
                         :totalRows="totalRecords"
                         :isLoading.sync="isLoading"
                         :pagination-options="{
@@ -289,6 +292,10 @@ export default {
         onPerPageChange(params) {
             this.updateParams({perPage: params.currentPerPage});
             this.getList();
+        },
+        onColumnFilter(params) {
+          this.updateParams(params);
+          this.getList();
         },
         onSortChange(params) {
             this.updateParams({
