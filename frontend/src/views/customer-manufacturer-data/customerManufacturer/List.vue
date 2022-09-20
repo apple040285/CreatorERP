@@ -22,6 +22,13 @@
                         </b-button-group>
                         <!-- search input -->
                         <div class="custom-search d-flex">
+                            <!-- Excel 匯入 匯出 -->
+                            <ExcelAction
+                              name="customers"
+                              import-url="/customer-manufacturers/import"
+                              export-url="/customer-manufacturers/export"
+                            />
+
                             <b-button
                                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                 variant="outline-primary"
@@ -214,6 +221,7 @@ import { VueGoodTable } from 'vue-good-table'
 import Ripple from 'vue-ripple-directive'
 import axios from "@axios";
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import ExcelAction from '@/layouts/components/ExcelAction.vue'
 
 export default {
     components: {
@@ -230,7 +238,8 @@ export default {
         BButton,
         BButtonGroup,
         ToastificationContent,
-        BSpinner
+        BSpinner,
+        ExcelAction,
     },
     directives: {
         Ripple,

@@ -6,34 +6,6 @@
 
                     <!-- search input -->
                     <div class="custom-search d-flex justify-content-end">
-                        <!-- primary -->
-                        <b-dropdown
-                          v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-                          text="Excel 功能"
-                          variant="outline-primary"
-                          class="mb-2 mr-2"
-                        >
-                          <b-dropdown-item disabled>匯出功能</b-dropdown-item>
-
-                          <b-dropdown-divider />
-
-                          <b-dropdown-group id="dropdown-group-1">
-                            <b-dropdown-item>Excel 上傳範例下載</b-dropdown-item>
-                            <input ref="refInputEl" type="file" accept=".csv,.xlsx" class="d-none" @change="importExcel">
-                            <b-dropdown-item @click="$refs.refInputEl.click()">
-                              Excel 上傳匯入
-                            </b-dropdown-item>
-                          </b-dropdown-group>
-
-                          <b-dropdown-divider />
-
-                          <b-dropdown-item disabled>匯出功能</b-dropdown-item>
-
-                          <b-dropdown-group id="dropdown-group-2">
-                            <b-dropdown-item>Excel 匯出下載</b-dropdown-item>
-                          </b-dropdown-group>
-                        </b-dropdown>
-
                         <b-button
                             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                             variant="outline-primary"
@@ -386,32 +358,6 @@ export default {
         }
     },
     methods: {
-        importExcel(event) {
-          const { files } = event.target
-          const form = new FormData();
-          form.append('file', files[0]);
-
-          this.$swal.fire({
-            title: 'Excel 匯入中，請稍候！',
-            allowOutsideClick: false,
-            willOpen: () => {
-              this.$swal.showLoading();
-            }
-          });
-
-          axios
-            .post('http://test-erp.creator-plus.com/api/storehouses/excel', form)
-            .then(response => {
-              this.$swal.close();
-            })
-            .catch(error => {
-              this.$swal.fire({
-                title: 'Excel 匯入失敗',
-                text: error.response.data.message,
-                type: 'error',
-              })
-            })
-        },
         onSearch({searchTerm}) {
             this.serverParams.searchTerm = searchTerm
             this.getList()
