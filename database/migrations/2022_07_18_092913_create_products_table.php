@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('alias', 50)->nullable()->comment('產品別名');
             $table->longText('picture')->nullable()->comment('產品大圖');
             $table->longText('images')->nullable()->comment('產品圖片');
+            $table->decimal('price')->default(0)->comment('價格');
             $table->string('invoice_name', 50)->nullable()->comment('發票名稱');
             $table->string('sku', 50)->nullable()->comment('規格');
             $table->string('unit', 50)->nullable()->comment('單位');

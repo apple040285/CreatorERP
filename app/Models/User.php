@@ -17,6 +17,9 @@ class User extends Authenticatable
 
     use HasRoles;
 
+    // 搜尋器
+    use \Laravel\Scout\Searchable;
+
     /**
      * The attributes that are mass assignable.
      *

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enum\StatusEnum;
+use App\Exports\ProductsExport;
+use App\Imports\ProductsImport;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -50,6 +53,7 @@ class ProductController extends Controller
             'alias'                 => 'nullable|unique:products',
             'picture'               => 'nullable|string',
             'images'                => 'nullable|array',
+            'price'                 => 'nullable|integer',
             'invoice_name'          => 'nullable|string',
             'sku'                   => 'required|string',
             'unit'                  => 'required|string',
@@ -120,6 +124,7 @@ class ProductController extends Controller
             'alias'                 => 'nullable|unique:products,alias,' . $id,
             'picture'               => 'nullable',
             'images'                => 'nullable|array',
+            'price'                 => 'nullable|integer',
             'invoice_name'          => 'nullable|string',
             'sku'                   => 'required|string',
             'unit'                  => 'required|string',
@@ -212,5 +217,29 @@ class ProductController extends Controller
             DB::rollBack();
             return $this->badRequest('請聯絡管理員');
         }
+    }
+
+    /**
+     * Excel 倒出
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Request $request)
+    {
+        return Excel::download(new ProductsExport, 'products.xlsx');
+    }
+
+    /**
+     * Excel 導入
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import(Request $request)
+    {
+        Excel::import(new ProductsImport, request()->file('file'));
+
+        return $this->success($data = '匯入成功');
     }
 }

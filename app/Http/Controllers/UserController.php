@@ -19,16 +19,18 @@ class UserController extends Controller
     {
         $this->authorize('users.read');
 
-        $data = tap(
-            User::paginate($request->input('perPage')),
-            function ($paginatedInstance) use ($request) {
-                $sortCollection = $paginatedInstance->sortBy([
-                    $request->collect('sort')->map(fn ($m) => [$m['field'], $m['type']])[0]
-                ]);
-                $sortCollection->load('roles:name');
-                return $paginatedInstance->setCollection($sortCollection);
-            }
-        );
+        /** @var \Illuminate\Database\Eloquent\Collection $data */
+        $data = User::search($request->input('searchTerm'))
+            ->tap(function ($query) use ($request) {
+                foreach ($request['sort'] as $sort) {
+                    if (isset($sort['field']) && isset($sort['type'])) {
+                        $query->orderBy($sort['field'], $sort['type']);
+                    }
+                }
+            })
+            ->paginate($request->input('perPage'));
+
+        $data->load('roles:name');
 
         return $this->success($data);
     }

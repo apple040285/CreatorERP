@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enum\StatusEnum;
+use App\Exports\StaffsExport;
+use App\Imports\StaffsImport;
 use App\Models\Staff;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StaffController extends Controller
 {
@@ -180,5 +183,29 @@ class StaffController extends Controller
             DB::rollBack();
             return $this->badRequest('請聯絡管理員');
         }
+    }
+
+    /**
+     * Excel 倒出
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Request $request)
+    {
+        return Excel::download(new StaffsExport, 'staffs.xlsx');
+    }
+
+    /**
+     * Excel 導入
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import(Request $request)
+    {
+        Excel::import(new StaffsImport, request()->file('file'));
+
+        return $this->success($data = '匯入成功');
     }
 }
