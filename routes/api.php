@@ -20,6 +20,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// 測試 qr code
+Route::get('/test', function (Request $request) {
+    return view('test');
+});
+
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [Controllers\AuthController::class, 'login']);
     Route::post('register', [Controllers\AuthController::class, 'register']);
@@ -28,10 +33,20 @@ Route::group(['prefix' => 'auth'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('logout', [Controllers\AuthController::class, 'logout']);
         Route::get('user', [Controllers\AuthController::class, 'user']);
+        Route::post('reset/password', [Controllers\AuthController::class, 'updatePassword']);
     });
 });
 
 Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
+    // 帳號管理
+    Route::apiResource('/users', Controllers\UserController::class);
+
+    // 角色管理
+    Route::apiResource('/roles', Controllers\RoleController::class);
+
+    // 權限群組
+    Route::get('permissions/group', Controllers\PermissionController::class);
+
     /** @var 基本資料操作 */
 
     // 部門管理
@@ -66,9 +81,24 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
     // 倉庫管理
     Route::apiResource('/storehouses', Controllers\StorehouseController::class);
 
+    /** @var 客戶廠商操作 */
+
+    // 客戶廠商類型
     Route::apiResource('/customer-manufacturers-categories', Controllers\CustomerManufacturerCategoryController::class);
 
+    // 客戶廠商
     Route::apiResource('/customer-manufacturers', Controllers\CustomerManufacturerController::class);
+
+    /** @var 採購作業 */
+
+    // 採購憑單
+    Route::apiResource('/procurement-orders', Controllers\ProcurementOrderController::class);
+
+
+    /** @var 進貨作業 */
+
+    // 進貨
+    Route::apiResource('/purchase-orders', Controllers\PurchaseOrderController::class);
 });
 
 // 測試用

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Enum\StatusEnum;
+use App\Exports\CustomerManufacturersExport;
+use App\Imports\CustomerManufacturersImport;
 use App\Models\CustomerManufacturer;
 use App\Models\Storehouse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerManufacturerController extends Controller
 {
@@ -20,16 +23,23 @@ class CustomerManufacturerController extends Controller
     {
         $this->authorize('customer_manufacturers.read');
 
-        $data = tap(
-            CustomerManufacturer::search($request->input('searchTerm'))->paginate($request->input('perPage')),
-            function ($paginatedInstance) use ($request) {
-                $sortCollection = $paginatedInstance->sortBy([
-                    $request->collect('sort')->map(fn ($m) => [$m['field'], $m['type']])[0]
-                ]);
-                $sortCollection->load('category', 'currency', 'creator', 'editor');
-                return $paginatedInstance->setCollection($sortCollection);
-            }
-        );
+        /** @var \Illuminate\Database\Eloquent\Collection $data */
+        $data = CustomerManufacturer::search($request->input('searchTerm'))
+            ->when($request->has('columnFilters'), function ($query) use ($request) {
+                foreach ($request['columnFilters'] as $field => $value) {
+                    $query->where($field, $value);
+                }
+            })
+            ->when($request->has('sort'), function ($query) use ($request) {
+                foreach ($request['sort'] as $sort) {
+                    if (isset($sort['field']) && isset($sort['type'])) {
+                        $query->orderBy($sort['field'], $sort['type']);
+                    }
+                }
+            })
+            ->paginate($request->input('perPage'));
+
+        $data->load('category', 'currency', 'staff',  'creator', 'editor');
 
         return $this->success($data);
     }
@@ -121,7 +131,7 @@ class CustomerManufacturerController extends Controller
 
         try {
             $data = CustomerManufacturer::findOrFail($id);
-            $data->load('category', 'currency', 'creator', 'editor');
+            $data->load('category', 'currency', 'staff',  'creator', 'editor');
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
@@ -261,5 +271,29 @@ class CustomerManufacturerController extends Controller
             DB::rollBack();
             return $this->badRequest('請聯絡管理員');
         }
+    }
+
+    /**
+     * Excel 倒出
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Request $request)
+    {
+        return Excel::download(new CustomerManufacturersExport, 'customer-manufacturers.xlsx');
+    }
+
+    /**
+     * Excel 導入
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import(Request $request)
+    {
+        Excel::import(new CustomerManufacturersImport, request()->file('file'));
+
+        return $this->success($data = '匯入成功');
     }
 }

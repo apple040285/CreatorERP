@@ -19,16 +19,18 @@ class CustomerManufacturerCategoryController extends Controller
     {
         $this->authorize('customer_manufacturer_categories.read');
 
-        $data = tap(
-            CustomerManufacturerCategory::search($request->input('searchTerm'))->paginate($request->input('perPage')),
-            function ($paginatedInstance) use ($request) {
-                $sortCollection = $paginatedInstance->sortBy([
-                    $request->collect('sort')->map(fn ($m) => [$m['field'], $m['type']])[0]
-                ]);
-                $sortCollection->load('creator', 'editor');
-                return $paginatedInstance->setCollection($sortCollection);
-            }
-        );
+        /** @var \Illuminate\Database\Eloquent\Collection $data */
+        $data = CustomerManufacturerCategory::search($request->input('searchTerm'))
+            ->tap(function ($query) use ($request) {
+                foreach ($request['sort'] as $sort) {
+                    if (isset($sort['field']) && isset($sort['type'])) {
+                        $query->orderBy($sort['field'], $sort['type']);
+                    }
+                }
+            })
+            ->paginate($request->input('perPage'));
+
+        $data->load('creator', 'editor');
 
         return $this->success($data);
     }
@@ -52,8 +54,9 @@ class CustomerManufacturerCategoryController extends Controller
 
         $data = $request->validate([
             'code'              => 'required|unique:customer_manufacturer_categories',
-            'type'              => 'required|unique:customer_manufacturer_categories',
+            'type'              => 'required',
             'name'              => 'required|unique:customer_manufacturer_categories',
+            'alias'             => 'nullable|string',
             'remark'            => 'nullable|string',
         ]);
 
@@ -105,9 +108,10 @@ class CustomerManufacturerCategoryController extends Controller
         $this->authorize('customer_manufacturer_categories.update');
 
         $data = $request->validate([
-            'code'              => 'required|unique:customer_manufacturer_categories,' . $id,
-            'type'              => 'required|unique:customer_manufacturer_categories,' . $id,
-            'name'              => 'required|unique:customer_manufacturer_categories,' . $id,
+            'code'              => 'required|unique:customer_manufacturer_categories,code,' . $id,
+            'type'              => 'required',
+            'name'              => 'required|unique:customer_manufacturer_categories,name,' . $id,
+            'alias'             => 'nullable|string',
             'remark'            => 'nullable|string',
         ]);
 
