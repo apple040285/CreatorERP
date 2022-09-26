@@ -17,6 +17,8 @@
         <link href="{{ asset('assets/css/sweetalert2.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
         @yield('style')
+
+        @livewireStyles
     </head>
     <body class="bg-dark">
         <div id="mainFrame" class="mx-auto bg-white">
@@ -60,5 +62,7 @@
                 })
             });
         </script>
+
+        @livewireScripts
     </body>
 </html>

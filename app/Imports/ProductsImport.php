@@ -85,6 +85,8 @@ class ProductsImport implements ToModel, WithUpserts, WithStartRow, SkipsEmptyRo
             0 => ['required'],
 
             1 => ['required'],
+
+            2 => ['required'],
         ];
     }
 
@@ -96,8 +98,9 @@ class ProductsImport implements ToModel, WithUpserts, WithStartRow, SkipsEmptyRo
     public function customValidationAttributes(): array
     {
         return [
-            0 => '人員編號',
-            1 => '人員名稱',
+            0 => '產品編號',
+            1 => '產品名稱',
+            1 => '發票品茗',
         ];
     }
 }

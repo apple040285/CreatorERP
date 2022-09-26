@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::prefix('apps')->group(function () {
+    Route::get('/', fn () => redirect()->route('index'));
+
     Route::get('/login', function () {
         return view('login');
     })->name('login');
@@ -23,18 +25,25 @@ Route::prefix('apps')->group(function () {
         return view('index');
     })->name('index');
 
+    // 銷售查補
     Route::prefix('sales-check')->group(function () {
-        Route::get('/index', function () {
-            return view('salesCheck.index');
-        })->name('sales-check-index');
+        Route::get('/index', Livewire\SalesCheck\Index::class)->name('sales-check-index');
+        Route::get('/form/{id}', Livewire\SalesCheck\Form::class)->name('sales-check-form');
+        Route::get('/detail/{id}', Livewire\SalesCheck\Detail::class)->name('sales-check-detail');
+    });
 
-        Route::get('/form', function () {
-            return view('salesCheck.form');
-        })->name('sales-check-form');
+    Route::prefix('sales-check')->group(function () {
+        // Route::get('/index', function () {
+        //     return view('salesCheck.index');
+        // })->name('sales-check-index');
 
-        Route::get('/detail', function () {
-            return view('salesCheck.detail');
-        })->name('sales-check-detail');
+        // Route::get('/form', function () {
+        //     return view('salesCheck.form');
+        // })->name('sales-check-form');
+
+        // Route::get('/detail', function () {
+        //     return view('salesCheck.detail');
+        // })->name('sales-check-detail');
     });
 
     Route::prefix('sales-list')->group(function () {
