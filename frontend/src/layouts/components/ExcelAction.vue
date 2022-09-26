@@ -14,7 +14,7 @@
       <input
         ref="refInputEl"
         type="file"
-        accept=".csv,.xlsx"
+        accept=".xls"
         class="d-none"
         @change="importExcel"
       >
@@ -129,7 +129,7 @@ export default {
       axios
         .get(props.exportUrl, { responseType: 'blob' })
         .then(response => {
-          downLoadBlob(response.data, `${props.name}-export.xlsx`)
+          downLoadBlob(response.data, `${props.name}-export.xls`)
 
           root.$swal.close();
         })
@@ -154,7 +154,7 @@ export default {
       axios
         .get(props.exportUrl, { responseType: 'blob', params: { type: 'example' } })
         .then(response => {
-          downLoadBlob(response.data, `${props.name}-import-example.xlsx`)
+          downLoadBlob(response.data, `${props.name}-import-example.xls`)
 
           root.$swal.close();
         })
