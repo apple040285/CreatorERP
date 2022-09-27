@@ -7,6 +7,12 @@
     .topStatus{
         background-color: var(--morange0);
     }
+    .select2-container .select2-selection--single, .select2-container--default .select2-selection--single .select2-selection__arrow{
+        height: 40px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        line-height: 40px;
+    }
 </style>
 @endsection
 
