@@ -99,6 +99,11 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     // 進貨
     Route::apiResource('/purchase-orders', Controllers\PurchaseOrderController::class);
+
+    /** @var 銷貨作業 */
+
+    // 銷貨訂單
+    Route::apiResource('/sales-orders', Controllers\SalesOrderController::class);
 });
 
 // 測試用

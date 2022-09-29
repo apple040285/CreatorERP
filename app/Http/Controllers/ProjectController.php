@@ -19,16 +19,23 @@ class ProjectController extends Controller
     {
         $this->authorize('projects.read');
 
-        $data = tap(
-            Project::search($request->input('searchTerm'))->paginate($request->input('perPage')),
-            function ($paginatedInstance) use ($request) {
-                $sortCollection = $paginatedInstance->sortBy([
-                    $request->collect('sort')->map(fn ($m) => [$m['field'], $m['type']])[0]
-                ]);
-                $sortCollection->load('creator', 'editor');
-                return $paginatedInstance->setCollection($sortCollection);
-            }
-        );
+        /** @var \Illuminate\Database\Eloquent\Collection $data */
+        $data = Project::search($request->input('searchTerm'))
+            ->when($request->has('columnFilters'), function ($query) use ($request) {
+                foreach ($request['columnFilters'] as $field => $value) {
+                    $query->where($field, $value);
+                }
+            })
+            ->when($request->has('sort'), function ($query) use ($request) {
+                foreach ($request['sort'] as $sort) {
+                    if (isset($sort['field']) && isset($sort['type'])) {
+                        $query->orderBy($sort['field'], $sort['type']);
+                    }
+                }
+            })
+            ->paginate($request->input('perPage'));
+
+        $data->load('creator', 'editor');
 
         return $this->success($data);
     }

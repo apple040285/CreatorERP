@@ -69,8 +69,10 @@ class ProductController extends Controller
 
         try {
             DB::beginTransaction();
-            $data = Product::create($attributes);
-
+            $data = Product::create([
+                ...$attributes,
+                'price' => $attributes['price'] ?? 0,
+            ]);
             $storehouses_ids = collect($storehouses_attributes['storehouses'])->mapWithKeys(fn ($item) => [$item['id'] => collect($item)->except('id')]);
             $data->storehouses()->sync($storehouses_ids->toArray());
 
@@ -124,7 +126,7 @@ class ProductController extends Controller
             'alias'                 => 'nullable|unique:products,alias,' . $id,
             'picture'               => 'nullable',
             'images'                => 'nullable|array',
-            'price'                 => 'nullable|integer',
+            'price'                 => 'nullable',
             'invoice_name'          => 'nullable|string',
             'sku'                   => 'required|string',
             'unit'                  => 'required|string',
@@ -146,7 +148,10 @@ class ProductController extends Controller
             $storehouses_ids = collect($storehouses_attributes['storehouses'])->mapWithKeys(fn ($item) => [$item['id'] => collect($item)->except('id')]);
             $data->storehouses()->sync($storehouses_ids->toArray());
 
-            $data->update($attributes);
+            $data->update([
+                ...$attributes,
+                'price' => $attributes['price'] ?? 0,
+            ]);
 
             DB::commit();
             return $this->success('更新成功');
@@ -227,7 +232,7 @@ class ProductController extends Controller
      */
     public function export(Request $request)
     {
-        return Excel::download(new ProductsExport, 'products.xlsx');
+        return Excel::download(new ProductsExport, 'products.xls', \Maatwebsite\Excel\Excel::XLS);
     }
 
     /**

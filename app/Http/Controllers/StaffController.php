@@ -193,7 +193,7 @@ class StaffController extends Controller
      */
     public function export(Request $request)
     {
-        return Excel::download(new StaffsExport, 'staffs.xlsx');
+        return Excel::download(new StaffsExport, 'staffs.xls', \Maatwebsite\Excel\Excel::XLS);
     }
 
     /**

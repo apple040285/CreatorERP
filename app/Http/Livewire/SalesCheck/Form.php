@@ -8,6 +8,9 @@ use Livewire\Component;
 
 class Form extends Component
 {
+    // https://github.com/jantinnerezo/livewire-alert
+    use \Jantinnerezo\LivewireAlert\LivewireAlert;
+
     public $key;
 
     /** @var mixed 產品 id */
@@ -40,6 +43,19 @@ class Form extends Component
     public function getCustomerProperty()
     {
         return CustomerManufacturer::find($this->key);
+    }
+
+    public function setBarcode($code)
+    {
+        $product = Product::where('barcode', str($code)->trim('!'))->first();
+        if ($product) {
+            $this->product_id = $product->id;
+            $this->quantity = 1;
+            $this->next();
+            $this->alert('success', $product->name . '成功加入');
+        } else {
+            $this->alert('error', '此無商品');
+        }
     }
 
     public function next()
@@ -76,7 +92,6 @@ class Form extends Component
 
         $this->redirectRoute('sales-check-detail', ['id' => $this->key]);
     }
-
 
     public function finish()
     {

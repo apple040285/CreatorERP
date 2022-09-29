@@ -211,7 +211,7 @@ class StorehouseController extends Controller
      */
     public function export(Request $request)
     {
-        return Excel::download(new StorehousesExport, 'storehouses.xlsx');
+        return Excel::download(new StorehousesExport, 'storehouses.xls', \Maatwebsite\Excel\Excel::XLS);
     }
 
     /**

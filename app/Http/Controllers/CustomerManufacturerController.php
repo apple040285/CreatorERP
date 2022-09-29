@@ -281,7 +281,7 @@ class CustomerManufacturerController extends Controller
      */
     public function export(Request $request)
     {
-        return Excel::download(new CustomerManufacturersExport, 'customer-manufacturers.xlsx');
+        return Excel::download(new CustomerManufacturersExport, 'customer-manufacturers.xls', \Maatwebsite\Excel\Excel::XLS);
     }
 
     /**
