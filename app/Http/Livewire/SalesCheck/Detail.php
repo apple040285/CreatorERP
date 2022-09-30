@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\SalesCheck;
 
-use App\Models\CustomerManufacturer;
 use App\Models\Product;
 use App\Models\SalesOrder;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +12,10 @@ class Detail extends Component
     // https://github.com/jantinnerezo/livewire-alert
     use \Jantinnerezo\LivewireAlert\LivewireAlert;
 
-    public $key;
+    use Concerns\WithCustomerAndProductAndOrder;
+
+    /** @var mixed 客戶ID */
+    public $customer_id;
 
     public $product_id;
 
@@ -22,12 +24,12 @@ class Detail extends Component
     /** @var \Illuminate\Support\Collection 產品紀錄 ids */
     public $product_ids = [];
 
-    public function mount($id)
+    public function mount($customer_id)
     {
-        $this->key = $id;
+        $this->customer_id = $customer_id;
 
         if (!session()->has('product_list')) {
-            $this->redirectRoute('sales-check-form', ['id' => $this->key]);
+            $this->redirectRoute('sales-check-form', ['customer_id' => $this->customer_id]);
             return;
         }
 
@@ -36,19 +38,9 @@ class Detail extends Component
         $this->product_ids = collect(session()->get('product_list'));
     }
 
-    public function getCustomerProperty()
-    {
-        return CustomerManufacturer::find($this->key);
-    }
-
     public function getProductsProperty()
     {
         return Product::whereIn('id', $this->product_ids->keys())->get();
-    }
-
-    public function getProductProperty()
-    {
-        return Product::find($this->product_id);
     }
 
     // 完成列印

@@ -26,7 +26,7 @@
                 $('#customer').select2();
                 $('#customer').on('change', function(e) {
                     var data = $('#customer').select2('val');
-                    @this.set('customer', data);
+                    @this.set('customer_id', data);
                 });
             });
         </script>

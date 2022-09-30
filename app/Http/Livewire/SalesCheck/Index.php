@@ -7,12 +7,9 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    public $customer;
+    use Concerns\WithCustomerAndProductAndOrder;
 
-    public function mount()
-    {
-        // dd(123);
-    }
+    public $customer_id;
 
     public function getCustomerManufacturersProperty()
     {
@@ -21,7 +18,7 @@ class Index extends Component
 
     public function submit()
     {
-        redirect()->route('sales-check-form', ['id' => $this->customer]);
+        $this->redirectSaleForm();
     }
 
     public function render()

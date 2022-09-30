@@ -7,6 +7,8 @@ use Livewire\Component;
 
 class Index extends Component
 {
+    use Concerns\WithCustomerAndProductAndOrder;
+
     public $order_id;
 
     public function mount()
@@ -16,11 +18,6 @@ class Index extends Component
     public function getOrdersProperty()
     {
         return SalesOrder::with('items')->latest()->get();
-    }
-
-    public function getOrderProperty()
-    {
-        return SalesOrder::find($this->order_id)->with('items');
     }
 
     public function render()

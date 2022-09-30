@@ -11,7 +11,10 @@ class Form extends Component
     // https://github.com/jantinnerezo/livewire-alert
     use \Jantinnerezo\LivewireAlert\LivewireAlert;
 
-    public $key;
+    use Concerns\WithCustomerAndProductAndOrder;
+
+    /** @var mixed 客戶ID */
+    public $customer_id;
 
     /** @var mixed 產品 id */
     public $product_id;
@@ -28,9 +31,9 @@ class Form extends Component
         'prod_id'
     ];
 
-    public function mount($id)
+    public function mount($customer_id)
     {
-        $this->key = $id;
+        $this->customer_id = $customer_id;
 
         $this->productList = session()->get('product_list', []);
 
@@ -42,7 +45,12 @@ class Form extends Component
 
     public function getCustomerProperty()
     {
-        return CustomerManufacturer::find($this->key);
+        return CustomerManufacturer::find($this->customer_id);
+    }
+
+    public function getProductsProperty()
+    {
+        return Product::get();
     }
 
     public function setBarcode($code)
@@ -90,7 +98,7 @@ class Form extends Component
 
         session()->put('product_list', $this->productList);
 
-        $this->redirectRoute('sales-check-detail', ['id' => $this->key]);
+        $this->redirectSaleDetail();
     }
 
     public function finish()
@@ -102,17 +110,7 @@ class Form extends Component
 
         session()->put('product_list', $this->productList);
 
-        $this->redirectRoute('sales-check-detail', ['id' => $this->key]);
-    }
-
-    public function getProductProperty()
-    {
-        return Product::find($this->product_id);
-    }
-
-    public function getProductsProperty()
-    {
-        return Product::get();
+        $this->redirectSaleDetail();
     }
 
     public function render()

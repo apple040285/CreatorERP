@@ -28,8 +28,8 @@ Route::prefix('apps')->group(function () {
     // 銷售查補
     Route::prefix('sales-check')->group(function () {
         Route::get('/index', Livewire\SalesCheck\Index::class)->name('sales-check-index');
-        Route::get('/form/{id}', Livewire\SalesCheck\Form::class)->name('sales-check-form');
-        Route::get('/detail/{id}', Livewire\SalesCheck\Detail::class)->name('sales-check-detail');
+        Route::get('/form/{customer_id}', Livewire\SalesCheck\Form::class)->name('sales-check-form');
+        Route::get('/detail/{customer_id}', Livewire\SalesCheck\Detail::class)->name('sales-check-detail');
     });
 
     // Route::prefix('sales-check')->group(function () {
@@ -48,6 +48,8 @@ Route::prefix('apps')->group(function () {
 
     Route::prefix('sales-list')->group(function () {
         Route::get('/index', Livewire\SalesList\Index::class)->name('sales-list-index');
+        Route::get('/form/{item_id}', Livewire\SalesList\Form::class)->name('sales-list-form');
+        Route::get('/detail/{order_id}', Livewire\SalesList\Detail::class)->name('sales-list-detail');
     });
 
     // Route::prefix('sales-list')->group(function () {
