@@ -742,7 +742,7 @@ export default {
     },
     data() {
         return {
-            apiPath: '/returnedSalesInvoice',
+            apiPath: '/sales-return-orders',
             required,
             alertShow: 'false',
             showData: {},

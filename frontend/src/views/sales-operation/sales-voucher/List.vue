@@ -198,17 +198,17 @@ export default {
     },
     data() {
         return {
-            apiPath: '/salesVoucher',
+            apiPath: '/sales-orders',
             columns: [
                 { label: '#', field: 'id' },
-                { label: 'salesDate', field: 'salesDate' },
-                { label: 'salesNo', field: 'salesNo' },
-                { label: 'customer', field: 'customer' },
+                { label: 'salesDate', field: 'sales_date' },
+                { label: 'salesNo', field: 'sales_order_no' },
+                { label: 'customer', field: 'customer_manufacturer.full_name' },
                 { label: 'transferNo', field: 'transferNo' },
-                { label: 'businessPeople', field: 'businessPeople' },
+                { label: 'businessPeople', field: 'staff.name' },
                 { label: 'project', field: 'project' },
                 { label: 'status', field: 'status' },
-                { label: 'approvalStatus', field: 'approvalStatus' },
+                { label: 'approvalStatus', field: 'status_approval' },
                 { label: 'action', field: 'action' },
             ],
             rows: [

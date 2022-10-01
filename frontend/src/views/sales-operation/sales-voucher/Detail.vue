@@ -88,13 +88,13 @@ export default {
                 searchTerm: '',
                 columns: [
                     { label: '#', field: 'id', type: 'number' },
-                    { label: 'productNo', field: 'code' },
-                    { label: 'productName', field: 'name' },
+                    { label: 'productNo', field: 'product.code' },
+                    { label: 'productName', field: 'product.name' },
                     { label: 'specification', field: 'specification' },
-                    { label: 'unit', field: 'unit' },
+                    { label: 'unit', field: 'product.unit' },
                     { label: 'storehouse', field: 'storehouse' },
                     { label: 'quantity', field: 'quantity', type: 'number' },
-                    { label: 'unitPrice', field: 'unitPrice', type: 'number' },
+                    { label: 'unitPrice', field: 'price', type: 'number' },
                     { label: 'amount', field: 'amount', type: 'number' },
                     { label: 'numberOfTransfers', field: 'numberOfTransfers', type: 'number' },
                     { label: 'untransferredQuantity', field: 'untransferredQuantity', type: 'number' },
@@ -107,11 +107,11 @@ export default {
     mounted() {
         if(this.$route.query.id) {
             axios
-            .get(`salesVoucher/${this.$route.query.id}`)
+            .get(`sales-orders/${this.$route.query.id}`)
             .then(response => {
                 const data = response.data
                 this.data = data;
-                this.productListData.rows = JSON.parse(JSON.stringify(data.products));
+                this.productListData.rows = JSON.parse(JSON.stringify(data.items));
             })
             .catch(error => console.error (error))
         }

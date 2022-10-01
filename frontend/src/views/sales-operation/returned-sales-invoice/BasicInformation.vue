@@ -5,7 +5,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('ReturnedSalesInvoiceList.returnedDate')">
                     <b-form-input
-                        :value="basicInformation.returnedDate"
+                        :value="basicInformation.sales_date"
                         :placeholder="$t('ReturnedSalesInvoiceList.returnedDate')"
                         type="text"
                         readonly
@@ -16,7 +16,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('ReturnedSalesInvoiceList.returnedNo')">
                     <b-form-input
-                        :value="basicInformation.returnedNo"
+                        :value="basicInformation.sales_order_no"
                         :placeholder="$t('ReturnedSalesInvoiceList.returnedNo')"
                         type="text"
                         readonly
@@ -27,7 +27,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('ReturnedSalesInvoiceList.customer')">
                     <b-form-input
-                        :value="basicInformation.customer"
+                        :value="basicInformation.customer_manufacturer.full_name"
                         :placeholder="$t('ReturnedSalesInvoiceList.customer')"
                         type="text"
                         readonly
@@ -148,7 +148,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('ReturnedSalesInvoiceList.total')">
                     <b-form-input
-                        :value="basicInformation.total"
+                        :value="basicInformation.total_amount"
                         :placeholder="$t('ReturnedSalesInvoiceList.total')"
                         type="text"
                         readonly

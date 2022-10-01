@@ -5,7 +5,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('SalesVoucherList.salesDate')">
                     <b-form-input
-                        :value="basicInformation.salesDate"
+                        :value="basicInformation.sales_date"
                         :placeholder="$t('SalesVoucherList.salesDate')"
                         type="text"
                         readonly
@@ -16,7 +16,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('SalesVoucherList.salesNo')">
                     <b-form-input
-                        :value="basicInformation.salesNo"
+                        :value="basicInformation.sales_order_no"
                         :placeholder="$t('SalesVoucherList.salesNo')"
                         type="text"
                         readonly
@@ -27,7 +27,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('SalesVoucherList.customer')">
                     <b-form-input
-                        :value="basicInformation.customer"
+                        :value="basicInformation.customer_manufacturer.full_name"
                         :placeholder="$t('SalesVoucherList.customer')"
                         type="text"
                         readonly
@@ -148,7 +148,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('SalesVoucherList.total')">
                     <b-form-input
-                        :value="basicInformation.total"
+                        :value="basicInformation.total_amount"
                         :placeholder="$t('SalesVoucherList.total')"
                         type="text"
                         readonly
