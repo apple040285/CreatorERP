@@ -61,7 +61,7 @@
         @else
             <div class="f16 w-75 my-3 d-block mx-auto">
                 <label for="amount" class="formClass w-100 fw700 cgy2">
-                    國際條碼：<small>掃馬槍點擊下方即可觸發</small>
+                    國際條碼：<small>掃碼槍點擊下方即可觸發</small>
                 </label>
                 <input id="barcode" type="text" class="form-control" placeholder="國際條碼" autofocus onfocus="onFocus()" onblur="onBlur()" value="{{ $this->product?->barcode }}">
             </div>

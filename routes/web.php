@@ -58,25 +58,36 @@ Route::prefix('apps')->group(function () {
     //     })->name('sales-list-index');
     // });
 
+    // 商品退貨
     Route::prefix('products-return')->group(function () {
-        Route::get('/index', function () {
-            return view('productsReturn.index');
-        })->name('products-return-index');
-
-        Route::get('/form', function () {
-            return view('productsReturn.form');
-        })->name('products-return-form');
-
-        Route::get('/detail', function () {
-            return view('productsReturn.detail');
-        })->name('products-return-detail');
+        Route::get('/index', Livewire\ProductsReturn\Index::class)->name('products-return-index');
+        Route::get('/form/{customer}/{order?}', Livewire\ProductsReturn\Form::class)->name('products-return-form');
+        Route::get('/detail/{customer}/{order?}', Livewire\ProductsReturn\Detail::class)->name('products-return-detail');
     });
+
+    // Route::prefix('products-return')->group(function () {
+    //     Route::get('/index', function () {
+    //         return view('productsReturn.index');
+    //     })->name('products-return-index');
+
+    //     Route::get('/form', function () {
+    //         return view('productsReturn.form');
+    //     })->name('products-return-form');
+
+    //     Route::get('/detail', function () {
+    //         return view('productsReturn.detail');
+    //     })->name('products-return-detail');
+    // });
 
     Route::prefix('return-list')->group(function () {
-        Route::get('/index', function () {
-            return view('returnList.index');
-        })->name('return-list-index');
+        Route::get('/index', Livewire\ReturnList\Index::class)->name('return-list-index');
     });
+
+    // Route::prefix('return-list')->group(function () {
+    //     Route::get('/index', function () {
+    //         return view('returnList.index');
+    //     })->name('return-list-index');
+    // });
 
     Route::prefix('transfer-job')->group(function () {
         Route::get('/index', function () {

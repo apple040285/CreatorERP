@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\SalesCheck;
+namespace App\Http\Livewire\ProductsReturn;
 
 use App\Models\CustomerManufacturer;
 use Livewire\Component;
 
-class Index extends \LivewireUI\Modal\ModalComponent
+class Index extends Component
 {
-    use Concerns\WithCustomerAndProductAndOrder;
-
     public $customer_id;
 
     /** @var CustomerManufacturer 讀取客戶下拉列表 */
@@ -24,12 +22,12 @@ class Index extends \LivewireUI\Modal\ModalComponent
      */
     public function submit()
     {
-        redirect()->route('sales-check-form', ['customer' => $this->customer_id]);
+        redirect()->route('products-return-form', ['customer' => $this->customer_id]);
     }
 
     public function render()
     {
-        return view('livewire.sales-check.index')
+        return view('livewire.products-return.index')
             ->extends('layouts.main');
     }
 }

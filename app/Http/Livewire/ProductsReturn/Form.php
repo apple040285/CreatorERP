@@ -1,0 +1,130 @@
+<?php
+
+namespace App\Http\Livewire\ProductsReturn;
+
+use App\Models\CustomerManufacturer;
+use App\Models\Product;
+use App\Models\SalesOrder;
+use Livewire\Component;
+
+class Form extends Component
+{
+    // https://github.com/jantinnerezo/livewire-alert
+    use \Jantinnerezo\LivewireAlert\LivewireAlert;
+
+    // 購物車特徵
+    use \App\Concerns\WithCart;
+
+    public CustomerManufacturer|null $customer;
+
+    public SalesOrder|null $order;
+
+    public $product_id;
+
+    /** @var int 數量 */
+    public $quantity = 1;
+
+    public function mount(CustomerManufacturer $customer, SalesOrder $order)
+    {
+        $this->customer = $customer;
+
+        $this->order = $order;
+
+        // 判斷是否訂單編輯
+        if ($order->id) {
+            $this->sessionKey = $order->id;
+        }
+
+        if ($this->isEditCart()) {
+            $this->product_id   = $this->getCart()->id;
+            $this->quantity     = $this->getCart()->quantity;
+        }
+    }
+
+    public function getProductsProperty()
+    {
+        return Product::get();
+    }
+
+    public function getProductProperty()
+    {
+        return Product::find($this->product_id);
+    }
+
+    /**
+     * 下一筆
+     *
+     * @return void
+     */
+    public function next()
+    {
+        $data = $this->validate([
+            'product_id'    => 'required',
+            'quantity'      => 'required',
+        ]);
+
+        if (!$product = $this->getProductProperty()) {
+            $this->alert('error', '此無商品');
+        }
+
+        $this->addCart($product);
+
+        $this->alert('success', $product->name . '成功加入');
+
+        // 重置
+        $this->reset('quantity', 'product_id');
+
+        // 發送至瀏覽器
+        $this->dispatchBrowserEvent('reset', [
+            ['target' => '#product', 'value' => null],
+        ]);
+    }
+
+    /**
+     * 確認
+     *
+     * @return void
+     */
+    public function finish()
+    {
+        if ($this->isCartEmpty()) {
+            $this->alert('error', '清單內尚未存在物品');
+            return;
+        }
+
+        redirect()->route('products-return-detail', [
+            'customer'  => $this->customer,
+            'order'     => $this->order,
+        ]);
+    }
+
+    /**
+     * 更新
+     *
+     * @return void
+     */
+    public function update()
+    {
+        $data = $this->validate([
+            'product_id'    => 'required',
+            'quantity'      => 'required',
+        ]);
+
+        if (!$product = $this->getProductProperty()) {
+            $this->alert('error', '此無商品');
+        }
+
+        $this->updateCart($data['product_id'], $data['quantity']);
+
+        redirect()->route('products-return-detail', [
+            'customer'  => $this->customer,
+            'order'     => $this->order,
+        ]);
+    }
+
+    public function render()
+    {
+        return view('livewire.products-return.form')
+            ->extends('layouts.main');
+    }
+}

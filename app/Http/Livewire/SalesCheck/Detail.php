@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\SalesCheck;
 
+use App\Enum\SalesOrderType;
 use App\Models\Product;
 use App\Models\SalesOrder;
 use Illuminate\Support\Facades\DB;
@@ -44,12 +45,19 @@ class Detail extends Component
     }
 
     // 完成列印
+    public function delete()
+    {
+      unset($this->product_ids[$this->product_id]);
+    }
+
+    // 完成列印
     public function completePrint()
     {
         try {
             DB::beginTransaction();
 
             $order = SalesOrder::create([
+                'type'                      => SalesOrderType::銷貨->value,
                 'sales_date'                => now(),
                 'sales_order_no'            => $this->sales_order_no,
                 'customer_manufacturer_id'  => $this->getCustomerProperty()?->id,

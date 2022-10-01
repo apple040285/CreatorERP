@@ -2,12 +2,16 @@
 
 namespace App\Http\Livewire\SalesCheck;
 
+use App\Concerns\WithCart;
 use App\Models\CustomerManufacturer;
 use App\Models\Product;
 use Livewire\Component;
 
 class Form extends Component
 {
+    // 購物車特徵
+    use \App\Concerns\WithCart;
+
     // https://github.com/jantinnerezo/livewire-alert
     use \Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -82,7 +86,7 @@ class Form extends Component
         $this->reset('quantity');
 
         $this->dispatchBrowserEvent('select2.change', [
-            'target'    => '#customer',
+            'target'    => '#product',
             'value'     => null
         ]);
     }

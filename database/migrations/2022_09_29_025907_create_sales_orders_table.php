@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('sales_orders', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('sales_date')->useCurrent()->comment('銷貨日期');
-            $table->string('sales_order_no')->comment('銷貨單號');
+            $table->string('type')->comment('銷貨單類型: sales, return');
+            $table->unsignedBigInteger('sales_order_id')->nullable()->comment('銷貨單上層');
+            $table->timestamp('sales_date')->useCurrent()->comment('銷貨單日期');
+            $table->string('sales_order_no')->unique()->comment('銷貨單號');
             $table->unsignedBigInteger('customer_manufacturer_id')->nullable()->comment('廠商名稱');
             $table->unsignedBigInteger('staff_id')->nullable()->comment('進貨人員');
             $table->unsignedBigInteger('department_id')->nullable()->comment('採購部門');

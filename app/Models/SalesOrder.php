@@ -23,11 +23,21 @@ class SalesOrder extends Model
         'updated_at'        => 'datetime:Y-m-d',
     ];
 
+    /**
+     * 廠商客戶
+     *
+     * @return void
+     */
     public function customer_manufacturer()
     {
         return $this->belongsTo(CustomerManufacturer::class, 'customer_manufacturer_id');
     }
 
+    /**
+     * 項目
+     *
+     * @return void
+     */
     public function items()
     {
         return $this->hasMany(SalesOrderItem::class);
