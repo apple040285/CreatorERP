@@ -100,7 +100,7 @@ class ProductsImport implements ToModel, WithUpserts, WithStartRow, SkipsEmptyRo
         return [
             0 => '產品編號',
             1 => '產品名稱',
-            1 => '發票品茗',
+            1 => '發票品名',
         ];
     }
 }
