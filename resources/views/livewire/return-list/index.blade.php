@@ -45,13 +45,13 @@
                                 <span class="f16 cgy1"> {{ $order->sales_date->format('Y-m-d') }} </span>
                             </td>
                             <td>
-                                <button type="button" wire:click="$set('order_id', '{{ $order->id }}')" class="btn d-flex justify-content-start align-items-start w-100" data-toggle="modal" data-target="#detailModal">
+                                <button type="button" wire:click="$set('order_id', '{{ $order->id }}')" class="p-0 btn d-flex justify-content-start align-items-start w-100" data-toggle="modal" data-target="#detailModal">
                                     <span class="pointTxt text-mred0">{{ $order->customer_manufacturer->full_name }}</span>
                                 </button>
                             </td>
                             <td class="text-right pr-4">{{ round($order->total_amount) }}</td>
                             <td class="text-center">
-                                <button class="btn btn3Link text-mred0 d-block mx-auto" type="button" wire:click="$set('order_id', '{{ $order->id }}')" class="btn" data-toggle="modal" data-target="#actionModal">
+                                <button type="button" wire:click="$set('order_id', '{{ $order->id }}')" class="p-0 btn btn3Link text-mred0 d-block mx-auto" data-toggle="modal" data-target="#actionModal">
                                     <i class="fa fa-pencil"></i>
                                 </button>
                             </td>
@@ -62,7 +62,7 @@
         </div>
     </div>
     <!-- Modal 詳情 -->
-    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModal" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -94,7 +94,7 @@
     </div>
 
     <!-- Modal 操作選單 -->
-    <div class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModal" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-link3">
             <div class="modal-content">
                 <div class="modal-body cgy3 f14">

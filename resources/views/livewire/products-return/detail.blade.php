@@ -48,13 +48,13 @@
                         <tr>
                             <th scope="row" class="cgy1 fw600 text-right">{{ $index + 1 }}</th>
                             <td>
-                                <button type="button" wire:click="$set('cart_id', '{{ $cart->id }}')" class="btn text-left" data-toggle="modal" data-target="#detailModal">
+                                <button type="button" wire:click="$set('cart_id', '{{ $cart->id }}')" class="p-0 btn text-left" data-toggle="modal" data-target="#detailModal">
                                     <span class="pointTxt text-mgreen1">{{ $cart->name }}</span>
                                 </button>
                             </td>
                             <td class="text-right">{{ $cart->quantity }}</td>
                             <td class="text-center">
-                                <button type="button" wire:click="$set('cart_id', '{{ $cart->id }}')" class="btn3Link d-block mx-auto btn btn-link text-mgreen1" data-toggle="modal" data-target="#actionModal">
+                                <button type="button" wire:click="$set('cart_id', '{{ $cart->id }}')" class="p-0 btn3Link d-block mx-auto btn btn-link text-mgreen1" data-toggle="modal" data-target="#actionModal">
                                     <i class="fa fa-pencil"></i>
                                 </button>
                             </td>
@@ -81,7 +81,7 @@
     </div>
 
     <!-- Modal 詳情 -->
-    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModal" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -106,7 +106,7 @@
     </div>
 
     <!-- Modal 操作選單 -->
-    <div class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModal" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-link3">
             <div class="modal-content">
                 <div class="modal-body cgy3 f14">
