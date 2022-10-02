@@ -63,7 +63,7 @@
                 </tbody>
             </table>
             <div class="topTxt text-center my-2 d-block mx-auto">
-                <div class="f20 fw800">合計：{{ $this->getTotal() }}</div>
+                <div class="f20 fw800">合計：{{ round($this->getTotal()) }}</div>
             </div>
 
             <div class="btnRow w-75 d-block mx-auto">
@@ -97,8 +97,8 @@
                         </h3>
                         <p class="my-1">產品編號 ： {{ $baseCart->associatedModel->code }}</p>
                         <p class="my-1">數量 ： {{ $baseCart->quantity }}</p>
-                        <p class="my-1">單價 ： {{ $baseCart->price }}</p>
-                        <p class="my-1">金額 ： {{ $baseCart->getPriceSum() }}</p>
+                        <p class="my-1">單價 ： {{ round($baseCart->price) }}</p>
+                        <p class="my-1">金額 ： {{ round($baseCart->getPriceSum()) }}</p>
                     @endif
                 </div>
             </div>
