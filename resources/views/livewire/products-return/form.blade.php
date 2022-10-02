@@ -60,7 +60,7 @@
             <label for="amount" class="formClass w-100 fw700 cgy2">
                 國際條碼：<small>掃碼槍點擊下方即可觸發</small>
             </label>
-            <input id="barcode" wire:model="barcode" type="text" class="form-control" placeholder="國際條碼" value="{{ $this->product?->barcode }}">
+            <input id="barcode" wire:model="barcode" type="text" class="form-control" placeholder="國際條碼" autofocus onfocus="onFocus()" onblur="onBlur()" value="{{ $this->product?->barcode }}">
         </div>
 
         @if (!$this->isEditCart())
