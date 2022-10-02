@@ -5,51 +5,43 @@ namespace App\Http\Livewire\SalesCheck;
 use App\Concerns\WithCart;
 use App\Models\CustomerManufacturer;
 use App\Models\Product;
+use App\Models\SalesOrder;
 use Livewire\Component;
 
 class Form extends Component
 {
-    // 購物車特徵
-    use \App\Concerns\WithCart;
-
     // https://github.com/jantinnerezo/livewire-alert
     use \Jantinnerezo\LivewireAlert\LivewireAlert;
 
-    use Concerns\WithCustomerAndProductAndOrder;
+    // 購物車特徵
+    use \App\Concerns\WithCart;
 
-    /** @var mixed 客戶ID */
-    public $customer_id;
+    public CustomerManufacturer|null $customer;
 
-    /** @var mixed 產品 id */
+    public SalesOrder|null $order;
+
     public $product_id;
-
-    /** @var array 產品紀錄 id */
-    public array $productList = [];
 
     /** @var int 數量 */
     public $quantity = 1;
 
-    public $prod_id;
+    public $barcode;
 
-    protected $queryString = [
-        'prod_id'
-    ];
-
-    public function mount($customer_id)
+    public function mount(CustomerManufacturer $customer, SalesOrder $order)
     {
-        $this->customer_id = $customer_id;
+        $this->customer = $customer;
 
-        $this->productList = session()->get('product_list', []);
+        $this->order = $order;
 
-        if (isset($this->prod_id) && $this->prod_id) {
-            $this->product_id = $this->prod_id;
-            $this->quantity = $this->productList[$this->prod_id] ?? 1;
+        // 判斷是否訂單編輯
+        if ($order->id) {
+            $this->sessionKey = $order->id;
         }
-    }
 
-    public function getCustomerProperty()
-    {
-        return CustomerManufacturer::find($this->customer_id);
+        if ($this->isEditCart()) {
+            $this->product_id   = $this->getCart()->id;
+            $this->quantity     = $this->getCart()->quantity;
+        }
     }
 
     public function getProductsProperty()
@@ -57,40 +49,101 @@ class Form extends Component
         return Product::get();
     }
 
+    public function getProductProperty()
+    {
+        return Product::where('id', $this->product_id)->first();
+    }
+
+    /** @var void 更新商品監聽 */
+    public function updatedProductId($value)
+    {
+        if ($product = $this->getProductProperty()) {
+            $this->barcode = $product->barcode;
+        }
+    }
+
+    /** @var void 輸入條碼監聽 */
+    public function updatingBarcode($value)
+    {
+        if ($product = Product::where('barcode', $value)->first()) {
+            $this->product_id = $product->id;
+            $this->dispatchBrowserEvent('reset', [
+                ['target' => '#product', 'value' => $product->id],
+            ]);
+        }
+    }
+
+    /**
+     * 直接寫入條碼
+     *
+     * @param  mixed $code
+     * @return void
+     */
     public function setBarcode($code)
     {
-        $product = Product::where('barcode', str($code)->trim('!'))->first();
-        if ($product) {
+        if ($product = Product::where('barcode', str($code)->trim('!'))->first()) {
             $this->product_id = $product->id;
             $this->quantity = 1;
             $this->next();
-            $this->alert('success', $product->name . '成功加入');
         } else {
             $this->alert('error', '此無商品');
         }
     }
 
+    /**
+     * 下一筆
+     *
+     * @return void
+     */
     public function next()
     {
         $data = $this->validate([
-            'product_id'    => 'required',
+            'product_id'    => 'nullable',
+            'barcode'       => 'nullable',
             'quantity'      => 'required',
         ]);
 
-        if (isset($this->productList[$data['product_id']]))
-            $this->productList[$data['product_id']]++;
-        else
-            $this->productList[$data['product_id']] = $data['quantity'];
+        if (!$product = $this->getProductProperty()) {
+            $this->alert('error', '此無商品');
+            return;
+        }
+
+        $this->addCart($product);
+
+        $this->alert('success', $product->name . '成功加入');
 
         // 重置
-        $this->reset('quantity');
+        $this->reset('quantity', 'product_id', 'barcode');
 
-        $this->dispatchBrowserEvent('select2.change', [
-            'target'    => '#product',
-            'value'     => null
+        // 發送至瀏覽器
+        $this->dispatchBrowserEvent('reset', [
+            ['target' => '#product', 'value' => null],
         ]);
     }
 
+    /**
+     * 確認
+     *
+     * @return void
+     */
+    public function finish()
+    {
+        if ($this->isCartEmpty()) {
+            $this->alert('error', '清單內尚未存在物品');
+            return;
+        }
+
+        redirect()->route('sales-check-detail', [
+            'customer'  => $this->customer,
+            'order'     => $this->order,
+        ]);
+    }
+
+    /**
+     * 更新
+     *
+     * @return void
+     */
     public function update()
     {
         $data = $this->validate([
@@ -98,23 +151,16 @@ class Form extends Component
             'quantity'      => 'required',
         ]);
 
-        $this->productList[$this->prod_id] = $data['quantity'];
-
-        session()->put('product_list', $this->productList);
-
-        $this->redirectSaleDetail();
-    }
-
-    public function finish()
-    {
-        if (count($this->productList) === 0) {
-            $this->addError('message', '清單內尚未存在物品');
-            return;
+        if (!$product = $this->getProductProperty()) {
+            $this->alert('error', '此無商品');
         }
 
-        session()->put('product_list', $this->productList);
+        $this->updateCart($data['product_id'], $data['quantity']);
 
-        $this->redirectSaleDetail();
+        redirect()->route('sales-check-detail', [
+            'customer'  => $this->customer,
+            'order'     => $this->order,
+        ]);
     }
 
     public function render()

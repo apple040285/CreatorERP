@@ -7,6 +7,19 @@
             .topStatus {
                 background-color: var(--mblue1);
             }
+
+            a,
+            .text-mblue1 {
+                color: var(--mblue1);
+            }
+
+            a:hover,
+            a:focus,
+            .text-mblue1:hover,
+            .text-mblue1:focus {
+                color: var(--mblue1);
+                text-decoration: none
+            }
         </style>
     @endsection
 
@@ -33,12 +46,12 @@
                             </td>
                             <td>
                                 <button type="button" wire:click="$set('order_id', '{{ $order->id }}')" class="d-flex justify-content-start align-items-start btn btn-link w-100" data-toggle="modal" data-target="#detailModal">
-                                    <span class="pointTxt">{{ $order->customer_manufacturer->full_name }}</span>
+                                    <span class="pointTxt text-mblue1">{{ $order->customer_manufacturer->full_name }}</span>
                                 </button>
                             </td>
                             <td class="text-right pr-4">{{ $order->total_amount }}</td>
                             <td class="text-center">
-                                <button type="button" wire:click="$set('order_id', '{{ $order->id }}')" data-toggle="modal" data-target="#actionModal">
+                                <button class="btn btn3Link text-mblue1 d-block mx-auto" type="button" wire:click="$set('order_id', '{{ $order->id }}')" class="btn" data-toggle="modal" data-target="#actionModal">
                                     <i class="fa fa-pencil"></i>
                                 </button>
                             </td>
@@ -59,16 +72,30 @@
                     </button>
                 </div>
                 <div class="modal-body cgy3 f14">
-                    <h3 class="modal-title fw800 f20 cgy2 mb-3 d-flex align-items-center">
-                        <span>{{ $this->order?->customer_manufacturer->full_name }}</span>
-                    </h3>
-                    <p class="my-1">日期 ： <span class="cgy2">{{ $this->order?->sales_date->format('Y-m-d') }}</span></p>
-                    <p class="my-1">單號 ： <span class="cgy2">SA{{ $this->order?->sales_order_no }}</span></p>
-                    <p class="my-1">品項 ： </p>
                     @if ($this->order)
+                        <h3 class="modal-title fw800 f20 cgy2 mb-3 d-flex align-items-center">
+                            <span>{{ $this->order->customer_manufacturer->full_name }}</span>
+                        </h3>
+                        {{-- <p class="my-1">日期 ： <span class="cgy2">{{ $this->order?->sales_date->format('Y-m-d') }}</span></p>
+                        <p class="my-1">單號 ： <span class="cgy2">SA{{ $this->order?->sales_order_no }}</span></p>
+                        <p class="my-1">品項 ： </p>
+                        @if ($this->order)
+                            @foreach ($this->order->items as $index => $item)
+                                <p class="my-1"><span class="cgy2">{{ $index + 1 }}.{{ $item->product->name }}</span></p>
+                                <p class="my-1">數量：<span class="cgy2">{{ $item->quantity }}</span> , 價格：<span class="cgy2">{{ $item->price }}</span> , 總價：<span class="cgy2">{{ $item->amount }}</span></p>
+                            @endforeach
+                        @endif --}}
+
+                        <p class="my-1">日期 ： <span class="cgy2">{{ $this->order->sales_date->format('Y-m-d') }}</span></p>
+                        <p class="my-1">單號 ： <span class="cgy2">{{ $this->order->sales_order_no }}</span></p>
+                        <p class="my-1">品項 ： </p>
                         @foreach ($this->order->items as $index => $item)
                             <p class="my-1"><span class="cgy2">{{ $index + 1 }}.{{ $item->product->name }}</span></p>
-                            <p class="my-1">數量：<span class="cgy2">{{ $item->quantity }}</span> , 價格：<span class="cgy2">{{ $item->price }}</span> , 總價：<span class="cgy2">{{ $item->amount }}</span></p>
+                            <p class="my-1">數量：
+                                <span class="cgy2">{{ $item->quantity }}</span> , 價格：
+                                <span class="cgy2">{{ round($item->price) }}</span> , 總價：
+                                <span class="cgy2">{{ round($item->amount) }}</span>
+                            </p>
                         @endforeach
                     @endif
                 </div>
@@ -82,12 +109,23 @@
             <div class="modal-content">
                 <div class="modal-body cgy3 f14">
                     <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>
-                    <div class="show3LinkModal f16">
+                    @if ($order_id)
+                        <div class="show3LinkModal f16">
+                            <button type="button" wire:click="editOrder" class="my-4 p-0 btn text-mblue1 w-100">
+                                編輯
+                            </button>
+
+                            <button type="button" wire:click="removeOrder" class="my-4 p-0 btn text-mblue1 w-100" data-dismiss="modal" aria-label="Close">
+                                刪除
+                            </button>
+                        </div>
+                    @endif
+                    {{-- <div class="show3LinkModal f16">
                         @if ($this->order)
                             <button type="button" wire:click="redirectSaleDetail" class="f18 btn btn-purple d-block w-100">編輯</button>
                         @endif
                         <a class="my-4" href="javascript:;">刪除</a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

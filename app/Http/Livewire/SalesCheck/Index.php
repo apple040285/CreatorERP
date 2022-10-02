@@ -7,7 +7,8 @@ use Livewire\Component;
 
 class Index extends \LivewireUI\Modal\ModalComponent
 {
-    use Concerns\WithCustomerAndProductAndOrder;
+    // https://github.com/jantinnerezo/livewire-alert
+    use \Jantinnerezo\LivewireAlert\LivewireAlert;
 
     public $customer_id;
 
@@ -24,6 +25,10 @@ class Index extends \LivewireUI\Modal\ModalComponent
      */
     public function submit()
     {
+        if (!$this->customer_id) {
+            $this->alert('error', '請選擇下拉選單');
+            return;
+        }
         redirect()->route('sales-check-form', ['customer' => $this->customer_id]);
     }
 

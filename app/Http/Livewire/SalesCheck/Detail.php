@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\SalesCheck;
 
 use App\Enum\SalesOrderType;
-use App\Models\Product;
+use App\Models\CustomerManufacturer;
 use App\Models\SalesOrder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -13,56 +13,109 @@ class Detail extends Component
     // https://github.com/jantinnerezo/livewire-alert
     use \Jantinnerezo\LivewireAlert\LivewireAlert;
 
-    use Concerns\WithCustomerAndProductAndOrder;
+    // 購物車特徵
+    use \App\Concerns\WithCart;
 
-    /** @var mixed 客戶ID */
-    public $customer_id;
+    use \App\Concerns\ModelRelationWith;
 
-    public $product_id;
+    public CustomerManufacturer|null $customer;
 
-    public $sales_order_no;
+    public SalesOrder|null $order;
 
-    /** @var \Illuminate\Support\Collection 產品紀錄 ids */
-    public $product_ids = [];
+    public string $orderNo;
 
-    public function mount($customer_id)
+    public function mount(CustomerManufacturer $customer, SalesOrder $order)
     {
-        $this->customer_id = $customer_id;
+        $this->customer = $customer;
 
-        if (!session()->has('product_list')) {
-            $this->redirectRoute('sales-check-form', ['customer_id' => $this->customer_id]);
-            return;
+        $this->order = $order->load('customer_manufacturer', 'items.product');
+
+        // 獲得訂單編號
+        $prefix = 'SA' . date("Ymd");
+        $currentCount = SalesOrder::whereType(SalesOrderType::銷貨->value)->where('sales_order_no', 'like', "$prefix%")->count() + 1;
+        $this->orderNo = $prefix . str($currentCount)->padLeft(3, '0');
+
+        // 判斷是否訂單編輯
+        if ($order->id) {
+            $this->sessionKey = $order->id;
+            $this->orderNo = $order->sales_order_no;
         }
-
-        $this->sales_order_no = date("YmdHis");
-
-        $this->product_ids = collect(session()->get('product_list'));
     }
 
-    public function getProductsProperty()
+    // 繼續新增
+    public function redirectBackForm()
     {
-        return Product::whereIn('id', $this->product_ids->keys())->get();
+        redirect()->route('sales-check-form', [
+            'customer'  => $this->customer,
+            'order'     => $this->order,
+        ]);
     }
 
-    // 完成列印
-    public function delete()
+    // 編輯商品
+    public function redirectEditForm()
     {
-      unset($this->product_ids[$this->product_id]);
+        redirect()->route('sales-check-form', [
+            'customer'  => $this->customer,
+            'order'     => $this->order,
+            'cart_id'   => $this->getCart()->id
+        ]);
     }
 
-    // 完成列印
+    // 刪除商品
+    public function removeCartForm()
+    {
+        $this->removeCart($this->getCart()->id);
+    }
+
+    // 完成/列印
     public function completePrint()
     {
+        // 編輯訂單
+        if ($this->order->id) {
+            try {
+                DB::beginTransaction();
+
+                $order = SalesOrder::find($this->order->id);
+
+                $mapCarts = $this->getCarts()->map(fn ($cart) => [
+                    'product_id'    => $cart->id,
+                    'storehouse_id' => 0,
+                    'quantity'      => $cart->quantity,
+                    'price'         => $cart->price,
+                    'amount'        => $cart->getPriceSum(),
+                ]);
+
+                $this->proccesRelationWithRequest($order->items(), $mapCarts->toArray());
+
+                $order->update([
+                    'total_amount' => $this->getTotal(),
+                ]);
+
+                DB::commit();
+
+                $this->clearAllCart();
+
+                $this->flash('success', '訂單修改成功', [], route('index'));
+
+                return;
+            } catch (\Exception $e) {
+                report($e);
+                DB::rollBack();
+                $this->alert('error', $e->getMessage());
+            }
+        }
+
+        // 創建訂單
         try {
             DB::beginTransaction();
 
             $order = SalesOrder::create([
                 'type'                      => SalesOrderType::銷貨->value,
                 'sales_date'                => now(),
-                'sales_order_no'            => $this->sales_order_no,
-                'customer_manufacturer_id'  => $this->getCustomerProperty()?->id,
-                'staff_id'                  => null,
-                'total_amount'              => 0,
+                'sales_order_no'            => $this->orderNo,
+                'customer_manufacturer_id'  => $this->customer->id,
+                'staff_id'                  => auth()->id(),
+                'total_amount'              => $this->getTotal(),
                 'status'                    => '',
                 'status_approval'           => '',
                 // 不知道是捨
@@ -70,27 +123,25 @@ class Detail extends Component
                 'account_setting_method'    => '', // 立帳方式
             ]);
 
-            $total_amount = 0;
-            foreach ($this->getProductsProperty() as $product) {
-                $quantity = $this->product_ids[$product->id] ?? 0;
-
-                $total_amount += $product->price * $quantity;
-
+            foreach ($this->getCarts() as $cart) {
                 $order->items()->create([
-                    'product_id'    => $product->id,
+                    'product_id'    => $cart->id,
                     'storehouse_id' => 0,
-                    'quantity'      => $quantity,
-                    'price'         => $product->price,
-                    'amount'        => $total_amount,
+                    'quantity'      => $cart->quantity,
+                    'price'         => $cart->price,
+                    'amount'        => $cart->getPriceSum(),
                 ]);
             }
 
             $order->update([
-                'total_amount' => $total_amount,
+                'total_amount' => $this->getTotal(),
             ]);
 
             DB::commit();
-            $this->alert('success', 'OK');
+
+            $this->clearAllCart();
+
+            $this->flash('success', '訂單建立成功', [], route('index'));
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();

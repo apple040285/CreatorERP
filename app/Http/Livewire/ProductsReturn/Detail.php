@@ -91,6 +91,8 @@ class Detail extends Component
                     'total_amount' => $this->getTotal(),
                 ]);
 
+                DB::commit();
+
                 $this->clearAllCart();
 
                 $this->flash('success', '訂單修改成功', [], route('index'));

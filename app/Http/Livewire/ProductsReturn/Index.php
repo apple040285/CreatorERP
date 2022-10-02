@@ -7,6 +7,9 @@ use Livewire\Component;
 
 class Index extends Component
 {
+    // https://github.com/jantinnerezo/livewire-alert
+    use \Jantinnerezo\LivewireAlert\LivewireAlert;
+
     public $customer_id;
 
     /** @var CustomerManufacturer 讀取客戶下拉列表 */
@@ -22,6 +25,11 @@ class Index extends Component
      */
     public function submit()
     {
+        if (!$this->customer_id) {
+            $this->alert('error', '請選擇下拉選單');
+            return;
+        }
+
         redirect()->route('products-return-form', ['customer' => $this->customer_id]);
     }
 

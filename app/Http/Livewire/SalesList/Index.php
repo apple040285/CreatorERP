@@ -2,14 +2,24 @@
 
 namespace App\Http\Livewire\SalesList;
 
+use App\Enum\SalesOrderType;
 use App\Models\SalesOrder;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Index extends Component
 {
-    use Concerns\WithCustomerAndProductAndOrder;
+    // https://github.com/jantinnerezo/livewire-alert
+    use \Jantinnerezo\LivewireAlert\LivewireAlert;
+
+    // 購物車特徵
+    use \App\Concerns\WithCart;
 
     public $order_id;
+
+    protected $listeners = [
+        'confirmed',
+    ];
 
     public function mount()
     {
@@ -17,7 +27,74 @@ class Index extends Component
 
     public function getOrdersProperty()
     {
-        return SalesOrder::with('items')->latest()->get();
+        return SalesOrder::query()
+            ->with('items')
+            ->whereType(SalesOrderType::銷貨)
+            ->latest()
+            ->get();
+    }
+
+    public function getOrderProperty()
+    {
+        return SalesOrder::find($this->order_id);
+    }
+
+    /**
+     * 編輯訂單
+     *
+     * @return void
+     */
+    public function editOrder()
+    {
+        if (!$order = $this->getOrderProperty()) {
+            $this->alert('error', '刪除發生錯誤');
+            return;
+        }
+
+        $this->sessionKey = $order->id;
+
+        foreach ($order->items as $baseOrder) {
+            $this->addCart($baseOrder->product);
+            $this->updateCart($baseOrder->product->id, $baseOrder->quantity);
+        }
+
+        redirect()->route('sales-check-detail', ['customer' => $order->customer_manufacturer_id, 'order' => $order->id]);
+    }
+
+    /**
+     * 刪除訂單
+     *
+     * @return void
+     */
+    public function removeOrder()
+    {
+        $this->confirm('確定要進行此操作?', [
+            'onConfirmed' => 'confirmed',
+            'confirmButtonText' => '確定',
+            'cancelButtonText' => '取消',
+        ]);
+    }
+
+    public function confirmed()
+    {
+        if (!$order = $this->getOrderProperty()) {
+            $this->alert('error', '刪除發生錯誤');
+            return;
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $order->delete();
+
+            DB::commit();
+
+            $this->alert('success', '刪除成功', [], route('return-list-index'));
+        } catch (\Exception $e) {
+            report($e);
+            DB::rollBack();
+            $this->alert('error', $e->getMessage());
+        }
     }
 
     public function render()

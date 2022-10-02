@@ -2,12 +2,25 @@
     @extends('layouts.top')
     @extends('layouts.leftMenu')
 
+    @section('style')
+        <style>
+            .select2-container .select2-selection--single,
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 40px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                line-height: 40px;
+            }
+        </style>
+    @endsection
+
     @section('tipTitle')
         銷售查補
     @endsection
 
     <div class="topTxt text-center mb-4">
-        <div class="f20 fw800">客戶名稱：{{ $this->customer?->full_name }}</div>
+        <div class="f20 fw800">客戶名稱：{{ $this->customer->full_name }}</div>
     </div>
 
     <form wire:submit.prevent="next" class="form-group">
@@ -16,7 +29,7 @@
                 品名：
             </label>
             <div wire:ignore>
-                <select class="form-control" id="customer" name="customer" required @if (isset($prod_id)) disabled @endif>
+                <select wire:model="product_id" class="form-control" id="product" name="product" required @if ($this->isEditCart()) disabled @endif>
                     <option>--請選擇--</option>
                     @foreach ($this->products as $product)
                         <option value="{{ $product->id }}">{{ $product->name }}</option>
@@ -45,7 +58,31 @@
             <input type="text" class="form-control" placeholder="單價" readonly value="{{ $this->product?->price }}">
         </div>
 
-        @if (isset($prod_id))
+        <div class="f16 w-75 my-3 d-block mx-auto">
+            <label for="amount" class="formClass w-100 fw700 cgy2">
+                國際條碼：<small>掃碼槍點擊下方即可觸發</small>
+            </label>
+            <input id="barcode" wire:model="barcode" type="text" class="form-control" placeholder="國際條碼" autofocus onfocus="onFocus()" onblur="onBlur()" value="{{ $this->product?->barcode }}">
+        </div>
+
+        @if (!$this->isEditCart())
+            <div class="btnRow w-75 d-block mx-auto">
+                <button type="submit" wire:target="next" class="f18 btn btn-lg btn-outline-purple d-block mt-3 w-100">
+                    下一筆
+                </button>
+            </div>
+
+            <div class="btnRow w-75 d-block mx-auto">
+                <button type="button" wire:click.prevent="finish" class="f18 btn btn-lg btn-purple d-block mt-3 w-100">確認</button>
+            </div>
+        @elseif ($this->isEditCart())
+            <div class="btnRow w-75 d-block mx-auto">
+                <button type="button" wire:click.prevent="update" class="f18 btn btn-lg btn-purple d-block mt-3 w-100">
+                    更新
+                </button>
+            </div>
+        @endif
+        {{-- @if (isset($prod_id))
             <div class="f16 w-75 my-3 d-block mx-auto">
                 <label for="amount" class="formClass w-100 fw700 cgy2">
                     國際條碼：
@@ -75,9 +112,8 @@
             <div class="btnRow w-75 d-block mx-auto">
                 <button wire:click.prevent="finish" type="button" class="f18 btn btn-lg btn-purple d-block mt-3 w-100">確認</button>
             </div>
-        @endif
+        @endif --}}
     </form>
-
 
     @error('message')
         <span class="error">{{ $message }}</span>
@@ -86,26 +122,45 @@
     @section('script')
         <script>
             $(document).ready(function() {
-                let prod_id = @js($prod_id)
+                $('#product').select2();
 
-                $('#customer').select2();
-
-                if (prod_id > 0) {
-                    $('#customer').select2('val', String(prod_id));
-                }
-
-                $('#customer').on('change', function(e) {
-                    var data = $('#customer').select2('val');
-                    @this.set('product_id', data);
+                // https://select2.org/programmatic-control/events
+                $('#product').on('select2:select', function(e) {
+                    var data = e.params.data;
+                    @this.set('product_id', data.id);
                 });
             });
 
-            window.addEventListener('select2.change', event => {
-                $(event.detail.target).select2('val', String(event.detail.value))
+            window.addEventListener('reset', event => {
+                event.detail.forEach(element => {
+                    $(element.target).select2().val(String(element.value))
+                });
             })
         </script>
 
         <script>
+            function onFocus() {
+                const target = event.target
+                setTimeout(() => {
+                    target.readOnly = false
+                }, 200);
+            }
+
+            function onBlur() {
+                event.target.readOnly = true
+            }
+
+            window.addEventListener('keydown', function(e) {
+                if (e.which == 229) {
+                    $('#barcode').val("");
+                    setTimeout(() => {
+                        @this.setBarcode($('#barcode').val());
+                    }, 200);
+                }
+            }, false);
+        </script>
+
+        {{-- <script>
             function onFocus() {
                 const target = event.target
                 setTimeout(() => {
@@ -128,6 +183,6 @@
                     }, 200);
                 }
             }, false);
-        </script>
+        </script> --}}
     @endsection
 </div>
