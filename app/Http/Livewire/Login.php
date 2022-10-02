@@ -24,11 +24,12 @@ class Login extends Component
         auth('staff')->login($staff);
 
         if (auth('staff')->user()->code === $staff->code) {
-            $this->alert('success', 'OK');
+            $this->flash('success', '登入成功', [], route('index'));
             return;
         }
 
         auth('staff')->logout();
+
         $this->alert('error', '登入失敗');
     }
 

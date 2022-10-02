@@ -102,8 +102,11 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     /** @var 銷貨作業 */
 
-    // 銷貨訂單
+    // 銷貨憑單
     Route::apiResource('/sales-orders', Controllers\SalesOrderController::class);
+
+    // 銷貨退回憑單
+    Route::apiResource('/sales-return-orders', Controllers\SalesReturnOrderController::class);
 });
 
 // 測試用

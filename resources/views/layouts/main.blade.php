@@ -45,7 +45,7 @@
 
             // 登入按鈕
             $(".logOut").click(function() {
-                const url = "{{ route('login') }}";
+                const url = "{{ route('logout') }}";
                 Swal.fire({
                     title: '確定要登出嗎?',
                     text: "確認後將跳轉登入頁面!",

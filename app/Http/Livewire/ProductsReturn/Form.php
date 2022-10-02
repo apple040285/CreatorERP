@@ -24,6 +24,8 @@ class Form extends Component
     /** @var int 數量 */
     public $quantity = 1;
 
+    public $barcode;
+
     public function mount(CustomerManufacturer $customer, SalesOrder $order)
     {
         $this->customer = $customer;
@@ -48,7 +50,38 @@ class Form extends Component
 
     public function getProductProperty()
     {
-        return Product::find($this->product_id);
+        return Product::where('id', $this->product_id)->first();
+    }
+
+    /** @var void 更新商品監聽 */
+    public function updatedProductId($value)
+    {
+        if ($product = $this->getProductProperty()) {
+            $this->barcode = $product->barcode;
+        }
+    }
+
+    /** @var void 輸入條碼監聽 */
+    public function updatingBarcode($value)
+    {
+        if ($product = Product::where('barcode', $value)->first()) {
+            $this->product_id = $product->id;
+            $this->dispatchBrowserEvent('reset', [
+                ['target' => '#product', 'value' => $product->id],
+            ]);
+        }
+    }
+
+    /**
+     * 直接寫入條碼
+     *
+     * @param  mixed $code
+     * @return void
+     */
+    public function setBarcode($code)
+    {
+        $this->barcode = $code;
+        $this->next();
     }
 
     /**
@@ -59,12 +92,14 @@ class Form extends Component
     public function next()
     {
         $data = $this->validate([
-            'product_id'    => 'required',
+            'product_id'    => 'nullable',
+            'barcode'       => 'nullable',
             'quantity'      => 'required',
         ]);
 
         if (!$product = $this->getProductProperty()) {
             $this->alert('error', '此無商品');
+            return;
         }
 
         $this->addCart($product);
@@ -72,7 +107,7 @@ class Form extends Component
         $this->alert('success', $product->name . '成功加入');
 
         // 重置
-        $this->reset('quantity', 'product_id');
+        $this->reset('quantity', 'product_id', 'barcode');
 
         // 發送至瀏覽器
         $this->dispatchBrowserEvent('reset', [

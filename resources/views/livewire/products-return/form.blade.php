@@ -60,7 +60,7 @@
             <label for="amount" class="formClass w-100 fw700 cgy2">
                 國際條碼：<small>掃碼槍點擊下方即可觸發</small>
             </label>
-            <input type="text" class="form-control" placeholder="國際條碼" readonly value="{{ $this->product?->barcode }}">
+            <input id="barcode" wire:model="barcode" type="text" class="form-control" placeholder="國際條碼" value="{{ $this->product?->barcode }}">
         </div>
 
         @if (!$this->isEditCart())
@@ -91,18 +91,41 @@
         <script>
             $(document).ready(function() {
                 $('#product').select2();
-                $('#product').on('change', function(e) {
-                    var data = $('#product').select2('val');
-                    @this.set('product_id', data);
+
+                // https://select2.org/programmatic-control/events
+                $('#product').on('select2:select', function(e) {
+                    var data = e.params.data;
+                    @this.set('product_id', data.id);
                 });
             });
 
-
             window.addEventListener('reset', event => {
                 event.detail.forEach(element => {
-                    $(element.target).select2('val', String(element.value))
+                    $(element.target).select2().val(String(element.value))
                 });
             })
+        </script>
+
+        <script>
+            function onFocus() {
+                const target = event.target
+                setTimeout(() => {
+                    target.readOnly = false
+                }, 200);
+            }
+
+            function onBlur() {
+                event.target.readOnly = true
+            }
+
+            window.addEventListener('keydown', function(e) {
+                if (e.which == 229) {
+                    $('#barcode').val("");
+                    setTimeout(() => {
+                        @this.setBarcode($('#barcode').val());
+                    }, 200);
+                }
+            }, false);
         </script>
     @endsection
 </div>
