@@ -112,7 +112,7 @@ class Detail extends Component
                 'sales_date'                => now(),
                 'sales_order_no'            => $this->orderNo,
                 'customer_manufacturer_id'  => $this->customer->id,
-                'staff_id'                  => null,
+                'staff_id'                  => auth()->id(),
                 'total_amount'              => $this->getTotal(),
                 'status'                    => '',
                 'status_approval'           => '',

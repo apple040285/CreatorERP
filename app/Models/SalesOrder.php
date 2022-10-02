@@ -34,6 +34,16 @@ class SalesOrder extends Model
     }
 
     /**
+     * 業務人員
+     *
+     * @return void
+     */
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class, 'staff_id');
+    }
+
+    /**
      * 項目
      *
      * @return void

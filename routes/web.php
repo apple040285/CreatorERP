@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('apps')->group(function () {
     Route::get('/', fn () => redirect()->route('index'));
 
-    Route::get('/login', function () {
-        return view('login');
-    })->name('login');
+    Route::get('/login', Livewire\Login::class)->name('login');
 
     Route::get('/index', function () {
         return view('index');
@@ -59,7 +57,7 @@ Route::prefix('apps')->group(function () {
     // });
 
     // 商品退貨
-    Route::prefix('products-return')->group(function () {
+    Route::prefix('products-return')->middleware('auth:staff')->group(function () {
         Route::get('/index', Livewire\ProductsReturn\Index::class)->name('products-return-index');
         Route::get('/form/{customer}/{order?}', Livewire\ProductsReturn\Form::class)->name('products-return-form');
         Route::get('/detail/{customer}/{order?}', Livewire\ProductsReturn\Detail::class)->name('products-return-detail');
@@ -79,7 +77,7 @@ Route::prefix('apps')->group(function () {
     //     })->name('products-return-detail');
     // });
 
-    Route::prefix('return-list')->group(function () {
+    Route::prefix('return-list')->middleware('auth:staff')->group(function () {
         Route::get('/index', Livewire\ReturnList\Index::class)->name('return-list-index');
     });
 

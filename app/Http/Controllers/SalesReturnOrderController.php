@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class SalesOrderController extends Controller
+class SalesReturnOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,10 +34,10 @@ class SalesOrderController extends Controller
                     }
                 }
             })
-            ->where('type', SalesOrderType::銷貨)
+            ->where('type', SalesOrderType::退貨)
             ->paginate($request->input('perPage'));
 
-        $data->load('customer_manufacturer', 'staff', 'creator', 'editor');
+        $data->load('customer_manufacturer', 'creator', 'editor');
 
         return $this->success($data);
     }
