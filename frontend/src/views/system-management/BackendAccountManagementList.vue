@@ -85,24 +85,24 @@ export default {
     // Column
     const tableColumns = [
       { label: '#', field: 'id' },
-      { label: 'name', field: 'name' },
-      { label: 'account', field: 'email' },
-      { label: 'role', field: 'role.name' },
-      { label: 'staff', field: 'staff.name' },
-      { label: 'created_by', field: 'creator.name' },
-      { label: 'created_at', field: 'created_at' },
-      { label: 'updated_by', field: 'editor.name' },
-      { label: 'updated_at', field: 'updated_at' },
-      { label: 'action', field: 'action' },
+      { label: 'BackendAccountManagementList.role', field: 'role.name' },
+      { label: 'BackendAccountManagementList.name', field: 'name' },
+      { label: 'BackendAccountManagementList.account', field: 'email' },
+      { label: 'BackendAccountManagementList.created_by', field: 'creator.name' },
+      { label: 'BackendAccountManagementList.created_at', field: 'created_at' },
+      { label: 'BackendAccountManagementList.updated_by', field: 'editor.name' },
+      { label: 'BackendAccountManagementList.updated_at', field: 'updated_at' },
+      { label: 'BackendAccountManagementList.action', field: 'action' },
     ]
 
+    const apiPath = '/users';
     // 總共筆數
     const itemsCount = ref(0)
     const fetchAll = (ctx, callback) => {
       showLoading.value = true
 
       axios
-        .post(`users/list`, ctx)
+        .post(`${apiPath}/list`, ctx)
         .then(response => {
           const { data, meta } = response.data
 
@@ -118,10 +118,10 @@ export default {
     }
 
     return {
+      apiPath,
       showLoading,
       tableColumns,
       itemsCount,
-
       fetchAll,
     }
   },
@@ -144,7 +144,7 @@ export default {
           axios
             .delete(`${this.apiPath}/${id}`)
             .then(() => {
-              this.getList();
+              this.fetchAll();
               this.$toast({
                 component: ToastificationContent,
                 position: 'top-right',

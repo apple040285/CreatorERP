@@ -23,7 +23,8 @@
                             </validation-provider>
                         </b-form-group>
                     </b-col>
-                    <!-- username -->
+
+                    <!-- name -->
                     <b-col cols="12">
                         <b-form-group
                             :label="$t('PermissionSetting.name')"
@@ -39,12 +40,13 @@
                                     :class="errors.length > 0 ? 'is-invalid' : ''"
                                 >
                                     <b-input-group-prepend is-text>
-                                        <feather-icon icon="UserIcon" />
+                                        <feather-icon icon="UserIcon"/>
                                     </b-input-group-prepend>
                                     <b-form-input
                                         id="fh-name"
+                                        type="text"
                                         :placeholder="$t('PermissionSetting.name')"
-                                        v-model="defaultData.name"
+                                        v-model="defaultData.email"
                                         :state="errors.length > 0 ? false:null"
                                     />
                                 </b-input-group>
@@ -148,20 +150,6 @@
                             </validation-provider>
                         </b-form-group>
                     </b-col>
-                    <!-- staff -->
-                    <b-col cols="12">
-                        <b-form-group id="staff">
-                            <label for="staff">{{ $t('PermissionSetting.staff') }}</label>
-                            <v-select
-                                label="name"
-                                v-model="defaultData.staff_id"
-                                :options="staff_option"
-                                :placeholder="$t('PermissionSetting.selectStaff')"
-                                :reduce="option => option.id"
-                            />
-                        </b-form-group>
-                    </b-col>
-
                     <!-- submit -->
                     <b-col>
                         <b-button
@@ -228,20 +216,18 @@ export default {
     },
     data() {
         return {
-            apiPath: '/users',
+            apiPath: '/user',
             required,
             password,
             confirmed,
             defaultData: {
-                role_id: '',
                 name: '',
                 email: '',
                 password: '',
                 password_confirm: '',
-                staff_id: '',
+                role_id: '',
             },
             role_option: [],
-            staff_option: [],
         }
     },
     methods: {
@@ -336,23 +322,6 @@ export default {
         .post('roles/options')
         .then(response => {
             this.role_option = response.data;
-        })
-        .catch(error => {
-            this.$toast({
-                component: ToastificationContent,
-                position: 'top-right',
-                props: {
-                title: `${this.$t('createdFailed')}`,
-                icon: 'XIcon',
-                variant: 'danger',
-                text: error.response.data.message,
-                },
-            })
-        })
-        axios
-        .post('staffs/options')
-        .then(response => {
-            this.staff_option = response.data;
         })
         .catch(error => {
             this.$toast({
