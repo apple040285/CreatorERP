@@ -9,8 +9,14 @@ export default [
       action: 'roles.read',
     },
     {
-      title: 'Account Management',
-      route: 'SystemManagement-AccountManagementList',
+      title: 'Frontend Account Management',
+      route: 'SystemManagement-FrontendAccountManagementList',
+      icon: 'UsersIcon',
+      action: 'users.read',
+    },
+    {
+      title: 'Backend Account Management',
+      route: 'SystemManagement-BackendAccountManagementList',
       icon: 'UsersIcon',
       action: 'users.read',
     },

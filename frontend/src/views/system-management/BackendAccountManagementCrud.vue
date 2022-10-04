@@ -1,5 +1,5 @@
 <template>
-    <b-card-code :title="$route.name == 'SystemManagement-AccountManagementCreate' ?  $t('Create Account') : $t('Edit Account')">
+    <b-card-code :title="$route.name == 'SystemManagement-BackendAccountManagementCreate' ?  $t('Create Account') : $t('Edit Account')">
         <validation-observer ref="simpleRules">
             <b-form @submit.prevent>
                 <b-row>
@@ -14,8 +14,8 @@
                             >
                                 <v-select
                                     label="name"
-                                    v-model="role_id"
-                                    :options="roleOption"
+                                    v-model="defaultData.role_id"
+                                    :options="role_option"
                                     :placeholder="$t('PermissionSetting.selectRole')"
                                     :reduce="option => option.id"
                                 />
@@ -44,7 +44,7 @@
                                     <b-form-input
                                         id="fh-name"
                                         :placeholder="$t('PermissionSetting.name')"
-                                        v-model="name"
+                                        v-model="defaultData.name"
                                         :state="errors.length > 0 ? false:null"
                                     />
                                 </b-input-group>
@@ -75,7 +75,7 @@
                                         id="fh-account"
                                         type="text"
                                         :placeholder="$t('PermissionSetting.account')"
-                                        v-model="account"
+                                        v-model="defaultData.email"
                                         :state="errors.length > 0 ? false:null"
                                     />
                                 </b-input-group>
@@ -93,7 +93,9 @@
                             <validation-provider
                                 #default="{ errors }"
                                 name="Password"
-                                rules="required|password"
+                                rules="required"
+                                ref="password"
+                                vid="password"
                             >
                                 <b-input-group
                                     class="input-group-merge"
@@ -105,7 +107,7 @@
                                     <b-form-input
                                         ref="password"
                                         id="fh-password"
-                                        v-model="password"
+                                        v-model="defaultData.password"
                                         type="password"
                                         :placeholder="$t('PermissionSetting.password')"
                                         :state="errors.length > 0 ? false:null"
@@ -136,7 +138,7 @@
                                     </b-input-group-prepend>
                                     <b-form-input
                                         id="fh-password-confirm"
-                                        v-model="passwordConfirm"
+                                        v-model="defaultData.password_confirm"
                                         type="password"
                                         :placeholder="$t('PermissionSetting.confirmPassword')"
                                         :state="errors.length > 0 ? false:null"
@@ -151,9 +153,9 @@
                         <b-form-group id="staff">
                             <label for="staff">{{ $t('PermissionSetting.staff') }}</label>
                             <v-select
-                                label="staff"
-                                v-model="staff"
-                                :options="staffOption"
+                                label="name"
+                                v-model="defaultData.staff_id"
+                                :options="staff_option"
                                 :placeholder="$t('PermissionSetting.selectStaff')"
                                 :reduce="option => option.id"
                             />
@@ -226,34 +228,114 @@ export default {
     },
     data() {
         return {
-            role_id: '',
-            name: '',
-            account: '',
-            password: '',
-            passwordConfirm: '',
+            apiPath: '/users',
             required,
             password,
             confirmed,
-            roleOption: [],
-            staff: '',
-            staffOption: [],
+            defaultData: {
+                role_id: '',
+                name: '',
+                email: '',
+                password: '',
+                password_confirm: '',
+                staff_id: '',
+            },
+            role_option: [],
+            staff_option: [],
         }
     },
     methods: {
         validationForm() {
             this.$refs.simpleRules.validate().then(success => {
                 if (success) {
-                // eslint-disable-next-line
-                // alert('form submitted!')
+                    if(this.defaultData.id) {
+                        this.updateMethod();
+                    }else {
+                        this.createMethod();
+                    }
+                }else {
+                    const simpleRulesErrors = Object.keys(this.$refs.simpleRules.errors);
+                    simpleRulesErrors.some(element => {
+                        if(this.$refs.simpleRules.errors[element].length > 0){
+                            document.querySelector(`#${element} input`).focus();
+                            return true;
+                        }
+                    });
                 }
+            })
+        },
+        createMethod() {
+            axios
+            .post(`${this.apiPath}`, this.defaultData)
+            .then(() => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('createdSuccess')}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${this.$t('Backend Account Management')} ${this.$t('createdSuccess')}!`,
+                    },
+                })
+                this.$router.push({name:'SystemManagement-BackendAccountManagementList'});
+            })
+            .catch(error => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('createdFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
+            })
+        },
+        editMethod() {
+            axios
+            .get(`${this.apiPath}/${this.defaultData.id}`)
+            .then(response => {
+                this.defaultData = response.data;
+            })
+            .catch(error => console.error (error))
+        },
+        updateMethod() {
+            axios
+            .put(`${this.apiPath}/${this.defaultData.id}`, this.defaultData)
+            .then(() => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedSuccess')}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${this.$t('Backend Account Management')} ${this.$t('updatedSuccess')}!`,
+                    },
+                })
+                this.$router.push({name:'SystemManagement-BackendAccountManagementList'});
+            })
+            .catch(error => {
+                this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                    title: `${this.$t('updatedFailed')}`,
+                    icon: 'XIcon',
+                    variant: 'danger',
+                    text: error.response.data.message,
+                    },
+                })
             })
         },
     },
     mounted() {
         axios
-        .post('departments/options')
+        .post('roles/options')
         .then(response => {
-            this.roleOption = response.data;
+            this.role_option = response.data;
         })
         .catch(error => {
             this.$toast({
@@ -270,7 +352,7 @@ export default {
         axios
         .post('staffs/options')
         .then(response => {
-            this.staffOption = response.data;
+            this.staff_option = response.data;
         })
         .catch(error => {
             this.$toast({
@@ -284,6 +366,11 @@ export default {
                 },
             })
         })
+
+        if(this.$route.query.id) {
+            this.defaultData.id = this.$route.query.id;
+            this.editMethod();
+        }
     },
 }
 </script>

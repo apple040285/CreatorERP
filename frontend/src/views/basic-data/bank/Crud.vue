@@ -251,7 +251,7 @@ export default {
                     title: `${this.$t('updatedSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${this.$t('Department Data Setting')} ${this.$t('updatedSuccess')}!`,
+                    text: `${this.$t('Bank Data Setting')} ${this.$t('updatedSuccess')}!`,
                     },
                 })
                 this.$router.push({name:'BasicData-BankDataSettingList'});

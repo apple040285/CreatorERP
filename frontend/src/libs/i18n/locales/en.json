@@ -9,6 +9,9 @@
       "New Password": "New Password",
       "Confirm the new password": "Confirm the new password",
       "Confirm the password": "Confirm the password",
+      "role": "Role",
+      "staff": "Staff",
+      "storehouse": "Storehouse",
       "group": "Group",
       "requisitionDate": "Requisition Date",
       "currency": "Currency",
@@ -129,6 +132,18 @@
     "of": "of",
     "entries": "entries"
   },
+  "Excel": {
+    "function": "Excel Function",
+    "importFunction": "Import Function",
+    "exportFunction": "Export Function",
+    "uploadSampleDownload": "Excel Upload Sample Download",
+    "uploadImport": "Excel Upload Import",
+    "exportDownload": "Excel Export Download",
+    "importing": "Excel importing,please wait!",
+    "uploadedSuccessfully": "Uploaded Successfully",
+    "importFailed": "Excel Import Failed",
+    "exporting": "Excel exporting,please wait!"
+  },
   "Welcome": "Welcome",
   "Dashboard": "Dashboard",
 
@@ -136,7 +151,8 @@
 
   "Permission Setting": "Permission Setting",
   "Role Management": "Role Management",
-  "Account Management": "Account Management",
+  "Frontend Account Management": "Frontend Account Management",
+  "Backend Account Management": "Backend Account Management",
   "Create Account": "Create Account",
   "Edit Account": "Edit Account",
 
@@ -252,11 +268,21 @@
     "active": "Active"
   },
 
-  "AccountManagementList": {
+  "FrontendAccountManagementList": {
+    "account": "Account",
+    "staff": "Staff",
+    "storehouse": "Storehouse",
+    "created_by": "Created By",
+    "created_at": "Created At",
+    "updated_by": "Updated By",
+    "updated_at": "Updated At",
+    "active": "Active"
+  },
+
+  "BackendAccountManagementList": {
     "name": "Name",
     "account": "Account",
     "role": "Role",
-    "staff": "Staff",
     "created_by": "Created By",
     "created_at": "Created At",
     "updated_by": "Updated By",
@@ -919,6 +945,8 @@
     "confirmPassword": "Confirm The Password",
     "staff": "Staff",
     "selectStaff": "Select The Staff",
+    "storehouse": "Storehouse",
+    "selectStorehouse": "Select The Storehouse",
     "permission": "Permission",
     "menu": "Menu",
     "selectPermission": "Select The Permission"

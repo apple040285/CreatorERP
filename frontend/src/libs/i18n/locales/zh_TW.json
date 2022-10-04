@@ -9,6 +9,9 @@
       "New Password": "新密碼",
       "Confirm the new password": "確認新密碼",
       "Confirm the password": "確認密碼",
+      "role": "角色",
+      "staff": "員工",
+      "storehouse": "倉庫",
       "group": "群組",
       "requisitionDate": "請購日期",
       "currency": "幣別",
@@ -129,6 +132,18 @@
     "of": "共",
     "entries": "筆"
   },
+  "Excel": {
+    "function": "Excel 功能",
+    "importFunction": "匯入功能",
+    "exportFunction": "匯出功能",
+    "uploadSampleDownload": "Excel 上傳範例下載",
+    "uploadImport": "Excel 上傳匯入",
+    "exportDownload": "Excel 匯出下載",
+    "importing": "Excel 匯入中，請稍候！",
+    "uploadedSuccessfully": "上傳成功",
+    "importFailed": "Excel 匯入失敗",
+    "exporting": "Excel 匯出中，請稍候！"
+  },
   "Welcome": "歡迎",
   "Dashboard": "儀表板",
 
@@ -136,7 +151,8 @@
 
   "Permission Setting": "權限設置",
   "Role Management": "角色管理",
-  "Account Management": "帳號管理",
+  "Frontend Account Management": "前台帳號管理",
+  "Backend Account Management": "後台帳號管理",
   "Create Account": "新增帳號",
   "Edit Account": "編輯帳號",
 
@@ -252,11 +268,21 @@
     "action": "操作"
   },
 
-  "AccountManagementList": {
+  "FrontendAccountManagementList": {
+    "account": "帳號",
+    "staff": "員工",
+    "storehouse": "倉庫",
+    "created_by": "創建人員",
+    "created_at": "創建時間",
+    "updated_by": "異動人員",
+    "updated_at": "異動時間",
+    "action": "操作"
+  },
+
+  "BackendAccountManagementList": {
     "name": "名稱",
     "account": "帳號",
     "role": "角色",
-    "staff": "員工",
     "created_by": "創建人員",
     "created_at": "創建時間",
     "updated_by": "異動人員",
@@ -919,6 +945,8 @@
     "confirmPassword": "確認密碼",
     "staff": "員工",
     "selectStaff": "請選擇員工",
+    "storehouse": "倉庫",
+    "selectStorehouse": "請選擇倉庫",
     "permission": "權限",
     "menu": "選單",
     "selectPermission": "請選擇權限"

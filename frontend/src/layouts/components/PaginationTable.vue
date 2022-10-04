@@ -114,7 +114,7 @@
           v-if="props.column.label !== '#'"
           class="text-nowrap"
         >
-          {{ $t('AccountManagementList.' + props.column.label) }}
+          {{ $t(props.column.label) }}
         </span>
       </template>
       <!-- Table Column End -->

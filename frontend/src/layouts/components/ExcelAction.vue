@@ -1,16 +1,16 @@
 <template >
   <b-dropdown
     v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-    text="Excel 功能"
     variant="outline-primary"
     class="mb-2 mr-2"
+    :text="$t('Excel.function')"
   >
-    <b-dropdown-item disabled>匯出功能</b-dropdown-item>
+    <b-dropdown-item disabled>{{ $t('Excel.importFunction') }}</b-dropdown-item>
 
     <b-dropdown-divider />
 
     <b-dropdown-group id="dropdown-group-1">
-      <b-dropdown-item @click.stop.prevent="downLoadExample">Excel 上傳範例下載</b-dropdown-item>
+      <b-dropdown-item @click.stop.prevent="downLoadExample">{{ $t('Excel.uploadSampleDownload') }}</b-dropdown-item>
       <input
         ref="refInputEl"
         type="file"
@@ -19,16 +19,16 @@
         @change="importExcel"
       >
       <b-dropdown-item @click="$refs.refInputEl.click()">
-        Excel 上傳匯入
+        {{ $t('Excel.uploadImport') }}
       </b-dropdown-item>
     </b-dropdown-group>
 
     <b-dropdown-divider />
 
-    <b-dropdown-item disabled>匯出功能</b-dropdown-item>
+    <b-dropdown-item disabled>{{ $t('Excel.exportFunction') }}</b-dropdown-item>
 
     <b-dropdown-group id="dropdown-group-2">
-      <b-dropdown-item @click.stop.prevent="exportExcel">Excel 匯出下載</b-dropdown-item>
+      <b-dropdown-item @click.stop.prevent="exportExcel">{{ $t('Excel.exportDownload') }}</b-dropdown-item>
     </b-dropdown-group>
   </b-dropdown>
 </template>
@@ -83,7 +83,7 @@ export default {
       form.append('file', files[0]);
 
       root.$swal.fire({
-        title: 'Excel 匯入中，請稍候！',
+        title: `${root.$t('Excel.importing')}`,
         allowOutsideClick: false,
         willOpen: () => {
           root.$swal.showLoading();
@@ -101,7 +101,7 @@ export default {
             component: ToastificationContent,
             position: 'top-right',
             props: {
-              title: '上傳成功',
+              title: `${root.$t('Excel.uploadedSuccessfully')}`,
               icon: 'CoffeeIcon',
               variant: 'success',
               text: response.data.message,
@@ -110,7 +110,7 @@ export default {
         })
         .catch(error => {
           root.$swal.fire({
-            title: 'Excel 匯入失敗',
+            title: `${root.$t('Excel.importFailed')}`,
             text: error.response.data.message,
             type: 'error',
           })
@@ -119,7 +119,7 @@ export default {
 
     const exportExcel = () => {
       root.$swal.fire({
-        title: 'Excel 匯出中，請稍候！',
+        title: `${root.$t('Excel.exporting')}`,
         allowOutsideClick: false,
         willOpen: () => {
           root.$swal.showLoading();
@@ -135,7 +135,7 @@ export default {
         })
         .catch(error => {
           root.$swal.fire({
-            title: 'Excel 匯入失敗',
+            title: `${root.$t('Excel.importFailed')}`,
             text: error.response.data.message,
             type: 'error',
           })
@@ -144,7 +144,7 @@ export default {
 
     const downLoadExample = () => {
       root.$swal.fire({
-        title: 'Excel 匯出中，請稍候！',
+        title: `${root.$t('Excel.exporting')}`,
         allowOutsideClick: false,
         willOpen: () => {
           root.$swal.showLoading();
@@ -160,7 +160,7 @@ export default {
         })
         .catch(error => {
           root.$swal.fire({
-            title: 'Excel 匯入失敗',
+            title: `${root.$t('Excel.importFailed')}`,
             text: error.response.data.message,
             type: 'error',
           })

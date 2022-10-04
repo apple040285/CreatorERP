@@ -1,12 +1,12 @@
 <template>
   <div>
     <PaginationTable
-      :title="$t('Account Management')"
+      :title="$t('Frontend Account Management')"
       :show-loading="showLoading"
       :fetch-all="fetchAll"
       :tableColumns="tableColumns"
       :itemsCount="itemsCount"
-      @add-sidebar="() => $router.push({ name: 'SystemManagement-AccountManagementCreate' })"
+      @add-sidebar="() => $router.push({ name: 'SystemManagement-FrontendAccountManagementCreate' })"
     >
 
       <!-- Column: Id -->
@@ -22,7 +22,7 @@
             variant="outline-success"
             size="sm"
             class="mr-50"
-            :to="{ name: 'SystemManagement-AccountManagementEdit', query: { id: data.row.id } }"
+            :to="{ name: 'SystemManagement-FrontendAccountManagementEdit', query: { id: data.row.id } }"
           >
             <feather-icon
               icon="Edit2Icon"
@@ -85,24 +85,24 @@ export default {
     // Column
     const tableColumns = [
       { label: '#', field: 'id' },
-      { label: 'name', field: 'name' },
-      { label: 'account', field: 'email' },
-      { label: 'role', field: 'role' },
-      { label: 'staff', field: 'staff' },
-      { label: 'created_by', field: 'creator.name' },
-      { label: 'created_at', field: 'created_at' },
-      { label: 'updated_by', field: 'editor.name' },
-      { label: 'updated_at', field: 'updated_at' },
-      { label: 'action', field: 'action' },
+      { label: 'FrontendAccountManagementList.staff', field: 'staff.name' },
+      { label: 'FrontendAccountManagementList.storehouse', field: 'storehouse.name' },
+      { label: 'FrontendAccountManagementList.account', field: 'email' },
+      { label: 'FrontendAccountManagementList.created_by', field: 'creator.name' },
+      { label: 'FrontendAccountManagementList.created_at', field: 'created_at' },
+      { label: 'FrontendAccountManagementList.updated_by', field: 'editor.name' },
+      { label: 'FrontendAccountManagementList.updated_at', field: 'updated_at' },
+      { label: 'FrontendAccountManagementList.action', field: 'action' },
     ]
 
+    const apiPath = '/p-members';
     // 總共筆數
     const itemsCount = ref(0)
     const fetchAll = (ctx, callback) => {
       showLoading.value = true
 
       axios
-        .post(`users/list`, ctx)
+        .post(`${apiPath}/list`, ctx)
         .then(response => {
           const { data, meta } = response.data
 
@@ -118,10 +118,10 @@ export default {
     }
 
     return {
+      apiPath,
       showLoading,
       tableColumns,
       itemsCount,
-
       fetchAll,
     }
   },
@@ -144,7 +144,7 @@ export default {
           axios
             .delete(`${this.apiPath}/${id}`)
             .then(() => {
-              this.getList();
+              this.fetchAll();
               this.$toast({
                 component: ToastificationContent,
                 position: 'top-right',
@@ -152,7 +152,7 @@ export default {
                   title: `${this.$t('deletedSuccess')}`,
                   icon: 'CoffeeIcon',
                   variant: 'success',
-                  text: `${this.$t('Account Management')} ${this.$t('deletedSuccess')}!`,
+                  text: `${this.$t('Frontend Account Management')} ${this.$t('deletedSuccess')}!`,
                 },
               })
             })

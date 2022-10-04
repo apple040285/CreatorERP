@@ -40,41 +40,81 @@ export default [
         },
     },
     {
-        path: '/SystemManagement/AccountManagementList',
-        name: 'SystemManagement-AccountManagementList',
-        component: () => import('@/views/system-management/AccountManagementList.vue'),
+        path: '/SystemManagement/FrontendAccountManagementList',
+        name: 'SystemManagement-FrontendAccountManagementList',
+        component: () => import('@/views/system-management/FrontendAccountManagementList.vue'),
         meta: {
-            pageTitle: 'Account Management',
+            pageTitle: 'Frontend Account Management',
             breadcrumb: [
             { text: 'SYSTEM MANAGEMENT' },
-            { text: 'Account Management', active: true },
+            { text: 'Frontend Account Management', active: true },
             ],
         },
     },
     {
-        path: '/SystemManagement/AccountManagementCreate',
-        name: 'SystemManagement-AccountManagementCreate',
-        component: () => import('@/views/system-management/AccountManagementCrud.vue'),
+        path: '/SystemManagement/FrontendAccountManagementCreate',
+        name: 'SystemManagement-FrontendAccountManagementCreate',
+        component: () => import('@/views/system-management/FrontendAccountManagementCrud.vue'),
         meta: {
             pageTitle: 'Role Management',
-            navActiveLink: 'SystemManagement-AccountManagementList',
+            navActiveLink: 'SystemManagement-FrontendAccountManagementList',
             breadcrumb: [
                 { text: 'SYSTEM MANAGEMENT' },
-                { text: 'Account Management', to: { name: 'SystemManagement-AccountManagementList' } },
+                { text: 'Frontend Account Management', to: { name: 'SystemManagement-FrontendAccountManagementList' } },
                 { text: 'create', active: true },
             ],
         },
     },
     {
-        path: '/SystemManagement/AccountManagementEdit',
-        name: 'SystemManagement-AccountManagementEdit',
-        component: () => import('@/views/system-management/AccountManagementCrud.vue'),
+        path: '/SystemManagement/FrontendAccountManagementEdit',
+        name: 'SystemManagement-FrontendAccountManagementEdit',
+        component: () => import('@/views/system-management/FrontendAccountManagementCrud.vue'),
         meta: {
             pageTitle: 'Role Management',
-            navActiveLink: 'SystemManagement-AccountManagementList',
+            navActiveLink: 'SystemManagement-FrontendAccountManagementList',
             breadcrumb: [
                 { text: 'SYSTEM MANAGEMENT' },
-                { text: 'Account Management', to: { name: 'SystemManagement-AccountManagementList' } },
+                { text: 'Frontend Account Management', to: { name: 'SystemManagement-FrontendAccountManagementList' } },
+                { text: 'edit', active: true },
+            ],
+        },
+    },
+    {
+        path: '/SystemManagement/BackendAccountManagementList',
+        name: 'SystemManagement-BackendAccountManagementList',
+        component: () => import('@/views/system-management/BackendAccountManagementList.vue'),
+        meta: {
+            pageTitle: 'Backend Account Management',
+            breadcrumb: [
+            { text: 'SYSTEM MANAGEMENT' },
+            { text: 'Backend Account Management', active: true },
+            ],
+        },
+    },
+    {
+        path: '/SystemManagement/BackendAccountManagementCreate',
+        name: 'SystemManagement-BackendAccountManagementCreate',
+        component: () => import('@/views/system-management/BackendAccountManagementCrud.vue'),
+        meta: {
+            pageTitle: 'Role Management',
+            navActiveLink: 'SystemManagement-BackendAccountManagementList',
+            breadcrumb: [
+                { text: 'SYSTEM MANAGEMENT' },
+                { text: 'Backend Account Management', to: { name: 'SystemManagement-BackendAccountManagementList' } },
+                { text: 'create', active: true },
+            ],
+        },
+    },
+    {
+        path: '/SystemManagement/BackendAccountManagementEdit',
+        name: 'SystemManagement-BackendAccountManagementEdit',
+        component: () => import('@/views/system-management/BackendAccountManagementCrud.vue'),
+        meta: {
+            pageTitle: 'Role Management',
+            navActiveLink: 'SystemManagement-BackendAccountManagementList',
+            breadcrumb: [
+                { text: 'SYSTEM MANAGEMENT' },
+                { text: 'Backend Account Management', to: { name: 'SystemManagement-BackendAccountManagementList' } },
                 { text: 'edit', active: true },
             ],
         },
