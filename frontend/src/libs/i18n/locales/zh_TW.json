@@ -130,9 +130,13 @@
     "Showing": "顯示",
     "to": "到",
     "of": "共",
-    "entries": "筆"
+    "entries": "筆",
+    "start_date": "開始日期",
+    "end_date": "結束日期"
   },
   "Excel": {
+    "import": "匯入",
+    "export": "匯出",
     "function": "Excel 功能",
     "importFunction": "匯入功能",
     "exportFunction": "匯出功能",

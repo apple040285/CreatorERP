@@ -2,27 +2,70 @@
     <b-row>
         <b-col cols="12">
             <b-card-code :title="$t('Adjustment Voucher')">
-
                 <!-- search input -->
-                <div class="custom-search d-flex justify-content-end">
-                    <b-button
-                        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                        variant="outline-primary"
-                        :to="{ name: 'AdjustTheTransferOperation-AdjustmentVoucherCreate' }"
-                        class="mb-2 mr-2"
-                    >
-                        {{ $t('create')}}
-                    </b-button>
-                    <b-form-group>
-                        <div class="d-flex align-items-center">
-                            <b-form-input
-                                v-model="serverParams.searchTerm"
-                                :placeholder="$t('table.Search')"
-                                type="text"
-                                class="d-inline-block"
+                <div class="custom-search d-md-flex justify-content-between">
+                    <div class="d-flex">
+                        <b-form-group
+                            label-for="startDate-datepicker"
+                            id="startDate"
+                            class="mr-2"
+                        >
+                            <flat-pickr
+                                v-model="showData.start_date"
+                                class="form-control"
+                                id="startDate-datepicker"
+                                :placeholder="$t('table.start_date')"
                             />
-                        </div>
-                    </b-form-group>
+                        </b-form-group>
+                        <b-form-group
+                            label-for="endDate-datepicker"
+                            id="endDate"
+                            class="mr-2"
+                        >
+                            <flat-pickr
+                                v-model="showData.end_date"
+                                class="form-control"
+                                id="endDate-datepicker"
+                                :placeholder="$t('table.end_date')"
+                            />
+                        </b-form-group>
+                        <b-button
+                            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                            variant="outline-primary"
+                            class="mb-2 mr-2 text-nowrap"
+                            @click="onColumnFilter({ columnFilters: { type:'customer' } })"
+                        >
+                            {{ $t('table.Search')}}
+                        </b-button>
+                        <b-button
+                            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                            variant="outline-primary"
+                            class="mb-2 mr-2 text-nowrap"
+
+                        >
+                            {{ $t('Excel.export')}}
+                        </b-button>
+                    </div>
+                    <div class="d-flex">
+                        <b-button
+                            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                            variant="outline-primary"
+                            :to="{ name: 'AdjustTheTransferOperation-AdjustmentVoucherCreate' }"
+                            class="mb-2 mr-2 text-nowrap"
+                        >
+                            {{ $t('create')}}
+                        </b-button>
+                        <b-form-group>
+                            <div class="d-flex align-items-center">
+                                <b-form-input
+                                    v-model="serverParams.searchTerm"
+                                    :placeholder="$t('table.Search')"
+                                    type="text"
+                                    class="d-inline-block"
+                                />
+                            </div>
+                        </b-form-group>
+                    </div>
                 </div>
 
                 <!-- table -->
@@ -31,6 +74,7 @@
                         @on-page-change="onPageChange"
                         @on-sort-change="onSortChange"
                         @on-per-page-change="onPerPageChange"
+                        @on-column-filter="onColumnFilter"
                         :totalRows="totalRecords"
                         :isLoading.sync="isLoading"
                         :pagination-options="{
@@ -172,6 +216,7 @@
 
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
+import flatPickr from 'vue-flatpickr-component'
 import {
     BRow, BCol, BBadge, BPagination, BFormGroup, BFormInput, BFormSelect, BButton, BSpinner
 } from 'bootstrap-vue'
@@ -191,7 +236,8 @@ export default {
         BFormInput,
         BFormSelect,
         BButton,
-        BSpinner
+        BSpinner,
+        flatPickr
     },
     directives: {
         Ripple,
@@ -199,86 +245,24 @@ export default {
     data() {
         return {
             apiPath: '/adjustmentVoucher',
+            showData: {},
+            defaultData: {
+                start_date: '',
+                end_date: '',
+            },
             columns: [
                 { label: '#', field: 'id' },
-                { label: 'adjustmentDate', field: 'adjustmentDate' },
-                { label: 'adjustmentNo', field: 'adjustmentNo' },
-                { label: 'adjustmentCategory', field: 'adjustmentCategory' },
-                { label: 'adjustmentMethod', field: 'adjustmentMethod' },
+                { label: 'adjustmentDate', field: 'adjustment_date' },
+                { label: 'adjustmentNo', field: 'adjustment_no' },
+                { label: 'adjustmentCategory', field: 'adjustment_category' },
+                { label: 'adjustmentMethod', field: 'adjustment_method' },
                 { label: 'applicants', field: 'applicants' },
-                { label: 'peopleInCharge', field: 'peopleInCharge' },
+                { label: 'peopleInCharge', field: 'people_in_charge' },
                 { label: 'status', field: 'status' },
-                { label: 'approvalStatus', field: 'approvalStatus' },
+                { label: 'approvalStatus', field: 'approval_status' },
                 { label: 'action', field: 'action' },
             ],
-            rows: [
-                {
-                    id: 1,
-                    adjustmentDate: "2022/06/22",
-                    adjustmentNo: '20220622001',
-                    adjustmentCategory: '分類A',
-                    adjustmentMethod: '只調數量',
-                    applicants: 'dennis',
-                    peopleInCharge: 'dennis',
-                    status: 'openCase',
-                    approvalStatus: 'void',
-                },
-                {
-                    id: 2,
-                    adjustmentDate: "2022/06/22",
-                    adjustmentNo: '20220622001',
-                    adjustmentCategory: '分類A',
-                    adjustmentMethod: '只調數量',
-                    applicants: 'dennis',
-                    peopleInCharge: 'dennis',
-                    status: 'openCase',
-                    approvalStatus: 'underReview',
-                },
-                {
-                    id: 3,
-                    adjustmentDate: "2022/06/22",
-                    adjustmentNo: '20220622001',
-                    adjustmentCategory: '分類A',
-                    adjustmentMethod: '只調數量',
-                    applicants: 'dennis',
-                    peopleInCharge: 'dennis',
-                    status: 'invalid',
-                    approvalStatus: 'audited',
-                },
-                {
-                    id: 4,
-                    adjustmentDate: "2022/06/22",
-                    adjustmentNo: '20220622001',
-                    adjustmentCategory: '分類A',
-                    adjustmentMethod: '只調數量',
-                    applicants: 'dennis',
-                    peopleInCharge: 'dennis',
-                    status: 'caseClosed',
-                    approvalStatus: 'audited',
-                },
-                {
-                    id: 5,
-                    adjustmentDate: "2022/06/22",
-                    adjustmentNo: '20220622001',
-                    adjustmentCategory: '分類A',
-                    adjustmentMethod: '只調數量',
-                    applicants: 'dennis',
-                    peopleInCharge: 'dennis',
-                    status: 'caseClosed',
-                    approvalStatus: 'audited',
-                },
-                {
-                    id: 6,
-                    adjustmentDate: "2022/06/22",
-                    adjustmentNo: '20220622001',
-                    adjustmentCategory: '分類A',
-                    adjustmentMethod: '只調數量',
-                    applicants: 'dennis',
-                    peopleInCharge: 'dennis',
-                    status: 'invalid',
-                    approvalStatus: 'audited',
-                },
-            ],
+            rows: [],
             isLoading: false,
             totalRecords: 0,
             serverParams: {
@@ -326,6 +310,10 @@ export default {
             this.updateParams({perPage: params.currentPerPage});
             this.getList();
         },
+        onColumnFilter(params) {
+            this.updateParams(params);
+            this.getList();
+        },
         onSortChange(params) {
             this.updateParams({
                 sort: params,
@@ -343,6 +331,9 @@ export default {
             .catch(error => console.error (error))
         },
     },
+    mounted() {
+        this.showData = this.defaultData;
+    },
     created() {
         this.getList();
     },
@@ -351,4 +342,5 @@ export default {
 
 <style lang="scss" >
 @import '@core/scss/vue/libs/vue-good-table.scss';
+@import '@core/scss/vue/libs/vue-flatpicker.scss';
 </style>

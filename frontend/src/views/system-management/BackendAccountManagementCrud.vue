@@ -46,7 +46,7 @@
                                         id="fh-name"
                                         type="text"
                                         :placeholder="$t('PermissionSetting.name')"
-                                        v-model="defaultData.email"
+                                        v-model="defaultData.name"
                                         :state="errors.length > 0 ? false:null"
                                     />
                                 </b-input-group>
@@ -79,6 +79,7 @@
                                         :placeholder="$t('PermissionSetting.account')"
                                         v-model="defaultData.email"
                                         :state="errors.length > 0 ? false:null"
+                                        :readonly="defaultData.id ? true : false"
                                     />
                                 </b-input-group>
                                 <small class="text-danger">{{ errors[0] }}</small>
@@ -95,9 +96,9 @@
                             <validation-provider
                                 #default="{ errors }"
                                 name="Password"
-                                rules="required"
                                 ref="password"
                                 vid="password"
+                                :rules="defaultData.id ? '' : 'required'"
                             >
                                 <b-input-group
                                     class="input-group-merge"
@@ -129,7 +130,7 @@
                             <validation-provider
                                 #default="{ errors }"
                                 name="Confirm the password"
-                                rules="required|confirmed:password"
+                                :rules="defaultData.id ? 'confirmed:password' : 'required|confirmed:password'"
                             >
                                 <b-input-group
                                     class="input-group-merge"
@@ -216,7 +217,7 @@ export default {
     },
     data() {
         return {
-            apiPath: '/user',
+            apiPath: '/users',
             required,
             password,
             confirmed,
@@ -284,6 +285,8 @@ export default {
             .get(`${this.apiPath}/${this.defaultData.id}`)
             .then(response => {
                 this.defaultData = response.data;
+                this.defaultData.password = '';
+                this.defaultData.role_id = response.data.roles[0].id;
             })
             .catch(error => console.error (error))
         },

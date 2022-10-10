@@ -39,7 +39,7 @@
                                     id="fh-account"
                                     type="text"
                                     :placeholder="$t('PermissionSetting.account')"
-                                    v-model="defaultData.account"
+                                    v-model="defaultData.email"
                                     readonly
                                 />
                             </b-input-group>
@@ -207,7 +207,7 @@ export default {
             apiPath: '/auth/reset/password',
             defaultData: {
                 name: '',
-                account: '',
+                email: '',
                 currentPassword: '',
                 newPassword: '',
                 newPasswordConfirm: '',
@@ -282,7 +282,7 @@ export default {
         this.$store.dispatch('auth/checkUser')
             .then(response => {
                 this.defaultData.name = response.data.user.name;
-                this.defaultData.account = response.data.user.account;
+                this.defaultData.email = response.data.user.email;
             })
     },
 }

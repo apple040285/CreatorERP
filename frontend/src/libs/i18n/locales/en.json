@@ -130,9 +130,13 @@
     "Showing": "Showing",
     "to": "to",
     "of": "of",
-    "entries": "entries"
+    "entries": "entries",
+    "start_date": "Start Date",
+    "end_date": "End Date"
   },
   "Excel": {
+    "import": "Import",
+    "export": "Export",
     "function": "Excel Function",
     "importFunction": "Import Function",
     "exportFunction": "Export Function",

@@ -65,8 +65,9 @@
                                     <b-form-input
                                         id="fh-account"
                                         type="text"
-                                        :placeholder="$t('PermissionSetting.account')"
                                         v-model="defaultData.email"
+                                        :readonly="defaultData.id ? true : false"
+                                        :placeholder="$t('PermissionSetting.account')"
                                         :state="errors.length > 0 ? false:null"
                                     />
                                 </b-input-group>
@@ -84,9 +85,9 @@
                             <validation-provider
                                 #default="{ errors }"
                                 name="Password"
-                                rules="required"
                                 ref="password"
                                 vid="password"
+                                :rules="defaultData.id ? '' : 'required'"
                             >
                                 <b-input-group
                                     class="input-group-merge"
@@ -118,7 +119,7 @@
                             <validation-provider
                                 #default="{ errors }"
                                 name="Confirm the password"
-                                rules="required|confirmed:password"
+                                :rules="defaultData.id ? 'confirmed:password' : 'required|confirmed:password'"
                             >
                                 <b-input-group
                                     class="input-group-merge"
@@ -274,6 +275,7 @@ export default {
             .get(`${this.apiPath}/${this.defaultData.id}`)
             .then(response => {
                 this.defaultData = response.data;
+                this.defaultData.password = '';
             })
             .catch(error => console.error (error))
         },

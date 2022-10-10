@@ -1,6 +1,7 @@
 <template>
   <div>
     <PaginationTable
+      ref="table"
       :title="$t('Frontend Account Management')"
       :show-loading="showLoading"
       :fetch-all="fetchAll"
@@ -113,7 +114,7 @@ export default {
           showLoading.value = false
         })
         .catch(error => {
-          console.error(error.response.data.message);
+          console.log(error);
         })
     }
 
@@ -144,7 +145,7 @@ export default {
           axios
             .delete(`${this.apiPath}/${id}`)
             .then(() => {
-              this.fetchAll();
+              this.fetchAll(this.$refs.table.serverParams, data => this.$refs.table.rows = data);
               this.$toast({
                 component: ToastificationContent,
                 position: 'top-right',

@@ -1,6 +1,7 @@
 <template>
   <div>
     <PaginationTable
+      ref="table"
       :title="$t('Backend Account Management')"
       :show-loading="showLoading"
       :fetch-all="fetchAll"
@@ -12,6 +13,13 @@
       <!-- Column: Id -->
       <template #cell(id)="data">
         {{ data.row.originalIndex + 1 }}
+      </template>
+
+      <!-- Column: Roles -->
+      <template #cell(roles)="data">
+        <span class="text-nowrap">
+          {{ data.row.roles.map(item => item.name).join(',') }}
+        </span>
       </template>
 
       <!-- Column: Action -->
@@ -85,7 +93,7 @@ export default {
     // Column
     const tableColumns = [
       { label: '#', field: 'id' },
-      { label: 'BackendAccountManagementList.role', field: 'role.name' },
+      { label: 'BackendAccountManagementList.role', field: 'roles' },
       { label: 'BackendAccountManagementList.name', field: 'name' },
       { label: 'BackendAccountManagementList.account', field: 'email' },
       { label: 'BackendAccountManagementList.created_by', field: 'creator.name' },
@@ -113,7 +121,7 @@ export default {
           showLoading.value = false
         })
         .catch(error => {
-          console.error(error.response.data.message);
+          console.log(error);
         })
     }
 
@@ -144,7 +152,7 @@ export default {
           axios
             .delete(`${this.apiPath}/${id}`)
             .then(() => {
-              this.fetchAll();
+              this.fetchAll(this.$refs.table.serverParams, data => this.$refs.table.rows = data);
               this.$toast({
                 component: ToastificationContent,
                 position: 'top-right',
