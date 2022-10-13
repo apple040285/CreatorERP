@@ -31,4 +31,9 @@ class SalesOrderItem extends Model
     {
         return $this->belongsTo(SalesOrder::class, 'sales_order_id');
     }
+
+    public function storehouse()
+    {
+        return $this->belongsTo(Storehouse::class, 'storehouse_id');
+    }
 }

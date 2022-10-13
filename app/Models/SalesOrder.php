@@ -52,4 +52,19 @@ class SalesOrder extends Model
     {
         return $this->hasMany(SalesOrderItem::class);
     }
+
+    /**
+     * Bootstrap the model and its traits.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($model) {
+            // 刪除關聯紀錄
+            $model->items()->delete();
+        });
+    }
 }

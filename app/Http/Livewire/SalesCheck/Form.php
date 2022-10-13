@@ -6,6 +6,7 @@ use App\Concerns\WithCart;
 use App\Models\CustomerManufacturer;
 use App\Models\Product;
 use App\Models\SalesOrder;
+use App\Models\StorehouseHasProduct;
 use Livewire\Component;
 
 class Form extends Component
@@ -39,8 +40,8 @@ class Form extends Component
         }
 
         if ($this->isEditCart()) {
-            $this->product_id   = $this->getCart()->id;
-            $this->quantity     = $this->getCart()->quantity;
+            $this->product_id   = $this->getCurrentCart()->id;
+            $this->quantity     = $this->getCurrentCart()->quantity;
         }
     }
 
@@ -107,6 +108,23 @@ class Form extends Component
             $this->alert('error', '此無商品');
             return;
         }
+
+        // $storehouseProduct = StorehouseHasProduct::query()
+        //     ->where('product_id', $product->id)
+        //     ->where('storehouse_id', auth()->user()->p_member->storehouse_id)
+        //     ->first();
+        // if (!$storehouseProduct) {
+        //     $this->alert('error', '此無商品無庫存');
+        //     return;
+        // }
+
+        // // 庫存不足
+        // if ($storehouseProduct->stock < ($data['quantity'] + $this->getCartQuantity($product->id))) {
+        //     $this->alert('error', '此無商品庫存不足');
+        //     return;
+        // }
+
+        // $storehouseProduct->decrement('stock', $data['quantity']);
 
         $this->addCart($product);
 

@@ -41,5 +41,23 @@
         <div class="col-6 d-flex justify-content-around">
             <a class="d-flex align-items-center justify-content-center my-2 btn btn-md btn-gray btnBlock" href="{{ route('historical-transactions-index') }}">歷史</br>交易</a>
         </div>
+
+        <div class="col-6 d-flex justify-content-around">
+            <button type="button" wire:click.prevent="downloadBy('product')" class="d-flex align-items-center justify-content-center my-2 btn btn-md btn-gray btnBlock">
+                產品
+            </button>
+        </div>
+
+        <div class="col-6 d-flex justify-content-around">
+            <button type="button" wire:click.prevent="downloadBy('customer')" class="d-flex align-items-center justify-content-center my-2 btn btn-md btn-gray btnBlock">
+                客戶
+            </button>
+        </div>
+
+        <div class="col-6 d-flex justify-content-around">
+            <button type="button" wire:click.prevent="downloadBy('sales')" class="d-flex align-items-center justify-content-center my-2 btn btn-md btn-gray btnBlock">
+                業務
+            </button>
+        </div>
     </div>
 </div>

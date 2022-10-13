@@ -28,13 +28,14 @@ Route::prefix('apps')->group(function () {
     })->middleware('auth:staff')->name('logout');
 
     // 首頁
-    Route::get('/index', Livewire\Index::class)->name('index');
+    Route::get('/index', Livewire\Index::class)->middleware('auth:staff')->name('index');
 
     // 銷售查補
     Route::prefix('sales-check')->middleware('auth:staff')->group(function () {
         Route::get('/index', Livewire\SalesCheck\Index::class)->name('sales-check-index');
         Route::get('/form/{customer}/{order?}', Livewire\SalesCheck\Form::class)->name('sales-check-form');
         Route::get('/detail/{customer}/{order?}', Livewire\SalesCheck\Detail::class)->name('sales-check-detail');
+        Route::get('/view/{customer}/{order}', Livewire\SalesCheck\View::class)->name('sales-check-view');
     });
 
     // Route::prefix('sales-check')->group(function () {
@@ -93,14 +94,19 @@ Route::prefix('apps')->group(function () {
     // });
 
     Route::prefix('transfer-job')->group(function () {
-        Route::get('/index', function () {
-            return view('transferJob.index');
-        })->name('transfer-job-index');
-
-        Route::get('/detail', function () {
-            return view('transferJob.detail');
-        })->name('transfer-job-detail');
+        Route::get('/index', Livewire\TransferJob\Index::class)->name('transfer-job-index');
+        Route::get('/detail', Livewire\TransferJob\Detail::class)->name('transfer-job-detail');
     });
+
+    // Route::prefix('transfer-job')->group(function () {
+    //     Route::get('/index', function () {
+    //         return view('transferJob.index');
+    //     })->name('transfer-job-index');
+
+    //     Route::get('/detail', function () {
+    //         return view('transferJob.detail');
+    //     })->name('transfer-job-detail');
+    // });
 
     Route::prefix('inventory')->group(function () {
         Route::get('/index', function () {

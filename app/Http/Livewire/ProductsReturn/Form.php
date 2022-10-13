@@ -38,8 +38,8 @@ class Form extends Component
         }
 
         if ($this->isEditCart()) {
-            $this->product_id   = $this->getCart()->id;
-            $this->quantity     = $this->getCart()->quantity;
+            $this->product_id   = $this->getCurrentCart()->id;
+            $this->quantity     = $this->getCurrentCart()->quantity;
         }
     }
 

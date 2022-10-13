@@ -35,7 +35,6 @@
                         <th scope="col" class="text-right" style="width:2rem;">#</th>
                         <th scope="col">名稱</th>
                         <th scope="col" style="width:6.25rem;" class="text-right">數量</th>
-                        <th scope="col" style="width:3rem;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,11 +47,6 @@
                                 </button>
                             </td>
                             <td class="text-right">{{ $cart->quantity }}</td>
-                            <td class="text-center">
-                                <button type="button" wire:click="$set('cart_id', '{{ $cart->id }}')" class="p-0 btn3Link d-block mx-auto btn btn-link text-mpurple0" data-toggle="modal" data-target="#actionModal">
-                                    <i class="fa fa-pencil"></i>
-                                </button>
-                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -62,12 +56,12 @@
             </div>
             <div class="btnRow w-75 d-block mx-auto">
                 <button type="button" wire:click="redirectBackForm" class="f18 btn btn-lg btn-outline-purple d-block mt-3 w-100">
-                    繼續新增
+                    返回
                 </button>
             </div>
             <div class="btnRow w-75 d-block mx-auto">
                 <button type="button" wire:click="completePrint" class="f18 btn btn-lg btn-purple d-block mt-3 w-100">
-                    {{ isset($order->id) ? '更新' : '完成' }}
+                    列印
                 </button>
             </div>
         </div>
@@ -93,37 +87,6 @@
                         <p class="my-1">單價 ： {{ round($baseCart->price) }}</p>
                         <p class="my-1">金額 ： {{ round($baseCart->getPriceSum()) }}</p>
                     @endif
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal 操作選單 -->
-    <div wire:ignore.self class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-link3">
-            <div class="modal-content">
-                <div class="modal-body cgy3 f14">
-                    <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>
-                    @if ($baseCart = $this->getCurrentCart())
-                        <div class="show3LinkModal f16">
-                            <button type="button" wire:click="redirectEditForm" class="my-4 p-0 btn text-mpurple0 w-100">
-                                編輯
-                            </button>
-
-                            <button type="button" wire:click="removeCartForm" class="my-4 p-0 btn text-mpurple0 w-100" data-dismiss="modal" aria-label="Close">
-                                刪除
-                            </button>
-                        </div>
-                    @endif
-                    {{-- <div class="show3LinkModal f16">
-                        <button type="button" wire:click="redirectSaleForm(null, { 'prod_id': '{{ $this->product?->id }}' })" class="my-4">
-                            編輯
-                        </button>
-
-                        <button type="button" wire:click="delete" class="my-4">
-                            刪除
-                        </button>
-                    </div> --}}
                 </div>
             </div>
         </div>

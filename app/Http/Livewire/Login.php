@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\PMember;
 use App\Models\Staff;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class Login extends Component
@@ -16,21 +18,29 @@ class Login extends Component
 
     public function login()
     {
-        if (!$staff = Staff::where('code', $this->account)->first()) {
-            $this->alert('error', '登入失敗, 請輸入正確的代號');
+        if (!$member = PMember::where('email', $this->account)->first()) {
+            $this->alert('error', '登入失敗, 請輸入正確的帳號');
+            return;
+        }
+
+        if (!$staff = $member->staff) {
+            $this->alert('error', '登入失敗, 該帳號尚未綁定員工');
+            return;
+        }
+
+        if (!$storehouse = $member->storehouse) {
+            $this->alert('error', '登入失敗, 該帳號尚未綁定倉庫');
+            return;
+        }
+
+        if (!Hash::check($this->password, $member->password)) {
+            $this->alert('error', '登入失敗, 請輸入正確的密碼');
             return;
         }
 
         auth('staff')->login($staff);
 
-        if (auth('staff')->user()->code === $staff->code) {
-            $this->flash('success', '登入成功', [], route('index'));
-            return;
-        }
-
-        auth('staff')->logout();
-
-        $this->alert('error', '登入失敗');
+        $this->flash('success', '登入成功', [], route('index'));
     }
 
     public function render()

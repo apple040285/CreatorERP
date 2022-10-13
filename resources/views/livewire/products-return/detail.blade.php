@@ -91,7 +91,7 @@
                     </button>
                 </div>
                 <div class="modal-body cgy3 f14">
-                    @if ($baseCart = $this->getCart())
+                    @if ($baseCart = $this->getCurrentCart())
                         <h3 class="modal-title fw800 f20 cgy2 mb-3 d-flex align-items-center">
                             <span>{{ $baseCart->name }}</span>
                         </h3>
@@ -111,7 +111,7 @@
             <div class="modal-content">
                 <div class="modal-body cgy3 f14">
                     <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>
-                    @if ($baseCart = $this->getCart())
+                    @if ($baseCart = $this->getCurrentCart())
                         <div class="show3LinkModal f16">
                             <button type="button" wire:click="redirectEditForm" class="my-4 p-0 btn text-mgreen1 w-100">
                                 編輯

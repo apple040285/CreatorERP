@@ -10,6 +10,9 @@ class Index extends \LivewireUI\Modal\ModalComponent
     // https://github.com/jantinnerezo/livewire-alert
     use \Jantinnerezo\LivewireAlert\LivewireAlert;
 
+    // 購物車特徵
+    use \App\Concerns\WithCart;
+
     public $customer_id;
 
     /** @var CustomerManufacturer 讀取客戶下拉列表 */
@@ -29,6 +32,9 @@ class Index extends \LivewireUI\Modal\ModalComponent
             $this->alert('error', '請選擇下拉選單');
             return;
         }
+
+        $this->clearAllCart();
+
         redirect()->route('sales-check-form', ['customer' => $this->customer_id]);
     }
 

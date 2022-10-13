@@ -57,14 +57,14 @@ class Detail extends Component
         redirect()->route('products-return-form', [
             'customer'  => $this->customer,
             'order'     => $this->order,
-            'cart_id'   => $this->getCart()->id
+            'cart_id'   => $this->getCurrentCart()->id
         ]);
     }
 
     // 刪除商品
     public function removeCartForm()
     {
-        $this->removeCart($this->getCart()->id);
+        $this->removeCart($this->getCurrentCart()->id);
     }
 
     // 完成/列印
