@@ -54,4 +54,9 @@ class Staff extends Authenticatable
     {
         return $this->belongsTo(Job::class, 'job_id');
     }
+
+    public function p_member()
+    {
+        return $this->hasOne(PMember::class, 'staff_id');
+    }
 }

@@ -47,6 +47,11 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
     // 權限群組
     Route::get('permissions/group', Controllers\PermissionController::class);
 
+    /**
+     PDA 大豐專用前台登入
+     */
+    Route::apiResource('/p-members', Controllers\PMemberController::class);
+
     /** @var 基本資料操作 */
 
     // 部門管理
@@ -77,6 +82,7 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     // 產品管理
     Route::apiResource('/products', Controllers\ProductController::class);
+    Route::post('/products/storehouses/import', [Controllers\ProductController::class, 'storehousesImport']);
 
     // 倉庫管理
     Route::apiResource('/storehouses', Controllers\StorehouseController::class);

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\StatusEnum;
-use App\Models\Department;
-use App\Models\Role;
+use App\Models\PMember;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
-class RoleController extends Controller
+class PMemberController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +18,10 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('roles.read');
+        $this->authorize('users.read');
 
         /** @var \Illuminate\Database\Eloquent\Collection $data */
-        $data = Role::search($request->input('searchTerm'))
+        $data = PMember::search($request->input('searchTerm'))
             ->tap(function ($query) use ($request) {
                 foreach ($request['sort'] as $sort) {
                     if (isset($sort['field']) && isset($sort['type'])) {
@@ -31,14 +31,7 @@ class RoleController extends Controller
             })
             ->paginate($request->input('perPage'));
 
-        $data->load('permissions');
-
-        return $this->success($data);
-    }
-
-    public function options(Request $request)
-    {
-        $data = Role::get();
+        $data->load('storehouse', 'staff', 'creator', 'editor');
 
         return $this->success($data);
     }
@@ -51,20 +44,23 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('roles.add');
+        $this->authorize('users.add');
 
         $attributes = $request->validate([
-            'name'          => 'required|unique:roles,name',
-            'permissions'   => 'nullable|array',
+            'staff_id'      => 'required|unique:p_members',
+            'storehouse_id' => 'required|exists:storehouses,id',
+            'email'         => 'required|unique:p_members',
+            'password'      => 'required',
         ]);
 
         try {
             DB::beginTransaction();
-            $data = Role::create([
-                'name' => $attributes['name'],
+            $data = PMember::create([
+                'email'         => $attributes['email'],
+                'password'      => Hash::make($attributes['password']),
+                'staff_id'      => $attributes['staff_id'],
+                'storehouse_id' => $attributes['storehouse_id'],
             ]);
-
-            $data->syncPermissions($attributes['permissions'] ?? []);
 
             DB::commit();
             return $this->created($data);
@@ -83,16 +79,12 @@ class RoleController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $this->authorize('roles.read');
+        $this->authorize('users.read');
 
         try {
-            $record = Role::findOrFail($id);
-
-            $record->load('permissions');
+            $record = PMember::findOrFail($id);
 
             $data = $record->toArray();
-
-            $data['permissions'] = $record->permissions->pluck('id')->toArray();
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
@@ -112,23 +104,30 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->authorize('roles.update');
+        $this->authorize('users.update');
 
         $attributes = $request->validate([
-            'name'          => 'required|unique:roles,name,' . $id,
-            'permissions'   => 'nullable|array',
+            'staff_id'      => 'required|unique:p_members,staff_id,' . $id,
+            'storehouse_id' => 'required|exists:storehouses,id',
+            'email'         => 'required|unique:p_members,email,' . $id,
+            'password'      => 'nullable',
         ]);
 
         try {
             DB::beginTransaction();
-            $data = Role::findOrFail($id);
-
-            $data->syncPermissions($attributes['permissions'] ?? []);
+            $data = PMember::findOrFail($id);
 
             $data->update([
-                'guard_name'    => 'api',
-                'name'          => $attributes['name'],
+                'staff_id'      => $attributes['staff_id'],
+                'storehouse_id' => $attributes['storehouse_id'],
+                'email'         => $attributes['email'],
             ]);
+
+            if (isset($attributes['password'])) {
+                $data->update([
+                    'password'  => Hash::make($attributes['password']),
+                ]);
+            }
 
             DB::commit();
             return $this->success('更新成功');
@@ -148,13 +147,13 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        $this->authorize('roles.delete');
+        // $this->authorize('departments.delete');
 
         try {
             DB::beginTransaction();
-            $data = Role::findOrFail($id)->delete();
+            $data = PMember::findOrFail($id)->delete();
 
             DB::commit();
             return $this->success('刪除成功');

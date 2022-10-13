@@ -25,7 +25,7 @@ trait WithCart
         return isset($this->cart_id);
     }
 
-    public function getCart()
+    public function getCurrentCart()
     {
         return Cart::session($this->sessionKey)->get($this->cart_id);
         return Cart::get($this->cart_id);
@@ -47,6 +47,14 @@ trait WithCart
     {
         return Cart::session($this->sessionKey)->getTotal();
         return Cart::getTotal();
+    }
+
+    public function getCartQuantity($id): int
+    {
+        if (Cart::session($this->sessionKey)->has($id)) {
+            return Cart::session($this->sessionKey)->get($id)->quantity;
+        }
+        return 0;
     }
 
     /**

@@ -31,6 +31,7 @@ class Product extends Model
     public function storehouses()
     {
         return $this->belongsToMany(Storehouse::class, 'storehouse_has_products')
+            ->using(StorehouseHasProduct::class)
             ->withPivot(/*'id as id2', 'stock as stock', 'safety_stock as safety_stock', */'id', 'stock', 'safety_stock');
     }
 }

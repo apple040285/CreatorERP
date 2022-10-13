@@ -20,6 +20,9 @@ class User extends Authenticatable
     // 搜尋器
     use \Laravel\Scout\Searchable;
 
+    // 創建人 and 更新人
+    use \Wildside\Userstamps\Userstamps;
+
     /**
      * The attributes that are mass assignable.
      *

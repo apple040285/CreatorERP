@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enum\SalesOrderType;
+use App\Exports\SalesOrdersExport;
 use App\Models\PurchaseOrder;
 use App\Models\SalesOrder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SalesOrderController extends Controller
 {
@@ -133,7 +135,7 @@ class SalesOrderController extends Controller
         try {
             $data = SalesOrder::findOrFail($id);
 
-            $data->load('customer_manufacturer', 'items.product', 'creator', 'editor');
+            $data->load('customer_manufacturer', 'items.product', 'items.storehouse', 'creator', 'editor');
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
@@ -252,5 +254,16 @@ class SalesOrderController extends Controller
             DB::rollBack();
             return $this->badRequest('請聯絡管理員');
         }
+    }
+
+    /**
+     * Excel 倒出
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Request $request)
+    {
+        return Excel::download(new SalesOrdersExport, '銷售查補.xls', \Maatwebsite\Excel\Excel::XLS);
     }
 }

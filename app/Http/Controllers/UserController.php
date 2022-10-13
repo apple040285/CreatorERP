@@ -30,7 +30,7 @@ class UserController extends Controller
             })
             ->paginate($request->input('perPage'));
 
-        $data->load('roles:name');
+        $data->load('roles', 'creator', 'editor');
 
         return $this->success($data);
     }
@@ -49,18 +49,26 @@ class UserController extends Controller
             'name'          => 'required|unique:users,name',
             'email'         => 'required|unique:users,email',
             'password'      => 'required',
+            'roles'         => 'nullable|array',
+            'role_id'       => 'nullable',
         ]);
 
         try {
             DB::beginTransaction();
-            $data = User::create([
+            $record = User::create([
                 'name'      => $attributes['name'],
                 'email'     => $attributes['email'],
                 'password'  => Hash::make($attributes['password']),
             ]);
 
+            if (isset($attributes['role_id'])) {
+                $record->syncRoles([$attributes['role_id']]);
+            } else {
+                $record->syncRoles($attributes['roles'] ?? []);
+            }
+
             DB::commit();
-            return $this->created($data);
+            return $this->created($record);
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
@@ -80,6 +88,8 @@ class UserController extends Controller
 
         try {
             $record = User::findOrFail($id);
+
+            $record->load('roles');
 
             $data = $record->toArray();
 
@@ -107,18 +117,23 @@ class UserController extends Controller
             'name'          => 'required|unique:users,name,' . $id,
             'email'         => 'required|unique:users,email,' . $id,
             'roles'         => 'nullable|array',
+            'role_id'       => 'nullable',
         ]);
 
         try {
             DB::beginTransaction();
-            $data = User::findOrFail($id);
+            $record = User::findOrFail($id);
 
-            $data->syncRoles($attributes['roles'] ?? []);
-
-            $data->update([
+            $record->update([
                 'name'      => $attributes['name'],
                 'email'     => $attributes['email'],
             ]);
+
+            if (isset($attributes['role_id'])) {
+                $record->syncRoles([$attributes['role_id']]);
+            } else {
+                $record->syncRoles($attributes['roles'] ?? []);
+            }
 
             DB::commit();
             return $this->success('更新成功');
@@ -138,23 +153,23 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         // $this->authorize('departments.delete');
 
-        // try {
-        //     DB::beginTransaction();
-        //     // $data = Department::findOrFail($id)->delete();
+        try {
+            DB::beginTransaction();
+            $data = User::findOrFail($id)->delete();
 
-        //     DB::commit();
-        //     return $this->success('刪除成功');
-        // } catch (ModelNotFoundException $e) {
-        //     DB::rollBack();
-        //     return $this->notFound('找無此資料');
-        // } catch (\Exception $e) {
-        //     report($e);
-        //     DB::rollBack();
-        //     return $this->badRequest('請聯絡管理員');
-        // }
+            DB::commit();
+            return $this->success('刪除成功');
+        } catch (ModelNotFoundException $e) {
+            DB::rollBack();
+            return $this->notFound('找無此資料');
+        } catch (\Exception $e) {
+            report($e);
+            DB::rollBack();
+            return $this->badRequest('請聯絡管理員');
+        }
     }
 }

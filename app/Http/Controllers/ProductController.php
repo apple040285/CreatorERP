@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enum\StatusEnum;
 use App\Exports\ProductsExport;
 use App\Imports\ProductsImport;
+use App\Imports\ProductsStorehousesImport;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -244,6 +245,19 @@ class ProductController extends Controller
     public function import(Request $request)
     {
         Excel::import(new ProductsImport, request()->file('file'));
+
+        return $this->success($data = '匯入成功');
+    }
+
+    /**
+     * Excel 導入
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storehousesImport(Request $request)
+    {
+        Excel::import(new ProductsStorehousesImport, request()->file('file'));
 
         return $this->success($data = '匯入成功');
     }
