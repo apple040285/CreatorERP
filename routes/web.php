@@ -67,6 +67,7 @@ Route::prefix('apps')->group(function () {
         Route::get('/index', Livewire\ProductsReturn\Index::class)->name('products-return-index');
         Route::get('/form/{customer}/{order?}', Livewire\ProductsReturn\Form::class)->name('products-return-form');
         Route::get('/detail/{customer}/{order?}', Livewire\ProductsReturn\Detail::class)->name('products-return-detail');
+        Route::get('/view/{customer}/{order}', Livewire\ProductsReturn\View::class)->name('products-return-view');
     });
 
     // Route::prefix('products-return')->group(function () {

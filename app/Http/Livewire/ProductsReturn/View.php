@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\SalesCheck;
+namespace App\Http\Livewire\ProductsReturn;
 
 use App\Models\CustomerManufacturer;
 use App\Models\SalesOrder;
@@ -42,6 +42,7 @@ class View extends Component
         redirect()->route('index');
     }
 
+
     public function downloadSale($order)
     {
         $filename = 'sale.txt';
@@ -73,7 +74,7 @@ class View extends Component
 
     public function render()
     {
-        return view('livewire.sales-check.view')
+        return view('livewire.products-return.view')
             ->extends('layouts.main');
     }
 }

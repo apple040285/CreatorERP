@@ -74,7 +74,7 @@
 
             <div class="btnRow w-75 d-block mx-auto">
                 <button type="button" wire:click="completePrint" class="f18 btn btn-lg btn-success d-block mt-3 w-100">
-                    完成/列印
+                    {{ isset($order->id) ? '更新' : '完成' }}
                 </button>
             </div>
         </div>

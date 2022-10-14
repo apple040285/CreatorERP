@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\ProductsReturn;
 
 use App\Enum\SalesOrderType;
+use App\Enum\StatusEnum;
 use App\Models\CustomerManufacturer;
 use App\Models\SalesOrder;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,9 @@ class Detail extends Component
 
     // 購物車特徵
     use \App\Concerns\WithCart;
+
+    // 商品庫存
+    use \App\Concerns\WithStock;
 
     use \App\Concerns\ModelRelationWith;
 
@@ -79,7 +83,7 @@ class Detail extends Component
 
                 $mapCarts = $this->getCarts()->map(fn ($cart) => [
                     'product_id'    => $cart->id,
-                    'storehouse_id' => 0,
+                    'storehouse_id' => auth()->user()->p_member->storehouse_id,
                     'quantity'      => $cart->quantity,
                     'price'         => $cart->price,
                     'amount'        => $cart->getPriceSum(),
@@ -116,21 +120,29 @@ class Detail extends Component
                 'customer_manufacturer_id'  => $this->customer->id,
                 'staff_id'                  => auth()->id(),
                 'total_amount'              => $this->getTotal(),
-                'status'                    => '',
-                'status_approval'           => '',
+                'status'                    => StatusEnum::啟用->value,
+                'status_approval'           => StatusEnum::啟用->value,
                 // 不知道是捨
                 'tax_type'                  => '', // 扣稅類別
                 'account_setting_method'    => '', // 立帳方式
             ]);
 
             foreach ($this->getCarts() as $cart) {
+                $staffStorehouse = auth()->user()->p_member->storehouse;
+
                 $order->items()->create([
                     'product_id'    => $cart->id,
-                    'storehouse_id' => 0,
+                    'storehouse_id' => $staffStorehouse->id,
                     'quantity'      => $cart->quantity,
                     'price'         => $cart->price,
                     'amount'        => $cart->getPriceSum(),
                 ]);
+
+                // 檢查庫存
+                if (!$this->checkStockAndDeduct($cart->id, $staffStorehouse->id, $cart->quantity)) {
+                    $this->alert('error', '商品: `' . $cart['name'] . '`' . PHP_EOL . '倉庫: `' . $staffStorehouse['name'] . '` 的庫存不足');
+                    return;
+                }
             }
 
             $order->update([
@@ -141,7 +153,17 @@ class Detail extends Component
 
             $this->clearAllCart();
 
-            $this->flash('success', '訂單建立成功', [], route('index'));
+            // 寫入暫存
+            $this->sessionKey = $order->id;
+
+            foreach ($order->items as $baseOrder) {
+                $this->addCart($baseOrder->product);
+                $this->updateCart($baseOrder->product->id, $baseOrder->quantity);
+            }
+
+            $url = route('products-return-view', ['customer' => $order->customer_manufacturer_id, 'order' => $order->id]);
+
+            $this->flash('success', '訂單建立成功', [], $url);
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();

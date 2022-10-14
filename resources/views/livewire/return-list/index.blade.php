@@ -101,6 +101,10 @@
                     <h3 class="modal-title fw800 f18 pb-2 cgy2 text-center border-bottom">操作</h3>
                     @if ($order_id)
                         <div class="show3LinkModal f16">
+                            <button type="button" wire:click="viewOrder" class="my-4 p-0 btn text-mred0 w-100">
+                                檢視
+                            </button>
+
                             <button type="button" wire:click="editOrder" class="my-4 p-0 btn text-mred0 w-100">
                                 編輯
                             </button>

@@ -137,7 +137,6 @@
                 event.detail.forEach(element => {
                     $(element.target).select2().val(String(element.value))
 
-                    // $('#barcode').focus();
                     $('#barcode').focus();
                 });
             })

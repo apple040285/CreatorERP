@@ -16,6 +16,10 @@ trait WithStock
      */
     public function checkStockAndDeduct($product_id, $storehouse_id, $quantity): bool
     {
+        if (env('SKIP_STOCK_CHECK')) {
+            return true;
+        }
+
         $storehouseProduct = StorehouseHasProduct::query()
             ->where('product_id', $product_id)
             ->where('storehouse_id', $storehouse_id)

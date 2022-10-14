@@ -40,6 +40,28 @@ class Index extends Component
     }
 
     /**
+     * 檢視訂單
+     *
+     * @return void
+     */
+    public function viewOrder()
+    {
+        if (!$order = $this->getOrderProperty()) {
+            $this->alert('error', '讀取訂單發生錯誤');
+            return;
+        }
+
+        $this->sessionKey = $order->id;
+
+        foreach ($order->items as $baseOrder) {
+            $this->addCart($baseOrder->product);
+            $this->updateCart($baseOrder->product->id, $baseOrder->quantity);
+        }
+
+        redirect()->route('products-return-view', ['customer' => $order->customer_manufacturer_id, 'order' => $order->id]);
+    }
+
+    /**
      * 編輯訂單
      *
      * @return void
