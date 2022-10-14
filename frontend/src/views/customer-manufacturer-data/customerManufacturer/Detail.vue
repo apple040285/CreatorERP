@@ -103,7 +103,8 @@ export default {
             axios
             .get(`customer-manufacturers/${this.$route.query.id}`)
             .then(response => {
-                const data = response.data
+                const data = response.data;
+                console.log(data)
                 this.data = data;
                 this.addressListData.rows = JSON.parse(JSON.stringify(data.address));
             })

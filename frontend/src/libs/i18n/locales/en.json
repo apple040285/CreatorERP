@@ -552,7 +552,9 @@
     "created_at": "Created At",
     "updated_by": "Updated By",
     "updated_at": "Updated At",
-    "action": "Action"
+    "action": "Action",
+    "null": "none",
+    "undefined": "none"
   },
 
   "CustomerManufacturerModal": {
