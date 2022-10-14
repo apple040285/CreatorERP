@@ -15,6 +15,8 @@ import '@/libs/acl'
 import '@/libs/portal-vue'
 import '@/libs/toastification'
 import '@/libs/sweet-alerts'
+import VueLodash from 'vue-lodash'
+import lodash from 'lodash'
 
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
@@ -22,6 +24,9 @@ Vue.use(ModalPlugin)
 
 // Composition API
 Vue.use(VueCompositionAPI)
+
+//lodash
+Vue.use(VueLodash, { name: 'custom' , lodash: lodash })
 
 // import core styles
 require('@core/scss/core.scss')

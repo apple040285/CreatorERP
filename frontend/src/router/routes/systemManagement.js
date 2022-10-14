@@ -56,7 +56,7 @@ export default [
         name: 'SystemManagement-FrontendAccountManagementCreate',
         component: () => import('@/views/system-management/FrontendAccountManagementCrud.vue'),
         meta: {
-            pageTitle: 'Role Management',
+            pageTitle: 'Frontend Account Management',
             navActiveLink: 'SystemManagement-FrontendAccountManagementList',
             breadcrumb: [
                 { text: 'SYSTEM MANAGEMENT' },
@@ -70,7 +70,7 @@ export default [
         name: 'SystemManagement-FrontendAccountManagementEdit',
         component: () => import('@/views/system-management/FrontendAccountManagementCrud.vue'),
         meta: {
-            pageTitle: 'Role Management',
+            pageTitle: 'Frontend Account Management',
             navActiveLink: 'SystemManagement-FrontendAccountManagementList',
             breadcrumb: [
                 { text: 'SYSTEM MANAGEMENT' },
@@ -96,7 +96,7 @@ export default [
         name: 'SystemManagement-BackendAccountManagementCreate',
         component: () => import('@/views/system-management/BackendAccountManagementCrud.vue'),
         meta: {
-            pageTitle: 'Role Management',
+            pageTitle: 'Backend Account Management',
             navActiveLink: 'SystemManagement-BackendAccountManagementList',
             breadcrumb: [
                 { text: 'SYSTEM MANAGEMENT' },
@@ -110,7 +110,7 @@ export default [
         name: 'SystemManagement-BackendAccountManagementEdit',
         component: () => import('@/views/system-management/BackendAccountManagementCrud.vue'),
         meta: {
-            pageTitle: 'Role Management',
+            pageTitle: 'Backend Account Management',
             navActiveLink: 'SystemManagement-BackendAccountManagementList',
             breadcrumb: [
                 { text: 'SYSTEM MANAGEMENT' },

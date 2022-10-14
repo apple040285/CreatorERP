@@ -552,7 +552,9 @@
     "created_at": "創建時間",
     "updated_by": "異動人員",
     "updated_at": "異動時間",
-    "action": "操作"
+    "action": "操作",
+    "null": "無",
+    "undefined": "無"
   },
 
   "CustomerManufacturerModal": {

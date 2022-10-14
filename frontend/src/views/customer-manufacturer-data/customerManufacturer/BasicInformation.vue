@@ -64,7 +64,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.category')">
                     <b-form-input
-                        :value="basicInformation.category.name"
+                        :value="_.get(basicInformation, 'category.name', '')"
                         :placeholder="$t('CustomerManufacturerList.category')"
                         type="text"
                         readonly
@@ -232,7 +232,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.currency')">
                     <b-form-input
-                        :value="basicInformation.currency.name"
+                        :value="_.get(basicInformation, 'currency.name', '')"
                         :placeholder="$t('CustomerManufacturerList.currency')"
                         type="text"
                         readonly
@@ -269,7 +269,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('CustomerManufacturerList.businessPeople')">
                     <b-form-input
-                        :value="basicInformation.staff.name"
+                        :value="_.get(basicInformation, 'staff.name', '')"
                         :placeholder="$t('CustomerManufacturerList.businessPeople')"
                         type="text"
                         readonly
