@@ -74,3 +74,17 @@ if (!function_exists('proccesRelationWithRequest')) {
         };
     }
 }
+
+
+if (!function_exists('timeCheck')) {
+    /**
+     * 判斷是否為日期
+     *
+     * @param  mixed $timeStr
+     * @return void
+     */
+    function timeCheck($timeStr)
+    {
+        return date('Y-m-d', strtotime($timeStr)) == $timeStr;
+    }
+}

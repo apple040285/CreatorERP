@@ -5,18 +5,43 @@ namespace App\Exports;
 use App\Enum\SalesOrderType;
 use App\Models\SalesOrderItem;
 use App\Models\Staff;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class SalesOrdersExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
+class SalesOrdersExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithColumnFormatting
 {
+    public $attributes;
+
+    public function __construct($attributes)
+    {
+        $this->attributes = $attributes;
+    }
+
     public function collection(): Collection
     {
         return SalesOrderItem::query()
-            ->whereHas('order', fn ($query) => $query->where('type', SalesOrderType::銷貨->value))
+            ->whereHas(
+                'order',
+                fn ($query) => $query
+                    ->where('type', SalesOrderType::銷貨->value)
+                    ->tap(function ($query) {
+                        if (isset($this->attributes['columnFilters']) && isset($this->attributes['columnFilters']['sales_date'])) {
+                            $value = $this->attributes['columnFilters']['sales_date'];
+                            if (str($value)->contains(' to ') && $split = str($value)->split('/ to /')) {
+                                $query
+                                    ->whereDate('sales_date', '>=', $split[0])
+                                    ->whereDate('sales_date', '<=', $split[1]);
+                            } else {
+                                $query->whereDate('sales_date', $value);
+                            }
+                        }
+                    })
+            )
             ->get();
     }
 
@@ -53,6 +78,14 @@ class SalesOrdersExport implements FromCollection, WithHeadings, WithMapping, Sh
             $data->storehouse?->code,
             $data->storehouse?->name,
             $data->order->staff?->code,
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'F' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
+            'I' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
         ];
     }
 }

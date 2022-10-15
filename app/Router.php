@@ -38,7 +38,7 @@ class Router extends BaseRouter
 
         // 匯出
         if (method_exists($controller, 'export')) {
-            $this->get("$name/export", "$controller@export")->name(trim($name, '/') . '.export');
+            $this->any("$name/export", "$controller@export")->name(trim($name, '/') . '.export');
         }
 
         // 匯入

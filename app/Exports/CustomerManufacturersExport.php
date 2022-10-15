@@ -7,10 +7,11 @@ use App\Models\Staff;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class CustomerManufacturersExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
+class CustomerManufacturersExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithColumnFormatting
 {
     public function collection(): Collection
     {
@@ -38,9 +39,17 @@ class CustomerManufacturersExport implements FromCollection, WithHeadings, WithM
             $data->code,
             $data->type,
             $data->full_name,
-            $data['address'][0]['cellphone'] ?? '',
-            $data['address'][0]['address'] ?? '',
-            $data['address'][0]['contact_person'] ?? '',
+            $data->phone_one,
+            $data->company_address,
+            $data->contact_person_one,
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'A' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
+            'D' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
         ];
     }
 }

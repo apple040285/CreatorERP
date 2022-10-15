@@ -23,21 +23,33 @@ class SalesOrderController extends Controller
         $this->authorize('customer_manufacturers.read');
 
         /** @var \Illuminate\Database\Eloquent\Collection $data */
-        $data = SalesOrder::search($request->input('searchTerm'))
-            ->when($request->has('columnFilters'), function ($query) use ($request) {
-                foreach ($request['columnFilters'] as $field => $value) {
-                    $query->where($field, $value);
-                }
-            })
-            ->when($request->has('sort'), function ($query) use ($request) {
-                foreach ($request['sort'] as $sort) {
-                    if (isset($sort['field']) && isset($sort['type'])) {
-                        $query->orderBy($sort['field'], $sort['type']);
+        $data = SalesOrder::search(
+            $request->input('searchTerm'),
+            fn ($query) => $query
+                ->when($request->has('columnFilters'), function ($query) use ($request) {
+                    foreach ($request['columnFilters'] as $field => $value) {
+                        if (str($value)->contains(' to ') && $split = str($value)->split('/ to /')) {
+                            if (count($split) !== 2) break;
+                            $query
+                                ->whereDate('sales_date', '>=', $split[0])
+                                ->whereDate('sales_date', '<=', $split[1]);
+                        } else {
+                            if (timeCheck($value))
+                                $query->whereDate($field, $value);
+                            else
+                                $query->where($field, $value);
+                        }
                     }
-                }
-            })
-            ->where('type', SalesOrderType::銷貨)
-            ->paginate($request->input('perPage'));
+                })
+                ->when($request->has('sort'), function ($query) use ($request) {
+                    foreach ($request['sort'] as $sort) {
+                        if (isset($sort['field']) && isset($sort['type'])) {
+                            $query->orderBy($sort['field'], $sort['type']);
+                        }
+                    }
+                })
+                ->where('type', SalesOrderType::銷貨)
+        )->paginate($request->input('perPage'));
 
         $data->load('customer_manufacturer', 'staff', 'creator', 'editor');
 
@@ -264,6 +276,6 @@ class SalesOrderController extends Controller
      */
     public function export(Request $request)
     {
-        return Excel::download(new SalesOrdersExport, '銷售查補.xls', \Maatwebsite\Excel\Excel::XLS);
+        return Excel::download(new SalesOrdersExport($request->all()), '銷售查補.xls', \Maatwebsite\Excel\Excel::XLS);
     }
 }

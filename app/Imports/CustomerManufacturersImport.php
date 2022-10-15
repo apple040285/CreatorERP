@@ -64,17 +64,13 @@ class CustomerManufacturersImport implements ToModel, WithUpserts, WithStartRow,
 
         return new CustomerManufacturer([
             'customer_manufacturer_category_id' => $customer_manufacturer_category->id,
-            'code'              => $row[0],
-            'type'              => $row[1],
-            'full_name'         => $row[2],
+            'code'                      => $row[0],
+            'type'                      => $row[1],
+            'full_name'                 => $row[2],
+            'company_address'           => $row[4],
             // data
-            'data->address' => [
-                [
-                    'cellphone' => $row[3],
-                    'address' => $row[4],
-                    'contact_person' => $row[5],
-                ]
-            ],
+            'data->phone_one'           => $row[3],
+            'data->contact_person_one'  => $row[5],
         ]);
     }
 
