@@ -5,46 +5,36 @@
                 <!-- search input -->
                 <div class="custom-search d-md-flex justify-content-between">
                     <div class="d-flex">
-                        <b-form-group
+                      <b-form-group
                             label-for="startDate-datepicker"
                             id="startDate"
                             class="mr-2"
                         >
-                            <flat-pickr
-                                v-model="showData.start_date"
-                                class="form-control"
-                                id="startDate-datepicker"
-                                :placeholder="$t('table.start_date')"
-                            />
-                        </b-form-group>
-                        <b-form-group
-                            label-for="endDate-datepicker"
-                            id="endDate"
-                            class="mr-2"
-                        >
-                            <flat-pickr
-                                v-model="showData.end_date"
-                                class="form-control"
-                                id="endDate-datepicker"
-                                :placeholder="$t('table.end_date')"
-                            />
+                          <flat-pickr
+                              class="form-control"
+                              id="startDate-datepicker"
+                              :placeholder="$t('table.start_date')"
+                              :config="{ mode: 'range'}"
+                              value=""
+                              @on-close="(selectedDates, dateStr, instance) => updateParams({ columnFilters: { sales_date: dateStr } })"
+                          />
                         </b-form-group>
                         <b-button
                             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                             variant="outline-primary"
                             class="mb-2 mr-2 text-nowrap"
-                            @click="onColumnFilter({ columnFilters: { type:'customer' } })"
+                            @click="getList"
                         >
                             {{ $t('table.Search')}}
                         </b-button>
-                        <b-button
-                            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                            variant="outline-primary"
-                            class="mb-2 mr-2 text-nowrap"
 
-                        >
-                            {{ $t('Excel.export')}}
-                        </b-button>
+                        <!-- Excel 匯出 -->
+                        <ExcelExportAction
+                          name="sales-return-orders"
+                          import-url="/sales-return-orders/import"
+                          export-url="/sales-return-orders/export"
+                          :params="serverParams"
+                        />
                     </div>
                     <div class="d-flex">
                         <b-button
@@ -223,6 +213,7 @@ import {
 import { VueGoodTable } from 'vue-good-table'
 import Ripple from 'vue-ripple-directive'
 import axios from "@axios";
+import ExcelExportAction from '@/layouts/components/ExcelExportAction.vue'
 
 export default {
     components: {
@@ -237,7 +228,8 @@ export default {
         BFormSelect,
         BButton,
         BSpinner,
-        flatPickr
+        flatPickr,
+        ExcelExportAction,
     },
     directives: {
         Ripple,
