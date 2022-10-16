@@ -30,7 +30,7 @@ export default [
             },
             {
                 title: 'Returned Purchase Invoice',
-                route: 'PurchaseOperation-ReturnedPurchaseInvoice',
+                route: 'PurchaseOperation-ReturnedPurchaseInvoiceList',
             },
             {
                 title: 'Purchase Discount Voucher',

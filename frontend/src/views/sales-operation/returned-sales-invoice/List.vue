@@ -237,11 +237,6 @@ export default {
     data() {
         return {
             apiPath: '/sales-return-orders',
-            showData: {},
-            defaultData: {
-                start_date: '',
-                end_date: '',
-            },
             columns: [
                 { label: '#', field: 'id' },
                 { label: 'returnedDate', field: 'sales_date' },
@@ -322,9 +317,6 @@ export default {
             })
             .catch(error => console.error (error))
         },
-    },
-    mounted() {
-        this.showData = this.defaultData;
     },
     created() {
         this.getList();

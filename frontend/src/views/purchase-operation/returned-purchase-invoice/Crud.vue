@@ -1,26 +1,26 @@
 <template>
     <div>
-        <b-card-code :title="$route.name == 'PurchaseOperation-PurchaseVoucherCreate' ?  $t('PurchaseVoucherModal.createPurchaseVoucher') : $t('PurchaseVoucherModal.editPurchaseVoucher')">
+        <b-card-code :title="$route.name == 'PurchaseOperation-ReturnedPurchaseInvoiceCreate' ?  $t('ReturnedPurchaseInvoiceModal.createReturnedPurchaseInvoice') : $t('ReturnedPurchaseInvoiceModal.editReturnedPurchaseInvoice')">
             <b-form @submit.prevent>
                 <validation-observer ref="simpleRules">
                     <b-row>
                         <!-- Purchase Date -->
                         <b-col cols="4">
                             <b-form-group
-                                label-for="purchaseDate-datepicker"
-                                id="purchaseDate"
+                                label-for="returnedDate-datepicker"
+                                id="returnedDate"
                             >
-                                <label for="purchaseDate">{{ $t('PurchaseVoucherList.purchaseDate') }}</label>
+                                <label for="returnedDate">{{ $t('ReturnedPurchaseInvoiceList.returnedDate') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
-                                    name="purchaseDate"
+                                    name="returnedDate"
                                     rules="required"
                                 >
                                     <flat-pickr
-                                        v-model="showData.purchaseDate"
+                                        v-model="showData.returnedDate"
                                         class="form-control"
-                                        :placeholder="$t('PurchaseVoucherList.purchaseDate')"
-                                        id="purchaseDate-datepicker"
+                                        :placeholder="$t('ReturnedPurchaseInvoiceList.returnedDate')"
+                                        id="returnedDate-datepicker"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
@@ -29,7 +29,7 @@
                         <!-- Manufacturer -->
                         <b-col cols="4">
                             <b-form-group>
-                                <label for="manufacturer">{{ $t('PurchaseVoucherList.manufacturer') }}</label>
+                                <label for="manufacturer">{{ $t('ReturnedPurchaseInvoiceList.manufacturer') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
                                     name="manufacturer"
@@ -39,7 +39,7 @@
                                         label="name"
                                         v-model="showData.manufacturer_id"
                                         :options="manufacturerOption"
-                                        :placeholder="$t('PurchaseVoucherModal.selectManufacturer')"
+                                        :placeholder="$t('ReturnedPurchaseInvoiceModal.selectManufacturer')"
                                         :reduce="option => option.id"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
@@ -49,7 +49,7 @@
                         <!-- Currency -->
                         <b-col cols="4">
                             <b-form-group id="currency">
-                                <label for="currency">{{ $t('PurchaseVoucherList.currency') }}</label>
+                                <label for="currency">{{ $t('ReturnedPurchaseInvoiceList.currency') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
                                     name="currency"
@@ -59,7 +59,7 @@
                                         label="name"
                                         v-model="showData.currency_id"
                                         :options="currencyOption"
-                                        :placeholder="$t('PurchaseVoucherModal.selectCurrency')"
+                                        :placeholder="$t('ReturnedPurchaseInvoiceModal.selectCurrency')"
                                         :reduce="option => option.id"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
@@ -68,15 +68,15 @@
                         </b-col>
                     </b-row>
                     <b-row>
-                        <!-- Transfer No -->
+                        <!-- Purchase No -->
                         <b-col cols="4">
                             <b-form-group>
-                                <label for="transferNo">{{ $t('PurchaseVoucherList.transferNo') }}</label>
+                                <label for="purchaseNo">{{ $t('ReturnedPurchaseInvoiceList.purchaseNo') }}</label>
                                 <v-select
                                     label="name"
-                                    v-model="showData.transferNo_id"
-                                    :options="transferNoOption"
-                                    :placeholder="$t('PurchaseVoucherModal.selectTransferNo')"
+                                    v-model="showData.purchaseNo_id"
+                                    :options="purchaseNoOption"
+                                    :placeholder="$t('ReturnedPurchaseInvoiceModal.selectPurchaseNo')"
                                     :reduce="option => option.id"
                                 />
                             </b-form-group>
@@ -84,12 +84,12 @@
                         <!-- Project No -->
                         <b-col cols="4">
                             <b-form-group>
-                                <label for="project">{{ $t('PurchaseVoucherList.project') }}</label>
+                                <label for="project">{{ $t('ReturnedPurchaseInvoiceList.project') }}</label>
                                 <v-select
                                     label="name"
                                     v-model="showData.project_id"
                                     :options="projectOption"
-                                    :placeholder="$t('PurchaseVoucherModal.selectProject')"
+                                    :placeholder="$t('ReturnedPurchaseInvoiceModal.selectProject')"
                                     :reduce="option => option.id"
                                 />
                             </b-form-group>
@@ -97,7 +97,7 @@
                         <!--  PurchaseStaff -->
                         <b-col cols="4">
                             <b-form-group id="purchaseStaff">
-                                <label for="purchaseStaff">{{ $t('PurchaseVoucherList.purchaseStaff') }}</label>
+                                <label for="purchaseStaff">{{ $t('ReturnedPurchaseInvoiceList.purchaseStaff') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
                                     name="purchaseStaff"
@@ -107,7 +107,7 @@
                                         label="name"
                                         v-model="showData.purchaseStaff_id"
                                         :options="purchaseStaffOption"
-                                        :placeholder="$t('PurchaseVoucherModal.selectPurchaseStaff')"
+                                        :placeholder="$t('ReturnedPurchaseInvoiceModal.selectPurchaseStaff')"
                                         :reduce="option => option.id"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
@@ -119,7 +119,7 @@
                         <!--  Purchase Department -->
                         <b-col cols="4">
                             <b-form-group id="purchaseDepartment">
-                                <label for="purchaseDepartment">{{ $t('PurchaseVoucherList.purchaseDepartment') }}</label>
+                                <label for="purchaseDepartment">{{ $t('ReturnedPurchaseInvoiceList.purchaseDepartment') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
                                     name="purchaseDepartment"
@@ -129,7 +129,7 @@
                                         label="name"
                                         v-model="showData.Department_id"
                                         :options="DepartmentOption"
-                                        :placeholder="$t('PurchaseVoucherModal.selectPurchaseDepartment')"
+                                        :placeholder="$t('ReturnedPurchaseInvoiceModal.selectPurchaseDepartment')"
                                         :reduce="option => option.id"
                                     />
                                     <small class="text-danger">{{ errors[0] }}</small>
@@ -139,86 +139,64 @@
                         <!-- invoice -->
                         <b-col cols="4">
                             <b-form-group id="invoice">
-                                <label for="invoice">{{ $t('PurchaseVoucherList.invoice') }}</label>
+                                <label for="invoice">{{ $t('ReturnedPurchaseInvoiceList.invoice') }}</label>
                                 <b-form-input
                                     v-model="showData.invoice"
                                     type="text"
-                                    :placeholder="$t('PurchaseVoucherList.invoice')"
+                                    :placeholder="$t('ReturnedPurchaseInvoiceList.invoice')"
                                 />
                             </b-form-group>
                         </b-col>
-                        <!--  Pre-Delivery Date -->
-                        <b-col cols="4">
-                            <b-form-group
-                                label-for="preDeliveryDate-datepicker"
-                                id="preDeliveryDate"
-                            >
-                                <label for="preDeliveryDate">{{ $t('PurchaseVoucherList.preDeliveryDate') }}</label>
-                                <validation-provider
-                                    #default="{ errors }"
-                                    name="preDeliveryDate"
-                                    rules="required"
-                                >
-                                    <flat-pickr
-                                        v-model="showData.preDeliveryDate"
-                                        class="form-control"
-                                        :placeholder="$t('PurchaseVoucherList.preDeliveryDate')"
-                                        id="preDeliveryDate-datepicker"
-                                    />
-                                    <small class="text-danger">{{ errors[0] }}</small>
-                                </validation-provider>
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
                         <!-- taxDeductionCategory -->
                         <b-col cols="4">
-                            <b-form-group id="purchaseVoucherTaxDeductionCategory">
-                                <label for="purchaseVoucherTaxDeductionCategory">{{ $t('PurchaseVoucherList.taxDeductionCategory') }}</label>
+                            <b-form-group id="ReturnedPurchaseInvoiceTaxDeductionCategory">
+                                <label for="ReturnedPurchaseInvoiceTaxDeductionCategory">{{ $t('ReturnedPurchaseInvoiceList.taxDeductionCategory') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
-                                    name="purchaseVoucherTaxDeductionCategory"
+                                    name="TaxDeductionCategory"
                                     rules="required"
                                 >
                                     <v-select
                                         label="label"
                                         v-model="showData.taxDeductionCategory"
                                         :options="taxDeductionCategoryOption"
-                                        :placeholder="$t('PurchaseVoucherList.selectTaxDeductionCategory')"
+                                        :placeholder="$t('ReturnedPurchaseInvoiceList.selectTaxDeductionCategory')"
                                         :reduce="option => option.value"
                                     >
                                         <template v-slot:option="{ label }">
-                                        {{ $t('PurchaseVoucherList.'+label) }}
+                                        {{ $t('ReturnedPurchaseInvoiceList.'+label) }}
                                         </template>
                                         <template #selected-option="{ label }">
-                                            {{ $t('PurchaseVoucherList.'+label) }}
+                                            {{ $t('ReturnedPurchaseInvoiceList.'+label) }}
                                         </template>
                                     </v-select>
                                     <small class="text-danger">{{ errors[0] }}</small>
                                 </validation-provider>
                             </b-form-group>
                         </b-col>
+                    </b-row>
+                    <b-row>
                         <!-- accountSettingMethod -->
                         <b-col cols="4">
-                            <b-form-group id="purchaseVoucherAccountSettingMethod">
-                                <label for="purchaseVoucherAccountSettingMethod">{{ $t('PurchaseVoucherList.accountSettingMethod') }}</label>
+                            <b-form-group id="ReturnedPurchaseInvoiceAccountSettingMethod">
+                                <label for="ReturnedPurchaseInvoiceAccountSettingMethod">{{ $t('ReturnedPurchaseInvoiceList.accountSettingMethod') }}</label>
                                 <validation-provider
                                     #default="{ errors }"
-                                    name="purchaseVoucherAccountSettingMethod"
+                                    name="AccountSettingMethod"
                                     rules="required"
                                 >
                                     <v-select
                                         label="label"
                                         v-model="showData.accountSettingMethod"
                                         :options="accountSettingMethodOption"
-                                        :placeholder="$t('PurchaseVoucherList.selectAccountSettingMethod')"
+                                        :placeholder="$t('ReturnedPurchaseInvoiceList.selectAccountSettingMethod')"
                                         :reduce="option => option.value"
                                     >
                                         <template v-slot:option="{ label }">
-                                        {{ $t('PurchaseVoucherList.'+label) }}
+                                        {{ $t('ReturnedPurchaseInvoiceList.'+label) }}
                                         </template>
                                         <template #selected-option="{ label }">
-                                            {{ $t('PurchaseVoucherList.'+label) }}
+                                            {{ $t('ReturnedPurchaseInvoiceList.'+label) }}
                                         </template>
                                     </v-select>
                                     <small class="text-danger">{{ errors[0] }}</small>
@@ -228,92 +206,79 @@
                         <!-- otherExpenses -->
                         <b-col cols="4">
                             <b-form-group id="otherExpenses">
-                                <label for="otherExpenses">{{ $t('PurchaseVoucherList.otherExpenses') }}</label>
+                                <label for="otherExpenses">{{ $t('ReturnedPurchaseInvoiceList.otherExpenses') }}</label>
                                 <v-select
                                     label="name"
                                     v-model="showData.otherExpenses_id"
                                     :options="otherExpensesOption"
-                                    :placeholder="$t('PurchaseVoucherModal.selectOtherExpenses')"
+                                    :placeholder="$t('ReturnedPurchaseInvoiceModal.selectOtherExpenses')"
                                     :reduce="option => option.id"
                                 />
                             </b-form-group>
                         </b-col>
-                    </b-row>
-                    <b-row>
                         <!-- subpoena -->
                         <b-col cols="4">
                             <b-form-group id="subpoena">
-                                <label for="subpoena">{{ $t('PurchaseVoucherList.subpoena') }}</label>
+                                <label for="subpoena">{{ $t('ReturnedPurchaseInvoiceList.subpoena') }}</label>
                                 <b-form-input
                                     v-model="showData.subpoena"
                                     type="text"
-                                    :placeholder="$t('PurchaseVoucherList.subpoena')"
+                                    :placeholder="$t('ReturnedPurchaseInvoiceList.subpoena')"
                                 />
                             </b-form-group>
                         </b-col>
-                        <!-- discount -->
-                        <b-col cols="4">
-                            <b-form-group id="discount">
-                                <label for="discount">{{ $t('PurchaseVoucherList.discount') }}</label>
-                                <b-form-input
-                                    v-model="showData.discount"
-                                    type="text"
-                                    :placeholder="$t('PurchaseVoucherList.discount')"
-                                />
-                            </b-form-group>
-                        </b-col>
+                    </b-row>
+                    <b-row>
                         <!-- untaxedAmount -->
                         <b-col cols="4">
                             <b-form-group id="untaxedAmount">
-                                <label for="untaxedAmount">{{ $t('PurchaseVoucherList.untaxedAmount') }}</label>
+                                <label for="untaxedAmount">{{ $t('ReturnedPurchaseInvoiceList.untaxedAmount') }}</label>
                                 <b-form-input
                                     v-model="showData.untaxedAmount"
                                     type="text"
                                     readonly
-                                    :placeholder="$t('PurchaseVoucherList.untaxedAmount')"
+                                    :placeholder="$t('ReturnedPurchaseInvoiceList.untaxedAmount')"
                                 />
                             </b-form-group>
                         </b-col>
-                    </b-row>
-                    <b-row>
                         <!-- tax -->
                         <b-col cols="4">
                             <b-form-group id="tax">
-                                <label for="tax">{{ $t('PurchaseVoucherList.tax') }}</label>
+                                <label for="tax">{{ $t('ReturnedPurchaseInvoiceList.tax') }}</label>
                                 <b-form-input
                                     v-model="showData.tax"
                                     type="text"
                                     readonly
-                                    :placeholder="$t('PurchaseVoucherList.tax')"
+                                    :placeholder="$t('ReturnedPurchaseInvoiceList.tax')"
                                 />
                             </b-form-group>
                         </b-col>
                         <!-- total -->
                         <b-col cols="4">
                             <b-form-group id="total">
-                                <label for="total">{{ $t('PurchaseVoucherList.total') }}</label>
+                                <label for="total">{{ $t('ReturnedPurchaseInvoiceList.total') }}</label>
                                 <b-form-input
                                     v-model="showData.total"
                                     type="text"
                                     readonly
-                                    :placeholder="$t('PurchaseVoucherList.total')"
-                                />
-                            </b-form-group>
-                        </b-col>
-                        <!-- totalLocalCurrency -->
-                        <b-col cols="4">
-                            <b-form-group id="totalLocalCurrency">
-                                <label for="totalLocalCurrency">{{ $t('PurchaseVoucherList.totalLocalCurrency') }}</label>
-                                <b-form-input
-                                    v-model="showData.totalLocalCurrency"
-                                    type="text"
-                                    readonly
-                                    :placeholder="$t('PurchaseVoucherList.totalLocalCurrency')"
+                                    :placeholder="$t('ReturnedPurchaseInvoiceList.total')"
                                 />
                             </b-form-group>
                         </b-col>
                     </b-row>
                     <b-row>
+                        <!-- totalLocalCurrency -->
+                        <b-col cols="4">
+                            <b-form-group id="totalLocalCurrency">
+                                <label for="totalLocalCurrency">{{ $t('ReturnedPurchaseInvoiceList.totalLocalCurrency') }}</label>
+                                <b-form-input
+                                    v-model="showData.totalLocalCurrency"
+                                    type="text"
+                                    readonly
+                                    :placeholder="$t('ReturnedPurchaseInvoiceList.totalLocalCurrency')"
+                                />
+                            </b-form-group>
+                        </b-col>
                         <!--  Remark -->
                         <b-col cols="4">
                             <b-form-group>
@@ -330,7 +295,7 @@
                 </validation-observer>
             </b-form>
         </b-card-code>
-        <b-card-code :title="$t('PurchaseVoucherModal.productInformation')">
+        <b-card-code :title="$t('ReturnedPurchaseInvoiceModal.productInformation')">
 
             <!-- search input -->
             <div class="custom-search d-flex justify-content-end">
@@ -378,7 +343,7 @@
                     slot-scope="props"
                 >
                     <span class="text-nowrap" v-if="props.column.label !== '#'">
-                        {{$t('PurchaseVoucherList.ProductList.' + props.column.label) }}
+                        {{$t('ReturnedPurchaseInvoiceList.ProductList.' + props.column.label) }}
                     </span>
                 </template>
                 <template
@@ -519,7 +484,7 @@
                             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                             type="button"
                             variant="secondary"
-                            :to="{ name: 'PurchaseOperation-PurchaseVoucherList' }"
+                            :to="{ name: 'PurchaseOperation-ReturnedPurchaseInvoiceList' }"
                         >
                             {{ $t('back') }}
                         </b-button>
@@ -540,7 +505,7 @@
             <b-form @submit.prevent>
                 <validation-observer ref="modalRules">
                     <b-form-group>
-                        <label for="productName">{{ $t('PurchaseVoucherList.ProductList.productName') }}</label>
+                        <label for="productName">{{ $t('ReturnedPurchaseInvoiceList.ProductList.productName') }}</label>
                         <validation-provider
                             #default="{ errors }"
                             name="productName"
@@ -549,49 +514,49 @@
                             <v-select
                                 v-model="showData.product"
                                 :options="productOption"
-                                :placeholder="$t('PurchaseVoucherModal.selectProductName')"
+                                :placeholder="$t('ReturnedPurchaseInvoiceModal.selectProductName')"
                                 id="productName"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
                     <b-form-group>
-                        <label for="productNo">{{ $t('PurchaseVoucherList.ProductList.productNo') }}</label>
+                        <label for="productNo">{{ $t('ReturnedPurchaseInvoiceList.ProductList.productNo') }}</label>
                         <b-form-input
                             v-model="showData.productNo"
                             type="text"
-                            :placeholder="$t('PurchaseVoucherList.ProductList.productNo')"
+                            :placeholder="$t('ReturnedPurchaseInvoiceList.ProductList.productNo')"
                             readonly
                         />
                     </b-form-group>
                     <b-form-group>
-                        <label for="specification">{{ $t('PurchaseVoucherList.ProductList.specification') }}</label>
+                        <label for="specification">{{ $t('ReturnedPurchaseInvoiceList.ProductList.specification') }}</label>
                         <b-form-input
                             v-model="showData.specification"
                             type="text"
-                            :placeholder="$t('PurchaseVoucherList.ProductList.specification')"
+                            :placeholder="$t('ReturnedPurchaseInvoiceList.ProductList.specification')"
                             readonly
                         />
                     </b-form-group>
                     <b-form-group>
-                        <label for="unit">{{ $t('PurchaseVoucherList.ProductList.unit') }}</label>
+                        <label for="unit">{{ $t('ReturnedPurchaseInvoiceList.ProductList.unit') }}</label>
                         <b-form-input
                             v-model="showData.unit"
                             type="text"
-                            :placeholder="$t('PurchaseVoucherList.ProductList.unit')"
+                            :placeholder="$t('ReturnedPurchaseInvoiceList.ProductList.unit')"
                             readonly
                         />
                     </b-form-group>
                     <b-form-group>
-                        <label for="storehouse">{{ $t('PurchaseVoucherList.ProductList.storehouse') }}</label>
+                        <label for="storehouse">{{ $t('ReturnedPurchaseInvoiceList.ProductList.storehouse') }}</label>
                         <v-select
                             v-model="showData.storehouse"
                             :options="storehouseOption"
-                            :placeholder="$t('PurchaseVoucherModal.selectStorehouse')"
+                            :placeholder="$t('ReturnedPurchaseInvoiceModal.selectStorehouse')"
                         />
                     </b-form-group>
                     <b-form-group id="quantity">
-                        <label for="quantity">{{ $t('PurchaseVoucherList.ProductList.quantity') }}</label>
+                        <label for="quantity">{{ $t('ReturnedPurchaseInvoiceList.ProductList.quantity') }}</label>
                         <validation-provider
                             #default="{ errors }"
                             name="quantity"
@@ -602,13 +567,13 @@
                                 v-model="showData.quantity"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
-                                :placeholder="$t('PurchaseVoucherList.ProductList.quantity')"
+                                :placeholder="$t('ReturnedPurchaseInvoiceList.ProductList.quantity')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
                     <b-form-group id="unitPrice">
-                        <label for="unitPrice">{{ $t('PurchaseVoucherList.ProductList.unitPrice') }}</label>
+                        <label for="unitPrice">{{ $t('ReturnedPurchaseInvoiceList.ProductList.unitPrice') }}</label>
                         <validation-provider
                             #default="{ errors }"
                             name="unitPrice"
@@ -619,13 +584,13 @@
                                 v-model="showData.unitPrice"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
-                                :placeholder="$t('PurchaseVoucherList.ProductList.unitPrice')"
+                                :placeholder="$t('ReturnedPurchaseInvoiceList.ProductList.unitPrice')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
                     <b-form-group id="untaxedAmount">
-                        <label for="untaxedAmount">{{ $t('PurchaseVoucherList.ProductList.untaxedAmount') }}</label>
+                        <label for="untaxedAmount">{{ $t('ReturnedPurchaseInvoiceList.ProductList.untaxedAmount') }}</label>
                         <validation-provider
                             #default="{ errors }"
                             name="untaxedAmount"
@@ -636,13 +601,13 @@
                                 v-model="showData.untaxedAmount"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
-                                :placeholder="$t('PurchaseVoucherList.ProductList.untaxedAmount')"
+                                :placeholder="$t('ReturnedPurchaseInvoiceList.ProductList.untaxedAmount')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
                     <b-form-group id="tax">
-                        <label for="tax">{{ $t('PurchaseVoucherList.ProductList.tax') }}</label>
+                        <label for="tax">{{ $t('ReturnedPurchaseInvoiceList.ProductList.tax') }}</label>
                         <validation-provider
                             #default="{ errors }"
                             name="tax"
@@ -653,24 +618,24 @@
                                 v-model="showData.tax"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
-                                :placeholder="$t('PurchaseVoucherList.ProductList.tax')"
+                                :placeholder="$t('ReturnedPurchaseInvoiceList.ProductList.tax')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
                     <b-form-group>
-                        <label for="amount">{{ $t('PurchaseVoucherList.ProductList.amount') }}</label>
+                        <label for="amount">{{ $t('ReturnedPurchaseInvoiceList.ProductList.amount') }}</label>
                         <b-form-input
                             id="amount"
                             type="number"
                             v-model="showData.amount"
                             min="0"
                             autocomplete="off"
-                            :placeholder="$t('PurchaseVoucherList.ProductList.amount')"
+                            :placeholder="$t('ReturnedPurchaseInvoiceList.ProductList.amount')"
                         />
                     </b-form-group>
                     <b-form-group id="untaxedLocalCurrency">
-                        <label for="untaxedLocalCurrency">{{ $t('PurchaseVoucherList.ProductList.untaxedLocalCurrency') }}</label>
+                        <label for="untaxedLocalCurrency">{{ $t('ReturnedPurchaseInvoiceList.ProductList.untaxedLocalCurrency') }}</label>
                         <validation-provider
                             #default="{ errors }"
                             name="untaxedLocalCurrency"
@@ -681,13 +646,13 @@
                                 v-model="showData.untaxedLocalCurrency"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
-                                :placeholder="$t('PurchaseVoucherList.ProductList.untaxedLocalCurrency')"
+                                :placeholder="$t('ReturnedPurchaseInvoiceList.ProductList.untaxedLocalCurrency')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
                     <b-form-group id="localCurrencyTax">
-                        <label for="localCurrencyTax">{{ $t('PurchaseVoucherList.ProductList.localCurrencyTax') }}</label>
+                        <label for="localCurrencyTax">{{ $t('ReturnedPurchaseInvoiceList.ProductList.localCurrencyTax') }}</label>
                         <validation-provider
                             #default="{ errors }"
                             name="localCurrencyTax"
@@ -698,13 +663,13 @@
                                 v-model="showData.localCurrencyTax"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
-                                :placeholder="$t('PurchaseVoucherList.ProductList.localCurrencyTax')"
+                                :placeholder="$t('ReturnedPurchaseInvoiceList.ProductList.localCurrencyTax')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
                     <b-form-group id="amountInLocalCurrency">
-                        <label for="amountInLocalCurrency">{{ $t('PurchaseVoucherList.ProductList.amountInLocalCurrency') }}</label>
+                        <label for="amountInLocalCurrency">{{ $t('ReturnedPurchaseInvoiceList.ProductList.amountInLocalCurrency') }}</label>
                         <validation-provider
                             #default="{ errors }"
                             name="amountInLocalCurrency"
@@ -715,23 +680,7 @@
                                 v-model="showData.amountInLocalCurrency"
                                 min="0"
                                 :state="errors.length > 0 ? false:null"
-                                :placeholder="$t('PurchaseVoucherList.ProductList.amountInLocalCurrency')"
-                            />
-                            <small class="text-danger">{{ errors[0] }}</small>
-                        </validation-provider>
-                    </b-form-group>
-                    <b-form-group id="productPreDeliveryDate">
-                        <label for="productPreDeliveryDate-datepicker">{{ $t('PurchaseVoucherList.ProductList.productPreDeliveryDate') }}</label>
-                        <validation-provider
-                            #default="{ errors }"
-                            name="productPreDeliveryDate"
-                            rules="required"
-                        >
-                            <flat-pickr
-                                v-model="showData.preDeliveryDate"
-                                class="form-control"
-                                :placeholder="$t('PurchaseVoucherList.ProductList.productPreDeliveryDate')"
-                                id="productPreDeliveryDate-datepicker"
+                                :placeholder="$t('ReturnedPurchaseInvoiceList.ProductList.amountInLocalCurrency')"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -830,17 +779,17 @@ export default {
     },
     data() {
         return {
-            apiPath: '/purchaseVoucher',
+            apiPath: '/ReturnedPurchaseInvoice',
             required,
             alertShow: 'false',
             showData: {},
             productModalId: null,
             productsData: {},
             defaultData: {
-                purchaseDate: '',
+                returnedDate: '',
                 manufacturer: '',
                 currency: '',
-                transferNo: '',
+                purchaseNo: '',
                 project: '',
                 purchaseStaff: '',
                 invoice: '',
@@ -848,19 +797,17 @@ export default {
                 taxDeductionCategory: '',
                 accountSettingMethod: '',
                 deposit: '',
-                discount: '',
                 untaxedAmount: '',
                 tax: '',
                 total: '',
                 totalLocalCurrency: '',
-                preDeliveryDate: '',
                 remark: '',
                 products: []
             },
             remarkDetail: '',
             manufacturerOption: ['台積電', '日月光', '環球晶'],
             currencyOption: ['NTD', 'USD', 'RMB', 'JPY'],
-            transferNoOption: ['A123', 'B123', 'C123'],
+            purchaseNoOption: ['A123', 'B123', 'C123'],
             projectOption: ['母親節專案', '父親節專案'],
             purchaseStaffOption: ['dennis', 'ryan'],
             purchaseDepartmentOption: ['人事部', '會計部'],
@@ -889,7 +836,6 @@ export default {
                 untaxedLocalCurrency: '',
                 localCurrencyTax: '',
                 amountInLocalCurrency: '',
-                preDeliveryDate: '',
                 remark: '',
             },
             productOption: ['桌子', '椅子'],
@@ -907,9 +853,6 @@ export default {
                 { label: 'quantity', field: 'quantity', type: 'number' },
                 { label: 'unitPrice', field: 'unitPrice', type: 'number' },
                 { label: 'amount', field: 'amount', type: 'number' },
-                { label: 'numberOfTransfers', field: 'numberOfTransfers', type: 'number' },
-                { label: 'untransferredQuantity', field: 'untransferredQuantity', type: 'number' },
-                { label: 'productPreDeliveryDate', field: 'preDeliveryDate' },
                 { label: 'productRemark', field: 'remark' },
                 { label: 'action', field: 'action' },
             ],
@@ -924,7 +867,6 @@ export default {
                     quantity : 10,
                     unitPrice : 500,
                     amount : 100,
-                    productPreDeliveryDate : '2022-06-30',
                     remark : 'test',
                 }
             ]
@@ -984,7 +926,7 @@ export default {
                     text: `${this.$t('Procurement Voucher')} ${this.$t('createdSuccess')}!`,
                     },
                 })
-                this.$router.push({name:'ProcurementOperation-PurchaseVoucherList'});
+                this.$router.push({name:'ProcurementOperation-ReturnedPurchaseInvoiceList'});
             })
             .catch(error => {
                 this.$toast({
@@ -1003,15 +945,15 @@ export default {
             axios
             .get(`${this.apiPath}/${this.showData.id}`)
             .then(response => {
-                let purchaseVoucher = response.data
-                purchaseVoucher.products = purchaseVoucher.products.map(item => ({
+                let returnedPurchaseInvoice = response.data
+                returnedPurchaseInvoice.products = returnedPurchaseInvoice.products.map(item => ({
                     ...item,
                     // stock: item.pivot.stock,
                     // safety_stock: item.pivot.safety_stock,
                 }))
 
-                this.showData = JSON.parse(JSON.stringify(purchaseVoucher));
-                this.rows = JSON.parse(JSON.stringify(purchaseVoucher.products));
+                this.showData = JSON.parse(JSON.stringify(returnedPurchaseInvoice));
+                this.rows = JSON.parse(JSON.stringify(returnedPurchaseInvoice.products));
             })
             .catch(error => console.error (error))
         },
@@ -1029,7 +971,7 @@ export default {
                     text: `${this.$t('Procurement Voucher')} ${this.$t('updatedSuccess')}!`,
                     },
                 })
-                this.$router.push({name:'ProcurementOperation-PurchaseVoucherList'});
+                this.$router.push({name:'ProcurementOperation-ReturnedPurchaseInvoiceList'});
             })
             .catch(error => {
                 this.$toast({

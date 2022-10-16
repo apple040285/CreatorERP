@@ -54,14 +54,56 @@ export default [
         },
     },
     {
-        path: '/PurchaseOperation/ReturnedPurchaseInvoice',
-        name: 'PurchaseOperation-ReturnedPurchaseInvoice',
-        component: () => import('@/views/purchase-operation/ReturnedPurchaseInvoice.vue'),
+        path: '/PurchaseOperation/ReturnedPurchaseInvoiceList',
+        name: 'PurchaseOperation-ReturnedPurchaseInvoiceList',
+        component: () => import('@/views/purchase-operation/returned-purchase-invoice/List.vue'),
         meta: {
             pageTitle: 'Returned Purchase Invoice',
             breadcrumb: [
                 { text: 'Purchase Operation' },
                 { text: 'Returned Purchase Invoice', active: true },
+            ],
+        },
+    },
+    {
+        path: '/PurchaseOperation/ReturnedPurchaseInvoiceCreate',
+        name: 'PurchaseOperation-ReturnedPurchaseInvoiceCreate',
+        component: () => import('@/views/purchase-operation/returned-purchase-invoice/Crud.vue'),
+        meta: {
+            pageTitle: 'Returned Purchase Invoice',
+            navActiveLink: 'PurchaseOperation-ReturnedPurchaseInvoiceList',
+            breadcrumb: [
+                { text: 'Purchase Operation' },
+                { text: 'Returned Purchase Invoice', to: { name: 'PurchaseOperation-ReturnedPurchaseInvoiceList' } },
+                { text: 'create', active: true },
+            ],
+        },
+    },
+    {
+        path: '/PurchaseOperation/ReturnedPurchaseInvoiceEdit',
+        name: 'PurchaseOperation-ReturnedPurchaseInvoiceEdit',
+        component: () => import('@/views/purchase-operation/returned-purchase-invoice/Crud.vue'),
+        meta: {
+            pageTitle: 'Returned Purchase Invoice',
+            navActiveLink: 'PurchaseOperation-ReturnedPurchaseInvoiceList',
+            breadcrumb: [
+                { text: 'Purchase Operation' },
+                { text: 'Returned Purchase Invoice', to: { name: 'PurchaseOperation-ReturnedPurchaseInvoiceList' } },
+                { text: 'edit', active: true },
+            ],
+        },
+    },
+    {
+        path: '/PurchaseOperation/ReturnedPurchaseInvoiceDetail',
+        name: 'PurchaseOperation-ReturnedPurchaseInvoiceDetail',
+        component: () => import('@/views/purchase-operation/returned-purchase-invoice/Detail.vue'),
+        meta: {
+            pageTitle: 'Returned Purchase Invoice',
+            navActiveLink: 'PurchaseOperation-ReturnedPurchaseInvoiceList',
+            breadcrumb: [
+                { text: 'Purchase Operation' },
+                { text: 'Returned Purchase Invoice', to: { name: 'PurchaseOperation-ReturnedPurchaseInvoiceList' } },
+                { text: 'detail', active: true },
             ],
         },
     },
