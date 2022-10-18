@@ -30,6 +30,8 @@ class Index extends Component
         return SalesOrder::query()
             ->with('items')
             ->whereType(SalesOrderType::退貨)
+            ->where('staff_id', auth()->id())
+            ->whereDate('sales_date', now())
             ->latest()
             ->get();
     }

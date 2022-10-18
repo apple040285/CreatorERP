@@ -94,7 +94,7 @@ Route::prefix('apps')->group(function () {
     //     })->name('return-list-index');
     // });
 
-    Route::prefix('transfer-job')->group(function () {
+    Route::prefix('transfer-job')->middleware('auth:staff')->group(function () {
         Route::get('/index', Livewire\TransferJob\Index::class)->name('transfer-job-index');
         Route::get('/detail', Livewire\TransferJob\Detail::class)->name('transfer-job-detail');
     });
@@ -109,15 +109,20 @@ Route::prefix('apps')->group(function () {
     //     })->name('transfer-job-detail');
     // });
 
-    Route::prefix('inventory')->group(function () {
-        Route::get('/index', function () {
-            return view('inventory.index');
-        })->name('inventory-index');
-
-        Route::get('/detail', function () {
-            return view('inventory.detail');
-        })->name('inventory-detail');
+    Route::prefix('inventory')->middleware('auth:staff')->group(function () {
+        Route::get('/index', Livewire\Inventory\Index::class)->name('inventory-index');
+        Route::get('/detail', Livewire\Inventory\Detail::class)->name('inventory-detail');
     });
+
+    // Route::prefix('inventory')->group(function () {
+    //     Route::get('/index', function () {
+    //         return view('inventory.index');
+    //     })->name('inventory-index');
+
+    //     Route::get('/detail', function () {
+    //         return view('inventory.detail');
+    //     })->name('inventory-detail');
+    // });
 
     Route::prefix('historical-transactions')->group(function () {
         Route::get('/index', function () {

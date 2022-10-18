@@ -45,11 +45,13 @@ class Index extends Component
                 $filename = $type . '.txt';
                 $content = '';
                 foreach (Staff::all() as $staff) {
-                    $content .= collect([
-                        $staff->code,
-                        $staff->name,
-                        $staff->telephone,
-                    ])->join(',') . PHP_EOL;
+                    if (auth()->id() === $staff->id) {
+                        $content .= collect([
+                            $staff->code,
+                            $staff->name,
+                            $staff->telephone,
+                        ])->join(',') . PHP_EOL;
+                    }
                 }
                 Storage::put($filename, $content);
                 $file_url = storage_path('app/' . $filename);

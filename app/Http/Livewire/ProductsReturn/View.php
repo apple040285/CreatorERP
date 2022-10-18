@@ -42,10 +42,9 @@ class View extends Component
         redirect()->route('index');
     }
 
-
     public function downloadSale($order)
     {
-        $filename = 'sale.txt';
+        $filename = 'return.txt';
         $content = '';
         foreach ($order->items as $item) {
             $content .= collect([

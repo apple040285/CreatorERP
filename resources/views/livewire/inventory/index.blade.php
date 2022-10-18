@@ -5,7 +5,7 @@
     @section('style')
         <style>
             .topStatus {
-                background-color: var(--morange0);
+                background-color: var(--minfo0);
             }
 
             .select2-container .select2-selection--single,
@@ -20,12 +20,11 @@
     @endsection
 
     @section('tipTitle')
-        調撥作業
+        盤點作業
     @endsection
 
     <div class="topTxt text-center mb-4">
-        <div class="f20 fw800">撥出倉庫：總倉</div>
-        <div class="f20 fw800">撥入倉庫：{{ auth()->user()['p_member']['storehouse']['name'] ?? '未知' }}</div>
+        <div class="f20 fw800">倉庫：{{ auth()->user()['p_member']['storehouse']['name'] ?? '未知' }}</div>
     </div>
     <form class="form-group">
         <div class="f16 w-75 my-3 d-block mx-auto">
@@ -43,9 +42,9 @@
         </div>
         <div class="f16 w-75 my-3 d-block mx-auto">
             <label for="amount" class="formClass w-100 fw700 cgy2">
-                數量：
+                實際盤點數量：
             </label>
-            <input wire:model.defer="quantity" type="number" class="form-control" placeholder="數量" required>
+            <input wire:model.defer="quantity" type="number" class="form-control" placeholder="實際盤點數量" required>
             @error('quantity')
                 <span class="error">{{ $message }}</span>
             @enderror
@@ -57,19 +56,20 @@
             <input type="text" class="form-control" placeholder="國際條碼" readonly>
         </div>
 
+
         @if (!$this->isEditCart())
             <div class="btnRow w-75 d-block mx-auto">
-                <button type="button" wire:click.prevent="next" class="f18 btn btn-lg btn-outline-orange d-block mt-3 w-100">
+                <button type="button" wire:click.prevent="next" class="f18 btn btn-lg btn-outline-info d-block mt-3 w-100">
                     下一筆
                 </button>
             </div>
 
             <div class="btnRow w-75 d-block mx-auto">
-                <button type="button" wire:click.prevent="finish" class="f18 btn btn-lg btn-orange d-block mt-3 w-100">確認</button>
+                <button type="button" wire:click.prevent="finish" class="f18 btn btn-lg btn-info d-block mt-3 w-100">確認</button>
             </div>
         @elseif ($this->isEditCart())
             <div class="btnRow w-75 d-block mx-auto">
-                <button type="button" wire:click.prevent="update" class="f18 btn btn-lg btn-orange d-block mt-3 w-100">
+                <button type="button" wire:click.prevent="update" class="f18 btn btn-lg btn-info d-block mt-3 w-100">
                     更新
                 </button>
             </div>

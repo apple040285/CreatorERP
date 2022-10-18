@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\TransferJob;
+namespace App\Http\Livewire\Inventory;
 
 use App\Models\Product;
 use Livewire\Component;
@@ -78,7 +78,7 @@ class Index extends Component
      */
     public function finish()
     {
-        redirect()->route('transfer-job-detail');
+        redirect()->route('inventory-detail');
     }
 
     /**
@@ -99,12 +99,12 @@ class Index extends Component
 
         $this->updateCart($data['product_id'], $data['quantity']);
 
-        redirect()->route('transfer-job-detail');
+        redirect()->route('inventory-detail');
     }
 
     public function render()
     {
-        return view('livewire.transfer-job.index')
+        return view('livewire.inventory.index')
             ->extends('layouts.main');
     }
 }

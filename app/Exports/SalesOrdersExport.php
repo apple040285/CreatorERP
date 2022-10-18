@@ -10,10 +10,14 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\DefaultValueBinder;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
-class SalesOrdersExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithColumnFormatting
+class SalesOrdersExport extends DefaultValueBinder implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithColumnFormatting, WithCustomValueBinder
 {
     public $attributes;
 
@@ -57,9 +61,9 @@ class SalesOrdersExport implements FromCollection, WithHeadings, WithMapping, Sh
             '查補數量',
             '單價',
             '國際條碼',
-            '倉庫代號',
+            '倉庫ID',
             '倉庫名稱',
-            '查補人員代號',
+            '查補人員ID',
         ];
     }
 
@@ -68,13 +72,13 @@ class SalesOrdersExport implements FromCollection, WithHeadings, WithMapping, Sh
         return [
             $data->order->sales_date,
             $data->order->sales_order_no,
-            $data->order->staff?->code,
-            $data->order->staff?->name,
-            $data->product->name,
+            $data->order->customer_manufacturer?->code,
+            $data->order->customer_manufacturer?->full_name,
             $data->product->code,
+            $data->product->name,
             $data->quantity,
             $data->price,
-            $data->product->barcode,
+            strval($data->product->barcode),
             $data->storehouse?->code,
             $data->storehouse?->name,
             $data->order->staff?->code,
@@ -84,8 +88,21 @@ class SalesOrdersExport implements FromCollection, WithHeadings, WithMapping, Sh
     public function columnFormats(): array
     {
         return [
+            'E' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
             'F' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
             'I' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
+            'J' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
         ];
+    }
+
+    public function bindValue(Cell $cell, $value)
+    {
+        $column = $cell->getColumn();
+        // 長度超過 15 會自動轉為科學符號
+        if (in_array($column, ['I'])) {
+            $cell->setValueExplicit($value, DataType::TYPE_STRING);
+            return true;
+        }
+        return parent::bindValue($cell, $value);
     }
 }

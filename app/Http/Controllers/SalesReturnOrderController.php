@@ -28,8 +28,9 @@ class SalesReturnOrderController extends Controller
             fn ($query) => $query
                 ->when($request->has('columnFilters'), function ($query) use ($request) {
                     foreach ($request['columnFilters'] as $field => $value) {
+                        if (empty($value)) continue;
                         if (str($value)->contains(' to ') && $split = str($value)->split('/ to /')) {
-                            if (count($split) !== 2) break;
+                            if (count($split) !== 2) continue;
                             $query
                                 ->whereDate('sales_date', '>=', $split[0])
                                 ->whereDate('sales_date', '<=', $split[1]);
@@ -269,7 +270,7 @@ class SalesReturnOrderController extends Controller
     }
 
     /**
-     * Excel 倒出
+     * Excel 匯出
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

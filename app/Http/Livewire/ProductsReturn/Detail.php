@@ -100,13 +100,13 @@ class Detail extends Component
                 $this->clearAllCart();
 
                 $this->flash('success', '訂單修改成功', [], route('index'));
-
-                return;
             } catch (\Exception $e) {
                 report($e);
                 DB::rollBack();
                 $this->alert('error', $e->getMessage());
             }
+
+            return;
         }
 
         // 創建訂單

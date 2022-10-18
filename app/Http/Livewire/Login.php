@@ -16,6 +16,12 @@ class Login extends Component
 
     public $password;
 
+    public function getStorehouseProperty()
+    {
+        $member = PMember::where('email', $this->account)->first();
+        return $member?->storehouse;
+    }
+
     public function login()
     {
         if (!$member = PMember::where('email', $this->account)->first()) {

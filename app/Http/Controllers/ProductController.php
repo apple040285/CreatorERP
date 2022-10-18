@@ -226,7 +226,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Excel 倒出
+     * Excel 匯出
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -237,7 +237,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Excel 導入
+     * Excel 匯入
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -250,7 +250,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Excel 導入
+     * Excel 匯入
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
