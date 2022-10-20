@@ -13,6 +13,11 @@
                           export-url="/products/export"
                         />
 
+                        <!-- Excel 匯入 -->
+                        <ExcelImportAction
+                          title="匯入庫存"
+                          import-url="/products/storehouses/import"
+                        />
                         <b-button
                             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                             variant="outline-primary"
@@ -200,6 +205,7 @@ import Ripple from 'vue-ripple-directive'
 import axios from "@axios";
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import ExcelAction from '@/layouts/components/ExcelAction.vue'
+import ExcelImportAction from '@/layouts/components/ExcelImportAction.vue'
 
 export default {
     components: {
@@ -218,6 +224,7 @@ export default {
         BSpinner,
 
         ExcelAction,
+        ExcelImportAction,
     },
     directives: {
         Ripple,

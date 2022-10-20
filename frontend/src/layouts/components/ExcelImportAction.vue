@@ -1,14 +1,25 @@
 <template>
-  <b-button
-    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-    variant="outline-primary"
-    class="mb-2 mr-2 text-nowrap"
-    @click.stop.prevent="exportExcel"
-  >
-    <span v-if="$attrs['title'] !== undefined">{{ $t($attrs['title']) }}</span>
-    <span v-else>{{ $t('Excel.export') }}</span>
-  </b-button>
+  <div>
+    <input
+      ref="refInputEl"
+      type="file"
+      accept=".xls"
+      class="d-none"
+      @change="importExcel"
+    >
+
+    <b-button
+      v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+      variant="outline-primary"
+      class="mb-2 mr-2 text-nowrap"
+      @click="$refs.refInputEl.click()"
+    >
+      <span v-if="$attrs['title'] !== undefined">{{ $t($attrs['title']) }}</span>
+      <span v-else>{{ $t('Excel.import') }}</span>
+    </b-button>
+  </div>
 </template>
+
 <script>
 import {
   BButton,
