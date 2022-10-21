@@ -24,7 +24,7 @@
                             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                             variant="outline-primary"
                             class="mb-2 mr-2 text-nowrap"
-                            @click="onColumnFilter({ columnFilters: { type:'customer' } })"
+                            @click="getList"
                         >
                             {{ $t('table.Search')}}
                         </b-button>
@@ -106,13 +106,13 @@
                         <!-- Column: Status -->
                         <span v-else-if="props.column.field === 'approvalStatus'" class="text-nowrap">
                             <b-badge :variant="statusVariant(props.row.approvalStatus)">
-                                {{ $t('TransferVoucherList.' + props.row.approvalStatus) }}
+                                {{ $t(props.row.approvalStatus) }}
                             </b-badge>
                         </span>
 
                         <span v-else-if="props.column.field === 'status'" class="text-nowrap">
                             <b-badge :variant="statusVariant(props.row.status)">
-                                {{ $t('TransferVoucherList.' + props.row.status) }}
+                                {{ $t(props.row.status) }}
                             </b-badge>
                         </span>
 
@@ -239,18 +239,14 @@ export default {
         return {
             apiPath: '/adjust-transfer-orders',
             showData: {},
-            defaultData: {
-                start_date: '',
-                end_date: '',
-            },
             columns: [
                 { label: '#', field: 'id' },
                 { label: 'transferDate', field: 'adjust_date' },
                 { label: 'transferNo', field: 'adjust_order_no' },
                 { label: 'applicants', field: 'applicants' },
                 { label: 'peopleInCharge', field: 'people_in_charge' },
-                { label: 'status', field: 'status' },
-                { label: 'approvalStatus', field: 'approval_status' },
+                // { label: 'status', field: 'status' },
+                // { label: 'approvalStatus', field: 'approval_status' },
                 { label: 'action', field: 'action' },
             ],
             rows: [],
@@ -263,6 +259,7 @@ export default {
                         type: ''
                     }
                 ],
+                columnFilters: {},
                 page: 1,
                 perPage: 10,
                 searchTerm: '',
@@ -321,9 +318,6 @@ export default {
             })
             .catch(error => console.error (error))
         },
-    },
-    mounted() {
-        this.showData = this.defaultData;
     },
     created() {
         this.getList();

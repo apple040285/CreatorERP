@@ -401,9 +401,11 @@
                     <b-form-group>
                         <label for="storehouse">{{ $t('AdjustmentVoucherList.ProductList.storehouse') }}</label>
                         <v-select
+                            label="name"
                             v-model="productsData.storehouse"
                             :options="storehouseOption"
                             :placeholder="$t('AdjustmentVoucherModal.selectStorehouse')"
+                            :reduce="option => option.id"
                         />
                     </b-form-group>
                     <b-form-group id="quantity">
@@ -630,28 +632,28 @@ export default {
     },
     data() {
         return {
-            apiPath: '/adjustmentVoucher',
+            apiPath: '/adjust-orders',
             required,
             alertShow: 'false',
             showData: {},
             productModalId: null,
             productsData: {},
             defaultData: {
-                adjustmentDate: '',
-                adjustmentCategory_id: null,
+                adjust_date: '',
+                adjustment_category_id: null,
                 applicants_id: null,
-                applicationSector_id: null,
-                peopleInCharge_id: null,
-                handlingDepartment_id: null,
+                application_sector_id: null,
+                people_in_charge_id: null,
+                handling_department_id: null,
                 remark: '',
                 products: []
             },
             remarkDetail: '',
-            adjustmentCategoryOption: ['AAA', 'BBB', 'CCC'],
-            applicantsOption: ['dennis', 'ryan'],
-            applicationSectorOption: ['人事部', '會計部'],
-            peopleInChargeOption: ['dennis', 'ryan'],
-            handlingDepartmentOption: ['人事部', '會計部'],
+            adjustmentCategoryOption: [],
+            applicantsOption: [],
+            applicationSectorOption: [],
+            peopleInChargeOption: [],
+            handlingDepartmentOption: [],
 
             defaultProductsData: {
                 code: '',
@@ -669,8 +671,8 @@ export default {
                 amountInLocalCurrency: '',
                 remark: '',
             },
-            productOption: ['桌子', '椅子'],
-            storehouseOption: ['北', '中', '南'],
+            productOption: [],
+            storehouseOption: [],
 
             pageLength: 5,
             searchTerm: '',
@@ -689,20 +691,7 @@ export default {
                 { label: 'productRemark', field: 'remark' },
                 { label: 'action', field: 'action' },
             ],
-            rows: [
-                {
-                    id: 1,
-                    code : 'A123456',
-                    name : '麥香',
-                    specification : '小',
-                    unit : '箱',
-                    storehouse : '北',
-                    quantity : 10,
-                    unitPrice : 500,
-                    amount : 100,
-                    remark : 'test',
-                }
-            ]
+            rows: []
         }
     },
     methods: {
@@ -869,9 +858,10 @@ export default {
     mounted() {
         this.showData = this.defaultData;
         axios
-        .post('customers/options')
+        .post('staffs/options')
         .then(response => {
-            this.customerOption = response.data;
+            this.applicantsOption = response.data;
+            this.peopleInChargeOption = response.data;
         })
         .catch(error => {
             this.$toast({
@@ -886,9 +876,44 @@ export default {
             })
         })
         axios
-        .post('currencies/options')
+        .post('departments/options')
         .then(response => {
-            this.currencyOption = response.data;
+            this.applicationSectorOption = response.data;
+            this.handlingDepartmentOption = response.data;
+        })
+        .catch(error => {
+            this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                title: `${this.$t('createdFailed')}`,
+                icon: 'XIcon',
+                variant: 'danger',
+                text: error.response.data.message,
+                },
+            })
+        })
+        axios
+        .post('products/options')
+        .then(response => {
+            this.productOption = response.data;
+        })
+        .catch(error => {
+            this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                title: `${this.$t('createdFailed')}`,
+                icon: 'XIcon',
+                variant: 'danger',
+                text: error.response.data.message,
+                },
+            })
+        })
+        axios
+        .post('storehouses/options')
+        .then(response => {
+            this.storehouseOption = response.data;
         })
         .catch(error => {
             this.$toast({

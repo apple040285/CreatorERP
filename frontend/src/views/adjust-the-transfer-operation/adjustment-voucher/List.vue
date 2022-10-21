@@ -23,7 +23,7 @@
                             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                             variant="outline-primary"
                             class="mb-2 mr-2 text-nowrap"
-                            @click="onColumnFilter({ columnFilters: { type:'customer' } })"
+                            @click="getList"
                         >
                             {{ $t('table.Search')}}
                         </b-button>
@@ -238,10 +238,6 @@ export default {
         return {
             apiPath: '/adjust-orders',
             showData: {},
-            defaultData: {
-                start_date: '',
-                end_date: '',
-            },
             columns: [
                 { label: '#', field: 'id' },
                 { label: 'adjustmentDate', field: 'adjust_date' },
@@ -250,8 +246,8 @@ export default {
                 { label: 'adjustmentMethod', field: 'adjustment_method' },
                 { label: 'applicants', field: 'applicants' },
                 { label: 'peopleInCharge', field: 'people_in_charge' },
-                { label: 'status', field: 'status' },
-                { label: 'approvalStatus', field: 'approval_status' },
+                // { label: 'status', field: 'status' },
+                // { label: 'approvalStatus', field: 'approval_status' },
                 { label: 'action', field: 'action' },
             ],
             rows: [],
@@ -322,9 +318,6 @@ export default {
             })
             .catch(error => console.error (error))
         },
-    },
-    mounted() {
-        this.showData = this.defaultData;
     },
     created() {
         this.getList();

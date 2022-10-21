@@ -92,7 +92,7 @@ export default {
                     { label: 'productName', field: 'product.name' },
                     { label: 'specification', field: 'specification' },
                     { label: 'unit', field: 'product.unit' },
-                    { label: 'storehouse', field: 'storehouse' },
+                    { label: 'storehouse', field: 'storehouse.name' },
                     { label: 'quantity', field: 'quantity', type: 'number' },
                     { label: 'unitPrice', field: 'price', type: 'number' },
                     { label: 'amount', field: 'amount', type: 'number' },

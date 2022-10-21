@@ -101,7 +101,7 @@
                 </b-form-group>
             </b-col>
             <!--  Status -->
-            <b-col cols="6">
+            <!-- <b-col cols="6">
                 <b-form-group :label="$t('AdjustmentVoucherList.status')">
                     <b-form-input
                         :value="basicInformation.status"
@@ -110,9 +110,9 @@
                         readonly
                     />
                 </b-form-group>
-            </b-col>
+            </b-col> -->
             <!--  Approval Status -->
-            <b-col cols="6">
+            <!-- <b-col cols="6">
                 <b-form-group :label="$t('AdjustmentVoucherList.approvalStatus')">
                     <b-form-input
                         :value="basicInformation.approvalStatus"
@@ -121,9 +121,9 @@
                         readonly
                     />
                 </b-form-group>
-            </b-col>
+            </b-col> -->
             <!--  Action -->
-            <b-col cols="6">
+            <!-- <b-col cols="6">
                 <b-form-group :label="$t('action')">
                     <b-button
                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
@@ -149,7 +149,7 @@
                         {{ $t('AdjustmentVoucherList.void')}}
                     </b-button>
                 </b-form-group>
-            </b-col>
+            </b-col> -->
         </b-row>
     </b-card>
 </template>
