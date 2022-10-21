@@ -84,10 +84,11 @@ export default {
         return {
             data: {},
             storehouseListData: {
-                pageLength: 5,
+                pageLength: 10,
                 searchTerm: '',
                 columns: [
                     { label: '#', field: 'id', type: 'number'},
+                    { label: 'code', field: 'code' },
                     { label: 'warehouse', field: 'name' },
                     { label: 'stock', field: 'pivot.stock', type: 'number' },
                     { label: 'expectedToEnter', field: 'expectedToEnter', type: 'number' },
