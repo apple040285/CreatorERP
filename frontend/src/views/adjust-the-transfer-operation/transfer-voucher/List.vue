@@ -237,7 +237,7 @@ export default {
     },
     data() {
         return {
-            apiPath: '/transferVoucher',
+            apiPath: '/adjust-transfer-orders',
             showData: {},
             defaultData: {
                 start_date: '',
@@ -245,8 +245,8 @@ export default {
             },
             columns: [
                 { label: '#', field: 'id' },
-                { label: 'transferDate', field: 'transfer_date' },
-                { label: 'transferNo', field: 'transfer_no' },
+                { label: 'transferDate', field: 'adjust_date' },
+                { label: 'transferNo', field: 'adjust_order_no' },
                 { label: 'applicants', field: 'applicants' },
                 { label: 'peopleInCharge', field: 'people_in_charge' },
                 { label: 'status', field: 'status' },

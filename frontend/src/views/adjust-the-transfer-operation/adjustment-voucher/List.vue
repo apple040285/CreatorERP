@@ -236,7 +236,7 @@ export default {
     },
     data() {
         return {
-            apiPath: '/adjustmentVoucher',
+            apiPath: '/adjust-orders',
             showData: {},
             defaultData: {
                 start_date: '',
@@ -244,8 +244,8 @@ export default {
             },
             columns: [
                 { label: '#', field: 'id' },
-                { label: 'adjustmentDate', field: 'adjustment_date' },
-                { label: 'adjustmentNo', field: 'adjustment_no' },
+                { label: 'adjustmentDate', field: 'adjust_date' },
+                { label: 'adjustmentNo', field: 'adjust_order_no' },
                 { label: 'adjustmentCategory', field: 'adjustment_category' },
                 { label: 'adjustmentMethod', field: 'adjustment_method' },
                 { label: 'applicants', field: 'applicants' },

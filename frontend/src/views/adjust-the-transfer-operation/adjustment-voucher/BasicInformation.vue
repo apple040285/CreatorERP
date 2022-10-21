@@ -5,7 +5,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('AdjustmentVoucherList.adjustmentDate')">
                     <b-form-input
-                        :value="basicInformation.adjustmentDate"
+                        :value="basicInformation.adjust_date"
                         :placeholder="$t('AdjustmentVoucherList.adjustmentDate')"
                         type="text"
                         readonly
@@ -16,7 +16,7 @@
             <b-col cols="6">
                 <b-form-group :label="$t('AdjustmentVoucherList.adjustmentNo')">
                     <b-form-input
-                        :value="basicInformation.adjustmentNo"
+                        :value="basicInformation.adjust_order_no"
                         :placeholder="$t('AdjustmentVoucherList.adjustmentNo')"
                         type="text"
                         readonly
