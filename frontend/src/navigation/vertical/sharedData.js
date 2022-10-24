@@ -48,9 +48,9 @@ export default [
         icon: 'ShoppingCartIcon',
         children: [
             {
-                title: 'Product Data Setting',
-                route: 'ProductData-ProductDataSettingList',
-                action: 'products.read',
+                title: 'Product Category Setting',
+                route: 'ProductData-ProductCategorySetting',
+                action: 'categories.read',
             },
             {
                 title: 'Warehouse Data Setting',
@@ -58,9 +58,9 @@ export default [
                 action: 'storehouses.read',
             },
             {
-                title: 'Product Category Setting',
-                route: 'ProductData-ProductCategorySetting',
-                action: 'categories.read',
+                title: 'Product Data Setting',
+                route: 'ProductData-ProductDataSettingList',
+                action: 'products.read',
             },
         ],
     },
