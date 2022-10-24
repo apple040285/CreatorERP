@@ -106,6 +106,7 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
     // 進貨
     Route::apiResource('/purchase-orders', Controllers\PurchaseOrderController::class);
 
+
     /** @var 銷貨作業 */
 
     // 銷貨憑單
@@ -113,12 +114,26 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     // 銷貨退回憑單
     Route::apiResource('/sales-return-orders', Controllers\SalesReturnOrderController::class);
+
+
+    /** @var 調整作業 */
+
+    // 調整憑單
+    Route::apiResource('/adjust-orders', Controllers\AdjustOrderController::class);
+
+    // 調撥憑單
+    Route::apiResource('/adjust-transfer-orders', Controllers\AdjustTransferOrderController::class);
 });
 
 // 測試用
-Route::middleware(LanguageMiddleware::class)->group(function () {
+Route::prefix('tests')->middleware(LanguageMiddleware::class)->group(function () {
     // 部門管理
     // Route::apiResource('/departments', Controllers\DepartmentController::class);
     // Route::apiResource('/jobs', Controllers\JobController::class);
     // Route::apiResource('/currencies', Controllers\CurrencyController::class);
+    // 調整憑單
+    Route::apiResource('/adjust-orders', Controllers\AdjustOrderController::class);
+
+    // 調撥憑單
+    Route::apiResource('/adjust-transfer-orders', Controllers\AdjustTransferOrderController::class);
 });

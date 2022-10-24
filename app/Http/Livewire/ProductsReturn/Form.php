@@ -85,7 +85,7 @@ class Form extends Component
             $this->quantity = 1;
             $this->next();
         } else {
-            $this->alert('error', '此無商品');
+            $this->alert('error', '無此商品');
         }
     }
 
@@ -103,7 +103,7 @@ class Form extends Component
         ]);
 
         if (!$product = $this->getProductProperty()) {
-            $this->alert('error', '此無商品');
+            $this->alert('error', '無此商品');
             return;
         }
 
@@ -151,7 +151,7 @@ class Form extends Component
         ]);
 
         if (!$product = $this->getProductProperty()) {
-            $this->alert('error', '此無商品');
+            $this->alert('error', '無此商品');
         }
 
         $this->updateCart($data['product_id'], $data['quantity']);

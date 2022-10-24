@@ -51,11 +51,10 @@
         </div>
         <div class="f16 w-75 my-3 d-block mx-auto">
             <label for="amount" class="formClass w-100 fw700 cgy2">
-                國際條碼：
+                國際條碼：<small>掃碼槍點擊下方即可觸發</small>
             </label>
-            <input type="text" class="form-control" placeholder="國際條碼" readonly>
+            <input wire:ignore.self id="barcode" wire:model.defer="barcode" type="text" class="form-control" placeholder="國際條碼" autofocus onfocus="onFocus()" onblur="onBlur()" value="{{ $this->product?->barcode }}">
         </div>
-
 
         @if (!$this->isEditCart())
             <div class="btnRow w-75 d-block mx-auto">
@@ -88,6 +87,39 @@
 
                     // $('#barcode').focus();
                 });
+            });
+
+            window.addEventListener('reset', event => {
+                event.detail.forEach(element => {
+                    $(element.target).select2().val(String(element.value))
+
+                    $('#barcode').focus();
+                });
+            })
+        </script>
+
+        <script>
+            function onFocus() {
+                const target = event.target
+                setTimeout(() => {
+                    target.readOnly = false
+                }, 300);
+            }
+
+            function onBlur() {
+                event.target.readOnly = true
+            }
+
+            window.addEventListener('keydown', function(e) {
+                if (e.which == 229) {
+                    $('#barcode').val("");
+
+                    setTimeout(() => {
+                        @this.setBarcode($('#barcode').val());
+
+                        $('#barcode').focus();
+                    }, 200);
+                }
             });
         </script>
     @endsection

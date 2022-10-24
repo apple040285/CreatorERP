@@ -58,9 +58,8 @@ class Detail extends Component
 
             $order = AdjustOrder::create([
                 'type'                      => 'adjust',
-                'sales_date'                => now(),
-                'sales_order_no'            => $this->orderNo,
-                'customer_manufacturer_id'  => $this->customer->id,
+                'adjust_date'               => now(),
+                'adjust_order_no'           => $this->orderNo,
                 'staff_id'                  => auth()->id(),
                 'total_amount'              => $this->getTotal(),
                 'status'                    => StatusEnum::啟用->value,
@@ -81,11 +80,7 @@ class Detail extends Component
                     'amount'        => $cart->getPriceSum(),
                 ]);
 
-                // 檢查庫存
-                // if (!$this->checkStockAndDeduct($cart->id, $staffStorehouse->id, $cart->quantity)) {
-                //     $this->alert('error', '商品: `' . $cart['name'] . '`' . PHP_EOL . '倉庫: `' . $staffStorehouse['name'] . '` 的庫存不足');
-                //     return;
-                // }
+                $this->transferStorehouse($cart->id, $staffStorehouse->id, $cart->quantity);
             }
 
             $order->update([
@@ -107,7 +102,7 @@ class Detail extends Component
 
             // $url = route('sales-check-view', ['customer' => $order->customer_manufacturer_id, 'order' => $order->id]);
 
-            // $this->flash('success', '訂單建立成功', [], $url);
+            $this->flash('success', '調整訂單建立成功', [], route('index'));
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
