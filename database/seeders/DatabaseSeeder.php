@@ -22,24 +22,24 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        for ($i = 0; $i < 3; $i++) {
-            \App\Models\Department::create([
-                'code'          => str()->random(5),
-                'name'          => str()->random(6),
-                'remark'        => null,
-                'status'        => 'disable',
-                'disable_at'    => now(),
-            ]);
-        }
+        // for ($i = 0; $i < 3; $i++) {
+        //     \App\Models\Department::create([
+        //         'code'          => str()->random(5),
+        //         'name'          => str()->random(6),
+        //         'remark'        => null,
+        //         'status'        => 'disable',
+        //         'disable_at'    => now(),
+        //     ]);
+        // }
 
-        for ($i = 0; $i < 20; $i++) {
-            \App\Models\Department::create([
-                'code'      => str()->random(5),
-                'name'      => str()->random(6),
-                'remark'    => null,
-                'status'    => 'active',
-            ]);
-        }
+        // for ($i = 0; $i < 20; $i++) {
+        //     \App\Models\Department::create([
+        //         'code'      => str()->random(5),
+        //         'name'      => str()->random(6),
+        //         'remark'    => null,
+        //         'status'    => 'active',
+        //     ]);
+        // }
 
         $this->call([
             UserSeeder::class,
