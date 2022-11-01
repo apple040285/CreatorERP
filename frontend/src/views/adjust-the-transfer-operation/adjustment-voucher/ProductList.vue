@@ -50,6 +50,11 @@
                             <span v-if="props.column.field === 'id'" class="text-nowrap">
                                 {{ props.row.originalIndex + 1 }}
                             </span>
+
+                            <span v-if="props.column.field === 'untransferredQuantity'" class="text-nowrap">
+                                {{ props.row.current_quantity + props.row.quantity }}
+                            </span>
+
                             <span v-else-if="props.column.field === 'remark'" class="text-nowrap">
                                 <span>
                                     <b-button
