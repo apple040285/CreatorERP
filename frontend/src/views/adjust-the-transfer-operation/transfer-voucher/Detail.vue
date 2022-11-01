@@ -93,11 +93,11 @@ export default {
                     { label: 'specification', field: 'specification' },
                     { label: 'unit', field: 'product.unit' },
                     { label: 'storehouse', field: 'storehouse.name' },
+                    { label: 'numberOfTransfers', field: 'current_quantity', type: 'number' },
                     { label: 'quantity', field: 'quantity', type: 'number' },
+                    { label: 'untransferredQuantity', field: 'untransferredQuantity', type: 'number' },
                     { label: 'unitPrice', field: 'price', type: 'number' },
                     { label: 'amount', field: 'amount', type: 'number' },
-                    { label: 'numberOfTransfers', field: 'numberOfTransfers', type: 'number' },
-                    { label: 'untransferredQuantity', field: 'untransferredQuantity', type: 'number' },
                     { label: 'productRemark', field: 'remark' },
                 ],
                 rows: []
