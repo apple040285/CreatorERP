@@ -143,6 +143,19 @@
                             </b-form-group>
                         </b-col>
                     </b-row>
+                    <b-row>
+                        <b-col cols="6">
+                            <!-- price -->
+                            <b-form-group :label="$t('ProductList.price')">
+                                <b-form-input
+                                    :value="basicInformation.price"
+                                    :placeholder="$t('ProductList.price')"
+                                    type="text"
+                                    readonly
+                                />
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
                 </b-col>
             </b-row>
         </b-card-body>

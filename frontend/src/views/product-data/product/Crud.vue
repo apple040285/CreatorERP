@@ -119,6 +119,25 @@
                                 </validation-provider>
                             </b-form-group>
                         </b-col>
+                        <!-- price -->
+                        <b-col cols="4">
+                            <b-form-group id="productPrice">
+                                <label for="productPrice">{{ $t('ProductList.price') }}</label>
+                                <validation-provider
+                                    #default="{ errors }"
+                                    name="productPrice"
+                                    rules="required"
+                                >
+                                    <b-form-input
+                                        v-model="showData.price"
+                                        type="text"
+                                        :placeholder="$t('ProductList.price')"
+                                        :state="errors.length > 0 ? false:null"
+                                    />
+                                    <small class="text-danger">{{ errors[0] }}</small>
+                                </validation-provider>
+                            </b-form-group>
+                        </b-col>
                         <!-- unit -->
                         <b-col cols="4">
                             <b-form-group id="productUnit">
@@ -138,6 +157,8 @@
                                 </validation-provider>
                             </b-form-group>
                         </b-col>
+                    </b-row>
+                    <b-row>
                         <!-- barcode -->
                         <b-col cols="4">
                             <b-form-group>
@@ -149,8 +170,6 @@
                                 />
                             </b-form-group>
                         </b-col>
-                    </b-row>
-                    <b-row>
                         <!--  Remark -->
                         <b-col cols="4">
                             <b-form-group>

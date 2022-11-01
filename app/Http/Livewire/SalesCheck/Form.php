@@ -87,7 +87,7 @@ class Form extends Component
             $this->quantity = 1;
             $this->next();
         } else {
-            $this->alert('error', '此無商品');
+            $this->alert('error', '無此商品');
         }
     }
 
@@ -105,7 +105,7 @@ class Form extends Component
         ]);
 
         if (!$product = $this->getProductProperty()) {
-            $this->alert('error', '此無商品');
+            $this->alert('error', '無此商品');
             return;
         }
 
@@ -114,13 +114,13 @@ class Form extends Component
         //     ->where('storehouse_id', auth()->user()->p_member->storehouse_id)
         //     ->first();
         // if (!$storehouseProduct) {
-        //     $this->alert('error', '此無商品無庫存');
+        //     $this->alert('error', '無此商品無庫存');
         //     return;
         // }
 
         // // 庫存不足
         // if ($storehouseProduct->stock < ($data['quantity'] + $this->getCartQuantity($product->id))) {
-        //     $this->alert('error', '此無商品庫存不足');
+        //     $this->alert('error', '無此商品庫存不足');
         //     return;
         // }
 
@@ -170,7 +170,7 @@ class Form extends Component
         ]);
 
         if (!$product = $this->getProductProperty()) {
-            $this->alert('error', '此無商品');
+            $this->alert('error', '無此商品');
         }
 
         $this->updateCart($data['product_id'], $data['quantity']);

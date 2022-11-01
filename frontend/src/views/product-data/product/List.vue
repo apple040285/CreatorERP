@@ -238,6 +238,7 @@ export default {
                 { label: 'name', field: 'name' },
                 { label: 'englishName', field: 'alias' },
                 { label: 'specification', field: 'sku' },
+                { label: 'price', field: 'price' },
                 { label: 'unit', field: 'unit' },
                 { label: 'status', field: 'status' },
                 { label: 'action', field: 'action' },

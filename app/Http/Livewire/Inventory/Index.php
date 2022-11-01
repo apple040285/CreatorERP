@@ -40,6 +40,26 @@ class Index extends Component
         return Product::where('id', $this->product_id)->first();
     }
 
+
+    /** @var void 更新商品監聽 */
+    public function updatedProductId($value)
+    {
+        if ($product = $this->getProductProperty()) {
+            $this->barcode = $product->barcode;
+        }
+    }
+
+    /** @var void 輸入條碼監聽 */
+    public function updatingBarcode($value)
+    {
+        if ($product = Product::where('barcode', $value)->first()) {
+            $this->product_id = $product->id;
+            $this->dispatchBrowserEvent('reset', [
+                ['target' => '#product', 'value' => $product->id],
+            ]);
+        }
+    }
+
     /**
      * 下一筆
      *
@@ -54,7 +74,7 @@ class Index extends Component
         ]);
 
         if (!$product = $this->getProductProperty()) {
-            $this->alert('error', '此無商品');
+            $this->alert('error', '無此商品');
             return;
         }
 
@@ -94,7 +114,7 @@ class Index extends Component
         ]);
 
         if (!$product = $this->getProductProperty()) {
-            $this->alert('error', '此無商品');
+            $this->alert('error', '無此商品');
         }
 
         $this->updateCart($data['product_id'], $data['quantity']);

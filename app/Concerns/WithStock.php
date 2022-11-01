@@ -2,6 +2,7 @@
 
 namespace App\Concerns;
 
+use App\Models\Storehouse;
 use App\Models\StorehouseHasProduct;
 
 trait WithStock
@@ -32,5 +33,43 @@ trait WithStock
 
         $storehouseProduct->decrement('stock', $quantity);
         return true;
+    }
+
+    public function syncStorehouse($product_id, $storehouse_id, $quantity)
+    {
+        StorehouseHasProduct::updateOrCreate(
+            [
+                'product_id'    => $product_id,
+                'storehouse_id' => $storehouse_id,
+            ],
+            [
+                'stock'         => $quantity,
+            ]
+        );
+    }
+
+    public function transferStorehouse($product_id, $storehouse_id, $quantity)
+    {
+        // 總倉庫資料
+        $masterData = [
+            'product_id'    => $product_id,
+            'storehouse_id' => Storehouse::firstWhere('code', '01')->id,
+        ];
+
+        if (!$masterStorehouse = StorehouseHasProduct::firstWhere($masterData))
+            StorehouseHasProduct::create($masterData + ['stock' => -$quantity]);
+        else
+            $masterStorehouse->decrement('stock', $quantity);
+
+        // 轉移倉庫資料
+        $transferData = [
+            'product_id'    => $product_id,
+            'storehouse_id' => $storehouse_id,
+        ];
+
+        if (!$transferStorehouse = StorehouseHasProduct::firstWhere($transferData))
+            StorehouseHasProduct::create($transferData + ['stock' => $quantity]);
+        else
+            $transferStorehouse->increment('stock', $quantity);
     }
 }

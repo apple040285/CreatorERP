@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Inventory;
 
+use App\Enum\StatusEnum;
 use App\Models\AdjustOrder;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Detail extends Component
@@ -49,6 +51,62 @@ class Detail extends Component
     // 完成/列印
     public function completePrint()
     {
+        // 創建訂單
+        try {
+            DB::beginTransaction();
+
+            $order = AdjustOrder::create([
+                'type'                      => 'transfer',
+                'adjust_date'               => now(),
+                'adjust_order_no'           => $this->orderNo,
+                'staff_id'                  => auth()->id(),
+                'total_amount'              => $this->getTotal(),
+                'status'                    => StatusEnum::啟用->value,
+                'status_approval'           => StatusEnum::啟用->value,
+                // 不知道是捨
+                'tax_type'                  => '', // 扣稅類別
+                'account_setting_method'    => '', // 立帳方式
+            ]);
+
+            foreach ($this->getCarts() as $cart) {
+                $staffStorehouse = auth()->user()->p_member->storehouse;
+
+                $order->items()->create([
+                    'product_id'    => $cart->id,
+                    'storehouse_id' => $staffStorehouse->id,
+                    'quantity'      => $cart->quantity,
+                    'price'         => $cart->price,
+                    'amount'        => $cart->getPriceSum(),
+                ]);
+
+                $this->syncStorehouse($cart->id, $staffStorehouse->id, $cart->quantity);
+            }
+
+            $order->update([
+                'total_amount' => $this->getTotal(),
+            ]);
+
+            DB::commit();
+
+            // 清空商品
+            $this->clearAllCart();
+
+            // 寫入暫存
+            // $this->sessionKey = $order->id;
+
+            // foreach ($order->items as $baseOrder) {
+            //     $this->addCart($baseOrder->product);
+            //     $this->updateCart($baseOrder->product->id, $baseOrder->quantity);
+            // }
+
+            // $url = route('sales-check-view', ['customer' => $order->customer_manufacturer_id, 'order' => $order->id]);
+
+            $this->flash('success', '調整訂單建立成功', [], route('index'));
+        } catch (\Exception $e) {
+            report($e);
+            DB::rollBack();
+            $this->alert('error', $e->getMessage());
+        }
     }
 
     public function render()
