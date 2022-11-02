@@ -52,7 +52,7 @@
                             </span>
 
                             <span v-if="props.column.field === 'untransferredQuantity'" class="text-nowrap">
-                                {{ props.row.current_quantity + props.row.quantity }}
+                                {{ props.row.current_quantity - props.row.quantity }}
                             </span>
 
                             <span v-else-if="props.column.field === 'remark'" class="text-nowrap">
