@@ -82,37 +82,6 @@
                 </button>
             </div>
         @endif
-        {{-- @if (isset($prod_id))
-            <div class="f16 w-75 my-3 d-block mx-auto">
-                <label for="amount" class="formClass w-100 fw700 cgy2">
-                    國際條碼：
-                </label>
-                <input type="text" class="form-control" placeholder="國際條碼" readonly value="{{ $this->product?->barcode }}">
-            </div>
-
-            <div class="btnRow w-75 d-block mx-auto">
-                <button wire:click.prevent="update" type="button" class="f18 btn btn-lg btn-outline-purple d-block mt-3 w-100">
-                    更新
-                </button>
-            </div>
-        @else
-            <div class="f16 w-75 my-3 d-block mx-auto">
-                <label for="amount" class="formClass w-100 fw700 cgy2">
-                    國際條碼：<small>掃碼槍點擊下方即可觸發</small>
-                </label>
-                <input id="barcode" type="text" class="form-control" placeholder="國際條碼" autofocus onfocus="onFocus()" onblur="onBlur()" value="{{ $this->product?->barcode }}">
-            </div>
-
-            <div class="btnRow w-75 d-block mx-auto">
-                <button wire:target="next" type="submit" class="f18 btn btn-lg btn-outline-purple d-block mt-3 w-100">
-                    下一筆
-                </button>
-            </div>
-
-            <div class="btnRow w-75 d-block mx-auto">
-                <button wire:click.prevent="finish" type="button" class="f18 btn btn-lg btn-purple d-block mt-3 w-100">確認</button>
-            </div>
-        @endif --}}
     </form>
 
     @error('message')
@@ -122,7 +91,25 @@
     @section('script')
         <script>
             $(document).ready(function() {
-                $('#product').select2();
+                $('#product').select2({
+                    ajax: {
+                        url: "{{ route('apps.products.index') }}",
+                        dataType: 'json',
+                        delay: 500,
+                        processResults: (data) => ({
+                            results: data
+                        }),
+                        cache: true,
+                    },
+                    placeholder: '--請選擇--',
+                    minimumInputLength: 1,
+                    language: {
+                        inputTooShort: function (a) {
+                            return "請輸入 1 個或多個字元";
+                        },
+                    },
+                    templateResult: (repo) => repo.loading ? '載入中...' : repo.name,
+                });
 
                 // https://select2.org/programmatic-control/events
                 $('#product').on('select2:select', function(e) {
@@ -155,7 +142,7 @@
             }
 
             window.addEventListener('keydown', function(e) {
-                if (e.which == 229) {
+                if (e.which == 229 && $('#barcode').attr('readOnly') == null) {
                     $('#barcode').val("");
 
                     setTimeout(() => {

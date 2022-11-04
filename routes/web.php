@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Livewire;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('apps')->group(function () {
+    // 共用 API
+    Route::get('/products', function (Illuminate\Http\Request $request) {
+        $data = Product::search(
+            $request->input('term'),
+            fn ($query) => $query->select(['id', 'name'])->latest()
+        )->get();
+
+        return $data;
+    })->name('apps.products.index');
+
+    // 首頁
     Route::get('/', fn () => redirect()->route('index'));
 
     // 登入
@@ -124,15 +136,20 @@ Route::prefix('apps')->group(function () {
     //     })->name('inventory-detail');
     // });
 
-    Route::prefix('historical-transactions')->group(function () {
-        Route::get('/index', function () {
-            return view('historicalTransactions.index');
-        })->name('historical-transactions-index');
-
-        Route::get('/detail', function () {
-            return view('historicalTransactions.detail');
-        })->name('historical-transactions-detail');
+    Route::prefix('historical-transactions')->middleware('auth:staff')->group(function () {
+        Route::get('/index', Livewire\Historical\Index::class)->name('historical-transactions-index');
+        Route::get('/detail', Livewire\Historical\Detail::class)->name('historical-transactions-detail');
     });
+
+    // Route::prefix('historical-transactions')->group(function () {
+    //     Route::get('/index', function () {
+    //         return view('historicalTransactions.index');
+    //     })->name('historical-transactions-index');
+
+    //     Route::get('/detail', function () {
+    //         return view('historicalTransactions.detail');
+    //     })->name('historical-transactions-detail');
+    // });
 });
 
 Route::view('/{any}', 'application')

@@ -60,6 +60,23 @@ class Index extends Component
     }
 
     /**
+     * 直接寫入條碼
+     *
+     * @param  mixed $code
+     * @return void
+     */
+    public function setBarcode($code)
+    {
+        if ($product = Product::where('barcode', str($code)->trim('!'))->first()) {
+            $this->product_id = $product->id;
+            $this->quantity = 1;
+            $this->next();
+        } else {
+            $this->alert('error', '無此商品');
+        }
+    }
+
+    /**
      * 下一筆
      *
      * @return void

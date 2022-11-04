@@ -78,7 +78,25 @@
     @section('script')
         <script>
             $(document).ready(function() {
-                $('#product').select2();
+                $('#product').select2({
+                    ajax: {
+                        url: "{{ route('apps.products.index') }}",
+                        dataType: 'json',
+                        delay: 500,
+                        processResults: (data) => ({
+                            results: data
+                        }),
+                        cache: true,
+                    },
+                    placeholder: '--請選擇--',
+                    minimumInputLength: 1,
+                    language: {
+                        inputTooShort: function (a) {
+                            return "請輸入 1 個或多個字元";
+                        },
+                    },
+                    templateResult: (repo) => repo.loading ? '載入中...' : repo.name,
+                });
 
                 // https://select2.org/programmatic-control/events
                 $('#product').on('select2:select', function(e) {
@@ -111,7 +129,7 @@
             }
 
             window.addEventListener('keydown', function(e) {
-                if (e.which == 229) {
+                if (e.which == 229 && $('#barcode').attr('readOnly') == null) {
                     $('#barcode').val("");
 
                     setTimeout(() => {

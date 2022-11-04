@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Inventory;
 
 use App\Enum\StatusEnum;
 use App\Models\AdjustOrder;
+use App\Models\StorehouseHasProduct;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -68,22 +69,29 @@ class Detail extends Component
                 'account_setting_method'    => '', // 立帳方式
             ]);
 
-            foreach ($this->getCarts() as $cart) {
-                $staffStorehouse = auth()->user()->p_member->storehouse;
+            $staffStorehouse = auth()->user()->p_member->storehouse;
 
+            $storehouseProducts = StorehouseHasProduct::query()
+                ->with('storehouse', 'product')
+                ->whereHas('product')
+                ->where('storehouse_id', $staffStorehouse->id)
+                ->get();
+
+            foreach ($storehouseProducts as $storehouseProduct) {
                 $order->items()->create([
-                    'product_id'    => $cart->id,
-                    'storehouse_id' => $staffStorehouse->id,
-                    'quantity'      => $cart->quantity,
-                    'price'         => $cart->price,
-                    'amount'        => $cart->getPriceSum(),
+                    'product_id'        => $storehouseProduct->product_id,
+                    'storehouse_id'     => $staffStorehouse->id,
+                    'current_quantity'  => $storehouseProduct?->stock ?? 0,
+                    'quantity'          => $quantity = $this->getCartQuantity($storehouseProduct->product_id),
+                    'price'             => $price = $storehouseProduct->product?->price ?? 0,
+                    'amount'            => $quantity * $price,
                 ]);
 
-                $this->syncStorehouse($cart->id, $staffStorehouse->id, $cart->quantity);
+                $this->syncStorehouse($storehouseProduct->product_id, $staffStorehouse->id, $quantity);
             }
 
             $order->update([
-                'total_amount' => $this->getTotal(),
+                'total_amount' => 0,
             ]);
 
             DB::commit();

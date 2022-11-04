@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('adjust_order_id')->comment('關聯所屬進貨訂單');
             $table->unsignedBigInteger('product_id')->comment('關聯所屬商品');
             $table->unsignedBigInteger('storehouse_id')->comment('關聯所屬倉庫');
+            $table->integer('current_quantity')->default(0)->comment('當前數量');
             $table->integer('quantity')->comment('數量');
             $table->float('price')->comment('單價');
             $table->float('discount_amount')->nullable()->comment('折扣');

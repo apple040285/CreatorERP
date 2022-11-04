@@ -4,6 +4,7 @@ namespace App\Http\Livewire\TransferJob;
 
 use App\Enum\StatusEnum;
 use App\Models\AdjustOrder;
+use App\Models\StorehouseHasProduct;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -72,12 +73,18 @@ class Detail extends Component
             foreach ($this->getCarts() as $cart) {
                 $staffStorehouse = auth()->user()->p_member->storehouse;
 
+                $storehouseProduct = StorehouseHasProduct::query()
+                    ->where('product_id', $cart->id)
+                    ->where('storehouse_id', $staffStorehouse->id)
+                    ->first();
+
                 $order->items()->create([
-                    'product_id'    => $cart->id,
-                    'storehouse_id' => $staffStorehouse->id,
-                    'quantity'      => $cart->quantity,
-                    'price'         => $cart->price,
-                    'amount'        => $cart->getPriceSum(),
+                    'product_id'        => $cart->id,
+                    'storehouse_id'     => $staffStorehouse->id,
+                    'current_quantity'  => $storehouseProduct?->stock ?? 0,
+                    'quantity'          => $cart->quantity,
+                    'price'             => $cart->price,
+                    'amount'            => $cart->getPriceSum(),
                 ]);
 
                 $this->transferStorehouse($cart->id, $staffStorehouse->id, $cart->quantity);
