@@ -50,6 +50,7 @@ class SalesReturnOrderController extends Controller
                     }
                 })
                 ->where('type', SalesOrderType::退貨)
+                ->latest()
         )->paginate($request->input('perPage'));
 
         $data->load('customer_manufacturer', 'staff', 'creator', 'editor');

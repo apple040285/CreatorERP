@@ -52,6 +52,7 @@ class AdjustTransferOrderController extends Controller
                     }
                 })
                 ->where('type', AdjustOrderType::調撥)
+                ->latest()
         )->paginate($request->input('perPage'));
 
         $data->load('creator', 'editor');
