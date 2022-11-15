@@ -3,9 +3,11 @@
 namespace App\Exports;
 
 use App\Enum\AdjustOrderType;
+use App\Models\AdjustOrder;
 use App\Models\AdjustOrderItem;
 use App\Models\Storehouse;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -16,7 +18,7 @@ use Maatwebsite\Excel\DefaultValueBinder;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
-class AdjustTransferOrdersExport extends DefaultValueBinder implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithColumnFormatting, WithCustomValueBinder
+class AdjustTransferOrdersExport extends DefaultValueBinder implements FromArray, WithHeadings, WithMapping, ShouldAutoSize, WithColumnFormatting, WithCustomValueBinder
 {
     public $attributes;
 
@@ -29,30 +31,35 @@ class AdjustTransferOrdersExport extends DefaultValueBinder implements FromColle
         $this->masterStorehouse = Storehouse::firstWhere('code', '01');
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    public function collection()
+    public function array(): array
     {
-        return AdjustOrderItem::query()
-            ->whereHas(
-                'order',
-                fn ($query) => $query
-                    ->where('type', AdjustOrderType::調撥->value)
-                    ->tap(function ($query) {
-                        if (isset($this->attributes['columnFilters']) && isset($this->attributes['columnFilters']['adjust_date'])) {
-                            $value = $this->attributes['columnFilters']['adjust_date'];
-                            if (str($value)->contains(' to ') && $split = str($value)->split('/ to /')) {
-                                $query
-                                    ->whereDate('adjust_date', '>=', $split[0])
-                                    ->whereDate('adjust_date', '<=', $split[1]);
-                            } else {
-                                $query->whereDate('adjust_date', $value);
-                            }
+        $data = AdjustOrder::search(
+            $this->attributes['searchTerm'],
+            fn ($query) => $query
+                ->when(isset($this->attributes['columnFilters']), function ($query) {
+                    if (isset($this->attributes['columnFilters']) && isset($this->attributes['columnFilters']['adjust_date'])) {
+                        $value = $this->attributes['columnFilters']['adjust_date'];
+                        if (str($value)->contains(' to ') && $split = str($value)->split('/ to /')) {
+                            $query
+                                ->whereDate('adjust_date', '>=', $split[0])
+                                ->whereDate('adjust_date', '<=', $split[1]);
+                        } else {
+                            $query->whereDate('adjust_date', $value);
                         }
-                    })
-            )
-            ->get();
+                    }
+                })
+                ->where('type', AdjustOrderType::調撥)
+                ->latest()
+        )->get();
+
+        $data->load('items.order.staff', 'items.product', 'items.storehouse');
+
+        $collections = [];
+        foreach ($data as $key => $order) {
+            $collections = array_merge($collections, $order->items->toArray());
+        }
+
+        return $collections;
     }
 
     public function headings(): array
@@ -75,17 +82,17 @@ class AdjustTransferOrdersExport extends DefaultValueBinder implements FromColle
     public function map($data): array
     {
         return [
-            $data->order->adjust_date,
-            $data->order->adjust_order_no,
-            $data->product->code,
-            $data->product->name,
-            $data->quantity,
-            strval($data->product->barcode),
+            $data['order']['adjust_date'],
+            $data['order']['adjust_order_no'],
+            $data['product']['code'],
+            $data['product']['name'],
+            $data['quantity'],
+            strval($data['product']['barcode']),
             $this->masterStorehouse?->code,
             $this->masterStorehouse?->name,
-            $data->storehouse?->code,
-            $data->storehouse?->name,
-            $data->order->staff?->code,
+            $data['storehouse']['code'] ?? null,
+            $data['storehouse']['name'] ?? null,
+            $data['order']['staff']['code'] ?? null,
         ];
     }
 

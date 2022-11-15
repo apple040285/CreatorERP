@@ -3,8 +3,10 @@
 namespace App\Exports;
 
 use App\Enum\AdjustOrderType;
+use App\Models\AdjustOrder;
 use App\Models\AdjustOrderItem;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -15,7 +17,7 @@ use Maatwebsite\Excel\DefaultValueBinder;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
-class AdjustOrdersExport extends DefaultValueBinder implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithColumnFormatting, WithCustomValueBinder
+class AdjustOrdersExport extends DefaultValueBinder implements FromArray, WithHeadings, WithMapping, ShouldAutoSize, WithColumnFormatting, WithCustomValueBinder
 {
     public $attributes;
 
@@ -24,30 +26,35 @@ class AdjustOrdersExport extends DefaultValueBinder implements FromCollection, W
         $this->attributes = $attributes;
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    public function collection()
+    public function array(): array
     {
-        return AdjustOrderItem::query()
-            ->whereHas(
-                'order',
-                fn ($query) => $query
-                    ->where('type', AdjustOrderType::調整->value)
-                    ->tap(function ($query) {
-                        if (isset($this->attributes['columnFilters']) && isset($this->attributes['columnFilters']['adjust_date'])) {
-                            $value = $this->attributes['columnFilters']['adjust_date'];
-                            if (str($value)->contains(' to ') && $split = str($value)->split('/ to /')) {
-                                $query
-                                    ->whereDate('adjust_date', '>=', $split[0])
-                                    ->whereDate('adjust_date', '<=', $split[1]);
-                            } else {
-                                $query->whereDate('adjust_date', $value);
-                            }
+        $data = AdjustOrder::search(
+            $this->attributes['searchTerm'],
+            fn ($query) => $query
+                ->when(isset($this->attributes['columnFilters']), function ($query) {
+                    if (isset($this->attributes['columnFilters']) && isset($this->attributes['columnFilters']['adjust_date'])) {
+                        $value = $this->attributes['columnFilters']['adjust_date'];
+                        if (str($value)->contains(' to ') && $split = str($value)->split('/ to /')) {
+                            $query
+                                ->whereDate('adjust_date', '>=', $split[0])
+                                ->whereDate('adjust_date', '<=', $split[1]);
+                        } else {
+                            $query->whereDate('adjust_date', $value);
                         }
-                    })
-            )
-            ->get();
+                    }
+                })
+                ->where('type', AdjustOrderType::調整)
+                ->latest()
+        )->get();
+
+        $data->load('items.order.staff', 'items.product', 'items.storehouse');
+
+        $collections = [];
+        foreach ($data as $key => $order) {
+            $collections = array_merge($collections, $order->items->toArray());
+        }
+
+        return $collections;
     }
 
     public function headings(): array
@@ -69,15 +76,15 @@ class AdjustOrdersExport extends DefaultValueBinder implements FromCollection, W
     public function map($data): array
     {
         return [
-            $data->order->adjust_date,
-            $data->order->adjust_order_no,
-            $data->product->code,
-            $data->product->name,
-            $data->quantity,
-            strval($data->product->barcode),
-            $data->storehouse?->code,
-            $data->storehouse?->name,
-            $data->order->staff?->code,
+            $data['order']['adjust_date'],
+            $data['order']['adjust_order_no'],
+            $data['product']['code'],
+            $data['product']['name'],
+            strval($data['quantity']),
+            strval($data['product']['barcode']),
+            $data['storehouse']['code'] ?? null,
+            $data['storehouse']['name'] ?? null,
+            $data['order']['staff']['code'] ?? null,
         ];
     }
 
@@ -85,6 +92,7 @@ class AdjustOrdersExport extends DefaultValueBinder implements FromCollection, W
     {
         return [
             'C' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
+            'E' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
             'F' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
             'G' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT,
         ];
@@ -94,7 +102,7 @@ class AdjustOrdersExport extends DefaultValueBinder implements FromCollection, W
     {
         $column = $cell->getColumn();
         // 長度超過 15 會自動轉為科學符號
-        if (in_array($column, ['F'])) {
+        if (in_array($column, ['E', 'F'])) {
             $cell->setValueExplicit($value, DataType::TYPE_STRING);
             return true;
         }

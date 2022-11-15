@@ -83,7 +83,7 @@ class Form extends Component
         if ($product = Product::where('barcode', str($code)->trim('!'))->first()) {
             $this->product_id = $product->id;
             $this->quantity = 1;
-            $this->next();
+            if (env('AUTO_NEXT_SAVE')) $this->next();
         } else {
             $this->alert('error', '無此商品');
         }
