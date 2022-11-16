@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Inventory;
 
 use App\Enum\StatusEnum;
 use App\Models\AdjustOrder;
+use App\Models\Product;
+use App\Models\Storehouse;
 use App\Models\StorehouseHasProduct;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -76,6 +78,53 @@ class Detail extends Component
                 ->whereHas('product')
                 ->where('storehouse_id', $staffStorehouse->id)
                 ->get();
+
+            // foreach ($this->getCarts() as $cart) {
+            //     $order->items()->create([
+            //         'product_id'        => $cart->id,
+            //         'storehouse_id'     => $staffStorehouse->id,
+            //         'current_quantity'  => $storehouseProducts->firstWhere('product_id', $cart->id)?->stock ?? 0,
+            //         'quantity'          => $quantity = $this->getCartQuantity($cart->id),
+            //         'price'             => $price = $storehouseProducts->firstWhere('product_id', $cart->id)?->product?->price ?? 0,
+            //         'amount'            => $quantity * $price,
+            //     ]);
+
+            //     $this->syncStorehouse($cart->id, $staffStorehouse->id, $quantity);
+            // }
+
+            // storehouseProducts
+
+            // foreach ($storehouses as $key => $storehouse) {
+            //     $order->items()->create([
+            //         'product_id'        => $storehouse->product_id,
+            //         'storehouse_id'     => $staffStorehouse->id,
+            //         'current_quantity'  => $storehouse?->stock ?? 0,
+            //         'quantity'          => $quantity = $this->getCartQuantity($storehouse->product_id),
+            //         'price'             => $price = $storehouse->product?->price ?? 0,
+            //         'amount'            => $quantity * $price,
+            //     ]);
+
+            //     $this->syncStorehouse($storehouse->product_id, $staffStorehouse->id, $quantity);
+            // }
+
+            // $products = Product::all();
+
+            // Product::chunkById(200, function ($products) use ($order, $staffStorehouse, $storehouseProducts) {
+            //     foreach ($products as $product) {
+            //         $order->items()->create([
+            //             'product_id'        => $product->id,
+            //             'storehouse_id'     => $staffStorehouse->id,
+            //             // 'current_quantity'  => $storehouseProduct?->stock ?? 0,
+            //             'current_quantity'  => $storehouseProducts->firstWhere('product_id', $product->id)?->stock ?? 0,
+            //             'quantity'          => $quantity = $this->getCartQuantity($product->id),
+            //             'price'             => $price = $product->price ?? 0,
+            //             'amount'            => $quantity * $price,
+            //         ]);
+
+            //         $this->syncStorehouse($product->id, $staffStorehouse->id, $quantity);
+            //     }
+            // }, $column = 'id');
+
 
             foreach ($storehouseProducts as $storehouseProduct) {
                 $order->items()->create([

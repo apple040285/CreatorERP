@@ -24,7 +24,7 @@ class Form extends Component
     public $product_id;
 
     /** @var int 數量 */
-    public $quantity = 1;
+    public $quantity;
 
     public $barcode;
 
@@ -84,7 +84,7 @@ class Form extends Component
     {
         if ($product = Product::where('barcode', str($code)->trim('!'))->first()) {
             $this->product_id = $product->id;
-            $this->quantity = 1;
+            if (!isset($this->quantity)) $this->quantity = 1;
             if (env('AUTO_NEXT_SAVE')) $this->next();
         } else {
             $this->alert('error', '無此商品');
@@ -126,7 +126,7 @@ class Form extends Component
 
         // $storehouseProduct->decrement('stock', $data['quantity']);
 
-        $this->addCart($product);
+        $this->addCart($product, $this->quantity);
 
         $this->alert('success', $product->name . '成功加入');
 

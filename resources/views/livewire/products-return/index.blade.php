@@ -28,7 +28,9 @@
             <select class="form-control" id="customer" name="customer" required>
                 <option>--請選擇--</option>
                 @foreach ($this->customerManufacturers as $customerManufacturer)
-                    <option value="{{ $customerManufacturer->id }}">{{ $customerManufacturer->full_name }}</option>
+                    <option value="{{ $customerManufacturer->id }}">
+                        {{ $customerManufacturer->full_name }} ({{ $customerManufacturer->code }})
+                    </option>
                 @endforeach
             </select>
         </div>

@@ -34,4 +34,19 @@ class Product extends Model
             ->using(StorehouseHasProduct::class)
             ->withPivot(/*'id as id2', 'stock as stock', 'safety_stock as safety_stock', */'id', 'stock', 'safety_stock');
     }
+
+    public function toSearchableArray()
+    {
+        return [
+            'code'          => $this->code,
+            'name'          => $this->name,
+            'alias'         => $this->alias,
+            'price'         => $this->price,
+            'invoice_name'  => $this->invoice_name,
+            'sku'           => $this->sku,
+            'unit'          => $this->unit,
+            'barcode'       => $this->barcode,
+            'remark'        => $this->remark,
+        ];
+    }
 }

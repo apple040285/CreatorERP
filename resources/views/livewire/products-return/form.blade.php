@@ -41,7 +41,7 @@
                 </select>
             </div>
             @error('product_id')
-                <span class="error">{{ $message }}</span>
+                <span class="text-danger error">{{ $message }}</span>
             @enderror
         </div>
         <div class="f16 w-75 my-3 d-block mx-auto">
@@ -49,6 +49,9 @@
                 數量：
             </label>
             <input wire:model.defer="quantity" type="number" class="form-control" name="amount" placeholder="數量" required>
+            @error('quantity')
+                <span class="text-danger error">{{ $message }}</span>
+            @enderror
         </div>
         <div class="f16 w-75 my-3 d-block mx-auto">
             <label for="amount" class="formClass w-100 fw700 cgy2">
@@ -60,7 +63,7 @@
             <label for="amount" class="formClass w-100 fw700 cgy2">
                 國際條碼：<small>掃碼槍點擊下方即可觸發</small>
             </label>
-            <input wire:ignore.self id="barcode" wire:model.defer="barcode" type="text" class="form-control" placeholder="國際條碼" autofocus onfocus="onFocus()" onblur="onBlur()" value="{{ $this->product?->barcode }}">
+            <input wire:ignore.self id="barcode" wire:model="barcode" type="text" class="form-control" placeholder="國際條碼" autofocus onfocus="onFocus()" onblur="onBlur()" value="{{ $this->product?->barcode }}">
         </div>
 
         @if (!$this->isEditCart())

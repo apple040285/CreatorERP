@@ -16,7 +16,7 @@ class Index extends Component
     public $product_id;
 
     /** @var int 數量 */
-    public $quantity = 1;
+    public $quantity;
 
     public $barcode;
 

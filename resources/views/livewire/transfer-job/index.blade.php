@@ -47,7 +47,7 @@
             </label>
             <input wire:model.defer="quantity" type="number" class="form-control" placeholder="數量" required>
             @error('quantity')
-                <span class="error">{{ $message }}</span>
+                <span class="text-danger error">{{ $message }}</span>
             @enderror
         </div>
         <div class="f16 w-75 my-3 d-block mx-auto">

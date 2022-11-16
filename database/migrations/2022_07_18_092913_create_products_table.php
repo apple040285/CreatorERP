@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('invoice_name', 50)->nullable()->comment('發票名稱');
             $table->string('sku', 50)->nullable()->comment('規格');
             $table->string('unit', 50)->nullable()->comment('單位');
-            $table->string('barcode', 50)->nullable()->comment('國際條碼');
+            $table->string('barcode', 50)->index()->nullable()->comment('國際條碼');
             $table->string('remark')->nullable()->comment('備註');
             $table->string('status')->default('active')->comment('狀態');
             $table->unsignedBigInteger('created_by')->nullable()->comment('創建人');

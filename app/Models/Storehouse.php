@@ -31,4 +31,11 @@ class Storehouse extends Model
             get: fn ($value, $attributes) => StatusEnum::tryFrom($attributes['status'] ?? null)?->name,
         );
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'storehouse_has_products')
+            ->using(StorehouseHasProduct::class)
+            ->withPivot(/*'id as id2', 'stock as stock', 'safety_stock as safety_stock', */'id', 'stock', 'safety_stock');
+    }
 }
