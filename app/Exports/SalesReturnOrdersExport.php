@@ -3,11 +3,8 @@
 namespace App\Exports;
 
 use App\Enum\SalesOrderType;
-use App\Models\SalesOrderItem;
-use App\Models\Staff;
-use Carbon\Carbon;
-use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Models\SalesOrder;
+use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
@@ -17,7 +14,7 @@ use Maatwebsite\Excel\DefaultValueBinder;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
-class SalesReturnOrdersExport extends DefaultValueBinder implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithColumnFormatting, WithCustomValueBinder
+class SalesReturnOrdersExport extends DefaultValueBinder implements FromArray, WithHeadings, WithMapping, ShouldAutoSize, WithColumnFormatting, WithCustomValueBinder
 {
     public $attributes;
 
@@ -26,26 +23,39 @@ class SalesReturnOrdersExport extends DefaultValueBinder implements FromCollecti
         $this->attributes = $attributes;
     }
 
-    public function collection(): Collection
+    public function array(): array
     {
-        return SalesOrderItem::query()
-            ->whereHas(
-                'order',
-                fn ($query) => $query
-                    ->where('type', SalesOrderType::退貨->value)
-                    ->tap(function ($query) {
-                        if (isset($this->attributes['columnFilters']) && isset($this->attributes['columnFilters']['sales_date'])) {
-                            $value = $this->attributes['columnFilters']['sales_date'];
-                            if (str($value)->contains(' to ') && $split = str($value)->split('/ to /')) {
-                                $query
-                                    ->whereDate('sales_date', '>=', $split[0])
-                                    ->whereDate('sales_date', '<=', $split[1]);
-                            } else {
-                                $query->whereDate('sales_date', $value);
-                            }
+        $data = SalesOrder::search(
+            $this->attributes['searchTerm'],
+            fn ($query) => $query
+                ->where('type', SalesOrderType::退貨->value)
+                ->when(isset($this->attributes['columnFilters']), function ($query) {
+                    if (isset($this->attributes['columnFilters']) && isset($this->attributes['columnFilters']['sales_date'])) {
+                        $value = $this->attributes['columnFilters']['sales_date'];
+                        if (str($value)->contains(' to ') && $split = str($value)->split('/ to /')) {
+                            $query
+                                ->whereDate('sales_date', '>=', $split[0])
+                                ->whereDate('sales_date', '<=', $split[1]);
+                        } else {
+                            $query->whereDate('sales_date', $value);
                         }
-                    })
-            )->get();
+                    }
+                })
+                ->latest()
+        )->get();
+
+        $data->load([
+            'items' => function ($query) {
+                $query->with('order.staff', 'order.customer_manufacturer', 'product', 'storehouse')->where('quantity', '>', 0);
+            },
+        ]);
+
+        $collections = [];
+        foreach ($data as $key => $order) {
+            $collections = array_merge($collections, $order->items->toArray());
+        }
+
+        return collect($collections)->sortBy('storehouse_id')->all();
     }
 
     public function headings(): array
@@ -69,18 +79,18 @@ class SalesReturnOrdersExport extends DefaultValueBinder implements FromCollecti
     public function map($data): array
     {
         return [
-            $data->order->sales_date,
-            $data->order->sales_order_no,
-            $data->order->customer_manufacturer?->code,
-            $data->order->customer_manufacturer?->full_name,
-            $data->product->code,
-            $data->product->name,
-            $data->quantity,
-            $data->price,
-            $data->product->barcode,
-            $data->storehouse?->code,
-            $data->storehouse?->name,
-            $data->order->staff?->code,
+            $data['order']['sales_date'],
+            $data['order']['sales_order_no'],
+            $data['order']['customer_manufacturer']['code'] ?? null,
+            $data['order']['customer_manufacturer']['full_name'] ?? null,
+            $data['product']['code'] ?? null,
+            $data['product']['name'] ?? null,
+            $data['quantity'],
+            $data['price'],
+            strval($data['product']['barcode'] ?? null),
+            $data['storehouse']['code'] ?? null,
+            $data['storehouse']['name'] ?? null,
+            $data['order']['staff']['code'] ?? null,
         ];
     }
 

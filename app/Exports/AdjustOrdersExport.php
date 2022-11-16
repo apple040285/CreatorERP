@@ -4,10 +4,7 @@ namespace App\Exports;
 
 use App\Enum\AdjustOrderType;
 use App\Models\AdjustOrder;
-use App\Models\AdjustOrderItem;
-use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromArray;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
@@ -31,6 +28,7 @@ class AdjustOrdersExport extends DefaultValueBinder implements FromArray, WithHe
         $data = AdjustOrder::search(
             $this->attributes['searchTerm'],
             fn ($query) => $query
+                ->where('type', AdjustOrderType::調整)
                 ->when(isset($this->attributes['columnFilters']), function ($query) {
                     if (isset($this->attributes['columnFilters']) && isset($this->attributes['columnFilters']['adjust_date'])) {
                         $value = $this->attributes['columnFilters']['adjust_date'];
@@ -43,24 +41,26 @@ class AdjustOrdersExport extends DefaultValueBinder implements FromArray, WithHe
                         }
                     }
                 })
-                ->where('type', AdjustOrderType::調整)
                 ->latest()
         )->get();
 
-        $data->load('items.order.staff', 'items.product', 'items.storehouse');
+        $data->load([
+            'items' => function ($query) {
+                $query->with('order.staff', 'product', 'storehouse')->where('quantity', '>', 0);
+            },
+        ]);
 
         $collections = [];
         foreach ($data as $key => $order) {
             $collections = array_merge($collections, $order->items->toArray());
         }
 
-        return $collections;
+        return collect($collections)->sortBy('storehouse_id')->all();
     }
 
     public function headings(): array
     {
         return [
-            //
             '盤點日期',
             '盤點單號',
             '商品ID',
