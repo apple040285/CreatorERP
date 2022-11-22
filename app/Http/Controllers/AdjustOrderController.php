@@ -34,8 +34,8 @@ class AdjustOrderController extends Controller
                         if (str($value)->contains(' to ') && $split = str($value)->split('/ to /')) {
                             if (count($split) !== 2) break;
                             $query
-                                ->whereDate('sales_date', '>=', $split[0])
-                                ->whereDate('sales_date', '<=', $split[1]);
+                                ->whereDate($field, '>=', $split[0])
+                                ->whereDate($field, '<=', $split[1]);
                         } else {
                             if (timeCheck($value))
                                 $query->whereDate($field, $value);

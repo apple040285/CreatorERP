@@ -69,7 +69,7 @@ class Index extends Component
     {
         if ($product = Product::where('barcode', str($code)->trim('!'))->first()) {
             $this->product_id = $product->id;
-            $this->quantity = 1;
+            // if (!isset($this->quantity)) $this->quantity = 1;
             if (env('AUTO_NEXT_SAVE')) $this->next();
         } else {
             $this->alert('error', '無此商品');
@@ -102,9 +102,9 @@ class Index extends Component
         $this->reset('quantity', 'product_id', 'barcode');
 
         // 發送至瀏覽器
-        // $this->dispatchBrowserEvent('reset', [
-        //     ['target' => '#product', 'value' => null],
-        // ]);
+        $this->dispatchBrowserEvent('reset', [
+            ['target' => '#product', 'value' => null],
+        ]);
     }
 
     /**

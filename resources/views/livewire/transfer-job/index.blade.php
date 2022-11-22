@@ -45,7 +45,7 @@
             <label for="amount" class="formClass w-100 fw700 cgy2">
                 數量：
             </label>
-            <input wire:model.defer="quantity" type="number" class="form-control" placeholder="數量" required>
+            <input id="quantity" wire:model.defer="quantity" type="number" class="form-control" placeholder="數量" required>
             @error('quantity')
                 <span class="text-danger error">{{ $message }}</span>
             @enderror
@@ -136,7 +136,8 @@
                     setTimeout(() => {
                         @this.setBarcode($('#barcode').val());
 
-                        $('#barcode').focus();
+                        // $('#barcode').focus();
+                        $('#quantity').focus();
                     }, 200);
                 }
             });
