@@ -54,7 +54,7 @@ class AdjustTransferOrdersExport extends DefaultValueBinder implements FromArray
 
         $data->load([
             'items' => function ($query) {
-                $query->with('order.staff', 'product', 'storehouse')->where('quantity', '>', 0);
+                $query->with('order.staff', 'product', 'storehouse');
             },
         ]);
 

@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Product;
 use App\Models\Storehouse;
+use App\Models\StorehouseHasProduct;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -26,38 +27,17 @@ class ProductsStorehousesImport implements ToCollection, WithStartRow, SkipsEmpt
         foreach ($grouped as $productCode => $products) {
             $product = Product::where('code', $productCode)->firstOrFail();
 
-            $multiplied = Storehouse::all()->mapWithKeys(function ($item, $key) use ($products) {
-                return [$item->id => ['stock' => $products->firstWhere(0, $item->code)[4] ?? 0]];
+            $multiplied = Storehouse::get()->mapWithKeys(function ($storehouse, $key) use ($productCode, $products) {
+                $currentStock = StorehouseHasProduct::query()
+                    ->whereHas('product', fn ($query) => $query->where('code', $productCode))
+                    ->whereHas('storehouse', fn ($query) => $query->where('code', $storehouse->code))
+                    ->first();
+
+                return [$storehouse->id => ['stock' => $products->firstWhere(0, $storehouse->code)[4] ?? $currentStock['stock'] ?? 0]];
             });
 
             $product->storehouses()->syncWithoutDetaching($multiplied->toArray());
         }
-
-        // foreach ($collection as $row) {
-        //     $storehouse = Storehouse::where('code', $row[0])->firstOrFail();
-        //     $product    = Product::where('code', $row[2])->firstOrFail();
-        //     $quantity   = $row[4];
-
-        //     // foreach (Storehouse::all() as $key => $storehouse) {
-        //     // }
-        //     //
-        //     $multiplied = Storehouse::all()->mapWithKeys(function ($item, $key) use ($collection) {
-
-        //         return [$item->id => ['stock' => $quantity ?? 0]];
-        //     });
-
-        //     // info($multiplied->toArray());
-        //     // $storehouse->products()->syncWithoutDetaching([
-        //     //     $product->id => ['stock' => $quantity],
-        //     // ]);
-        //     $product->storehouses()->syncWithoutDetaching([
-        //         $storehouse->id => ['stock' => $quantity],
-        //     ]);
-
-        //     // $product->storehouses()->updateExistingPivot($storehouse->id, [
-        //     //     'stock' => $quantity,
-        //     // ]);
-        // }
     }
 
     /**

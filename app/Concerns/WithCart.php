@@ -33,6 +33,7 @@ trait WithCart
 
     public function getCarts()
     {
+        return Cart::session($this->sessionKey)->getContent()->values();
         return Cart::session($this->sessionKey)->getContent()->sort()->values();
         return Cart::getContent()->sort()->values();
     }

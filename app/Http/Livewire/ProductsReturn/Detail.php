@@ -139,10 +139,10 @@ class Detail extends Component
                 ]);
 
                 // 檢查庫存
-                if (!$this->checkStockAndDeduct($cart->id, $staffStorehouse->id, $cart->quantity)) {
-                    $this->alert('error', '商品: `' . $cart['name'] . '`' . PHP_EOL . '倉庫: `' . $staffStorehouse['name'] . '` 的庫存不足');
-                    return;
-                }
+                // if (!$this->checkStockAndDeduct($cart->id, $staffStorehouse->id, $cart->quantity)) {
+                //     $this->alert('error', '商品: `' . $cart['name'] . '`' . PHP_EOL . '倉庫: `' . $staffStorehouse['name'] . '` 的庫存不足');
+                //     return;
+                // }
             }
 
             $order->update([

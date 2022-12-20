@@ -19,7 +19,7 @@ class Index extends Component
                 foreach (Product::all() as $product) {
                     $content .= collect([
                         $product->barcode,
-                        $product->name,
+                        $product->invoice_name,
                         $product->unit,
                         $product->price,
                     ])->join(',') . PHP_EOL;
