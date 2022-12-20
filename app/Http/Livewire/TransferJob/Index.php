@@ -67,6 +67,8 @@ class Index extends Component
      */
     public function setBarcode($code)
     {
+        if (env('AUTO_PAD_CHARACTER')) $code = str($code)->trim('!')->padLeft(13, '0');
+
         if ($product = Product::where('barcode', str($code)->trim('!'))->first()) {
             $this->product_id = $product->id;
             // if (!isset($this->quantity)) $this->quantity = 1;
