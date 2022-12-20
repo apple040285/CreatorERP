@@ -20,15 +20,21 @@ class UserController extends Controller
         $this->authorize('users.read');
 
         /** @var \Illuminate\Database\Eloquent\Collection $data */
-        $data = User::search($request->input('searchTerm'))
-            ->tap(function ($query) use ($request) {
-                foreach ($request['sort'] as $sort) {
-                    if (isset($sort['field']) && isset($sort['type'])) {
-                        $query->orderBy($sort['field'], $sort['type']);
+        $data = User::search(
+            $request->input('searchTerm'),
+            fn ($query) => $query
+                ->when($request->has('sort'), function ($query) use ($request) {
+                    foreach ($request['sort'] as $sort) {
+                        if (isset($sort['field']) && isset($sort['type'])) {
+                            $query->orderBy($sort['field'], $sort['type']);
+                        }
                     }
-                }
-            })
-            ->paginate($request->input('perPage'));
+                })
+                ->when(
+                    !in_array(auth()->user()->email, ['admin@gmail.com']),
+                    fn ($query) => $query->whereNotIn('email', ['admin@gmail.com'])
+                )
+        )->paginate($request->input('perPage'));
 
         $data->load('roles', 'creator', 'editor');
 
