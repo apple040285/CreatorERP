@@ -77,8 +77,8 @@
 
     @section('script')
         <script>
-            $(document).ready(function() {
-                $('#product').select2({
+            const initSelect2 = (element_id) => {
+                return $(element_id).select2({
                     ajax: {
                         url: "{{ route('apps.products.index') }}",
                         dataType: 'json',
@@ -97,6 +97,10 @@
                     },
                     templateResult: (repo) => repo.loading ? '載入中...' : repo.name,
                 });
+            }
+
+            $(document).ready(function() {
+                initSelect2('#product')
 
                 // https://select2.org/programmatic-control/events
                 $('#product').on('select2:select', function(e) {
@@ -109,7 +113,9 @@
 
             window.addEventListener('reset', event => {
                 event.detail.forEach(element => {
-                    $(element.target).select2().val(String(element.value))
+                    initSelect2(element.target).val(String(element.value));
+
+                    // $(element.target).select2().val(String(element.value))
 
                     $('#barcode').focus();
                 });
