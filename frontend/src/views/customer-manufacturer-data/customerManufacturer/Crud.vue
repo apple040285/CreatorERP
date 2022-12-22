@@ -1035,9 +1035,14 @@ export default {
             .get(`${this.apiPath}/${this.showData.id}`)
             .then(response => {
                 let data = response.data;
-                data.address = data.address.map(item => ({
-                    ...item,
-                }))
+
+                if (data.address) {
+                  data.address = data.address.map(item => ({
+                      ...item,
+                  }))
+                } else {
+                  data.address = []
+                }
 
                 this.showData = JSON.parse(JSON.stringify(data));
                 this.rows = JSON.parse(JSON.stringify(data.address));
