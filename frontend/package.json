@@ -38,7 +38,7 @@
     "swiper": "5.4.5",
     "uuid": "8.3.2",
     "vee-validate": "3.4.5",
-    "vue": "2.x",
+    "vue": "2.6.12",
     "vue-apexcharts": "1.6.0",
     "vue-autosuggest": "2.2.0",
     "vue-awesome-swiper": "4.1.1",
@@ -81,8 +81,8 @@
     "eslint": "6.8.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-vue": "6.2.2",
-    "sass": "1.32.*",
+    "sass": "^1.30.0",
     "sass-loader": "^10.1.0",
-    "vue-template-compiler": "2.x"
+    "vue-template-compiler": "2.6.12"
   }
 }
