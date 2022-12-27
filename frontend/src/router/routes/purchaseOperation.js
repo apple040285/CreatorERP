@@ -14,7 +14,7 @@ export default [
     {
         path: '/PurchaseOperation/PurchaseVoucherCreate',
         name: 'PurchaseOperation-PurchaseVoucherCreate',
-        component: () => import('@/views/purchase-operation/purchase-voucher/Crud.vue'),
+        component: () => import('@/views/purchase-operation/purchase-voucher/CrudEdit.vue'),
         meta: {
             pageTitle: 'Purchase Voucher',
             navActiveLink: 'PurchaseOperation-PurchaseVoucherList',
@@ -28,7 +28,7 @@ export default [
     {
         path: '/PurchaseOperation/PurchaseVoucherEdit',
         name: 'PurchaseOperation-PurchaseVoucherEdit',
-        component: () => import('@/views/purchase-operation/purchase-voucher/Crud.vue'),
+        component: () => import('@/views/purchase-operation/purchase-voucher/CrudEdit.vue'),
         meta: {
             pageTitle: 'Purchase Voucher',
             navActiveLink: 'PurchaseOperation-PurchaseVoucherList',
