@@ -55,7 +55,6 @@ class SalesOrdersExport extends DefaultValueBinder implements FromArray, WithHea
             $collections = array_merge($collections, $order->items->toArray());
         }
 
-        info($collections);
         return collect($collections)->sortBy('storehouse_id')->all();
     }
 

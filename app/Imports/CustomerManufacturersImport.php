@@ -104,7 +104,7 @@ class CustomerManufacturersImport implements ToModel, WithUpserts, WithStartRow,
         return [
             0 => ['required'],
 
-            1 => ['required|in:customer,manufacturer'],
+            1 => ['required', 'in:customer,manufacturer'],
 
             2 => ['required'],
         ];

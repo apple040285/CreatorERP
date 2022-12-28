@@ -37,6 +37,17 @@ class ProductController extends Controller
         return $this->success($data);
     }
 
+    public function options(Request $request)
+    {
+        if ($request->has('searchTerm') && $request->input('searchTerm')) {
+            $data = Product::search($request->input('searchTerm'))->get();
+        } else {
+            $data = Product::get();
+        }
+
+        return $this->success($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

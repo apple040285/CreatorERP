@@ -40,8 +40,12 @@ class Detail extends Component
 
         // 獲得訂單編號
         $prefix = 'SA' . date("Ymd");
-        $currentCount = SalesOrder::whereType(SalesOrderType::銷貨->value)->where('sales_order_no', 'like', "$prefix%")->count() + 1;
-        $this->orderNo = $prefix . str($currentCount)->padLeft(3, '0');
+
+        $orderByNoIds = SalesOrder::whereType(SalesOrderType::銷貨->value)->where('sales_order_no', 'like', "$prefix%")->pluck('sales_order_no');
+
+        $currentMaxValue = $orderByNoIds->map(fn ($str) => intval(str_replace($prefix, '', $str)))->max() + 1;
+
+        $this->orderNo = $prefix . str($currentMaxValue)->padLeft(3, '0');
 
         // 判斷是否訂單編輯
         if ($order->id) {

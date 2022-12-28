@@ -8,35 +8,80 @@ use App\Models\StorehouseHasProduct;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class ProductsStorehousesImport implements ToCollection, WithStartRow, SkipsEmptyRows, WithValidation
+class ProductsStorehousesImport implements ToCollection, WithStartRow, SkipsEmptyRows, WithValidation, WithBatchInserts, WithChunkReading
 {
     /**
      * @param Collection $collection
      */
     public function collection(Collection $collection)
     {
+        // foreach ($collection as $key => $item) {
+        //     if (!Product::where('code', $item[2])->first()) {
+        //         throw new \Exception('編號: ' . $item[2]);
+        //     }
+        // }
+
+        /**
+         第二版
+         */
+        foreach ($collection as $key => $row) {
+            $product = Product::where('code', $row[2])->first();
+
+            $storehouse = Storehouse::where('code', $row[0])->first();
+
+            $product->storehouses()->syncWithoutDetaching([
+                $storehouse->id => [
+                    'stock' => $row[4]
+                ]
+            ]);
+        }
+
+        return;
+
+        /**
+         第一版
+         */
+
         // 依照商品 code 分類
         $grouped = $collection->mapToGroups(function ($item, $key) {
             return [$item[2] => $item];
         });
 
-        //
+        // 讀取商品
+        $baseProduct = Product::query()->whereIn('code', $grouped->keys()->toArray())->get();
+
+        // 讀取商品庫存
+        $baseProductStocks = StorehouseHasProduct::query()
+            ->with('storehouse:id,code', 'product:id,code')
+            // ->with('storehouse', 'product')
+            ->whereHas('product', fn ($query) => $query->whereIn('code', $grouped->keys()->toArray()))
+            ->get();
+
+        // 讀取倉庫
+        $baseStorehouse = Storehouse::query()->get();
+
+        // 迴圈處理
         foreach ($grouped as $productCode => $products) {
-            $product = Product::where('code', $productCode)->firstOrFail();
+            // 當前商品
+            $currentProduct = $baseProduct->where('code', $productCode)->firstOrFail();
 
-            $multiplied = Storehouse::get()->mapWithKeys(function ($storehouse, $key) use ($productCode, $products) {
-                $currentStock = StorehouseHasProduct::query()
-                    ->whereHas('product', fn ($query) => $query->where('code', $productCode))
-                    ->whereHas('storehouse', fn ($query) => $query->where('code', $storehouse->code))
-                    ->first();
+            // 當前商品庫存
+            $currentProductStocks = $baseProductStocks->where('product.code', $productCode);
 
-                return [$storehouse->id => ['stock' => $products->firstWhere(0, $storehouse->code)[4] ?? $currentStock['stock'] ?? 0]];
+            // 整理庫存陣列
+            $multiplied = $baseStorehouse->mapWithKeys(function ($storehouse, $key) use ($products, $currentProductStocks) {
+                $currentProductStock = $currentProductStocks->firstWhere('storehouse.code', $storehouse->code);
+
+                return [$storehouse->id => ['stock' => $products->firstWhere(0, $storehouse->code)[4] ?? $currentProductStock['stock'] ?? 0]];
             });
 
-            $product->storehouses()->syncWithoutDetaching($multiplied->toArray());
+            // 同步庫存
+            $currentProduct->storehouses()->syncWithoutDetaching($multiplied->toArray());
         }
     }
 
@@ -78,5 +123,15 @@ class ProductsStorehousesImport implements ToCollection, WithStartRow, SkipsEmpt
             2 => '產品編號',
             4 => '數量',
         ];
+    }
+
+    public function batchSize(): int
+    {
+        return 500 ?? 99999;
+    }
+
+    public function chunkSize(): int
+    {
+        return 500 ?? 99999;
     }
 }

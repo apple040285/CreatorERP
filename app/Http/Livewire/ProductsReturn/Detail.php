@@ -36,8 +36,12 @@ class Detail extends Component
 
         // 獲得訂單編號
         $prefix = 'SB' . date("Ymd");
-        $currentCount = SalesOrder::whereType(SalesOrderType::退貨->value)->where('sales_order_no', 'like', "$prefix%")->count() + 1;
-        $this->orderNo = $prefix . str($currentCount)->padLeft(3, '0');
+
+        $orderByNoIds = SalesOrder::whereType(SalesOrderType::退貨 ->value)->where('sales_order_no', 'like', "$prefix%")->pluck('sales_order_no');
+
+        $currentMaxValue = $orderByNoIds->map(fn ($str) => intval(str_replace($prefix, '', $str)))->max() + 1;
+
+        $this->orderNo = $prefix . str($currentMaxValue)->padLeft(3, '0');
 
         // 判斷是否訂單編輯
         if ($order->id) {
@@ -139,10 +143,10 @@ class Detail extends Component
                 ]);
 
                 // 檢查庫存
-                // if (!$this->checkStockAndDeduct($cart->id, $staffStorehouse->id, $cart->quantity)) {
-                //     $this->alert('error', '商品: `' . $cart['name'] . '`' . PHP_EOL . '倉庫: `' . $staffStorehouse['name'] . '` 的庫存不足');
-                //     return;
-                // }
+                if (!$this->checkStockAndAdd($cart->id, $staffStorehouse->id, $cart->quantity)) {
+                    $this->alert('error', '商品: `' . $cart['name'] . '`' . PHP_EOL . '倉庫: `' . $staffStorehouse['name'] . '` 的庫存不存在');
+                    return;
+                }
             }
 
             $order->update([

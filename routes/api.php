@@ -103,7 +103,7 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     /** @var 進貨作業 */
 
-    // 進貨
+    // 進貨憑單
     Route::apiResource('/purchase-orders', Controllers\PurchaseOrderController::class);
 
 
@@ -126,14 +126,14 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 });
 
 // 測試用
-Route::prefix('tests')->middleware(LanguageMiddleware::class)->group(function () {
-    // 部門管理
-    // Route::apiResource('/departments', Controllers\DepartmentController::class);
-    // Route::apiResource('/jobs', Controllers\JobController::class);
-    // Route::apiResource('/currencies', Controllers\CurrencyController::class);
-    // 調整憑單
-    Route::apiResource('/adjust-orders', Controllers\AdjustOrderController::class);
+// Route::prefix('tests')->middleware(LanguageMiddleware::class)->group(function () {
+//     // 部門管理
+//     // Route::apiResource('/departments', Controllers\DepartmentController::class);
+//     // Route::apiResource('/jobs', Controllers\JobController::class);
+//     // Route::apiResource('/currencies', Controllers\CurrencyController::class);
+//     // 調整憑單
+//     Route::apiResource('/adjust-orders', Controllers\AdjustOrderController::class);
 
-    // 調撥憑單
-    Route::apiResource('/adjust-transfer-orders', Controllers\AdjustTransferOrderController::class);
-});
+//     // 調撥憑單
+//     Route::apiResource('/adjust-transfer-orders', Controllers\AdjustTransferOrderController::class);
+// });

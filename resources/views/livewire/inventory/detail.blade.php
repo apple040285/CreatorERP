@@ -97,7 +97,7 @@
     </div>
 
     <!-- Modal 操作選單 -->
-    <div class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModal" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-link3">
             <div class="modal-content">
                 <div class="modal-body cgy3 f14">

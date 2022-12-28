@@ -2,6 +2,7 @@
 
 namespace App\Concerns;
 
+use App\Models\Product;
 use App\Models\Storehouse;
 use App\Models\StorehouseHasProduct;
 
@@ -26,12 +27,50 @@ trait WithStock
             ->where('storehouse_id', $storehouse_id)
             ->first();
 
-        // 庫存不足
-        if (!$storehouseProduct || $storehouseProduct->stock < $quantity) {
+        if (
+            // 庫存不存在
+            !$storehouseProduct
+            // 庫存不足
+            || $storehouseProduct->stock < $quantity
+        ) {
             return false;
         }
 
         $storehouseProduct->decrement('stock', $quantity);
+        return true;
+    }
+
+    /**
+     * 檢查庫存並且加回
+     *
+     * @param  mixed $product_id
+     * @param  mixed $storehouse_id
+     * @param  mixed $quantity
+     * @return bool
+     */
+    public function checkStockAndAdd($product_id, $storehouse_id, $quantity): bool
+    {
+        if (env('SKIP_STOCK_CHECK')) {
+            return true;
+        }
+
+        $storehouseProduct = StorehouseHasProduct::query()
+            ->where('product_id', $product_id)
+            ->where('storehouse_id', $storehouse_id)
+            ->first();
+
+        /** 庫存不存在自動創建 */
+        if (!$storehouseProduct) {
+            Product::findOrFail($product_id)->storehouses()->attach([
+                $storehouse_id => [
+                    'stock' => $quantity,
+                ],
+            ]);
+
+            return true;
+        }
+
+        $storehouseProduct->increment('stock', $quantity);
         return true;
     }
 
