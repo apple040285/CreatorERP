@@ -151,8 +151,10 @@ class CustomerManufacturerController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $this->authorize('customer_manufacturers.update');
 
+    
         $data = $request->validate([
             'customer_manufacturer_category_id'     => 'required|exists:customer_manufacturer_categories,id',
             'currency_id'                           => 'nullable|exists:currencies,id',
@@ -181,6 +183,7 @@ class CustomerManufacturerController extends Controller
             'industry'                              => 'nullable',          // 行業別
             'tax_deduction_category'                => 'nullable|string',   // 扣稅類別
             'account_setting_method'                => 'nullable|string',   // 立帳方式
+            'business_people'                       => 'nullable|string',   // 業務人員
             'monthly_billing_date'                  => 'nullable|string',   // 每月結帳日
             'days'                                  => 'nullable|string',   // 天數
             'other_instructions'                    => 'nullable|string',   // 其他說明
@@ -200,7 +203,6 @@ class CustomerManufacturerController extends Controller
         try {
             DB::beginTransaction();
             $data = CustomerManufacturer::findOrFail($id)->update($data);
-
             DB::commit();
             return $this->success('更新成功');
         } catch (ModelNotFoundException $e) {

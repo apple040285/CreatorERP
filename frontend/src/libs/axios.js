@@ -8,9 +8,9 @@ import axios from 'axios'
 const axiosIns = axios.create({
   // You can add your headers here
   // ================================
-  baseURL: (process.env.VUE_APP_CORE_API_URL || '') + '/api',
+  baseURL: (process.env.NODE_ENV === 'production' ? '/api' : ((process.env.VUE_APP_CORE_API_URL || '') + '/api')),
   // timeout: 1000,
-  headers: {'X-Requested-With': 'XMLHttpRequest'}
+  headers: { 'Accept': 'application/json' }
 })
 
 // Request Interceptor
