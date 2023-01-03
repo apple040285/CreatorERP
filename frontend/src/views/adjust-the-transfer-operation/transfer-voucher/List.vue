@@ -244,7 +244,7 @@ export default {
                 { label: 'transferDate', field: 'adjust_date' },
                 { label: 'transferNo', field: 'adjust_order_no' },
                 { label: 'applicants', field: 'applicants' },
-                { label: 'peopleInCharge', field: 'people_in_charge' },
+                { label: 'peopleInCharge', field: 'creator.name' },
                 // { label: 'status', field: 'status' },
                 // { label: 'approvalStatus', field: 'approval_status' },
                 { label: 'action', field: 'action' },
