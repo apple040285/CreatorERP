@@ -74,6 +74,32 @@ trait WithStock
         return true;
     }
 
+    /**
+     * 庫存變化
+     *
+     * @param  mixed $method            方法: increment, decrement
+     * @param  mixed $product_id        商品 id
+     * @param  mixed $storehouse_id     庫存 id
+     * @param  mixed $quantity          數量
+     * @return void
+     */
+    public function inventoryChange($method, $product_id, $storehouse_id, $quantity)
+    {
+        $inventory = StorehouseHasProduct::query()
+            ->where('product_id', $product_id)
+            ->where('storehouse_id', $storehouse_id)
+            ->first();
+
+        switch ($method) {
+            case 'increment': // 增量
+            case 'decrement': // 遞減
+                $inventory->{$method}('stock', $quantity);
+                break;
+            default:
+                throw new \Exception('庫存操作發生錯誤');
+        }
+    }
+
     public function syncStorehouse($product_id, $storehouse_id, $quantity)
     {
         StorehouseHasProduct::updateOrCreate(

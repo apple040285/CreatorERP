@@ -15,6 +15,9 @@ class Index extends Component
     // 購物車特徵
     use \App\Concerns\WithCart;
 
+    // 商品庫存
+    use \App\Concerns\WithStock;
+
     public $order_id;
 
     protected $listeners = [
@@ -108,6 +111,12 @@ class Index extends Component
 
         try {
             DB::beginTransaction();
+
+            if (isset($order->items) && count($order->items) > 0) {
+                foreach ($order->items as $key => $item) {
+                    $this->inventoryChange('increment', $item['product_id'], $item['storehouse_id'], $item['quantity']);
+                }
+            }
 
             $order->delete();
 

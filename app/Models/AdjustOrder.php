@@ -41,4 +41,15 @@ class AdjustOrder extends Model
     {
         return $this->belongsTo(Staff::class, 'staff_id');
     }
+
+    /**
+     * 暫時用的欄位
+     * ex: 因為這邊應該要連動前台的創建者 不是後台的創建者
+     *
+     * @return void
+     */
+    public function creator()
+    {
+        return $this->belongsTo(Staff::class, $this->getCreatedByColumn());
+    }
 }
