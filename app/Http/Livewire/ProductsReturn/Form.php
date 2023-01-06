@@ -43,11 +43,6 @@ class Form extends Component
         }
     }
 
-    public function getProductsProperty()
-    {
-        return Product::get();
-    }
-
     public function getProductProperty()
     {
         return Product::where('id', $this->product_id)->first();
@@ -66,9 +61,9 @@ class Form extends Component
     {
         if ($product = Product::where('barcode', $value)->first()) {
             $this->product_id = $product->id;
-            $this->dispatchBrowserEvent('reset', [
-                ['target' => '#product', 'value' => $product->id],
-            ]);
+
+            // 發送至瀏覽器
+            $this->dispatchBrowserEvent('reset', ['target' => '#product', 'value' => $product->id]);
         }
     }
 
@@ -89,6 +84,8 @@ class Form extends Component
         } else {
             $this->alert('error', '無此商品');
         }
+
+        $this->dispatchBrowserEvent('focus', '#quantity');
     }
 
     /**
@@ -117,9 +114,7 @@ class Form extends Component
         $this->reset('quantity', 'product_id', 'barcode');
 
         // 發送至瀏覽器
-        $this->dispatchBrowserEvent('reset', [
-            ['target' => '#product', 'value' => null],
-        ]);
+        $this->dispatchBrowserEvent('reset', ['target' => '#product', 'value' => null]);
     }
 
     /**

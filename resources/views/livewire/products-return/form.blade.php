@@ -33,13 +33,9 @@
                 品名：
             </label>
             <div wire:ignore>
-                <select wire:model="product_id" class="form-control" id="product" name="product" required @if ($this->isEditCart()) disabled @endif>
-                    <option>--請選擇--</option>
-                    @foreach ($this->products as $product)
-                        <option value="{{ $product->id }}">{{ $product->name }}</option>
-                    @endforeach
-                </select>
+                <select wire:model.defer="product_id" class="form-control" id="product" name="product" required @if ($this->isEditCart()) disabled @endif></select>
             </div>
+            <small>{{ $this->product->name ?? '' }}</small>
             @error('product_id')
                 <span class="text-danger error">{{ $message }}</span>
             @enderror
@@ -48,7 +44,7 @@
             <label for="amount" class="formClass w-100 fw700 cgy2">
                 數量：
             </label>
-            <input wire:model.defer="quantity" type="number" class="form-control" name="amount" placeholder="數量" required>
+            <input wire:model.defer="quantity" id="quantity" type="number" class="form-control" placeholder="數量" required>
             @error('quantity')
                 <span class="text-danger error">{{ $message }}</span>
             @enderror
@@ -110,6 +106,7 @@
                         },
                     },
                     templateResult: (repo) => repo.loading ? '載入中...' : repo.name,
+                    templateSelection: (repo) => repo.name,
                 });
             }
 
@@ -124,18 +121,19 @@
             });
 
             window.addEventListener('reset', event => {
-                event.detail.forEach(element => {
-                    initSelect2(element.target).val(String(element.value));
-
-                    // $(element.target).select2().val(String(element.value))
+                const target = event.detail.target
+                const value = event.detail.value
+                if (target === '#product') {
+                    initSelect2(target).val(String(value));
 
                     $('#barcode').focus();
-                });
+                }
             })
         </script>
 
         <script>
             function onFocus() {
+                if (!event) return
                 const target = event.target
                 setTimeout(() => {
                     target.readOnly = false

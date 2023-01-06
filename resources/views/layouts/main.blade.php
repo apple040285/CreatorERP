@@ -61,6 +61,10 @@
                     }
                 })
             });
+
+            window.addEventListener('focus', event => {
+                if ($(event.detail)) $(event.detail).focus();
+            })
         </script>
 
         @livewireScripts
