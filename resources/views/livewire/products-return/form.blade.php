@@ -35,7 +35,7 @@
             <div wire:ignore>
                 <select wire:model.defer="product_id" class="form-control" id="product" name="product" required @if ($this->isEditCart()) disabled @endif></select>
             </div>
-            <small>{{ $this->product->name ?? '' }}</small>
+            <small style="font-size: 1rem;">{{ $this->product->name ?? '' }}</small>
             @error('product_id')
                 <span class="text-danger error">{{ $message }}</span>
             @enderror

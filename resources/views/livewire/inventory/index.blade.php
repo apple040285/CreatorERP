@@ -34,7 +34,7 @@
             <div wire:ignore>
                 <select wire:model.defer="product_id" class="form-control" id="product" name="product" required @if ($this->isEditCart()) disabled @endif></select>
             </div>
-            <small>{{ $this->product->name ?? '' }}</small>
+            <small style="font-size: 1rem;">{{ $this->product->name ?? '' }}</small>
         </div>
         <div class="f16 w-75 my-3 d-block mx-auto">
             <label for="amount" class="formClass w-100 fw700 cgy2">
