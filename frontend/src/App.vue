@@ -92,7 +92,7 @@ export default {
     watch(windowWidth, val => {
       store.commit('app/UPDATE_WINDOW_WIDTH', val)
     })
-
+  
     return {
       skinClasses,
     }

@@ -1,8 +1,8 @@
 export default [
     {
-        path: '/OrderRoutine/QuotationVoucher',
-        name: 'OrderRoutine-QuotationVoucher',
-        component: () => import('@/views/order-routine/QuotationVoucher.vue'),
+        path: '/OrderRoutine/QuotationVoucherList',
+        name: 'OrderRoutine-QuotationVoucherList',
+        component: () => import('@/views/order-routine/QuotationVoucher/List.vue'),
         meta: {
             pageTitle: 'Quotation Voucher',
             breadcrumb: [
@@ -12,9 +12,54 @@ export default [
         },
     },
     {
-        path: '/OrderRoutine/OrderVoucher',
-        name: 'OrderRoutine-OrderVoucher',
-        component: () => import('@/views/order-routine/OrderVoucher.vue'),
+        path: '/OrderRoutine/QuotationVoucherEdit',
+        name: 'OrderRoutine-QuotationVoucherEdit',
+        component: () => import('@/views/order-routine/QuotationVoucher/CrudEdit.vue'),
+        meta: {
+            pageTitle: 'Quotation Voucher',
+            navActiveLink: 'OrderRoutine-QuotationVoucherList',
+            breadcrumb: [
+                { text: 'Order Routine' },
+                { text: 'Quotation Voucher', to: { name: 'OrderRoutine-QuotationVoucherList' } },
+                { text: 'edit', active: true },
+
+            ],
+        },
+    },
+    {
+        path: '/OrderRoutine/QuotationVoucherCreate',
+        name: 'OrderRoutine-QuotationVoucherCreate',
+        component: () => import('@/views/order-routine/QuotationVoucher/CrudEdit.vue'),
+        meta: {
+            pageTitle: 'Quotation Voucher',
+            navActiveLink: 'OrderRoutine-QuotationVoucherList',
+            breadcrumb: [
+                { text: 'Order Routine' },
+                { text: 'Quotation Voucher', to: { name: 'OrderRoutine-QuotationVoucherList' } },
+                { text: 'create', active: true },
+
+            ],
+        },
+    },
+    {
+        path: '/OrderRoutine/QuotationVoucherDetail',
+        name: 'OrderRoutine-QuotationVoucherDetail',
+        component: () => import('@/views/order-routine/QuotationVoucher/Detail.vue'),
+        meta: {
+            pageTitle: 'Quotation Voucher',
+            navActiveLink: 'OrderRoutine-QuotationVoucherList',
+            breadcrumb: [
+                { text: 'Order Routine' },
+                { text: 'Quotation Voucher', to: { name: 'OrderRoutine-QuotationVoucherList' } },
+                { text: 'detail', active: true },
+            ],
+        },
+    },
+
+    {
+        path: '/OrderRoutine/OrderVoucherList',
+        name: 'OrderRoutine-OrderVoucherList',
+        component: () => import('@/views/order-routine/OrderVoucher/List.vue'),
         meta: {
             pageTitle: 'Order Voucher',
             breadcrumb: [

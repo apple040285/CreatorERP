@@ -8,11 +8,11 @@ export default [
         children: [
             {
                 title: 'Quotation Voucher',
-                route: 'OrderRoutine-QuotationVoucher',
+                route: 'OrderRoutine-QuotationVoucherList',
             },
             {
                 title: 'Order Voucher',
-                route: 'OrderRoutine-OrderVoucher',
+                route: 'OrderRoutine-OrderVoucherList',
             },
         ],
     },

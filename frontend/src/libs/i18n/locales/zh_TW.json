@@ -39,6 +39,7 @@
       "currencyAmountOfDigits": "金額位數",
       "projectCode": "專案代號",
       "projectName": "專案名稱",
+      "effective_date": "有效日期",
       "expiration_date": "失效日期",
       "emergencyContactOne": "緊急聯絡人一",
       "emergencyContactOneNumber": "緊急聯絡人一電話",
@@ -72,6 +73,7 @@
       "productStock": "庫存",
       "addressName": "地址名稱",
       "purchaseDate": "採購日期",
+      "quotationDate": "報價日期",
       "manufacturer": "廠商",
       "procurementStaff": "採購人員",
       "procurementVoucherTaxDeductionCategory": "扣稅類別",
@@ -154,18 +156,14 @@
   },
   "Welcome": "歡迎",
   "Dashboard": "儀表板",
-
   "SYSTEM MANAGEMENT": "系統管理",
-
   "Permission Setting": "權限設置",
   "Role Management": "角色管理",
   "Frontend Account Management": "前台帳號管理",
   "Backend Account Management": "後台帳號管理",
   "Create Account": "新增帳號",
   "Edit Account": "編輯帳號",
-
   "SHARED DATA": "共用資料",
-
   "Basic Data": "基本資料",
   "Department Data Setting": "部門資料設定",
   "Job Data Setting": "職位資料設定",
@@ -174,64 +172,51 @@
   "Project Data Setting": "專案資料設定",
   "Bank Data Setting": "銀行資料設定",
   "Account Data Setting": "帳戶資料設定",
-
   "Product Data": "產品資料",
   "Product Data Setting": "產品資料設定",
   "Warehouse Data Setting": "倉庫資料設定",
   "Product Category Setting": "產品分類設定",
-
   "Customer/Manufacturer Data": "客戶/廠商資料",
   "Customer/Manufacturer Category": "客戶/廠商分類",
-
   "PURCHASING MANAGEMENT": "採購管理",
   "Procurement Operation": "採購作業",
   "Requisition": "請購憑單",
   "Inquiry Voucher": "詢價憑單",
   "Procurement Voucher": "採購憑單",
-
   "Purchase Operation": "進貨作業",
   "Purchase Voucher": "進貨憑單",
   "Returned Purchase Invoice": "進貨退回憑單",
   "Purchase Discount Voucher": "進貨折讓憑單",
-
   "SALES MANAGEMENT": "銷貨管理",
   "Order Routine": "訂購作業",
   "Quotation Voucher": "報價憑單",
   "Order Voucher": "訂購憑單",
-
   "Sales Operation": "銷貨作業",
   "Sales Voucher": "銷貨憑單",
   "Returned Sales Invoice": "銷貨退回憑單",
   "Sales Discount Voucher": "銷貨折讓憑單",
-
   "INVENTORY MANAGEMENT": "存貨管理",
   "Adjust The Transfer Operation": "調整調撥作業",
   "Adjustment Category": "調整類別",
   "Adjustment Voucher": "調整憑單",
   "Transfer Voucher": "調撥憑單",
-
   "ACCOUNT RECEIVABLE MANAGEMENT": "帳款管理",
   "Payments Receivable": "應收付款",
   "Receipt And Payment Voucher": "收付款憑單",
-
   "Income Expense Operation": "收入費用作業",
   "Other Income Voucher": "其他收入憑單",
   "Other Expense Voucher": "其他支出憑單",
-
   "Notes Receivable": "應收付票據",
   "Notes Receivable Voucher": "應收付票據憑單",
-
   "PERSONAL CENTER": "個人中心",
   "Administrator": "管理員",
   "Information": "管理員信息",
   "Change Password": "修改密碼",
   "Logout": "登出",
   "Login Failed": "登入失敗",
-
   "Update Administrator Information": "更新管理員信息",
   "Submit": "送出",
   "back": "返回",
-
   "You have successfully logged": "登入成功",
   "createdSuccess": "創建成功",
   "createdFailed": "創建失敗",
@@ -239,10 +224,8 @@
   "updatedFailed": "更新失敗",
   "deletedSuccess": "刪除成功",
   "deletedFailed": "刪除失敗",
-
   "Basic Information": "基本資料",
   "Other Remark": "其他備註",
-
   "action": "操作",
   "create": "新增",
   "edit": "編輯",
@@ -265,7 +248,6 @@
   "disable": "停用",
   "disable_at8": "停用日期",
   "status": "狀態",
-
   "RoleManagementList": {
     "name": "角色名稱",
     "permission": "權限",
@@ -275,7 +257,6 @@
     "updated_at": "異動時間",
     "action": "操作"
   },
-
   "FrontendAccountManagementList": {
     "account": "帳號",
     "staff": "員工",
@@ -286,7 +267,6 @@
     "updated_at": "異動時間",
     "action": "操作"
   },
-
   "BackendAccountManagementList": {
     "name": "名稱",
     "account": "帳號",
@@ -297,7 +277,6 @@
     "updated_at": "異動時間",
     "action": "操作"
   },
-
   "DepartmentList": {
     "code": "部門代號",
     "name": "部門名稱",
@@ -310,7 +289,6 @@
     "updated_at": "異動時間",
     "action": "操作"
   },
-
   "JobList": {
     "code": "職位代號",
     "name": "職位名稱",
@@ -323,7 +301,6 @@
     "updated_at": "異動時間",
     "action": "操作"
   },
-
   "StaffList": {
     "createStaff": "新增員工資料",
     "editStaff": "修改員工資料",
@@ -352,7 +329,6 @@
     "updated_at": "異動時間",
     "action": "操作"
   },
-
   "CurrencyList": {
     "sourceCode": "幣別代號",
     "targetCode": "本位幣別代號",
@@ -365,7 +341,6 @@
     "selectAmountOfDigits": "請選擇金額位數",
     "action": "操作"
   },
-
   "ProjectList": {
     "code": "專案代號",
     "name": "專案名稱",
@@ -377,7 +352,6 @@
     "updated_at": "異動時間",
     "action": "操作"
   },
-
   "BankList": {
     "createBank": "新增銀行",
     "editBank": "修改銀行",
@@ -390,7 +364,6 @@
     "remark": "備註",
     "action": "操作"
   },
-
   "AccountList": {
     "createAccount": "新增帳戶",
     "editAccount": "修改帳戶",
@@ -410,7 +383,6 @@
     "disable_at": "停用日期",
     "status": "狀態"
   },
-
   "ProductList": {
     "createProduct": "新增產品",
     "editProduct": "修改產品",
@@ -446,12 +418,10 @@
     "action": "操作",
     "storehousesCreatedFailed": "倉庫已存在"
   },
-
   "ProductModal": {
     "warehouseInformation": "倉庫資訊",
     "selectWarehouse": "請選擇倉庫"
   },
-
   "ProductCategoryList": {
     "code": "分類代號",
     "name": "分類名稱",
@@ -464,7 +434,6 @@
     "updated_at": "異動時間",
     "action": "操作"
   },
-
   "WarehouseList": {
     "createWarehouse": "新增倉庫",
     "editWarehouse": "修改倉庫",
@@ -483,7 +452,6 @@
     "updated_at": "異動時間",
     "action": "操作"
   },
-
   "CustomManufacturerCategoryList": {
     "code": "類別代號",
     "name": "類別名稱",
@@ -499,7 +467,6 @@
     "updated_at": "異動時間",
     "action": "操作"
   },
-
   "CustomerManufacturerList": {
     "createCustomerManufacturer": "新增客戶/廠商",
     "editCustomerManufacturer": "修改客戶/廠商",
@@ -561,7 +528,6 @@
     "null": "無",
     "undefined": "無"
   },
-
   "CustomerManufacturerModal": {
     "addressInformation": "地址資訊",
     "addressName": "地址名稱",
@@ -577,7 +543,6 @@
     "remark": "備註",
     "action": "操作"
   },
-
   "RequisitionList": {
     "requisitionDate": "請購日期",
     "requisitionNo": "請購單號",
@@ -616,7 +581,6 @@
       "productDataCheck": "請新增產品"
     }
   },
-
   "RequisitionModal": {
     "createRequisition": "新增請購憑單",
     "editRequisition": "修改請購憑單",
@@ -632,7 +596,6 @@
     "selectStorehouse": "請選擇倉庫",
     "productsCreatedFailed": "商品已存在"
   },
-
   "ProcurementVoucherList": {
     "procurementDate": "採購日期",
     "procurementNo": "採購單號",
@@ -694,7 +657,6 @@
       "productDataCheck": "請新增產品"
     }
   },
-
   "ProcurementVoucherModal": {
     "createProcurementVoucher": "新增採購憑單",
     "editProcurementVoucher": "修改採購憑單",
@@ -710,7 +672,6 @@
     "selectStorehouse": "請選擇倉庫",
     "productsCreatedFailed": "商品已存在"
   },
-
   "PurchaseVoucherList": {
     "purchaseDate": "進貨日期",
     "purchaseNo": "進貨單號",
@@ -772,7 +733,6 @@
       "productDataCheck": "請新增產品"
     }
   },
-
   "PurchaseVoucherModal": {
     "createPurchaseVoucher": "新增進貨憑單",
     "editPurchaseVoucher": "修改進貨憑單",
@@ -789,7 +749,6 @@
     "selectStorehouse": "請選擇倉庫",
     "productsCreatedFailed": "商品已存在"
   },
-
   "ReturnedPurchaseInvoiceList": {
     "returnedDate": "退回日期",
     "returnedNo": "退回單號",
@@ -850,7 +809,6 @@
       "productDataCheck": "請新增產品"
     }
   },
-
   "ReturnedPurchaseInvoiceModal": {
     "createReturnedPurchaseInvoice": "新增進貨退回單",
     "editReturnedPurchaseInvoice": "修改進貨退回單",
@@ -868,7 +826,181 @@
     "selectStorehouse": "請選擇倉庫",
     "productsCreatedFailed": "商品已存在"
   },
-
+  "QuotationVoucherList": {
+    "quotationDate": "報價日期",
+    "quotationNo": "報價單號",
+    "transferNo": "轉入單號",
+    "customer": "客戶",
+    "businessPeople": "業務人員",
+    "quotationdepartment": "業務部門",
+    "invoice": "發票號碼",
+    "quotationEffectiveDate": "有效日期",
+    "quotationExpirationDate": "失效日期",
+    "project": "專案名稱",
+    "status": "單據狀態",
+    "caseClosed": "結案",
+    "openCase": "未結案",
+    "invalid": "無效",
+    "approvalStatus": "審核狀態",
+    "audited": "已審核",
+    "draft": "草稿",
+    "void": "作廢",
+    "underReview": "未審核",
+    "action": "操作",
+    "currency": "幣別",
+    "department": "部門",
+    "taxDeductionCategory": "扣稅類別",
+    "selectTaxDeductionCategory": "請選擇扣稅類別",
+    "taxFree": "不計稅",
+    "taxableIncluded": "應稅內含",
+    "taxablePlus": "應稅外加",
+    "accountSettingMethod": "立帳方式",
+    "selectAccountSettingMethod": "請選擇立帳方式",
+    "singleBill": "單張立帳",
+    "noBill": "不立帳",
+    "billingAfterReceiptOfInvoice": "收到發票才立帳",
+    "projectNo": "專案編號",
+    "customerReservation": "客戶訂單",
+    "order": "傳票號碼",
+    "otherExpenses": "其他支出",
+    "subpoena": "傳票號碼",
+    "discount": "折扣",
+    "untaxedLocalCurrency": "未稅本幣",
+    "untaxedAmount": "未稅金額",
+    "localCurrencyTax": "本幣稅額",
+    "tax": "稅額",
+    "total": "合計",
+    "totalLocalCurrency": "本幣合計",
+    "submitBtn": "送審",
+    "ProductList": {
+      "productName": "產品",
+      "productNo": "品號",
+      "specification": "規格",
+      "storehouse": "倉庫",
+      "unit": "單位",
+      "quantity": "數量",
+      "unitPrice": "單價",
+      "untaxedAmount": "未稅金額",
+      "tax": "稅金",
+      "amount": "金額",
+      "untaxedLocalCurrency": "未稅本幣",
+      "localCurrencyTax": "本幣稅額",
+      "amountInLocalCurrency": "本幣金額",
+      "numberOfTransfers": "已轉數量",
+      "untransferredQuantity": "未轉數量",
+      "productRemark": "備註",
+      "action": "操作",
+      "productDataCheck": "請新增產品"
+    }
+  },
+  "QuotationVoucherModel": {
+    "createQuotationVoucher": "新增報價憑單",
+    "editQuotationVoucher": "修改報價憑單",
+    "businessPeople": "請選擇業務人員",
+    "quotationdepartment": "請選擇業務部門",
+    "selectManufacturer": "請選擇廠商",
+    "quotationCustomer": "請選擇客戶",
+    "selectCurrency": "請選擇幣別",
+    "selectTransferNo": "請選擇轉入單號",
+    "selectProject": "請選擇專案",
+    "selectPurchaseNo": "請選擇進貨單號",
+    "selectPurchaseStaff": "請選擇進貨人員",
+    "selectPurchaseDepartment": "請選擇進貨部門",
+    "selectOtherExpenses": "請選擇其他支出單",
+    "productInformation": "產品資訊",
+    "productName": "產品名稱",
+    "selectProductName": "請選擇產品",
+    "selectStorehouse": "請選擇倉庫",
+    "productsCreatedFailed": "商品已存在"
+  },
+  "OrderVoucherList": {
+    "OrderDate": "報價日期",
+    "OrderNo": "報價單號",
+    "transferNo": "轉入單號",
+    "customer": "客戶",
+    "businessPeople": "業務人員",
+    "quotationdepartment": "業務部門",
+    "invoice": "發票號碼",
+    "quotationEffectiveDate": "有效日期",
+    "quotationExpirationDate": "失效日期",
+    "preDeliveryDate": "預交日期",
+    "project": "專案名稱",
+    "status": "單據狀態",
+    "caseClosed": "結案",
+    "openCase": "未結案",
+    "invalid": "無效",
+    "approvalStatus": "審核狀態",
+    "audited": "已審核",
+    "draft": "草稿",
+    "void": "作廢",
+    "underReview": "未審核",
+    "action": "操作",
+    "currency": "幣別",
+    "department": "部門",
+    "taxDeductionCategory": "扣稅類別",
+    "selectTaxDeductionCategory": "請選擇扣稅類別",
+    "taxFree": "不計稅",
+    "taxableIncluded": "應稅內含",
+    "taxablePlus": "應稅外加",
+    "accountSettingMethod": "立帳方式",
+    "selectAccountSettingMethod": "請選擇立帳方式",
+    "singleBill": "單張立帳",
+    "noBill": "不立帳",
+    "billingAfterReceiptOfInvoice": "收到發票才立帳",
+    "projectNo": "專案編號",
+    "customerReservation": "客戶訂單",
+    "order": "傳票號碼",
+    "otherExpenses": "其他支出",
+    "subpoena": "傳票號碼",
+    "discount": "折扣",
+    "untaxedLocalCurrency": "未稅本幣",
+    "untaxedAmount": "未稅金額",
+    "localCurrencyTax": "本幣稅額",
+    "tax": "稅額",
+    "total": "合計",
+    "totalLocalCurrency": "本幣合計",
+    "submitBtn": "送審",
+    "ProductList": {
+      "productName": "產品",
+      "productNo": "品號",
+      "specification": "規格",
+      "storehouse": "倉庫",
+      "unit": "單位",
+      "quantity": "數量",
+      "unitPrice": "單價",
+      "untaxedAmount": "未稅金額",
+      "tax": "稅金",
+      "amount": "金額",
+      "untaxedLocalCurrency": "未稅本幣",
+      "localCurrencyTax": "本幣稅額",
+      "amountInLocalCurrency": "本幣金額",
+      "numberOfTransfers": "已轉數量",
+      "untransferredQuantity": "未轉數量",
+      "productRemark": "備註",
+      "action": "操作",
+      "productDataCheck": "請新增產品"
+    }
+  },
+  "OrdernVoucherModel": {
+    "createOrdernVoucher": "新增訂購憑單",
+    "editOrdernVoucher": "修改訂購憑單",
+    "businessPeople": "請選擇業務人員",
+    "quotationdepartment": "請選擇業務部門",
+    "selectManufacturer": "請選擇廠商",
+    "quotationCustomer": "請選擇客戶",
+    "selectCurrency": "請選擇幣別",
+    "selectTransferNo": "請選擇轉入單號",
+    "selectProject": "請選擇專案",
+    "selectPurchaseNo": "請選擇進貨單號",
+    "selectPurchaseStaff": "請選擇進貨人員",
+    "selectPurchaseDepartment": "請選擇進貨部門",
+    "selectOtherExpenses": "請選擇其他支出單",
+    "productInformation": "產品資訊",
+    "productName": "產品名稱",
+    "selectProductName": "請選擇產品",
+    "selectStorehouse": "請選擇倉庫",
+    "productsCreatedFailed": "商品已存在"
+  },
   "SalesVoucherList": {
     "salesDate": "銷貨日期",
     "salesNo": "銷貨單號",
@@ -929,7 +1061,6 @@
       "productDataCheck": "請新增產品"
     }
   },
-
   "SalesVoucherModal": {
     "createSalesVoucher": "新增銷貨憑單",
     "editSalesVoucher": "修改銷貨憑單",
@@ -946,7 +1077,6 @@
     "selectStorehouse": "請選擇倉庫",
     "productsCreatedFailed": "商品已存在"
   },
-
   "ReturnedSalesInvoiceList": {
     "returnedDate": "退回日期",
     "returnedNo": "退回單號",
@@ -1003,7 +1133,6 @@
       "productDataCheck": "請新增產品"
     }
   },
-
   "ReturnedSalesInvoiceModal": {
     "createReturnedSalesInvoice": "新增銷貨退回單",
     "editReturnedSalesInvoice": "修改銷貨退回單",
@@ -1020,7 +1149,6 @@
     "selectStorehouse": "請選擇倉庫",
     "productsCreatedFailed": "商品已存在"
   },
-
   "PermissionSetting": {
     "role": "角色",
     "selectRole": "請選擇角色",
@@ -1038,7 +1166,6 @@
     "menu": "選單",
     "selectPermission": "請選擇權限"
   },
-
   "AdjustmentCategoryList": {
     "code": "類別編號",
     "name": "類別名稱",
@@ -1054,7 +1181,6 @@
     "updated_at": "異動時間",
     "action": "操作"
   },
-
   "AdjustmentVoucherList": {
     "adjustmentDate": "調整日期",
     "adjustmentNo": "調整單號",
@@ -1098,7 +1224,6 @@
       "productDataCheck": "請新增產品"
     }
   },
-
   "AdjustmentVoucherModal": {
     "createAdjustmentVoucher": "新增調整憑單",
     "editAdjustmentVoucher": "修改調整憑單",
@@ -1113,7 +1238,6 @@
     "selectStorehouse": "請選擇倉庫",
     "productsCreatedFailed": "商品已存在"
   },
-
   "TransferVoucherList": {
     "transferDate": "調撥日期",
     "transferNo": "調撥單號",
@@ -1154,7 +1278,6 @@
       "productDataCheck": "請新增產品"
     }
   },
-
   "TransferVoucherModal": {
     "createTransferVoucher": "新增調撥憑單",
     "editTransferVoucher": "修改調撥憑單",
