@@ -252,7 +252,17 @@
                                 />
                             </b-form-group>
                         </b-col>
-                        <!-- companyAddress -->
+                        <!-- 發票開立公司別 -->
+                        <b-col cols="4">
+                            <b-form-group id="companyAddress">
+                                <label for="companyAddress">發票開立公司別</label>
+                                <b-form-input
+                                    v-model="showData.invoice_address_a"
+                                    type="text"
+                                />
+                            </b-form-group>
+                        </b-col>
+                         <!-- companyAddress -->
                         <b-col cols="4">
                             <b-form-group id="companyAddress">
                                 <label for="companyAddress">{{ $t('CustomerManufacturerList.companyAddress') }}</label>
@@ -448,6 +458,17 @@
                                     :placeholder="$t('CustomerManufacturerList.remark')"
                                     rows="3"
                                     v-model="showData.remark"
+                                    autocomplete="off"
+                                />
+                            </b-form-group>
+                        </b-col>
+                        <!-- remark -->
+                        <b-col cols="4">
+                            <b-form-group>
+                                <label for="remark">營業項目</label>
+                                <b-form-textarea
+                                    rows="3"
+                                    v-model="showData.remark1"
                                     autocomplete="off"
                                 />
                             </b-form-group>
