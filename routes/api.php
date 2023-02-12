@@ -46,6 +46,7 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     // 權限群組
     Route::get('permissions/group', Controllers\PermissionController::class);
+    Route::post('permissions/tree', [Controllers\PermissionController::class, 'tree']);
 
     /**
      PDA 大豐專用前台登入

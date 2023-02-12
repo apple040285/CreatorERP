@@ -21,4 +21,23 @@ class PermissionController extends Controller
 
         return $this->success($data);
     }
+
+    public function tree(Request $request)
+    {
+        // $processedData = Permission::query()
+        //     ->oldest('name')
+        //     ->get()
+        //     ->map(function ($permission) {
+        //         return explode('.', $permission['name']);
+        //     });
+
+        $processedData = collect(array_column(\App\Enum\PermissionName::cases(), 'value'))
+            ->map(function ($permission) {
+                return explode('.', $permission);
+            });
+
+        $data = convertPathsToTree($processedData, '.', null, \App\Enum\PermissionName::class, 'id');
+
+        return $this->success($data);
+    }
 }

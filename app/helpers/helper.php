@@ -49,6 +49,73 @@ if (!function_exists('toArray')) {
     }
 }
 
+if (!function_exists('convertPathsToTree')) {
+    /**
+     * convertPathsToTree
+     *
+     * @param  mixed $paths
+     * @param  mixed $separator
+     * @param  mixed $parent
+     * @return mixed
+     *
+     * *範例*
+     * $data = collect([
+     *     'test',
+     *     'files',
+     *     'files/2',
+     *     'files/2/Blocks',
+     *     'files/2/Blocks/thumbs',
+     *     'files/shares',
+     * ]);
+     *
+     * $processedData = $data->map(function ($item) {
+     *     return explode('/', $item);
+     * });
+     *
+     * convertPathsToTree($processedData);
+     */
+    function convertPathsToTree($paths, $separator = '/', $prefix = null, $options = null, string $primary = 'path', string $label = 'label', string $children = 'children')
+    {
+        return $paths
+            ->groupBy(function ($parts) {
+                return $parts[0];
+            })
+            ->map(function ($parts, $key) use ($separator, $prefix, $options, $primary, $label, $children) {
+                $childrenPaths = $parts->map(function ($parts) {
+                    return array_slice($parts, 1);
+                })->filter();
+
+                if (is_string($options) && function_exists('enum_exists') && enum_exists($options)) {
+                    $options = collect($options::cases())->mapWithKeys(static fn ($case) => [($case?->value ?? $case->name) => $case->name]);
+                }
+
+                if ($options instanceof Illuminate\Contracts\Support\Arrayable) {
+                    $options = $options->toArray();
+                }
+
+                $processedData = convertPathsToTree(
+                    $childrenPaths,
+                    $separator,
+                    $prefix . $key . $separator,
+                    $options,
+                    $primary,
+                    $label,
+                    $children,
+                );
+
+                $processedArray = [
+                    $primary    => $prefix . $key,
+                    $label      => (string) ($options[$prefix . $key] ?? $key),
+                ];
+
+                if (count($processedData) > 0) $processedArray[$children] = $processedData;
+
+                return $processedArray;
+            })
+            ->values();
+    }
+}
+
 if (!function_exists('proccesRelationWithRequest')) {
     /**
     處理與請求的關係
