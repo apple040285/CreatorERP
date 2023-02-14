@@ -42,36 +42,48 @@ class PurchaseOrderController extends Controller
     {
         // $this->authorize('customer_manufacturers.add');
 
-        $attributes = $request->validate([
-            'purchase_date'                         => 'required',
-            'customer_manufacturer_id'              => 'required',
-            'staff_id'                              => 'required',
-            'department_id'                         => 'required',
-            'currency_id'                           => 'required',
-            'delivery_date'                         => 'required',
-            'tax_type'                              => 'required',
-            'account_setting_method'                => 'required',
-            'project_id'                            => 'nullable',
-            'deposit_amount'                        => 'nullable',
-            'discount_amount'                       => 'nullable',
-            'tax_excluding_amount'                  => 'required',
-            'tax_amount'                            => 'required',
-            'total_amount'                          => 'required',
-            'status'                                => 'required',
-            'status_approval'                       => 'required',
-            'remark'                                => 'nullable',
-            //
-            'items'                                 => 'required|array',
-            'items.*.product_id'                    => 'required',
-            'items.*.storehouse_id'                 => 'required',
-            'items.*.quantity'                      => 'required',
-            'items.*.price'                         => 'required',
-            'items.*.tax_excluding_amount'          => 'required',
-            'items.*.tax_amount'                    => 'required',
-            'items.*.amount'                        => 'required',
-            'items.*.delivery_date'                 => 'required',
-            'items.*.remark'                        => 'nullable',
-        ]);
+        $attributes = $request->validate(
+            [
+                'purchase_date'                         => 'required',
+                'customer_manufacturer_id'              => 'required',
+                'staff_id'                              => 'required',
+                'department_id'                         => 'required',
+                'currency_id'                           => 'required',
+                'delivery_date'                         => 'required',
+                'tax_type'                              => 'required',
+                'account_setting_method'                => 'required',
+                'project_id'                            => 'nullable',
+                'deposit_amount'                        => 'nullable',
+                'discount_amount'                       => 'nullable',
+                'tax_excluding_amount'                  => 'required',
+                'tax_amount'                            => 'required',
+                'total_amount'                          => 'required',
+                'remark'                                => 'nullable',
+                //
+                'items'                                 => 'required|array',
+                'items.*.product_id'                    => 'required',
+                'items.*.storehouse_id'                 => 'required',
+                'items.*.quantity'                      => 'required',
+                'items.*.price'                         => 'required',
+                'items.*.tax_excluding_amount'          => 'nullable',
+                'items.*.tax_amount'                    => 'nullable',
+                'items.*.amount'                        => 'required',
+                'items.*.delivery_date'                 => 'nullable',
+                'items.*.remark'                        => 'nullable',
+            ],
+            [],
+            [
+                'staff_id'                  => '進貨人員',
+                'department_id'             => '進貨部門',
+                'currency_id'               => '幣別',
+                'delivery_date'             => '預交日期',
+                'tax_type'                  => '扣稅類別',
+                'account_setting_method'    => '立帳方式',
+                'tax_excluding_amount'      => '未稅金額',
+                'tax_amount'                => '稅金',
+                'total_amount'              => '合計',
+            ]
+        );
 
         try {
             DB::beginTransaction();
@@ -92,13 +104,27 @@ class PurchaseOrderController extends Controller
                 'tax_excluding_amount'      => $attributes['tax_excluding_amount'],
                 'tax_amount'                => $attributes['tax_amount'],
                 'total_amount'              => $attributes['total_amount'],
-                'status'                    => $attributes['status'],
-                'status_approval'           => $attributes['status_approval'],
+                'status'                    => $attributes['status'] ?? '',
+                'status_approval'           => $attributes['status_approval'] ?? '',
                 'remark'                    => $attributes['remark'] ?? null,
             ]);
 
             if (isset($attributes['items'])) {
-                proccesRelationWithRequest($record->items(), $attributes['items']);
+                $mapItems = collect($attributes['items'])->map(function ($item) {
+                    return [
+                        'product_id'                    => $item['product_id'],
+                        'storehouse_id'                 => $item['storehouse_id'],
+                        'quantity'                      => $item['quantity'],
+                        'price'                         => $item['price'],
+                        'tax_excluding_amount'          => $item['tax_excluding_amount'] ?? 0,
+                        'tax_amount'                    => $item['tax_amount'] ?? 0,
+                        'amount'                        => $item['amount'],
+                        'delivery_date'                 => $item['delivery_date'] ?? now(),
+                        'remark'                        => $item['remark'] ?? null,
+                    ];
+                });
+
+                proccesRelationWithRequest($record->items(), $mapItems->toArray());
             }
 
             DB::commit();
@@ -122,7 +148,8 @@ class PurchaseOrderController extends Controller
 
         try {
             $data = PurchaseOrder::findOrFail($id);
-            // $data->load('category', 'currency', 'creator', 'editor');
+
+            $data->load('items');
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
@@ -144,36 +171,50 @@ class PurchaseOrderController extends Controller
     {
         // $this->authorize('customer_manufacturers.update');
 
-        $attributes = $request->validate([
-            'purchase_date'                         => 'required',
-            'customer_manufacturer_id'              => 'required',
-            'staff_id'                              => 'required',
-            'department_id'                         => 'required',
-            'currency_id'                           => 'required',
-            'delivery_date'                         => 'required',
-            'tax_type'                              => 'required',
-            'account_setting_method'                => 'required',
-            'project_id'                            => 'nullable',
-            'deposit_amount'                        => 'nullable',
-            'discount_amount'                       => 'nullable',
-            'tax_excluding_amount'                  => 'required',
-            'tax_amount'                            => 'required',
-            'total_amount'                          => 'required',
-            'status'                                => 'required',
-            'status_approval'                       => 'required',
-            'remark'                                => 'nullable',
-            //
-            'items'                                 => 'required|array',
-            'items.*.product_id'                    => 'required',
-            'items.*.storehouse_id'                 => 'required',
-            'items.*.quantity'                      => 'required',
-            'items.*.price'                         => 'required',
-            'items.*.tax_excluding_amount'          => 'required',
-            'items.*.tax_amount'                    => 'required',
-            'items.*.amount'                        => 'required',
-            'items.*.delivery_date'                 => 'required',
-            'items.*.remark'                        => 'nullable',
-        ]);
+        $attributes = $request->validate(
+            [
+                'purchase_date'                         => 'required',
+                'customer_manufacturer_id'              => 'required',
+                'staff_id'                              => 'required',
+                'department_id'                         => 'required',
+                'currency_id'                           => 'required',
+                'delivery_date'                         => 'required',
+                'tax_type'                              => 'required',
+                'account_setting_method'                => 'required',
+                'project_id'                            => 'nullable',
+                'deposit_amount'                        => 'nullable',
+                'discount_amount'                       => 'nullable',
+                'tax_excluding_amount'                  => 'required',
+                'tax_amount'                            => 'required',
+                'total_amount'                          => 'required',
+                'status'                                => 'nullable',
+                'status_approval'                       => 'nullable',
+                'remark'                                => 'nullable',
+                //
+                'items'                                 => 'required|array',
+                'items.*.product_id'                    => 'required',
+                'items.*.storehouse_id'                 => 'required',
+                'items.*.quantity'                      => 'required',
+                'items.*.price'                         => 'required',
+                'items.*.tax_excluding_amount'          => 'required',
+                'items.*.tax_amount'                    => 'required',
+                'items.*.amount'                        => 'required',
+                'items.*.delivery_date'                 => 'required',
+                'items.*.remark'                        => 'nullable',
+            ],
+            [],
+            [
+                'staff_id'                  => '進貨人員',
+                'department_id'             => '進貨部門',
+                'currency_id'               => '幣別',
+                'delivery_date'             => '預交日期',
+                'tax_type'                  => '扣稅類別',
+                'account_setting_method'    => '立帳方式',
+                'tax_excluding_amount'      => '未稅金額',
+                'tax_amount'                => '稅金',
+                'total_amount'              => '合計',
+            ]
+        );
 
         try {
             DB::beginTransaction();
@@ -196,13 +237,27 @@ class PurchaseOrderController extends Controller
                 'tax_excluding_amount'      => $attributes['tax_excluding_amount'],
                 'tax_amount'                => $attributes['tax_amount'],
                 'total_amount'              => $attributes['total_amount'],
-                'status'                    => $attributes['status'],
-                'status_approval'           => $attributes['status_approval'],
+                'status'                    => $attributes['status'] ?? '',
+                'status_approval'           => $attributes['status_approval'] ?? '',
                 'remark'                    => $attributes['remark'] ?? null,
             ]);
 
             if (isset($attributes['items'])) {
-                proccesRelationWithRequest($record->items(), $attributes['items']);
+                $mapItems = collect($attributes['items'])->map(function ($item) {
+                    return [
+                        'product_id'                    => $item['product_id'],
+                        'storehouse_id'                 => $item['storehouse_id'],
+                        'quantity'                      => $item['quantity'],
+                        'price'                         => $item['price'],
+                        'tax_excluding_amount'          => $item['tax_excluding_amount'] ?? 0,
+                        'tax_amount'                    => $item['tax_amount'] ?? 0,
+                        'amount'                        => $item['amount'],
+                        'delivery_date'                 => $item['delivery_date'] ?? now(),
+                        'remark'                        => $item['remark'] ?? null,
+                    ];
+                });
+
+                proccesRelationWithRequest($record->items(), $mapItems->toArray());
             }
 
             DB::commit();
