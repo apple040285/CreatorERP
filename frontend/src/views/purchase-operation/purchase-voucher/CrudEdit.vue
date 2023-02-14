@@ -21,7 +21,7 @@
               >
                 <flat-pickr
                   id="purchaseDate"
-                  v-model="showData.purchaseDate"
+                  v-model="showData.purchase_date"
                   class="form-control"
                   :placeholder="$t('PurchaseVoucherList.purchaseDate')"
                 />
@@ -43,7 +43,7 @@
                 <v-select
                   id="manufacturer"
                   label="full_name"
-                  v-model="showData.manufacturer_id"
+                  v-model="showData.customer_manufacturer_id"
                   :options="manufacturerOption"
                   :placeholder="$t('PurchaseVoucherModal.selectManufacturer')"
                   :reduce="option => option.id"
@@ -131,7 +131,7 @@
                 <v-select
                   id="purchaseStaff"
                   label="name"
-                  v-model="showData.purchaseStaff_id"
+                  v-model="showData.staff_id"
                   :options="staffOption"
                   :placeholder="$t('PurchaseVoucherModal.selectPurchaseStaff')"
                   :reduce="option => option.id"
@@ -153,7 +153,7 @@
                 <v-select
                   id="purchaseDepartment"
                   label="name"
-                  v-model="showData.purchaseStaff_id"
+                  v-model="showData.department_id"
                   :options="purchaseDepartmentOption"
                   :placeholder="$t('PurchaseVoucherModal.selectPurchaseDepartment')"
                   :reduce="option => option.id"
@@ -194,7 +194,7 @@
               >
                 <flat-pickr
                   id="preDeliveryDate"
-                  v-model="showData.preDeliveryDate"
+                  v-model="showData.delivery_date"
                   class="form-control"
                   :placeholder="$t('PurchaseVoucherList.preDeliveryDate')"
                 />
@@ -215,7 +215,7 @@
                 <v-select
                   id="taxDeductionCategory"
                   label="label"
-                  v-model="showData.taxDeductionCategory"
+                  v-model="showData.tax_type"
                   :options="[
                     { label: '不計稅', value: 'taxFree' },
                     { label: '應稅內含', value: 'taxableIncluded' },
@@ -241,7 +241,7 @@
                 <v-select
                   id="accountSettingMethod"
                   label="label"
-                  v-model="showData.accountSettingMethod"
+                  v-model="showData.account_setting_method"
                   :options="[
                     { label: '單張立帳', value: 'singleBill' },
                     { label: '不立帳', value: 'noBill' },
@@ -329,7 +329,7 @@
               >
                 <b-form-input
                   id="untaxedAmount"
-                  v-model="showData.untaxedAmount"
+                  v-model="showData.tax_excluding_amount"
                   type="text"
                   :placeholder="$t('PurchaseVoucherList.untaxedAmount')"
                 />
@@ -349,7 +349,7 @@
               >
                 <b-form-input
                   id="tax"
-                  v-model="showData.tax"
+                  v-model="showData.tax_amount"
                   type="text"
                   :placeholder="$t('PurchaseVoucherList.tax')"
                 />
@@ -369,7 +369,7 @@
               >
                 <b-form-input
                   id="total"
-                  v-model="showData.total"
+                  v-model="showData.total_amount"
                   type="text"
                   :placeholder="$t('PurchaseVoucherList.total')"
                 />
@@ -475,7 +475,7 @@
                 </b-td>
                 <!-- 產品 -->
                 <b-td>
-                
+
                     <v-select
                       :id="`product-` + index"
                       label="name"
@@ -490,8 +490,8 @@
                         輸入關鍵字搜索 產品資料...
                       </template>
                     </v-select>
-                   
-    
+
+
                 </b-td>
                 <!-- 規格 -->
                 <b-td>
@@ -512,7 +512,7 @@
                   <v-select
                     :id="`storehouse-` + index"
                     label="name"
-                    v-model="item.storehouse"
+                    v-model="item.storehouse_id"
                     :options="storehouseOption"
                     :placeholder="$t('PurchaseVoucherModal.selectStorehouse')"
                     :reduce="option => option.id"
@@ -545,7 +545,7 @@
                   >
                     <b-form-input
                       type="number"
-                      v-model="item.unitPrice"
+                      v-model="item.price"
                       min="0"
                       :placeholder="$t('PurchaseVoucherList.ProductList.unitPrice')"
                     />
@@ -710,17 +710,17 @@ export default {
             axios
               .put(`/purchase-orders/${showData.value.id}`, showData.value)
               .then(() => {
-                this.$toast({
+                root.$toast({
                   component: ToastificationContent,
                   position: 'top-right',
                   props: {
-                    title: `${this.$t('updatedSuccess')}`,
+                    title: `${root.$t('updatedSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${root.$t('Procurement Voucher')} ${root.$t('updatedSuccess')}!`,
+                    text: `${root.$t('Purchase Voucher')} ${root.$t('updatedSuccess')}!`,
                   },
                 })
-                root.$router.push({ name: 'ProcurementOperation-PurchaseVoucherList' });
+                root.$router.push({ name: 'PurchaseOperation-PurchaseVoucherList' });
               })
               .catch(error => {
                 root.$toast({
@@ -734,7 +734,6 @@ export default {
                   },
                 })
               })
-
           } else {
             axios
               .post('purchase-orders', showData.value)
@@ -746,10 +745,10 @@ export default {
                     title: `${root.$t('createdSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${root.$t('Procurement Voucher')} ${root.$t('createdSuccess')}!`,
+                    text: `${root.$t('Purchase Voucher')} ${root.$t('createdSuccess')}!`,
                   },
                 })
-                root.$router.push({ name: 'ProcurementOperation-PurchaseVoucherList' });
+                root.$router.push({ name: 'PurchaseOperation-PurchaseVoucherList' });
               })
               .catch(error => {
                 root.$toast({
@@ -855,7 +854,7 @@ export default {
     // 選擇產品
     const selectProduct = (select, item) => {
       if (select) {
-        root.$set(item, 'id', select.id);
+        root.$set(item, 'product_id', select.id);
         root.$set(item, 'code', select.code);
         root.$set(item, 'sku', select.sku);
         root.$set(item, 'unit', select.unit);
