@@ -14,7 +14,7 @@ export default [
     {
         path: '/SalesOperation/SalesVoucherCreate',
         name: 'SalesOperation-SalesVoucherCreate',
-        component: () => import('@/views/sales-operation/sales-voucher/Crud.vue'),
+        component: () => import('@/views/sales-operation/sales-voucher/CrudEdit.vue'),
         meta: {
             pageTitle: 'Sales Voucher',
             navActiveLink: 'SalesOperation-SalesVoucherList',
@@ -28,7 +28,7 @@ export default [
     {
         path: '/SalesOperation/SalesVoucherEdit',
         name: 'SalesOperation-SalesVoucherEdit',
-        component: () => import('@/views/sales-operation/sales-voucher/Crud.vue'),
+        component: () => import('@/views/sales-operation/sales-voucher/CrudEdit.vue'),
         meta: {
             pageTitle: 'Sales Voucher',
             navActiveLink: 'SalesOperation-SalesVoucherList',

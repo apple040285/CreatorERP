@@ -76,6 +76,7 @@
       "quotationDate": "報價日期",
       "orderDate": "訂購日期",
       "quotationNo": "報價單號",
+      "salesNo": "報價單號",
       "manufacturer": "廠商",
       "procurementStaff": "採購人員",
       "procurementVoucherTaxDeductionCategory": "扣稅類別",

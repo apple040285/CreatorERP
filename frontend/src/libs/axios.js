@@ -6,9 +6,10 @@ import i18n from '@/libs/i18n'
 import axios from 'axios'
 
 const axiosIns = axios.create({
-  // You can add your headers here
+  // You can add your headers heres
   // ================================
   baseURL: (process.env.NODE_ENV === 'production' ? '/api' : ((process.env.VUE_APP_CORE_API_URL || '') + '/api')),
+  //baseURL: 'http://127.0.0.1:8000/api',
   // timeout: 1000,
   headers: { 'Accept': 'application/json' }
 })
