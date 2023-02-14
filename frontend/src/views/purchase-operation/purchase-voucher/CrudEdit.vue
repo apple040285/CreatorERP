@@ -475,11 +475,7 @@
                 </b-td>
                 <!-- 產品 -->
                 <b-td>
-                  <validation-provider
-                    #default="{ errors }"
-                    name="productName"
-                    rules="required"
-                  >
+                
                     <v-select
                       :id="`product-` + index"
                       label="name"
@@ -494,8 +490,8 @@
                         輸入關鍵字搜索 產品資料...
                       </template>
                     </v-select>
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </validation-provider>
+                   
+    
                 </b-td>
                 <!-- 規格 -->
                 <b-td>

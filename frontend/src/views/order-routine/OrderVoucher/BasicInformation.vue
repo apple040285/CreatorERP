@@ -3,10 +3,10 @@
         <b-row>
             <!-- 日期 -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.quotationDate')">
+                <b-form-group :label="$t('OrderVoucherList.OrderDate')">
                     <b-form-input
-                        :value="basicInformation.quotationDate"
-                        :placeholder="$t('QuotationVoucherList.quotationDate')"
+                        :value="basicInformation.OrderDate"
+                        :placeholder="$t('OrderVoucherList.OrderDate')"
                         type="text"
                         readonly
                     />
@@ -14,10 +14,10 @@
             </b-col>
             <!-- 單號 -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.quotationNo')">
+                <b-form-group :label="$t('OrderVoucherList.OrderNo')">
                     <b-form-input
-                        :value="basicInformation.quotationNo"
-                        :placeholder="$t('QuotationVoucherList.quotationNo')"
+                        :value="basicInformation.OrderNo"
+                        :placeholder="$t('OrderVoucherList.OrderNo')"
                         type="text"
                         readonly
                     />
@@ -25,10 +25,10 @@
             </b-col>
             <!-- 轉入單號 -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.transferNo')">
+                <b-form-group :label="$t('OrderVoucherList.transferNo')">
                     <b-form-input
                         :value="basicInformation.transferNo"
-                        :placeholder="$t('QuotationVoucherList.transferNo')"
+                        :placeholder="$t('OrderVoucherList.transferNo')"
                         type="text"
                         readonly
                     />
@@ -36,10 +36,10 @@
             </b-col>
             <!-- 幣別 -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.currency')">
+                <b-form-group :label="$t('OrderVoucherList.currency')">
                     <b-form-input
                         :value="basicInformation.currency"
-                        :placeholder="$t('QuotationVoucherList.currency')"
+                        :placeholder="$t('OrderVoucherList.currency')"
                         type="text"
                         readonly
                     />
@@ -47,10 +47,10 @@
             </b-col>
              <!--專案名稱 -->
              <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.project')">
+                <b-form-group :label="$t('OrderVoucherList.project')">
                     <b-form-input
                         :value="basicInformation.project"
-                        :placeholder="$t('QuotationVoucherList.project')"
+                        :placeholder="$t('OrderVoucherList.project')"
                         type="text"
                         readonly
                     />
@@ -58,10 +58,10 @@
             </b-col>
             <!--編號 -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.projectNo')">
+                <b-form-group :label="$t('OrderVoucherList.projectNo')">
                     <b-form-input
                         :value="basicInformation.projectNo"
-                        :placeholder="$t('QuotationVoucherList.projectNo')"
+                        :placeholder="$t('OrderVoucherList.projectNo')"
                         type="text"
                         readonly
                     />
@@ -69,32 +69,21 @@
             </b-col>
             <!-- 客戶 -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.customerReservation')">
+                <b-form-group :label="$t('OrderVoucherList.customerReservation')">
                     <b-form-input
                         :value="basicInformation.project"
-                        :placeholder="$t('QuotationVoucherList.customerReservation')"
+                        :placeholder="$t('OrderVoucherList.customerReservation')"
                         type="text"
                         readonly
                     />
                 </b-form-group>
             </b-col>
-            <!--  有效 -->
+            <!--  預交日期 -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.quotationEffectiveDate')">
+                <b-form-group :label="$t('OrderVoucherList.OrderEffectiveDate')">
                     <b-form-input
-                        :value="basicInformation.quotationEffectiveDate"
-                        :placeholder="$t('QuotationVoucherList.quotationEffectiveDate')"
-                        type="date"
-                        readonly
-                    />
-                </b-form-group>
-            </b-col>
-            <!--  失效 -->
-            <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.quotationExpirationDate')">
-                    <b-form-input
-                        :value="basicInformation.quotationExpirationDate"
-                        :placeholder="$t('QuotationVoucherList.quotationExpirationDate')"
+                        :value="basicInformation.OrderEffectiveDate"
+                        :placeholder="$t('OrderVoucherList.OrderEffectiveDate')"
                         type="date"
                         readonly
                     />
@@ -102,10 +91,10 @@
             </b-col>
             <!--  taxDeductionCategory -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.taxDeductionCategory')">
+                <b-form-group :label="$t('OrderVoucherList.taxDeductionCategory')">
                     <b-form-input
                         :value="basicInformation.taxDeductionCategory"
-                        :placeholder="$t('QuotationVoucherList.taxDeductionCategory')"
+                        :placeholder="$t('OrderVoucherList.taxDeductionCategory')"
                         type="text"
                         readonly
                     />
@@ -114,10 +103,10 @@
           
             <!--  未稅本幣 -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.untaxedLocalCurrency')">
+                <b-form-group :label="$t('OrderVoucherList.untaxedLocalCurrency')">
                     <b-form-input
                         :value="basicInformation.untaxedLocalCurrency"
-                        :placeholder="$t('QuotationVoucherList.untaxedLocalCurrency')"
+                        :placeholder="$t('OrderVoucherList.untaxedLocalCurrency')"
                         type="text"
                         readonly
                     />
@@ -125,10 +114,10 @@
             </b-col>
             <!--  本幣稅額 -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.localCurrencyTax')">
+                <b-form-group :label="$t('OrderVoucherList.localCurrencyTax')">
                     <b-form-input
                         :value="basicInformation.tax"
-                        :placeholder="$t('QuotationVoucherList.localCurrencyTax')"
+                        :placeholder="$t('OrderVoucherList.localCurrencyTax')"
                         type="text"
                         readonly
                     />
@@ -136,10 +125,10 @@
             </b-col>
             <!--  totalLocalCurrency -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.totalLocalCurrency')">
+                <b-form-group :label="$t('OrderVoucherList.totalLocalCurrency')">
                     <b-form-input
                         :value="basicInformation.totalLocalCurrency"
-                        :placeholder="$t('QuotationVoucherList.totalLocalCurrency')"
+                        :placeholder="$t('OrderVoucherList.totalLocalCurrency')"
                         type="text"
                         readonly
                     />
@@ -147,10 +136,10 @@
             </b-col>
             <!--  Status -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.status')">
+                <b-form-group :label="$t('OrderVoucherList.status')">
                     <b-form-input
                         :value="basicInformation.status"
-                        :placeholder="$t('QuotationVoucherList.status')"
+                        :placeholder="$t('OrderVoucherList.status')"
                         type="text"
                         readonly
                     />
@@ -158,10 +147,10 @@
             </b-col>
             <!--  Approval Status -->
             <b-col cols="6">
-                <b-form-group :label="$t('QuotationVoucherList.approvalStatus')">
+                <b-form-group :label="$t('OrderVoucherList.approvalStatus')">
                     <b-form-input
                         :value="basicInformation.approvalStatus"
-                        :placeholder="$t('QuotationVoucherList.approvalStatus')"
+                        :placeholder="$t('OrderVoucherList.approvalStatus')"
                         type="text"
                         readonly
                     />
@@ -175,7 +164,7 @@
                         variant="primary"
                         class="mb-2 mr-2"
                     >
-                        {{ $t('QuotationVoucherList.submitBtn')}}
+                        {{ $t('OrderVoucherList.submitBtn')}}
                     </b-button>
                     <b-button
                         v-if="basicInformation.approvalStatus=='audited'"
@@ -191,7 +180,7 @@
                         variant="secondary"
                         class="mb-2 mr-2"
                     >
-                        {{ $t('QuotationVoucherList.void')}}
+                        {{ $t('OrderVoucherList.void')}}
                     </b-button>
                 </b-form-group>
             </b-col>

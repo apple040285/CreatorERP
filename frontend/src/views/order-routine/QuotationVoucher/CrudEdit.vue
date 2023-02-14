@@ -22,9 +22,30 @@
               >
                 <flat-pickr
                   id="quotationDate"
-                  v-model="showData.quotationDate"
+                  v-model="showData.quotation_date"
                   class="form-control"
                   :placeholder="$t('QuotationVoucherList.quotationDate')"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+
+            <!---報價單號-->
+            <b-form-group
+              :label="$t('QuotationVoucherList.quotationNo')"
+              label-for="quotationNo"
+              class="col-12 col-sm-4"
+            >
+              <validation-provider
+                #default="{ errors }"
+                name="quotationNo"
+                rules="required"
+              >
+              <b-form-input
+                  id="quotationNo"
+                  v-model="showData.quotation_order_no"
+                  type="text"
+                  :placeholder="$t('QuotationVoucherList.quotationNo')"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -137,7 +158,7 @@
                 <v-select
                   id="quotationdepartment"
                   label="name"
-                  v-model="showData.businessPeople_id"
+                  v-model="showData.quotationDepartment_id"
                   :options="quotationdepartmentOption"
                   :placeholder="$t('QuotationVoucherModel.quotationdepartment')"
                   :reduce="option => option.id"
@@ -159,7 +180,7 @@
               >
                 <flat-pickr
                   id="quotationEffectiveDate"
-                  v-model="showData.quotationEffectiveDate"
+                  v-model="showData.effective_date"
                   class="form-control"
                   :placeholder="$t('QuotationVoucherList.quotationEffectiveDate')"
                 />
@@ -179,7 +200,7 @@
               >
                 <flat-pickr
                   id="quotationExpirationDate"
-                  v-model="showData.quotationExpirationDate"
+                  v-model="showData.expiration_date"
                   class="form-control"
                   :placeholder="$t('QuotationVoucherList.quotationExpirationDate')"
                 />
@@ -201,7 +222,7 @@
                 <v-select
                   id="taxDeductionCategory"
                   label="label"
-                  v-model="showData.taxDeductionCategory"
+                  v-model="showData.tax_type"
                   :options="[
                     { label: '不計稅', value: 'taxFree' },
                     { label: '應稅內含', value: 'taxableIncluded' },
@@ -228,7 +249,7 @@
               >
                 <b-form-input
                   id="projectNo"
-                  v-model="showData.order"
+                  v-model="showData.project_id"
                   type="text"
                   :placeholder="$t('QuotationVoucherList.projectNo')"
                 />
@@ -249,7 +270,7 @@
               >
                 <b-form-input
                   id="project"
-                  v-model="showData.order"
+                  v-model="showData.project_naem"
                   type="text"
                   :placeholder="$t('QuotationVoucherList.project')"
                 />
@@ -271,7 +292,7 @@
               >
                 <b-form-input
                   id="customerReservation"
-                  v-model="showData.order"
+                  v-model="showData.customerReservation"
                   type="text"
                   :placeholder="$t('QuotationVoucherList.customerReservation')"
                 />
@@ -293,7 +314,7 @@
               >
                 <b-form-input
                   id="untaxedLocalCurrency"
-                  v-model="showData.untaxedLocalCurrency"
+                  v-model="showData.untaxedlocalcurrency"
                   type="text"
                   :placeholder="$t('QuotationVoucherList.untaxedLocalCurrency')"
                 />
@@ -313,7 +334,7 @@
               >
                 <b-form-input
                   id="localCurrencyTax"
-                  v-model="showData.tax"
+                  v-model="showData.localcurrencytax"
                   type="text"
                   :placeholder="$t('QuotationVoucherList.localCurrencyTax')"
                 />
@@ -333,7 +354,7 @@
               >
                 <b-form-input
                   id="totalLocalCurrency"
-                  v-model="showData.totalLocalCurrency"
+                  v-model="showData.totallocalcurrency"
                   type="text"
                   :placeholder="$t('QuotationVoucherList.totalLocalCurrency')"
                 />
@@ -353,7 +374,7 @@
               >
                 <b-form-textarea
                   id="remark"
-                  v-model="showData.totalLocalCurrency"
+                  v-model="showData.remark"
                   type="text"
                   :placeholder="$t('remark')"
                   rows="5"
@@ -418,27 +439,21 @@
                 </b-td>
                 <!-- 產品 -->
                 <b-td>
-                  <validation-provider
-                    #default="{ errors }"
-                    name="productName"
-                    rules="required"
+                  <v-select
+                    :id="`product-` + index"
+                    label="name"
+                    v-model="item.product_id"
+                    :options="productOption"
+                    :placeholder="$t('QuotationVoucherModel.selectProductName')"
+                    :filterable="false"
+                    style="width: 300px;"
+                    @search="onSearchProduct"
+                    @input="val => selectProduct(val, item)"
                   >
-                    <v-select
-                      :id="`product-` + index"
-                      label="name"
-                      :options="productOption"
-                      :placeholder="$t('QuotationVoucherModel.selectProductName')"
-                      :filterable="false"
-                      style="width: 300px;"
-                      @search="onSearchProduct"
-                      @input="val => selectProduct(val, item)"
-                    >
-                      <template slot="no-options">
-                        輸入關鍵字搜索 產品資料...
-                      </template>
-                    </v-select>
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </validation-provider>
+                    <template slot="no-options">
+                      輸入關鍵字搜索 產品資料...
+                    </template>
+                  </v-select>
                 </b-td>
                 <!-- 規格 -->
                 <b-td>
@@ -459,7 +474,7 @@
                   <v-select
                     :id="`storehouse-` + index"
                     label="name"
-                    v-model="item.storehouse"
+                    v-model="item.storehouse_id"
                     :options="storehouseOption"
                     :placeholder="$t('QuotationVoucherModel.selectStorehouse')"
                     :reduce="option => option.id"
@@ -492,7 +507,7 @@
                   >
                     <b-form-input
                       type="number"
-                      v-model="item.unitPrice"
+                      v-model="item.price"
                       min="0"
                       :placeholder="$t('QuotationVoucherList.ProductList.unitPrice')"
                     />
@@ -539,16 +554,7 @@
                 </b-td>
               </b-tr>
             </b-tbody>
-            <!-- <b-tfoot>
-          <b-tr>
-            <b-td
-              colspan="7"
-              class="text-right"
-            >
-              Total Rows: <b>5</b>
-            </b-td>
-          </b-tr>
-        </b-tfoot> -->
+       
           </b-table-simple>
         </b-card>
         <!-- 操作按鈕 -->
@@ -558,7 +564,7 @@
             type="button"
             :block="$store.getters['app/currentBreakPoint'] === 'xs'"
             class="mb-1 mb-sm-0 mr-0 mr-sm-1"
-            :to="{ name: 'PurchaseOperation-QuotationVoucherList' }"
+            :to="{ name: 'OrderRoutine-QuotationVoucherList' }"
           >
             <feather-icon
               icon="ArrowLeftIcon"
@@ -638,7 +644,7 @@ export default {
 
     // 讀取
     if (root.$route.query.id) {
-      axios.get(`/purchase-orders/${root.$route.query.id}`)
+      axios.get(`/requisitions-orders/${root.$route.query.id}`)
         .then(response => {
           const data = response.data
           showData.value = JSON.parse(JSON.stringify(data))
@@ -657,7 +663,7 @@ export default {
 
           if (showData.value.id) {
             axios
-              .put(`/purchase-orders/${showData.value.id}`, showData.value)
+              .put(`/requisitions-orders/${showData.value.id}`, showData.value)
               .then(() => {
                 this.$toast({
                   component: ToastificationContent,
@@ -669,7 +675,7 @@ export default {
                     text: `${root.$t('Procurement Voucher')} ${root.$t('updatedSuccess')}!`,
                   },
                 })
-                root.$router.push({ name: 'ProcurementOperation-QuotationVoucherList' });
+                root.$router.push({ name: 'OrderRoutine-QuotationVoucherList' });
               })
               .catch(error => {
                 root.$toast({
@@ -686,7 +692,7 @@ export default {
 
           } else {
             axios
-              .post('purchase-orders', showData.value)
+              .post('requisitions-orders', showData.value)
               .then(() => {
                 this.$toast({
                   component: ToastificationContent,
@@ -698,7 +704,7 @@ export default {
                     text: `${root.$t('Procurement Voucher')} ${root.$t('createdSuccess')}!`,
                   },
                 })
-                root.$router.push({ name: 'ProcurementOperation-QuotationVoucherList' });
+                root.$router.push({ name: 'OrderRoutine-QuotationVoucherList' });
               })
               .catch(error => {
                 root.$toast({

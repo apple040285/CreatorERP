@@ -2,60 +2,27 @@
     <b-row>
         <b-col cols="12">
             <b-card-code :title="$t('Sales Voucher')">
-                <!-- search input -->
-                <div class="custom-search d-md-flex justify-content-between">
-                    <div class="d-flex">
-                        <b-form-group
-                            label-for="startDate-datepicker"
-                            id="startDate"
-                            class="mr-2"
-                        >
-                          <flat-pickr
-                              class="form-control"
-                              id="startDate-datepicker"
-                              :placeholder="$t('table.start_date')"
-                              :config="{ mode: 'range'}"
-                              value=""
-                              @on-close="(selectedDates, dateStr, instance) => updateParams({ columnFilters: { sales_date: dateStr } })"
-                          />
-                        </b-form-group>
-                        <b-button
-                            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                            variant="outline-primary"
-                            class="mb-2 mr-2 text-nowrap"
-                            @click="getList"
-                        >
-                            {{ $t('table.Search')}}
-                        </b-button>
 
-                        <!-- Excel 匯出 -->
-                        <ExcelExportAction
-                          name="sales-orders"
-                          import-url="/sales-orders/import"
-                          export-url="/sales-orders/export"
-                          :params="serverParams"
-                        />
-                    </div>
-                    <div class="d-flex">
-                        <b-button
-                            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                            variant="outline-primary"
-                            :to="{ name: 'SalesOperation-SalesVoucherCreate' }"
-                            class="mb-2 mr-2 text-nowrap"
-                        >
-                            {{ $t('create')}}
-                        </b-button>
-                        <b-form-group>
-                            <div class="d-flex align-items-center">
-                                <b-form-input
-                                    v-model="serverParams.searchTerm"
-                                    :placeholder="$t('table.Search')"
-                                    type="text"
-                                    class="d-inline-block"
-                                />
-                            </div>
-                        </b-form-group>
-                    </div>
+                <!-- search input -->
+                <div class="custom-search d-flex justify-content-end">
+                    <b-button
+                        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                        variant="outline-primary"
+                        :to="{ name: 'SalesOperation-SalesVoucherCreate' }"
+                        class="mb-2 mr-2"
+                    >
+                        {{ $t('create')}}
+                    </b-button>
+                    <b-form-group>
+                        <div class="d-flex align-items-center">
+                            <b-form-input
+                                v-model="serverParams.searchTerm"
+                                :placeholder="$t('table.Search')"
+                                type="text"
+                                class="d-inline-block"
+                            />
+                        </div>
+                    </b-form-group>
                 </div>
 
                 <!-- table -->
@@ -64,7 +31,6 @@
                         @on-page-change="onPageChange"
                         @on-sort-change="onSortChange"
                         @on-per-page-change="onPerPageChange"
-                        @on-column-filter="onColumnFilter"
                         :totalRows="totalRecords"
                         :isLoading.sync="isLoading"
                         :pagination-options="{
@@ -122,7 +88,7 @@
                                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                     variant="outline-primary"
                                     size="sm"
-                                    :to="{ name: 'SalesOperation-SalesVoucherDetail', query: { id: props.row.id } }"
+                                    :to="{ name: 'OrderRoutine-QuotationVoucherDetail', query: { id: props.row.id } }"
                                     class="mr-1"
                                 >
                                     <feather-icon
@@ -135,7 +101,7 @@
                                     variant="outline-success"
                                     size="sm"
                                     v-if="props.row.approvalStatus=='underReview'"
-                                    :to="{ name: 'SalesOperation-SalesVoucherEdit', query: { id: props.row.id } }"
+                                    :to="{ name: 'OrderRoutine-QuotationVoucherEdit', query: { id: props.row.id } }"
                                 >
                                     <feather-icon
                                         icon="Edit2Icon"
@@ -206,14 +172,12 @@
 
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
-import flatPickr from 'vue-flatpickr-component'
 import {
     BRow, BCol, BBadge, BPagination, BFormGroup, BFormInput, BFormSelect, BButton, BSpinner
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import Ripple from 'vue-ripple-directive'
 import axios from "@axios";
-import ExcelExportAction from '@/layouts/components/ExcelExportAction.vue'
 
 export default {
     components: {
@@ -227,29 +191,91 @@ export default {
         BFormInput,
         BFormSelect,
         BButton,
-        BSpinner,
-        flatPickr,
-        ExcelExportAction,
+        BSpinner
     },
     directives: {
         Ripple,
     },
     data() {
         return {
-            apiPath: '/sales-orders',
+            apiPath: '/returnedPurchaseInvoice',
             columns: [
                 { label: '#', field: 'id' },
-                { label: 'salesDate', field: 'sales_date' },
-                { label: 'salesNo', field: 'sales_order_no' },
-                { label: 'customer', field: 'customer_manufacturer.full_name' },
-                { label: 'transferNo', field: 'transfer_no' },
-                { label: 'businessPeople', field: 'staff.name' },
+                { label: 'salesDate', field: 'returnedDate' },
+                { label: 'salesNo', field: 'returnedNo' },
+                { label: 'customer', field: 'customer' },
+                { label: 'invoice', field: 'invoice' },
                 { label: 'project', field: 'project' },
-                // { label: 'status', field: 'status' },
-                // { label: 'approvalStatus', field: 'status_approval' },
+                { label: 'status', field: 'status' },
+                { label: 'approvalStatus', field: 'approvalStatus' },
                 { label: 'action', field: 'action' },
             ],
-            rows: [],
+            rows: [
+                {
+                    id: 1,
+                    returnedDate: "2022/06/22",
+                    returnedNo: '20220622001',
+                    customer: '廠商A',
+                    invoice: 'tees',
+                    project: 'ABC123',
+                    status: 'openCase',
+                    approvalStatus: 'void',
+                },
+                {
+                    id: 2,
+                    returnedDate: "2022/06/22",
+                    returnedNo: '20220622001',
+                    customer: '廠商A',
+                   
+                    invoice: 'tees',
+                    project: 'ABC123',
+                    status: 'openCase',
+                    approvalStatus: 'underReview',
+                },
+                {
+                    id: 3,
+                    returnedDate: "2022/06/22",
+                    returnedNo: '20220622001',
+                    customer: '廠商A',
+                
+                    invoice: 'tees',
+                    project: 'ABC123',
+                    status: 'invalid',
+                    approvalStatus: 'audited',
+                },
+                {
+                    id: 4,
+                    returnedDate: "2022/06/22",
+                    returnedNo: '20220622001',
+                    customer: '廠商A',
+                  
+                    invoice: 'tees',
+                    project: 'ABC123',
+                    status: 'caseClosed',
+                    approvalStatus: 'audited',
+                },
+                {
+                    id: 5,
+                    returnedDate: "2022/06/22",
+                    returnedNo: '20220622001',
+                    customer: '廠商A',
+                
+                    invoice: 'tees',
+                    project: 'ABC123',
+                    status: 'caseClosed',
+                    approvalStatus: 'audited',
+                },
+                {
+                    id: 6,
+                    returnedDate: "2022/06/22",
+                    returnedNo: '20220622001',
+                    customer: '廠商A',
+                    invoice: 'tees',
+                    project: 'ABC123',
+                    status: 'invalid',
+                    approvalStatus: 'audited',
+                },
+            ],
             isLoading: false,
             totalRecords: 0,
             serverParams: {
@@ -259,7 +285,6 @@ export default {
                         type: ''
                     }
                 ],
-                columnFilters: {},
                 page: 1,
                 perPage: 10,
                 searchTerm: '',
@@ -298,10 +323,6 @@ export default {
             this.updateParams({perPage: params.currentPerPage});
             this.getList();
         },
-        onColumnFilter(params) {
-            this.updateParams(params);
-            this.getList();
-        },
         onSortChange(params) {
             this.updateParams({
                 sort: params,
@@ -327,5 +348,4 @@ export default {
 
 <style lang="scss" >
 @import '@core/scss/vue/libs/vue-good-table.scss';
-@import '@core/scss/vue/libs/vue-flatpicker.scss';
 </style>

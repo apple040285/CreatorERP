@@ -5,26 +5,26 @@
         <!-- 基本資料 -->
         <b-card
           v-if="showData"
-          :title="$route.name === 'OrderRoutine-OrderVoucherCreate' ? $t('OrdernVoucherModel.createQuotationVoucher') : $t('OrdernVoucherModel.editOrderVoucher')"
+          :title="$route.name === 'OrderRoutine-OrderVoucherCreate' ? $t('OrdernVoucherModel.createOrdernVoucher') : $t('OrdernVoucherModel.editOrderVoucher')"
         >
         
           <b-row>
-            <!-- 報價日期 -->
+            <!-- 訂購日期 -->
             <b-form-group
-              :label="$t('OrderVoucherList.quotationDate')"
-              label-for="quotationDate"
+              :label="$t('OrderVoucherList.OrderDate')"
+              label-for="OrderDate"
               class="col-12 col-sm-4"
             >
               <validation-provider
                 #default="{ errors }"
-                name="quotationDate"
+                name="orderDate"
                 rules="required"
               >
                 <flat-pickr
-                  id="quotationDate"
-                  v-model="showData.quotationDate"
+                  id="OrderDate"
+                  v-model="showData.orderdate"
                   class="form-control"
-                  :placeholder="$t('OrderVoucherList.quotationDate')"
+                  :placeholder="$t('OrderVoucherList.OrderDate')"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -146,47 +146,26 @@
               </validation-provider>
             </b-form-group>
 
-             <!-- 有效日期 -->
+             <!-- 預交日期 -->
              <b-form-group
-              :label="$t('OrderVoucherList.quotationEffectiveDate')"
-              label-for="quotationEffectiveDate"
+              :label="$t('OrderVoucherList.preDeliveryDate')"
+              label-for="preDeliveryDate"
               class="col-12 col-sm-4"
             >
               <validation-provider
                 #default="{ errors }"
-                name="effective_date"
+                name="preDeliveryDate"
                 rules="required"
               >
                 <flat-pickr
-                  id="quotationEffectiveDate"
-                  v-model="showData.quotationEffectiveDate"
+                  id="preDeliveryDate"
+                  v-model="showData.preDeliveryDate"
                   class="form-control"
-                  :placeholder="$t('OrderVoucherList.quotationEffectiveDate')"
+                  :placeholder="$t('OrderVoucherList.preDeliveryDate')"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-
-             <!-- 失效日期 -->
-             <b-form-group
-              :label="$t('OrderVoucherList.quotationExpirationDate')"
-              label-for="quotationExpirationDate"
-              class="col-12 col-sm-4"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="quotationExpirationDate"
-              >
-                <flat-pickr
-                  id="quotationExpirationDate"
-                  v-model="showData.quotationExpirationDate"
-                  class="form-control"
-                  :placeholder="$t('OrderVoucherList.quotationExpirationDate')"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-
 
             <!-- 扣稅類別 -->
             <b-form-group
@@ -215,48 +194,7 @@
             </b-form-group>
 
 
-            <!-- 專案名稱 -->
-            <b-form-group
-              :label="$t('OrderVoucherList.project')"
-              label-for="projectNo"
-              class="col-12 col-sm-4"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="projectNo"
-              >
-                <b-form-input
-                  id="projectNo"
-                  v-model="showData.order"
-                  type="text"
-                  :placeholder="$t('OrderVoucherList.project')"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-
-
-
-             <!-- 專案編號 -->
-             <b-form-group
-              :label="$t('OrderVoucherList.projectNo')"
-              label-for="projectNo"
-              class="col-12 col-sm-4"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="projectNo"
-              >
-                <b-form-input
-                  id="projectNo"
-                  v-model="showData.order"
-                  type="text"
-                  :placeholder="$t('OrderVoucherList.projectNo')"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-
+            
             
 
             <!-- 客戶訂單 -->
@@ -336,6 +274,49 @@
                   v-model="showData.totalLocalCurrency"
                   type="text"
                   :placeholder="$t('OrderVoucherList.totalLocalCurrency')"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+
+
+            <!-- 專案名稱 -->
+            <b-form-group
+              :label="$t('OrderVoucherList.project')"
+              label-for="project"
+              class="col-12 col-sm-4"
+            >
+              <validation-provider
+                #default="{ errors }"
+                name="project"
+              >
+                <b-form-input
+                  id="project"
+                  v-model="showData.order"
+                  type="text"
+                  :placeholder="$t('OrderVoucherList.project')"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+
+
+
+             <!-- 專案編號 -->
+             <b-form-group
+              :label="$t('OrderVoucherList.projectNo')"
+              label-for="projectNo"
+              class="col-12 col-sm-4"
+            >
+              <validation-provider
+                #default="{ errors }"
+                name="projectNo"
+              >
+                <b-form-input
+                  id="projectNo"
+                  v-model="showData.order"
+                  type="text"
+                  :placeholder="$t('OrderVoucherList.projectNo')"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -558,7 +539,7 @@
             type="button"
             :block="$store.getters['app/currentBreakPoint'] === 'xs'"
             class="mb-1 mb-sm-0 mr-0 mr-sm-1"
-            :to="{ name: 'PurchaseOperation-OrderVoucherList' }"
+            :to="{ name: 'OrderRoutine-OrderVoucherList' }"
           >
             <feather-icon
               icon="ArrowLeftIcon"
@@ -638,7 +619,7 @@ export default {
 
     // 讀取
     if (root.$route.query.id) {
-      axios.get(`/purchase-orders/${root.$route.query.id}`)
+      axios.get(`/requisitions-orders/${root.$route.query.id}`)
         .then(response => {
           const data = response.data
           showData.value = JSON.parse(JSON.stringify(data))
@@ -657,7 +638,7 @@ export default {
 
           if (showData.value.id) {
             axios
-              .put(`/purchase-orders/${showData.value.id}`, showData.value)
+              .put(`/requisitions-orders/${showData.value.id}`, showData.value)
               .then(() => {
                 this.$toast({
                   component: ToastificationContent,
@@ -669,7 +650,7 @@ export default {
                     text: `${root.$t('Procurement Voucher')} ${root.$t('updatedSuccess')}!`,
                   },
                 })
-                root.$router.push({ name: 'ProcurementOperation-OrderVoucherList' });
+                root.$router.push({ name: 'RequisitionsOrdertion-QrderVoucherList' });
               })
               .catch(error => {
                 root.$toast({
@@ -686,7 +667,7 @@ export default {
 
           } else {
             axios
-              .post('purchase-orders', showData.value)
+              .post('requisitions-orders', showData.value)
               .then(() => {
                 this.$toast({
                   component: ToastificationContent,
@@ -698,7 +679,7 @@ export default {
                     text: `${root.$t('Procurement Voucher')} ${root.$t('createdSuccess')}!`,
                   },
                 })
-                root.$router.push({ name: 'ProcurementOperation-OrderVoucherList' });
+                root.$router.push({ name: 'RequisitionsOrdertion-OrderVoucherList' });
               })
               .catch(error => {
                 root.$toast({

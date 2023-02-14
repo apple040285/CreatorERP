@@ -68,4 +68,52 @@ export default [
             ],
         },
     },
+
+    {
+        path: '/OrderRoutine/OrderVoucherCreate',
+        name: 'OrderRoutine-OrderVoucherCreate',
+        component: () => import('@/views/order-routine/OrderVoucher/CrudEdit.vue'),
+        meta: {
+            pageTitle: 'Order Voucher',
+            navActiveLink: 'OrderRoutine-OrderVoucherList',
+            breadcrumb: [
+                { text: 'Order Routine' },
+                { text: 'Order Voucher', to: { name: 'OrderRoutine-OrderVoucherList' } },
+                { text: 'create', active: true },
+
+            ],
+        },
+    },
+
+    {
+        path: '/OrderRoutine/OrderVoucherEdit',
+        name: 'OrderRoutine-OrderVoucherEdit',
+        component: () => import('@/views/order-routine/OrderVoucher/CrudEdit.vue'),
+        meta: {
+            pageTitle: 'Order Voucher',
+            navActiveLink: 'OrderRoutine-OrderVoucherList',
+            breadcrumb: [
+                { text: 'Order Routine' },
+                { text: 'Order Voucher', to: { name: 'OrderRoutine-OrderVoucherList' } },
+                { text: 'edit', active: true },
+
+            ],
+        },
+    },
+
+    {
+        path: '/OrderRoutine/OrderVoucherDetail',
+        name: 'OrderRoutine-OrderVoucherDetail',
+        component: () => import('@/views/order-routine/OrderVoucher/Detail.vue'),
+        meta: {
+            pageTitle: 'Order Voucher',
+            navActiveLink: 'OrderRoutine-OrderVoucherList',
+            breadcrumb: [
+                { text: 'Order Routine' },
+                { text: 'Order Voucher', to: { name: 'OrderRoutine-OrderVoucherList' } },
+                { text: 'Detail', active: true },
+
+            ],
+        },
+    },
 ]

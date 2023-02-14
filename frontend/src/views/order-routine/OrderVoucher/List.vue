@@ -1,14 +1,14 @@
 <template>
     <b-row>
         <b-col cols="12">
-            <b-card-code :title="$t('Quotation Voucher')">
+            <b-card-code :title="$t('Order Voucher')">
 
                 <!-- search input -->
                 <div class="custom-search d-flex justify-content-end">
                     <b-button
                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                         variant="outline-primary"
-                        :to="{ name: 'OrderRoutine-QuotationVoucherCreate' }"
+                        :to="{ name: 'OrderRoutine-OrderVoucherCreate' }"
                         class="mb-2 mr-2"
                     >
                         {{ $t('create')}}
@@ -57,7 +57,7 @@
                         slot-scope="props"
                     >
                         <span class="text-nowrap" v-if="props.column.label !== '#'">
-                            {{$t('QuotationVoucherList.' + props.column.label) }}
+                            {{$t('OrderVoucherList.' + props.column.label) }}
                         </span>
                     </template>
                     <template
@@ -71,13 +71,13 @@
                         <!-- Column: Status -->
                         <span v-else-if="props.column.field === 'approvalStatus'" class="text-nowrap">
                             <b-badge :variant="statusVariant(props.row.approvalStatus)">
-                                {{ $t('QuotationVoucherList.' + props.row.approvalStatus) }}
+                                {{ $t('OrderVoucherList.' + props.row.approvalStatus) }}
                             </b-badge>
                         </span>
 
                         <span v-else-if="props.column.field === 'status'" class="text-nowrap">
                             <b-badge :variant="statusVariant(props.row.status)">
-                                {{ $t('QuotationVoucherList.' + props.row.status) }}
+                                {{ $t('OrderVoucherList.' + props.row.status) }}
                             </b-badge>
                         </span>
 
@@ -88,7 +88,7 @@
                                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                     variant="outline-primary"
                                     size="sm"
-                                    :to="{ name: 'OrderRoutine-QuotationVoucherDetail', query: { id: props.row.id } }"
+                                    :to="{ name: 'OrderRoutine-OrderVoucherDetail', query: { id: props.row.id } }"
                                     class="mr-1"
                                 >
                                     <feather-icon
@@ -101,7 +101,7 @@
                                     variant="outline-success"
                                     size="sm"
                                     v-if="props.row.approvalStatus=='underReview'"
-                                    :to="{ name: 'OrderRoutine-QuotationVoucherEdit', query: { id: props.row.id } }"
+                                    :to="{ name: 'OrderRoutine-OrderVoucherEdit', query: { id: props.row.id } }"
                                 >
                                     <feather-icon
                                         icon="Edit2Icon"
@@ -201,10 +201,9 @@ export default {
             apiPath: '/returnedPurchaseInvoice',
             columns: [
                 { label: '#', field: 'id' },
-                { label: 'quotationDate', field: 'returnedDate' },
-                { label: 'quotationNo', field: 'returnedNo' },
+                { label: 'OrderDate', field: 'returnedDate' },
+                { label: 'OrderNo', field: 'returnedNo' },
                 { label: 'customer', field: 'customer' },
-                { label: 'invoice', field: 'invoice' },
                 { label: 'project', field: 'project' },
                 { label: 'status', field: 'status' },
                 { label: 'approvalStatus', field: 'approvalStatus' },
