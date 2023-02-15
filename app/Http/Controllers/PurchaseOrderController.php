@@ -124,6 +124,8 @@ class PurchaseOrderController extends Controller
                 'purchase_date'             => $attributes['purchase_date'],
                 'purchase_order_no'         => $currentOrderNo,
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
+                'invoice_no'                => $attributes['invoice_no'] ?? null,
+                'voucher_no'                => $attributes['voucher_no'] ?? null,
                 'staff_id'                  => $attributes['staff_id'],
                 'department_id'             => $attributes['department_id'],
                 'currency_id'               => $attributes['currency_id'],
@@ -268,6 +270,8 @@ class PurchaseOrderController extends Controller
             $record->update([
                 'purchase_date'             => $attributes['purchase_date'],
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
+                'invoice_no'                => $attributes['invoice_no'] ?? null,
+                'voucher_no'                => $attributes['voucher_no'] ?? null,
                 'staff_id'                  => $attributes['staff_id'],
                 'department_id'             => $attributes['department_id'],
                 'currency_id'               => $attributes['currency_id'],
