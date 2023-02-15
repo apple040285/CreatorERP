@@ -18,6 +18,7 @@ class PurchaseOrder extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'purchase_date'     => 'datetime:Y-m-d',
         'created_at'        => 'datetime:Y-m-d',
         'updated_at'        => 'datetime:Y-m-d',
     ];

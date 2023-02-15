@@ -119,7 +119,7 @@ class PurchaseOrderController extends Controller
                     throw new \Exception('立帳方式類型不存在.');
             }
 
-            // 創建訂單
+            // 寫入訂單
             $record = PurchaseOrder::create([
                 'purchase_date'             => $attributes['purchase_date'],
                 'purchase_order_no'         => $currentOrderNo,
@@ -140,6 +140,7 @@ class PurchaseOrderController extends Controller
                 'remark'                    => $attributes['remark'] ?? null,
             ]);
 
+            // 寫入訂單項目
             if (isset($attributes['items'])) {
                 $mapItems = collect($attributes['items'])->map(function ($item) {
                     return [
@@ -267,6 +268,7 @@ class PurchaseOrderController extends Controller
                     throw new \Exception('立帳方式類型不存在.');
             }
 
+            // 更新訂單
             $record->update([
                 'purchase_date'             => $attributes['purchase_date'],
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
@@ -284,6 +286,7 @@ class PurchaseOrderController extends Controller
                 'remark'                    => $attributes['remark'] ?? null,
             ]);
 
+            // 更新訂單項目
             if (isset($attributes['items'])) {
                 $mapItems = collect($attributes['items'])->map(function ($item) {
                     return [
@@ -324,7 +327,7 @@ class PurchaseOrderController extends Controller
 
         try {
             DB::beginTransaction();
-            $data = PurchaseOrder::findOrFail($id)->delete();
+            // $data = PurchaseOrder::findOrFail($id)->delete();
 
             DB::commit();
             return $this->success('刪除成功');
@@ -334,7 +337,7 @@ class PurchaseOrderController extends Controller
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest($e->getMessage() ?: '請聯絡管理員');
         }
     }
 }

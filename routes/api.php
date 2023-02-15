@@ -96,6 +96,8 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
     // 客戶廠商
     Route::apiResource('/customer-manufacturers', Controllers\CustomerManufacturerController::class);
 
+    // https://www.managertoday.com.tw/english/view/62099?
+    // 英文翻譯
     /** @var 採購作業 */
 
     // 採購憑單
