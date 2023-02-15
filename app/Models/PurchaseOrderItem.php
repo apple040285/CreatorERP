@@ -21,4 +21,9 @@ class PurchaseOrderItem extends Model
         'created_at'        => 'datetime:Y-m-d',
         'updated_at'        => 'datetime:Y-m-d',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }
