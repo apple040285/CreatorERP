@@ -44,31 +44,24 @@ class PurchaseOrderController extends Controller
 
         $attributes = $request->validate(
             [
-                'purchase_date'                         => 'required',
-                'customer_manufacturer_id'              => 'required',
-                'staff_id'                              => 'required',
-                'department_id'                         => 'required',
-                'currency_id'                           => 'required',
-                'delivery_date'                         => 'required',
-                'tax_type'                              => 'required',
-                'account_setting_method'                => 'required',
-                'project_id'                            => 'nullable',
-                'deposit_amount'                        => 'nullable',
-                'discount_amount'                       => 'nullable',
-                'tax_excluding_amount'                  => 'required',
-                'tax_amount'                            => 'required',
-                'total_amount'                          => 'required',
-                'remark'                                => 'nullable',
+                'purchase_date'                         => 'required',          // 進貨日期
+                'customer_manufacturer_id'              => 'required',          // 客戶廠商
+                'invoice_no'                            => 'nullable',          // 發票號碼
+                'voucher_no'                            => 'nullable',          // 傳票號碼
+                'staff_id'                              => 'required',          // 員工職員
+                'department_id'                         => 'required',          // 部門
+                'project_id'                            => 'nullable',          // 專案
+                'billing_type'                          => 'required',          // 立帳方式
+                'tax_type'                              => 'required',          // 扣稅類別
+                'currency_id'                           => 'required',          // 幣別
+                'remark'                                => 'nullable',          // 備註
                 //
                 'items'                                 => 'required|array',
                 'items.*.product_id'                    => 'required',
                 'items.*.storehouse_id'                 => 'required',
                 'items.*.quantity'                      => 'required',
                 'items.*.price'                         => 'required',
-                'items.*.tax_excluding_amount'          => 'nullable',
-                'items.*.tax_amount'                    => 'nullable',
-                'items.*.amount'                        => 'required',
-                'items.*.delivery_date'                 => 'nullable',
+                'items.*.delivery_date'                 => 'required',
                 'items.*.remark'                        => 'nullable',
             ],
             [],
@@ -76,21 +69,30 @@ class PurchaseOrderController extends Controller
                 'staff_id'                  => '進貨人員',
                 'department_id'             => '進貨部門',
                 'currency_id'               => '幣別',
-                'delivery_date'             => '預交日期',
+                'billing_type'              => '立帳方式',
                 'tax_type'                  => '扣稅類別',
-                'account_setting_method'    => '立帳方式',
-                'tax_excluding_amount'      => '未稅金額',
-                'tax_amount'                => '稅金',
-                'total_amount'              => '合計',
             ]
         );
 
         try {
             DB::beginTransaction();
 
+            // 獲得訂單編號
+            $prefix = 'PC' . date("Ymd");
+
+            // 獲得相似的訂單編號
+            $orderByNoIds = PurchaseOrder::where('purchase_order_no', 'like', "$prefix%")->pluck('purchase_order_no');
+
+            // 獲得訂單編號最大值
+            $currentMaxValue = $orderByNoIds->map(fn ($str) => intval(str_replace($prefix, '', $str)))->max() + 1;
+
+            // 獲得訂單編號自動補四位數 0
+            $currentOrderNo = $prefix . str($currentMaxValue)->padLeft(4, '0');
+
+            // 創建訂單
             $record = PurchaseOrder::create([
                 'purchase_date'             => $attributes['purchase_date'],
-                'purchase_order_no'         => date('YmdHis'),
+                'purchase_order_no'         => $currentOrderNo,
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
                 'staff_id'                  => $attributes['staff_id'],
                 'department_id'             => $attributes['department_id'],
