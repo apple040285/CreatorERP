@@ -14,8 +14,27 @@
       />
     </b-form-group>
 
-    <!-- 權限表 -->
+    <!-- 權限 -->
     <b-form-group
+      label="權限"
+      label-for="permissions"
+    >
+      <treeselect
+        ref="treeselect"
+        v-model="showData.permission_names"
+        :value-consists-of="`ALL`"
+        multiple
+        defaultExpandLevel="Infinity"
+        :options="permissionsTree"
+        placeholder="尚未選擇權限"
+        :show-count="true"
+        branchNodesFirst
+        joinValues
+      />
+    </b-form-group>
+
+    <!-- 權限表 -->
+    <!-- <b-form-group
       :label="$t('PermissionSetting.permission')"
       label-for="permission"
     >
@@ -81,18 +100,18 @@
           </b-tr>
         </b-tbody>
       </b-table-simple>
-    </b-form-group>
+    </b-form-group> -->
 
-        <b-button
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-            type="submit"
-            variant="primary"
-            class="d-block mx-auto"
-            @click="onSubmit"
-        >
-            {{ $t('Submit') }}
-        </b-button>
-    </b-card>
+    <b-button
+      v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+      type="submit"
+      variant="primary"
+      class="d-block mx-auto"
+      @click="onSubmit"
+    >
+      {{ $t('Submit') }}
+    </b-button>
+  </b-card>
 </template>
 
 <script>
@@ -110,6 +129,7 @@ import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import VJstree from 'vue-jstree'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+// import Tree from "vue3-treeview";
 
 export default {
   components: {
@@ -130,7 +150,8 @@ export default {
     AppCollapseItem,
     Treeselect,
     VJstree,
-    ToastificationContent
+    ToastificationContent,
+    // Tree,
   },
   directives: {
     Ripple,
@@ -164,6 +185,8 @@ export default {
 
     const permissionsGroup = ref([])
 
+    const permissionsTree = ref([])
+
     root.$http
       .get('/permissions/group')
       .then(response => {
@@ -171,6 +194,14 @@ export default {
         permissionsGroup.value = JSON.parse(JSON.stringify(data))
       })
 
+    // 讀取權限樹
+    root.$http
+      .post(`/permissions/tree`)
+      .then(response => {
+        permissionsTree.value = JSON.parse(JSON.stringify(response.data))
+      })
+
+    // 讀取角色資料
     if (root.$route.query.id) {
       root.$http
         .get(`/roles/${root.$route.query.id}`)
@@ -188,14 +219,14 @@ export default {
           .put(`/roles/${root.$route.query.id}`, showData.value)
           .then(response => {
             root.$toast({
-                component: ToastificationContent,
-                position: 'top-right',
-                props: {
+              component: ToastificationContent,
+              position: 'top-right',
+              props: {
                 title: `${root.$t('updatedSuccess')}`,
                 icon: 'CoffeeIcon',
                 variant: 'success',
                 text: `${root.$t('PermissionSetting.permission')} ${root.$t('updatedSuccess')}!`,
-                },
+              },
             })
           })
       } else {
@@ -203,9 +234,9 @@ export default {
           .post(`/roles`, showData.value)
           .then(response => {
             root.$toast({
-                component: ToastificationContent,
-                position: 'top-right',
-                props: {
+              component: ToastificationContent,
+              position: 'top-right',
+              props: {
                 title: `${root.$t('createdSuccess')}`,
                 icon: 'XIcon',
                 variant: 'success',
@@ -248,6 +279,7 @@ export default {
     return {
       showData,
       permissionsGroup,
+      permissionsTree,
 
       onSubmit,
       getValue,
@@ -273,6 +305,11 @@ export default {
   .vue-treeselect__multi-value-label,
   .vue-treeselect__value-remove {
     color: #fff;
+  }
+
+  .vue-treeselect__checkbox--indeterminate {
+    background-color: #7367f0;
+    border-color: #7367f0;
   }
 
   .vue-treeselect__checkbox--checked {
