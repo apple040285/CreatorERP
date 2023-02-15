@@ -25,6 +25,22 @@ Artisan::command('erp:install', function () {
     $this->call('passport:install');
 
     $this->call('db:seed');
+
+    // 更新權限表
+    $this->call('update_acls');
+});
+
+/**
+ * 更新權限表
+ */
+Artisan::command('update_acls', function () {
+    $this->call('cache:clear');
+    $array_column = array_column(App\Enum\PermissionNames::cases(), 'name', 'value');
+    Spatie\Permission\Models\Permission::whereNotIn('name', array_keys($array_column))->delete();
+    foreach ($array_column as $key => $value) {
+        Spatie\Permission\Models\Permission::findOrCreate($key, '*');
+        $this->comment("$key 創建.");
+    }
 });
 
 // 刪除 migrations 存在的資料和資料表

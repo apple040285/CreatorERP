@@ -31,7 +31,7 @@ class RoleController extends Controller
             })
             ->paginate($request->input('perPage'));
 
-        $data->load('permissions');
+        $data->load('permissions:name');
 
         return $this->success($data);
     }
@@ -54,24 +54,31 @@ class RoleController extends Controller
         $this->authorize('roles.add');
 
         $attributes = $request->validate([
-            'name'          => 'required|unique:roles,name',
-            'permissions'   => 'nullable|array',
+            'name'              => 'required|unique:roles,name',
+            'permissions'       => 'nullable|exists:permissions,id|array',
+            'permission_names'  => 'nullable|exists:permissions,name|array',
         ]);
 
         try {
             DB::beginTransaction();
-            $data = Role::create([
-                'name' => $attributes['name'],
+
+            $record = Role::create([
+                'guard_name'    => '*',
+                'name'          => $attributes['name'],
             ]);
 
-            $data->syncPermissions($attributes['permissions'] ?? []);
+            // 同步權限
+            if (isset($attributes['permissions'])) $record->syncPermissions($attributes['permissions']);
+
+            // 同步權限
+            if (isset($attributes['permission_names'])) $record->syncPermissions($attributes['permission_names']);
 
             DB::commit();
-            return $this->created($data);
+            return $this->created($record);
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest($e->getMessage() ?: '請聯絡管理員');
         }
     }
 
@@ -88,18 +95,18 @@ class RoleController extends Controller
         try {
             $record = Role::findOrFail($id);
 
-            $record->load('permissions');
-
             $data = $record->toArray();
 
-            $data['permissions'] = $record->permissions->pluck('id')->toArray();
+            // $data['permissions'] = $record->permissions->pluck('id')->toArray();
+
+            $data['permission_names'] = $record->permissions->pluck('name')->toArray();
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
             return $this->notFound('找無此資料');
         } catch (\Exception $e) {
             report($e);
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest($e->getMessage() ?: '請聯絡管理員');
         }
     }
 
@@ -115,20 +122,26 @@ class RoleController extends Controller
         $this->authorize('roles.update');
 
         $attributes = $request->validate([
-            'name'          => 'required|unique:roles,name,' . $id,
-            'permissions'   => 'nullable|array',
+            'name'              => 'required|unique:roles,name,' . $id,
+            // 'permissions'       => 'nullable|exists:permissions,id|array',
+            'permission_names'  => 'nullable|exists:permissions,name|array',
         ]);
 
         try {
             DB::beginTransaction();
-            $data = Role::findOrFail($id);
 
-            $data->syncPermissions($attributes['permissions'] ?? []);
+            $record = Role::findOrFail($id);
 
-            $data->update([
-                'guard_name'    => 'api',
+            $record->update([
+                'guard_name'    => '*',
                 'name'          => $attributes['name'],
             ]);
+
+            // 同步權限
+            // if (isset($attributes['permissions'])) $record->syncPermissions($attributes['permissions']);
+
+            // 同步權限
+            if (isset($attributes['permission_names'])) $record->syncPermissions($attributes['permission_names']);
 
             DB::commit();
             return $this->success('更新成功');
@@ -138,7 +151,7 @@ class RoleController extends Controller
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest($e->getMessage() ?: '請聯絡管理員');
         }
     }
 
@@ -164,7 +177,7 @@ class RoleController extends Controller
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest($e->getMessage() ?: '請聯絡管理員');
         }
     }
 }

@@ -31,12 +31,12 @@ class PermissionController extends Controller
         //         return explode('.', $permission['name']);
         //     });
 
-        $processedData = collect(array_column(\App\Enum\PermissionName::cases(), 'value'))
+        $processedData = collect(array_column(\App\Enum\PermissionNames::cases(), 'value'))
             ->map(function ($permission) {
                 return explode('.', $permission);
             });
 
-        $data = convertPathsToTree($processedData, '.', null, \App\Enum\PermissionName::class, 'id');
+        $data = convertPathsToTree($processedData, '.', null, \App\Enum\PermissionNames::class, 'id');
 
         return $this->success($data);
     }

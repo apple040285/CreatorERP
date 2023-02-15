@@ -129,4 +129,53 @@ enum PermissionNames: string
     case 新增客戶廠商       = 'customer_manufacturers.add';
     case 編輯客戶廠商       = 'customer_manufacturers.update';
     case 刪除客戶廠商       = 'customer_manufacturers.delete';
+
+    /**
+     訂單類
+     */
+
+    /**
+     * 採購作業
+     */
+    case 採購作業管理       = 'procurement_order';
+    case 查看採購作業       = 'procurement_order.read';
+    case 新增採購作業       = 'procurement_order.add';
+    case 編輯採購作業       = 'procurement_order.update';
+    case 刪除採購作業       = 'procurement_order.delete';
+
+    /**
+     * 進貨作業
+     */
+    case 進貨作業管理       = 'purchase_order';
+    case 查看進貨作業       = 'purchase_order.read';
+    case 新增進貨作業       = 'purchase_order.add';
+    case 編輯進貨作業       = 'purchase_order.update';
+    case 刪除進貨作業       = 'purchase_order.delete';
+
+    /**
+     * 訂購作業
+     */
+    case 訂購作業管理       = 'place_order';
+    case 查看訂購作業       = 'place_order.read';
+    case 新增訂購作業       = 'place_order.add';
+    case 編輯訂購作業       = 'place_order.update';
+    case 刪除訂購作業       = 'place_order.delete';
+
+    /**
+     * 銷貨作業
+     */
+    case 銷貨作業管理       = 'sales_order';
+    case 查看銷貨作業       = 'sales_order.read';
+    case 新增銷貨作業       = 'sales_order.add';
+    case 編輯銷貨作業       = 'sales_order.update';
+    case 刪除銷貨作業       = 'sales_order.delete';
+
+    /**
+     * 調撥作業
+     */
+    case 調撥作業管理       = 'adjust_order';
+    case 查看調撥作業       = 'adjust_order.read';
+    case 新增調撥作業       = 'adjust_order.add';
+    case 編輯調撥作業       = 'adjust_order.update';
+    case 刪除調撥作業       = 'adjust_order.delete';
 }
