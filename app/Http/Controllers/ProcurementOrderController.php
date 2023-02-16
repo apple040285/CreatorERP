@@ -71,7 +71,6 @@ class ProcurementOrderController extends Controller
                 'currency_id'               => '幣別',
                 'billing_type'              => '立帳方式',
                 'tax_type'                  => '扣稅類別',
-                'items'                     => '產品資訊',
             ]
         );
 
@@ -79,7 +78,7 @@ class ProcurementOrderController extends Controller
             DB::beginTransaction();
 
             // 獲得訂單編號
-            $prefix = 'PC' . date("Ymd");
+            $prefix = 'PO' . date("Ymd");
 
             // 獲得相似的訂單編號
             $orderByNoIds = ProcurementOrder::where('procurement_order_no', 'like', "$prefix%")->pluck('procurement_order_no');
@@ -340,3 +339,4 @@ class ProcurementOrderController extends Controller
         }
     }
 }
+
