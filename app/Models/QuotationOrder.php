@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RequisitionsOrder extends Model
+class QuotationOrder extends Model
 {
     use HasFactory;
 
@@ -39,6 +39,6 @@ class RequisitionsOrder extends Model
 
     public function items()
     {
-        return $this->hasMany(RequisitionsOrderItem::class);
+        return $this->hasMany(QuotationOrderItem::class);
     }
 }

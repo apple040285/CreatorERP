@@ -5,16 +5,19 @@
         <!-- 基本資料 -->
         <b-card
           v-if="showData"
-          :title="$route.name === 'OrderRoutine-QuotationVoucherCreate' ? $t('QuotationVoucherModel.createQuotationVoucher') : $t('QuotationVoucherModel.editQuotationVoucher')"
+          :title="showData.id ? $t('QuotationVoucherModal.editQuotationVoucher') : $t('QuotationVoucherModal.createQuotationVoucher')"
         >
-        
           <b-row>
             <!-- 報價日期 -->
             <b-form-group
-              :label="$t('QuotationVoucherList.quotationDate')"
               label-for="quotationDate"
               class="col-12 col-sm-4"
             >
+              <template #label>
+                {{ $t('QuotationVoucherList.quotationDate') }}
+                <span class="text-danger">*</span>
+              </template>
+
               <validation-provider
                 #default="{ errors }"
                 name="quotationDate"
@@ -23,198 +26,220 @@
                 <flat-pickr
                   id="quotationDate"
                   v-model="showData.quotation_date"
-                  class="form-control"
                   :placeholder="$t('QuotationVoucherList.quotationDate')"
+                  class="form-control"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
 
-            <!---報價單號-->
+            <!-- 報價單號 -->
             <b-form-group
-              :label="$t('QuotationVoucherList.quotationNo')"
-              label-for="quotationNo"
+              label-for="quotation_no"
               class="col-12 col-sm-4"
             >
-              <validation-provider
-                #default="{ errors }"
-                name="quotationNo"
-                rules="required"
-              >
+              <template #label>
+                {{ $t('QuotationVoucherList.quotationNo') }}
+                <span class="text-danger">保存後會自動帶入</span>
+              </template>
+
               <b-form-input
-                  id="quotationNo"
-                  v-model="showData.quotation_order_no"
-                  type="text"
-                  :placeholder="$t('QuotationVoucherList.quotationNo')"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
+                id="quotationNo"
+                type="text"
+                :placeholder="$t('QuotationVoucherList.quotationNo')"
+                disabled
+                :value="showData.quotation_order_no"
+              />
             </b-form-group>
-          
-
-            <!-- 客戶 -->
-            <b-form-group
-              :label="$t('QuotationVoucherList.customer')"
-              label-for="customer"
-              class="col-12 col-sm-4"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="customer"
-                rules="required"
-              >
-                <v-select
-                  id="customer"
-                  label="full_name"
-                  v-model="showData.customer_id"
-                  :options="customerOption"
-                  :placeholder="$t('QuotationVoucherModel.quotationCustomer')"
-                  :reduce="option => option.id"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-
-             <!-- 幣別 -->
-             <b-form-group
-              :label="$t('QuotationVoucherList.currency')"
-              label-for="currency"
-              class="col-12 col-sm-4"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="currency"
-                rules="required"
-              >
-                <v-select
-                  id="currency"
-                  label="name"
-                  v-model="showData.currency_id"
-                  :options="currencyOption"
-                  :placeholder="$t('QuotationVoucherModel.selectCurrency')"
-                  :reduce="option => option.id"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-
-            
 
             <!-- 轉入單號 -->
             <b-form-group
-              :label="$t('QuotationVoucherList.transferNo')"
               label-for="transferNo"
               class="col-12 col-sm-4"
             >
+              <template #label>
+                {{ $t('QuotationVoucherList.transferNo') }}
+              </template>
+
               <validation-provider
                 #default="{ errors }"
                 name="transferNo"
               >
                 <v-select
                   label="transferNo"
-                  v-model="showData.transferNo_id"
+                  v-model="showData.transfer_order_no"
                   :options="transferNoOption"
-                  :placeholder="$t('QuotationVoucherList.transferNo')"
+                  :placeholder="$t('QuotationVoucherModal.selectTransferNo')"
                   :reduce="option => option.id"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
 
-      
-
-            <!-- 業務人員 -->
+            <!-- 客戶 -->
             <b-form-group
-              :label="$t('QuotationVoucherList.businessPeople')"
-              label-for="businessPeople"
+              label-for="customer"
               class="col-12 col-sm-4"
             >
+              <template #label>
+                {{ $t('QuotationVoucherList.customer') }}
+                <span class="text-danger">*</span>
+              </template>
+
               <validation-provider
                 #default="{ errors }"
-                name="businessPeople"
+                name="manufacturer"
+                rules="required"
               >
                 <v-select
-                  id="businessPeople"
+                  id="manufacturer"
+                  label="full_name"
+                  v-model="showData.customer_manufacturer_id"
+                  :options="manufacturerOption"
+                  :placeholder="$t('QuotationVoucherModal.selectCustomer')"
+                  :reduce="option => option.id"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+
+
+            <!-- 報價人員 -->
+            <b-form-group
+              label-for="quotationStaff"
+              class="col-12 col-sm-4"
+            >
+              <template #label>
+                {{ $t('QuotationVoucherList.quotationStaff') }}
+                <span class="text-danger">*</span>
+              </template>
+
+              <validation-provider
+                #default="{ errors }"
+                name="quotationStaff"
+              >
+                <v-select
+                  id="quotationStaff"
                   label="name"
-                  v-model="showData.businessPeople_id"
+                  v-model="showData.staff_id"
                   :options="staffOption"
-                  :placeholder="$t('QuotationVoucherModel.businessPeople')"
+                  :placeholder="$t('QuotationVoucherModal.selectQuotationStaff')"
                   :reduce="option => option.id"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
 
-            <!-- 部門 -->
+            <!-- 報價部門 -->
             <b-form-group
-              :label="$t('QuotationVoucherList.quotationdepartment')"
-              label-for="quotationdepartment"
+              label-for="quotationDepartment"
               class="col-12 col-sm-4"
             >
+              <template #label>
+                {{ $t('QuotationVoucherList.quotationDepartment') }}
+                <span class="text-danger">*</span>
+              </template>
+
               <validation-provider
                 #default="{ errors }"
-                name="quotationdepartment"
+                name="quotationDepartment"
               >
                 <v-select
-                  id="quotationdepartment"
+                  id="quotationDepartment"
                   label="name"
-                  v-model="showData.quotationDepartment_id"
-                  :options="quotationdepartmentOption"
-                  :placeholder="$t('QuotationVoucherModel.quotationdepartment')"
+                  v-model="showData.department_id"
+                  :options="quotationDepartmentOption"
+                  :placeholder="$t('QuotationVoucherModal.selectQuotationDepartment')"
                   :reduce="option => option.id"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
 
-             <!-- 有效日期 -->
-             <b-form-group
-              :label="$t('QuotationVoucherList.quotationEffectiveDate')"
-              label-for="quotationEffectiveDate"
+           <!-- 有效日期 -->
+           <b-form-group
+              label-for="effective_date"
               class="col-12 col-sm-4"
             >
+              <template #label>
+                {{ $t('QuotationVoucherList.effective_date') }}
+              </template>
+
               <validation-provider
                 #default="{ errors }"
                 name="effective_date"
-                rules="required"
               >
                 <flat-pickr
-                  id="quotationEffectiveDate"
+                  id="effective_date"
                   v-model="showData.effective_date"
+                  :placeholder="$t('QuotationVoucherList.effective_date')"
                   class="form-control"
-                  :placeholder="$t('QuotationVoucherList.quotationEffectiveDate')"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
 
              <!-- 失效日期 -->
-             <b-form-group
-              :label="$t('QuotationVoucherList.quotationExpirationDate')"
-              label-for="quotationExpirationDate"
+           <b-form-group
+              label-for="expiration_date"
               class="col-12 col-sm-4"
             >
+              <template #label>
+                {{ $t('QuotationVoucherList.expiration_date') }}
+              </template>
+
               <validation-provider
                 #default="{ errors }"
-                name="quotationExpirationDate"
+                name="expiration_date"
               >
                 <flat-pickr
-                  id="quotationExpirationDate"
+                  id="expiration_date"
                   v-model="showData.expiration_date"
+                  :placeholder="$t('QuotationVoucherList.expiration_date')"
                   class="form-control"
-                  :placeholder="$t('QuotationVoucherList.quotationExpirationDate')"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
 
 
+            <!-- 專案名稱 -->
+            <b-form-group
+              label-for="project"
+              class="col-12 col-sm-4"
+            >
+              <template #label>
+                {{ $t('QuotationVoucherList.project') }}
+              </template>
+
+              <validation-provider
+                #default="{ errors }"
+                name="project"
+              >
+                <v-select
+                  id="project"
+                  label="name"
+                  v-model="showData.project_id"
+                  :options="projectOption"
+                  :placeholder="$t('QuotationVoucherModal.selectProject')"
+                  :reduce="option => option.id"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+
+    
+
             <!-- 扣稅類別 -->
             <b-form-group
-              :label="$t('QuotationVoucherList.taxDeductionCategory')"
               label-for="taxDeductionCategory"
               class="col-12 col-sm-4"
             >
+              <template #label>
+                {{ $t('QuotationVoucherList.taxDeductionCategory') }}
+                <span class="text-danger">*</span>
+              </template>
+
               <validation-provider
                 #default="{ errors }"
                 name="taxDeductionCategory"
@@ -235,128 +260,102 @@
               </validation-provider>
             </b-form-group>
 
-
-
-             <!-- 專案編號 -->
-             <b-form-group
-              :label="$t('QuotationVoucherList.projectNo')"
-              label-for="projectNo"
+            <!-- 幣別 -->
+            <b-form-group
+              label-for="currency"
               class="col-12 col-sm-4"
             >
-              <validation-provider
-                #default="{ errors }"
-                name="projectNo"
-              >
-                <b-form-input
-                  id="projectNo"
-                  v-model="showData.project_id"
-                  type="text"
-                  :placeholder="$t('QuotationVoucherList.projectNo')"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
+              <template #label>
+                {{ $t('QuotationVoucherList.currency') }}
+                <span class="text-danger">*</span>
+              </template>
 
-              <!-- 專案名稱 -->
-              <b-form-group
-              :label="$t('QuotationVoucherList.project')"
-              label-for="project"
-              class="col-12 col-sm-4"
-            >
               <validation-provider
                 #default="{ errors }"
-                name="projectName"
+                name="currency"
                 rules="required"
               >
-                <b-form-input
-                  id="project"
-                  v-model="showData.project_naem"
-                  type="text"
-                  :placeholder="$t('QuotationVoucherList.project')"
+                <v-select
+                  id="currency"
+                  label="name"
+                  v-model="showData.currency_id"
+                  :options="currencyOption"
+                  :placeholder="$t('QuotationVoucherModal.selectCurrency')"
+                  :reduce="option => option.id"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
 
-            
+           
 
-            <!-- 客戶訂單 -->
+            <!-- 未稅金額 -->
             <b-form-group
-              :label="$t('QuotationVoucherList.customerReservation')"
-              label-for="customerReservation"
-              class="col-12 col-sm-4"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="order"
-              >
-                <b-form-input
-                  id="customerReservation"
-                  v-model="showData.customerReservation"
-                  type="text"
-                  :placeholder="$t('QuotationVoucherList.customerReservation')"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-
-            
-
-            <!-- 未稅本幣 -->
-            <b-form-group
-              :label="$t('QuotationVoucherList.untaxedLocalCurrency')"
               label-for="untaxedAmount"
               class="col-12 col-sm-4"
             >
+              <template #label>
+                {{ $t('ProcurementVoucherList.untaxedAmount') }}
+              </template>
+
               <validation-provider
                 #default="{ errors }"
-                name="untaxedLocalCurrency"
+                name="untaxedAmount"
               >
                 <b-form-input
-                  id="untaxedLocalCurrency"
-                  v-model="showData.untaxedlocalcurrency"
+                  id="untaxedAmount"
                   type="text"
-                  :placeholder="$t('QuotationVoucherList.untaxedLocalCurrency')"
+                  :placeholder="$t('ProcurementVoucherList.untaxedAmount')"
+                  disabled
+                  :value="getUntaxedAmount()"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
 
-            <!-- 本幣稅額 -->
+            <!-- 稅額 -->
             <b-form-group
-              :label="$t('QuotationVoucherList.localCurrencyTax')"
-              label-for="localCurrencyTax"
+              label-for="tax"
               class="col-12 col-sm-4"
             >
+              <template #label>
+                {{ $t('ProcurementVoucherList.tax') }}
+              </template>
+
               <validation-provider
                 #default="{ errors }"
-                name="localCurrencyTax"
+                name="tax"
               >
                 <b-form-input
-                  id="localCurrencyTax"
-                  v-model="showData.localcurrencytax"
+                  id="tax"
                   type="text"
-                  :placeholder="$t('QuotationVoucherList.localCurrencyTax')"
+                  :placeholder="$t('ProcurementVoucherList.tax')"
+                  disabled
+                  :value="getTaxAmount()"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
 
-            <!-- 本幣合計 -->
+            <!-- 合計 -->
             <b-form-group
-              :label="$t('QuotationVoucherList.totalLocalCurrency')"
-              label-for="totalLocalCurrency"
+              label-for="total"
               class="col-12 col-sm-4"
             >
+              <template #label>
+                {{ $t('ProcurementVoucherList.total') }}
+              </template>
+
               <validation-provider
                 #default="{ errors }"
-                name="totalLocalCurrency"
+                name="total"
               >
                 <b-form-input
-                  id="totalLocalCurrency"
-                  v-model="showData.totallocalcurrency"
+                  id="total"
                   type="text"
-                  :placeholder="$t('QuotationVoucherList.totalLocalCurrency')"
+                  :placeholder="$t('ProcurementVoucherList.total')"
+                  disabled
+                  :value="getTotalAmount()"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -364,10 +363,13 @@
 
             <!-- 備註 -->
             <b-form-group
-              :label="$t('remark')"
               label-for="remark"
               class="col-12"
             >
+              <template #label>
+                {{ $t('remark') }}
+              </template>
+
               <validation-provider
                 #default="{ errors }"
                 name="remark"
@@ -388,7 +390,7 @@
         <!-- 產品資料 -->
         <b-card
           v-if="showData"
-          :title="$t('QuotationVoucherModel.productInformation')"
+          :title="$t('QuotationVoucherModal.productInformation')"
         >
           <b-button
             variant="primary"
@@ -408,18 +410,17 @@
             <b-thead>
               <b-tr>
                 <b-th class="text-nowrap">#</b-th>
-                <b-th class="text-nowrap"> {{$t('QuotationVoucherList.ProductList.productNo') }} </b-th>
-                <b-th class="text-nowrap"> {{$t('QuotationVoucherList.ProductList.productName') }} </b-th>
-                <b-th class="text-nowrap"> {{$t('QuotationVoucherList.ProductList.specification') }} </b-th>
-                <b-th class="text-nowrap"> {{$t('QuotationVoucherList.ProductList.unit') }} </b-th>
-                <b-th class="text-nowrap"> {{$t('QuotationVoucherList.ProductList.storehouse') }} </b-th>
-                <b-th class="text-nowrap"> {{$t('QuotationVoucherList.ProductList.quantity') }} </b-th>
-                <b-th class="text-nowrap"> {{$t('QuotationVoucherList.ProductList.unitPrice') }} </b-th>
-                <b-th class="text-nowrap"> {{$t('QuotationVoucherList.ProductList.amount') }} </b-th>
-                <b-th class="text-nowrap"> {{$t('QuotationVoucherList.ProductList.numberOfTransfers') }} </b-th>
-                <b-th class="text-nowrap"> {{$t('QuotationVoucherList.ProductList.untransferredQuantity') }} </b-th>
-                <b-th class="text-nowrap"> {{$t('QuotationVoucherList.ProductList.productRemark') }} </b-th>
-                <b-th class="text-nowrap"> {{$t('QuotationVoucherList.ProductList.action') }} </b-th>
+                <b-th class="text-nowrap"> {{ $t('QuotationVoucherList.ProductList.productNo') }} </b-th>
+                <b-th class="text-nowrap"> {{ $t('QuotationVoucherList.ProductList.productName') }} </b-th>
+                <b-th class="text-nowrap"> {{ $t('QuotationVoucherList.ProductList.specification') }} </b-th>
+                <b-th class="text-nowrap"> {{ $t('QuotationVoucherList.ProductList.unit') }} </b-th>
+                <b-th class="text-nowrap"> {{ $t('QuotationVoucherList.ProductList.storehouse') }} </b-th>
+                <b-th class="text-nowrap"> {{ $t('QuotationVoucherList.ProductList.quantity') }} </b-th>
+                <b-th class="text-nowrap"> {{ $t('QuotationVoucherList.ProductList.unitPrice') }} </b-th>
+                <b-th class="text-nowrap"> {{ $t('QuotationVoucherList.ProductList.amount') }} </b-th>
+                <b-th class="text-nowrap"> {{ $t('QuotationVoucherList.ProductList.productPreDeliveryDate') }} </b-th>
+                <b-th class="text-nowrap"> {{ $t('QuotationVoucherList.ProductList.productRemark') }} </b-th>
+                <b-th class="text-nowrap"> {{ $t('QuotationVoucherList.ProductList.action') }} </b-th>
               </b-tr>
             </b-thead>
 
@@ -433,8 +434,8 @@
                 <!-- 品號 -->
                 <b-td>
                   <b-form-input
-                    v-model="item.code"
                     disabled
+                    :value="item.product_code || (item.product && item.product.code)"
                   />
                 </b-td>
                 <!-- 產品 -->
@@ -442,13 +443,13 @@
                   <v-select
                     :id="`product-` + index"
                     label="name"
-                    v-model="item.product_id"
                     :options="productOption"
-                    :placeholder="$t('QuotationVoucherModel.selectProductName')"
+                    :placeholder="$t('QuotationVoucherModal.selectProductName')"
                     :filterable="false"
-                    style="width: 300px;"
+                    style="width: 200px;"
                     @search="onSearchProduct"
                     @input="val => selectProduct(val, item)"
+                    :value="(item.product && item.product.name)"
                   >
                     <template slot="no-options">
                       輸入關鍵字搜索 產品資料...
@@ -458,15 +459,15 @@
                 <!-- 規格 -->
                 <b-td>
                   <b-form-input
-                    v-model="item.sku"
                     disabled
+                    :value="item.product_sku || (item.product && item.product.sku)"
                   />
                 </b-td>
                 <!-- 單位 -->
                 <b-td>
                   <b-form-input
-                    v-model="item.unit"
                     disabled
+                    :value="item.product_unit || (item.product && item.product.unit)"
                   />
                 </b-td>
                 <!-- 倉庫 -->
@@ -476,10 +477,10 @@
                     label="name"
                     v-model="item.storehouse_id"
                     :options="storehouseOption"
-                    :placeholder="$t('QuotationVoucherModel.selectStorehouse')"
+                    :placeholder="$t('QuotationVoucherModal.selectStorehouse')"
                     :reduce="option => option.id"
                     class="text-nowrap"
-                    style="width: 120px;"
+                    style="width: 130px;"
                   />
                 </b-td>
                 <!-- 數量 -->
@@ -518,27 +519,23 @@
                 <b-td>
                   <b-form-input
                     type="number"
-                    v-model="item.amount"
                     min="0"
+                    disabled
+                    :value="parseFloat(item.quantity * item.price).toFixed(2)"
                   />
                 </b-td>
-                <!-- 已轉數量 -->
+                <!-- 預交日期 -->
                 <b-td>
-                  <b-form-input
-                   v-model="item.numberOfTransfers"   
-                  disabled />
-                </b-td>
-                <!-- 未轉數量 -->
-                <b-td>
-                  <b-form-input 
-                  v-model="item.untransferredQuantity" 
-                  disabled
+                  <flat-pickr
+                    v-model="item.delivery_date"
+                    class="form-control"
                   />
                 </b-td>
                 <!-- 備註 -->
                 <b-td>
                   <b-form-input v-model="item.remark" />
                 </b-td>
+                <!-- 操作 -->
                 <b-td>
                   <b-button
                     class="ml-50"
@@ -554,9 +551,9 @@
                 </b-td>
               </b-tr>
             </b-tbody>
-       
           </b-table-simple>
         </b-card>
+
         <!-- 操作按鈕 -->
         <div class="d-sm-flex align-items-center justify-content-center">
           <b-button
@@ -609,7 +606,6 @@ import ToastificationContent from '@core/components/toastification/Toastificatio
 import axios from "@axios"
 
 export default {
-
   components: {
     ValidationProvider,
     ValidationObserver,
@@ -640,19 +636,21 @@ export default {
     VueGoodTable,
   },
   setup(_, { root, refs }) {
+    const API_PATH = 'quotation-orders'
+
     const showData = ref(null)
 
     // 讀取
-    if (root.$route.query.id) {
-      axios.get(`/requisitions-orders/${root.$route.query.id}`)
+    if (root.$route.name === 'OrderRoutine-QuotationVoucherCreate') {
+      showData.value = {
+        items: [],
+      }
+    } else {
+      axios.get(`/${API_PATH}/${root.$route.params.id}`)
         .then(response => {
           const data = response.data
           showData.value = JSON.parse(JSON.stringify(data))
         })
-    } else {
-      showData.value = {
-        items: [],
-      }
     }
 
     // 驗證表單
@@ -663,16 +661,16 @@ export default {
 
           if (showData.value.id) {
             axios
-              .put(`/requisitions-orders/${showData.value.id}`, showData.value)
+              .put(`/${API_PATH}/${showData.value.id}`, showData.value)
               .then(() => {
-                this.$toast({
+                root.$toast({
                   component: ToastificationContent,
                   position: 'top-right',
                   props: {
-                    title: `${this.$t('updatedSuccess')}`,
+                    title: `${root.$t('updatedSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${root.$t('Procurement Voucher')} ${root.$t('updatedSuccess')}!`,
+                    text: `${root.$t('Quotation Voucher')} ${root.$t('updatedSuccess')}!`,
                   },
                 })
                 root.$router.push({ name: 'OrderRoutine-QuotationVoucherList' });
@@ -689,22 +687,21 @@ export default {
                   },
                 })
               })
-
           } else {
             axios
-              .post('requisitions-orders', showData.value)
+              .post(`${API_PATH}`, showData.value)
               .then(() => {
-                this.$toast({
+                root.$toast({
                   component: ToastificationContent,
                   position: 'top-right',
                   props: {
                     title: `${root.$t('createdSuccess')}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${root.$t('Procurement Voucher')} ${root.$t('createdSuccess')}!`,
+                    text: `${root.$t('Quotation Voucher')} ${root.$t('createdSuccess')}!`,
                   },
                 })
-                root.$router.push({ name: 'OrderRoutine-QuotationVoucherList' });
+                root.$router.push({ name: 'QuotationOperation-QuotationVoucherList' });
               })
               .catch(error => {
                 root.$toast({
@@ -766,10 +763,10 @@ export default {
       })
 
     // 部門
-    const quotationdepartmentOption = ref([])
+    const quotationDepartmentOption = ref([])
     axios.post('/departments/options')
       .then(response => {
-        quotationdepartmentOption.value = response.data
+        quotationDepartmentOption.value = response.data
       })
 
     // 人員
@@ -780,10 +777,10 @@ export default {
       })
 
     // 客戶廠商
-    const customerOption = ref([])
+    const manufacturerOption = ref([])
     axios.post('/customer-manufacturers/options')
       .then(response => {
-        customerOption.value = response.data
+        manufacturerOption.value = response.data
       })
 
     // 倉庫
@@ -810,10 +807,87 @@ export default {
     // 選擇產品
     const selectProduct = (select, item) => {
       if (select) {
-        root.$set(item, 'id', select.id);
-        root.$set(item, 'code', select.code);
-        root.$set(item, 'sku', select.sku);
-        root.$set(item, 'unit', select.unit);
+        root.$set(item, 'product_id', select.id);
+        root.$set(item, 'product_code', select.code);
+        root.$set(item, 'product_sku', select.sku);
+        root.$set(item, 'product_unit', select.unit);
+        root.$set(item, 'quantity', 1);
+        root.$set(item, 'price', select.price);
+      }
+    }
+
+    // 未稅金額
+    const getUntaxedAmount = () => {
+      if (!showData.value) return 0
+
+      const items = showData.value.items
+
+      if (items.length === 0) return 0
+
+      const total = items.reduce((s, original) => s + (parseFloat(original.quantity || 0) * parseFloat(original.price || 0)), 0)
+
+      switch (showData.value.tax_type) {
+        // 不計稅
+        case 'taxFree':
+          return Math.round(total);
+        // 內含稅
+        case 'taxableIncluded':
+          return Math.round(total / 1.05);
+        // 稅金外加
+        case 'taxablePlus':
+          return Math.round(total);
+        default:
+          return 0
+      }
+    }
+
+    // 稅金
+    const getTaxAmount = () => {
+      if (!showData.value) return 0
+
+      const items = showData.value.items
+
+      if (items.length === 0) return 0
+
+      const total = items.reduce((s, original) => s + (parseFloat(original.quantity || 0) * parseFloat(original.price || 0)), 0)
+
+      switch (showData.value.tax_type) {
+        // 不計稅
+        case 'taxFree':
+          return 0;
+        // 內含稅
+        case 'taxableIncluded':
+          return Math.round(total - getUntaxedAmount());
+        // 稅金外加
+        case 'taxablePlus':
+          return Math.round(total * 0.05);
+        default:
+          return 0
+      }
+    }
+
+    // 合計
+    const getTotalAmount = () => {
+      if (!showData.value) return 0
+
+      const items = showData.value.items
+
+      if (items.length === 0) return 0
+
+      const total = items.reduce((s, original) => s + (parseFloat(original.quantity || 0) * parseFloat(original.price || 0)), 0)
+
+      switch (showData.value.tax_type) {
+        // 不計稅
+        case 'taxFree':
+          return Math.round(total);
+        // 內含稅
+        case 'taxableIncluded':
+          return Math.round(total);
+        // 稅金外加
+        case 'taxablePlus':
+          return Math.round(total * 1.05);
+        default:
+          return 0
       }
     }
 
@@ -828,14 +902,19 @@ export default {
       transferNoOption,
       currencyOption,
       projectOption,
-      quotationdepartmentOption,
+      quotationDepartmentOption,
       staffOption,
-      customerOption,
+      manufacturerOption,
       storehouseOption,
       productOption,
 
       onSearchProduct,
       selectProduct,
+
+      // 計算
+      getUntaxedAmount,
+      getTaxAmount,
+      getTotalAmount,
 
       // 驗證
       required,

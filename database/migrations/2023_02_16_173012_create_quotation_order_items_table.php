@@ -13,16 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('requisitions_order_items', function (Blueprint $table) {
+        Schema::create('quotation_order_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('requisitions_orders_id')->comment('關聯所屬訂購訂單');
+            $table->unsignedBigInteger('quotation_order_id')->comment('關聯所屬報價訂單');
             $table->unsignedBigInteger('product_id')->comment('關聯所屬商品');
             $table->unsignedBigInteger('storehouse_id')->comment('關聯所屬倉庫');
             $table->integer('quantity')->comment('數量');
             $table->float('price')->comment('單價');
-            $table->float('discount_amount')->nullable()->comment('折扣');
-            $table->float('tax_excluding_amount')->comment('未稅金額');
-            $table->float('tax_amount')->comment('稅金');
             $table->float('amount')->comment('金額');
             $table->timestamp('delivery_date')->useCurrent()->comment('預交日期');
             $table->string('remark')->nullable()->comment('備註');
@@ -39,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('requisitions_order_items');
+        Schema::dropIfExists('quotation_order_items');
     }
 };

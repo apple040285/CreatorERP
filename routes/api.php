@@ -118,9 +118,9 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
     // 銷貨退回憑單
     Route::apiResource('/sales-return-orders', Controllers\SalesReturnOrderController::class);
 
-    /** @var 請購作業 */
-    //請購頻單
-    Route::apiResource('/requisitions-orders', Controllers\RequisitionsOrderController::class);
+    /** @var 訂購作業 */
+    //報價頻單
+    Route::apiResource('/quotation-orders', Controllers\QuotationOrderController::class);
     //訂購頻單
     // Route::apiResource('/sales-return-orders', Controllers\SalesReturnOrderController::class);
 

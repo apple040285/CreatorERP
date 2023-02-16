@@ -2,7 +2,7 @@ export default [
     {
         path: '/OrderRoutine/QuotationVoucherList',
         name: 'OrderRoutine-QuotationVoucherList',
-        component: () => import('@/views/order-routine/QuotationVoucher/List.vue'),
+        component: () => import('@/views/order-routine/QuotationVoucher/QuotationVoucherList.vue'),
         meta: {
             pageTitle: 'Quotation Voucher',
             breadcrumb: [
@@ -14,7 +14,7 @@ export default [
     {
         path: '/OrderRoutine/QuotationVoucherEdit',
         name: 'OrderRoutine-QuotationVoucherEdit',
-        component: () => import('@/views/order-routine/QuotationVoucher/CrudEdit.vue'),
+        component: () => import('@/views/order-routine/QuotationVoucher/QuotationVoucherEdit.vue'),
         meta: {
             pageTitle: 'Quotation Voucher',
             navActiveLink: 'OrderRoutine-QuotationVoucherList',
@@ -29,7 +29,7 @@ export default [
     {
         path: '/OrderRoutine/QuotationVoucherCreate',
         name: 'OrderRoutine-QuotationVoucherCreate',
-        component: () => import('@/views/order-routine/QuotationVoucher/CrudEdit.vue'),
+        component: () => import('@/views/order-routine/QuotationVoucher/QuotationVoucherEdit.vue'),
         meta: {
             pageTitle: 'Quotation Voucher',
             navActiveLink: 'OrderRoutine-QuotationVoucherList',
@@ -41,21 +41,6 @@ export default [
             ],
         },
     },
-    {
-        path: '/OrderRoutine/QuotationVoucherDetail',
-        name: 'OrderRoutine-QuotationVoucherDetail',
-        component: () => import('@/views/order-routine/QuotationVoucher/Detail.vue'),
-        meta: {
-            pageTitle: 'Quotation Voucher',
-            navActiveLink: 'OrderRoutine-QuotationVoucherList',
-            breadcrumb: [
-                { text: 'Order Routine' },
-                { text: 'Quotation Voucher', to: { name: 'OrderRoutine-QuotationVoucherList' } },
-                { text: 'detail', active: true },
-            ],
-        },
-    },
-
     {
         path: '/OrderRoutine/OrderVoucherList',
         name: 'OrderRoutine-OrderVoucherList',
