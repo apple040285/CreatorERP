@@ -520,16 +520,7 @@
                 </b-td>
               </b-tr>
             </b-tbody>
-            <!-- <b-tfoot>
-          <b-tr>
-            <b-td
-              colspan="7"
-              class="text-right"
-            >
-              Total Rows: <b>5</b>
-            </b-td>
-          </b-tr>
-        </b-tfoot> -->
+        
           </b-table-simple>
         </b-card>
         <!-- 操作按鈕 -->

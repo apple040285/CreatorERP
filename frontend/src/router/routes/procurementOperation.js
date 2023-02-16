@@ -65,10 +65,11 @@ export default [
             ],
         },
     },
+    //採購
     {
         path: '/ProcurementOperation/ProcurementVoucherList',
         name: 'ProcurementOperation-ProcurementVoucherList',
-        component: () => import('@/views/procurement-operation/procurement-voucher/List.vue'),
+        component: () => import('@/views/procurement-operation/procurement-voucher/ProcurementVoucherList.vue'),
         meta: {
             pageTitle: 'Procurement Voucher',
             breadcrumb: [
@@ -80,7 +81,7 @@ export default [
     {
         path: '/ProcurementOperation/ProcurementVoucherCreate',
         name: 'ProcurementOperation-ProcurementVoucherCreate',
-        component: () => import('@/views/procurement-operation/procurement-voucher/Crud.vue'),
+        component: () => import('@/views/procurement-operation/procurement-voucher/ProcurementVoucherEdit.vue'),
         meta: {
             pageTitle: 'Procurement Voucher',
             navActiveLink: 'ProcurementOperation-ProcurementVoucherList',
@@ -94,7 +95,7 @@ export default [
     {
         path: '/ProcurementOperation/ProcurementVoucherEdit',
         name: 'ProcurementOperation-ProcurementVoucherEdit',
-        component: () => import('@/views/procurement-operation/procurement-voucher/Crud.vue'),
+        component: () => import('@/views/procurement-operation/procurement-voucher/ProcurementVoucherEdit.vue'),
         meta: {
             pageTitle: 'Procurement Voucher',
             navActiveLink: 'ProcurementOperation-ProcurementVoucherList',
@@ -102,20 +103,6 @@ export default [
                 { text: 'Procurement Operation' },
                 { text: 'Procurement Voucher', to: { name: 'ProcurementOperation-ProcurementVoucherList' } },
                 { text: 'edit', active: true },
-            ],
-        },
-    },
-    {
-        path: '/ProcurementOperation/ProcurementVoucherDetail',
-        name: 'ProcurementOperation-ProcurementVoucherDetail',
-        component: () => import('@/views/procurement-operation/procurement-voucher/Detail.vue'),
-        meta: {
-            pageTitle: 'Procurement Voucher',
-            navActiveLink: 'ProcurementOperation-ProcurementVoucherList',
-            breadcrumb: [
-                { text: 'Procurement Operation' },
-                { text: 'Procurement Voucher', to: { name: 'ProcurementOperation-ProcurementVoucherList' } },
-                { text: 'detail', active: true },
             ],
         },
     },

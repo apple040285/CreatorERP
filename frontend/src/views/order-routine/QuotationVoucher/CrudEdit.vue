@@ -114,7 +114,7 @@
                   label="transferNo"
                   v-model="showData.transferNo_id"
                   :options="transferNoOption"
-                  :placeholder="$t('QuotationVoucherModel.selectTransferNo')"
+                  :placeholder="$t('QuotationVoucherList.transferNo')"
                   :reduce="option => option.id"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>

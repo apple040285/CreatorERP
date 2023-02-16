@@ -42,37 +42,53 @@ class RequisitionsOrderController extends Controller
     //新增
     public function store(Request $request)
     {
-        // $this->authorize('customer_manufacturers.add');
+        $attributes = $request->validate(
+            [
+                'quotation_date'                        => 'required',
+                'quotation_order_no'                    => 'required',
+                'customer_id'                           => 'required',
+                'transferNo_id'                         => 'nullable',
+                'businessPeople_id'                     => 'nullable',
+                'quotationDepartment_id'                => 'nullable',
+                'currency_id'                           => 'required',
+                'effective_date'                        => 'required',
+                'expiration_date'                       => 'required',
+                'tax_type'                              => 'nullable',
+                'project_naem'                          => 'nullable',
+                'customerReservation'                   => 'nullable',
+                'project_id'                            => 'nullable',
+                'untaxedlocalcurrency'                  => 'required',
+                'localcurrencytax'                      => 'required',
+                'totallocalcurrency'                    => 'required',
+                'status'                                => 'nullable',
+                'status_approval'                       => 'nullable',
+                'remark'                                => 'nullable',
+                //
+                'items'                                 => 'required|array',
+                'items.*.product_id'                    => 'required',
+                'items.*.storehouse_id'                 => 'required',
+                'items.*.quantity'                      => 'required',
+                'items.*.price'                         => 'required',
+                'items.*.tax_excluding_amount'          => 'nullable',
+                'items.*.tax_amount'                    => 'nullable',
+                'items.*.amount'                        => 'required',
+                'items.*.delivery_date'                 => 'nullable',
+                'items.*.remark'                        => 'nullable',
+            ],
+            [],
+            [
+                'staff_id'                  => '訂購人員',
+                'department_id'             => '訂購部門',
+                'currency_id'               => '幣別',
+                'delivery_date'             => '預交日期',
+                'tax_type'                  => '扣稅類別',
+                'account_setting_method'    => '立帳方式',
+                'tax_excluding_amount'      => '未稅金額',
+                'tax_amount'                => '稅金',
+                'total_amount'              => '合計',
 
-        $attributes = $request->validate([
-            'quotation_date'                        => 'required',
-            'quotation_order_no'                    => 'required',
-            'customer_id'                           => 'required',
-            'transferNo_id'                         => 'nullable',
-            'businessPeople_id'                     => 'nullable',
-            'quotationDepartment_id'                => 'nullable',
-            'currency_id'                           => 'required',
-            'effective_date'                        => 'required',
-            'expiration_date'                       => 'required',
-            'tax_type'                              => 'nullable',
-            'project_naem'                          => 'nullable',
-            'customerReservation'                   => 'nullable',
-            'project_id'                            => 'nullable',
-            'untaxedlocalcurrency'                  => 'required',
-            'localcurrencytax'                      => 'required',
-            'totallocalcurrency'                    => 'required',
-            'status'                                => 'nullable',
-            'status_approval'                       => 'nullable',
-            'remark'                                => 'nullable',
-            //
-            'items'                                 => 'required|array',
-            'items.*.product_id'                    => 'required',
-            'items.*.storehouse_id'                 => 'required',
-            'items.*.quantity'                      => 'required',
-            'items.*.price'                         => 'required',
-            'items.*.amount'                        => 'required',
-            'items.*.remark'                        => 'nullable',
-        ]);
+            ]
+        );
 
         try {
             DB::beginTransaction();
@@ -82,7 +98,7 @@ class RequisitionsOrderController extends Controller
                 'quotation_order_no'        => date('YmdHis'),
                 'customer_id'               => $attributes['customer_id'],
                 'businessPeople_id'         => $attributes['businessPeople_id'],
-                'transferNo_id'             => $attributes['transferNo_id'],
+                'transferNo_id'             => $attributes['transferNo_id'] ?? '',
                 'quotationDepartment_id'    => $attributes['quotationDepartment_id'],
                 'currency_id'               => $attributes['currency_id'],
                 'effective_date'            => $attributes['effective_date'],
@@ -94,43 +110,37 @@ class RequisitionsOrderController extends Controller
                 'untaxedlocalcurrency'      => $attributes['untaxedlocalcurrency'] ?? null,
                 'localcurrencytax'          => $attributes['localcurrencytax'] ?? null,
                 'totallocalcurrency'        => $attributes['totallocalcurrency'],
-                'status'                    => $attributes['status'],
-                'status_approval'           => $attributes['status_approval'],
+                'status'                    => $attributes['status'] ?? '',
+                'status_approval'           => $attributes['status_approval'] ?? '',
                 'remark'                    => $attributes['remark'] ?? null,
             ]);
+
+
 
             if (isset($attributes['items'])) {
-                proccesRelationWithRequest($record->items(), $attributes['items']);
-            }
+                $mapItems = collect($attributes['items'])->map(function ($item) {
+                    return [
+                        'product_id'                    => $item['product_id'],
+                        'storehouse_id'                 => $item['storehouse_id'],
+                        'quantity'                      => $item['quantity'],
+                        'price'                         => $item['price'],
+                        'tax_excluding_amount'          => $item['tax_excluding_amount'] ?? 0,
+                        'tax_amount'                    => $item['tax_amount'] ?? 0,
+                        'amount'                        => $item['amount'],
+                        'delivery_date'                 => $item['delivery_date'] ?? now(),
+                        'remark'                        => $item['remark'] ?? null,
+                    ];
+                });
 
-            $record = RequisitionsOrderItem::create([
-                'quotation_date'            => $attributes['quotation_date'],
-                'quotation_order_no'        => date('YmdHis'),
-                'customer_id'               => $attributes['customer_id'],
-                'businessPeople_id'         => $attributes['businessPeople_id'],
-                'transferNo_id'             => $attributes['transferNo_id'],
-                'quotationDepartment_id'    => $attributes['quotationDepartment_id'],
-                'currency_id'               => $attributes['currency_id'],
-                'effective_date'            => $attributes['effective_date'],
-                'expiration_date'           => $attributes['expiration_date'],
-                'tax_type'                  => $attributes['tax_type'],
-                'customerReservation'       => $attributes['customerReservation'],
-                'project_naem'              => $attributes['project_naem'] ?? null,
-                'project_id'                => $attributes['project_id'] ?? null,
-                'untaxedlocalcurrency'      => $attributes['untaxedlocalcurrency'] ?? null,
-                'localcurrencytax'          => $attributes['localcurrencytax'] ?? null,
-                'totallocalcurrency'        => $attributes['totallocalcurrency'],
-                'status'                    => $attributes['status'],
-                'status_approval'           => $attributes['status_approval'],
-                'remark'                    => $attributes['remark'] ?? null,
-            ]);
+                proccesRelationWithRequest($record->items(), $mapItems->toArray());
+            }
 
             DB::commit();
             return $this->created($record);
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest($e->getMessage());
         }
     }
 
@@ -253,7 +263,7 @@ class RequisitionsOrderController extends Controller
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest('請聯絡管理員ABC');
         }
     }
 
