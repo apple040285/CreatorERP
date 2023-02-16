@@ -701,7 +701,7 @@ export default {
                     text: `${root.$t('Quotation Voucher')} ${root.$t('createdSuccess')}!`,
                   },
                 })
-                root.$router.push({ name: 'QuotationOperation-QuotationVoucherList' });
+                root.$router.push({ name: 'OrderRoutine-QuotationVoucherList' });
               })
               .catch(error => {
                 root.$toast({
