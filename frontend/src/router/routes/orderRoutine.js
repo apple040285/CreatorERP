@@ -62,10 +62,10 @@ export default [
         component: () => import('@/views/order-routine/SubscriberVoucher/SubscriberVoucherEdit.vue'),
         meta: {
             pageTitle: 'Subscriber Voucher',
-            navActiveLink: 'OrderRoutine-SubscriberList',
+            navActiveLink: 'OrderRoutine-SubscriberVoucherList',
             breadcrumb: [
                 { text: 'Order Routine' },
-                { text: 'Subscriber Voucher', to: { name: 'OrderRoutine-SubscriberList' } },
+                { text: 'Subscriber Voucher', to: { name: 'OrderRoutine-SubscriberVoucherList' } },
                 { text: 'create', active: true },
 
             ],
@@ -78,10 +78,10 @@ export default [
         component: () => import('@/views/order-routine/SubscriberVoucher/SubscriberVoucherEdit.vue'),
         meta: {
             pageTitle: 'Subscriber Voucher',
-            navActiveLink: 'OrderRoutine-SubscriberList',
+            navActiveLink: 'OrderRoutine-SubscriberVoucherList',
             breadcrumb: [
                 { text: 'Order Routine' },
-                { text: 'Subscriber Voucher', to: { name: 'OrderRoutine-SubscriberList' } },
+                { text: 'Subscriber Voucher', to: { name: 'OrderRoutine-SubscriberVoucherList' } },
                 { text: 'edit', active: true },
 
             ],

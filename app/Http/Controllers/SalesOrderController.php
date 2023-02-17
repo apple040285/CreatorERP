@@ -79,7 +79,7 @@ class SalesOrderController extends Controller
             DB::beginTransaction();
 
             // 獲得訂單編號
-            $prefix = 'PC' . date("Ymd");
+            $prefix = 'SA' . date("Ymd");
 
             // 獲得相似的訂單編號
             $orderByNoIds = SalesOrder::where('sales_order_no', 'like', "$prefix%")->pluck('sales_order_no');
