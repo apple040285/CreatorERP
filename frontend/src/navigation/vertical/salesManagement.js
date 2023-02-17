@@ -13,8 +13,8 @@ export default [
         action: 'sales_order.read',
       },
       {
-        title: 'Order Voucher',
-        route: 'OrderRoutine-OrderVoucherList',
+        title: 'Subscriber Voucher',
+        route: 'OrderRoutine-SubscriberVoucherList',
         action: 'sales_order.read',
       },
     ],

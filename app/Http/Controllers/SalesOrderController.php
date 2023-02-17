@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\SalesOrderType;
-use App\Exports\SalesOrdersExport;
-use App\Models\PurchaseOrder;
 use App\Models\SalesOrder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
 
 class SalesOrderController extends Controller
 {
@@ -22,38 +18,16 @@ class SalesOrderController extends Controller
     {
         $this->authorize('customer_manufacturers.read');
 
-        /** @var \Illuminate\Database\Eloquent\Collection $data */
-        $data = SalesOrder::search(
-            $request->input('searchTerm'),
-            fn ($query) => $query
-                ->when($request->has('columnFilters'), function ($query) use ($request) {
-                    foreach ($request['columnFilters'] as $field => $value) {
-                        if (empty($value)) continue;
-                        if (str($value)->contains(' to ') && $split = str($value)->split('/ to /')) {
-                            if (count($split) !== 2) continue;
-                            $query
-                                ->whereDate('sales_date', '>=', $split[0])
-                                ->whereDate('sales_date', '<=', $split[1]);
-                        } else {
-                            if (timeCheck($value))
-                                $query->whereDate($field, $value);
-                            else
-                                $query->where($field, $value);
-                        }
-                    }
-                })
-                ->when($request->has('sort'), function ($query) use ($request) {
-                    foreach ($request['sort'] as $sort) {
-                        if (isset($sort['field']) && isset($sort['type'])) {
-                            $query->orderBy($sort['field'], $sort['type']);
-                        }
-                    }
-                })
-                ->where('type', SalesOrderType::銷貨)
-                ->latest()
-        )->paginate($request->input('perPage'));
-
-        $data->load('customer_manufacturer', 'staff', 'creator', 'editor');
+        $data = tap(
+            SalesOrder::search($request->input('searchTerm'))->paginate($request->input('perPage')),
+            function ($paginatedInstance) use ($request) {
+                $sortCollection = $paginatedInstance->sortBy([
+                    $request->collect('sort')->map(fn ($m) => [$m['field'], $m['type']])[0]
+                ]);
+                $sortCollection->load('customer_manufacturer', 'staff', 'project', 'items', 'creator', 'editor');
+                return $paginatedInstance->setCollection($sortCollection);
+            }
+        );
 
         return $this->success($data);
     }
@@ -68,63 +42,118 @@ class SalesOrderController extends Controller
     {
         // $this->authorize('customer_manufacturers.add');
 
-        $attributes = $request->validate([
-            'purchase_date'                         => 'required',
-            'customer_manufacturer_id'              => 'required',
-            'staff_id'                              => 'required',
-            'department_id'                         => 'required',
-            'currency_id'                           => 'required',
-            'delivery_date'                         => 'required',
-            'tax_type'                              => 'required',
-            'account_setting_method'                => 'required',
-            'project_id'                            => 'nullable',
-            'deposit_amount'                        => 'nullable',
-            'discount_amount'                       => 'nullable',
-            'tax_excluding_amount'                  => 'required',
-            'tax_amount'                            => 'required',
-            'total_amount'                          => 'required',
-            'status'                                => 'required',
-            'status_approval'                       => 'required',
-            'remark'                                => 'nullable',
-            //
-            'items'                                 => 'required|array',
-            'items.*.product_id'                    => 'required',
-            'items.*.storehouse_id'                 => 'required',
-            'items.*.quantity'                      => 'required',
-            'items.*.price'                         => 'required',
-            'items.*.tax_excluding_amount'          => 'required',
-            'items.*.tax_amount'                    => 'required',
-            'items.*.amount'                        => 'required',
-            'items.*.delivery_date'                 => 'required',
-            'items.*.remark'                        => 'nullable',
-        ]);
+        $attributes = $request->validate(
+            [
+                'sales_date'                            => 'required',          // 銷貨日期
+                'customer_manufacturer_id'              => 'required',          // 客戶廠商
+                'staff_id'                              => 'required',          // 員工職員
+                'department_id'                         => 'required',          // 部門
+                'project_id'                            => 'nullable',          // 專案
+                'invoice_no'                            => 'nullable',          // 發票號碼
+                'voucher_no'                            => 'nullable',          // 傳票號碼
+                'billing_type'                          => 'required',          // 立帳方式
+                'tax_type'                              => 'required',          // 扣稅類別
+                'currency_id'                           => 'required',          // 幣別
+                'remark'                                => 'nullable',          // 備註
+                //
+                'items'                                 => 'required|array',
+                'items.*.product_id'                    => 'required',
+                'items.*.storehouse_id'                 => 'required',
+                'items.*.quantity'                      => 'required',
+                'items.*.price'                         => 'required',
+                'items.*.delivery_date'                 => 'required',
+                'items.*.remark'                        => 'nullable',
+            ],
+            [],
+            [
+                'staff_id'                  => '銷貨人員',
+                'department_id'             => '銷貨部門',
+                'currency_id'               => '幣別',
+                'billing_type'              => '立帳方式',
+                'tax_type'                  => '扣稅類別',
+                'items'                     => '產品資訊',
+            ]
+        );
 
         try {
             DB::beginTransaction();
 
+            // 獲得訂單編號
+            $prefix = 'PC' . date("Ymd");
+
+            // 獲得相似的訂單編號
+            $orderByNoIds = SalesOrder::where('sales_order_no', 'like', "$prefix%")->pluck('sales_order_no');
+
+            // 獲得訂單編號最大值
+            $currentMaxValue = $orderByNoIds->map(fn ($str) => intval(str_replace($prefix, '', $str)))->max() + 1;
+
+            // 獲得訂單編號自動補四位數 0
+            $currentOrderNo = $prefix . str($currentMaxValue)->padLeft(4, '0');
+
+            // 項目小計計算
+            $subtotal = collect($attributes['items'])->reduce(function ($carry, $item) {
+                return $carry + ($item['quantity'] * $item['price']);
+            }, 0);
+
+            // 立帳方式
+            switch ($attributes['tax_type']) {
+                case 'taxFree':
+                    // 不計稅
+                    $tax_excluding_amount = round($subtotal);
+                    $tax_amount = 0;
+                    $total_amount = round($subtotal);
+                    break;
+                case 'taxableIncluded':
+                    // 內含稅
+                    $tax_excluding_amount = round($subtotal / 1.05);
+                    $tax_amount = $subtotal - $tax_excluding_amount;
+                    $total_amount = round($subtotal);
+                    break;
+                case 'taxablePlus':
+                    // 稅金外加
+                    $tax_excluding_amount = round($subtotal);
+                    $tax_amount = round($subtotal * 0.05);
+                    $total_amount = round($subtotal * 1.05);
+                    break;
+                default:
+                    throw new \Exception('立帳方式類型不存在.');
+            }
+            // 寫入訂單
             $record = SalesOrder::create([
-                'purchase_date'             => $attributes['purchase_date'],
-                'purchase_order_no'         => date('YmdHis'),
+                'sales_date'          => $attributes['sales_date'],
+                'sales_order_no'      => $currentOrderNo,
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
                 'staff_id'                  => $attributes['staff_id'],
                 'department_id'             => $attributes['department_id'],
                 'currency_id'               => $attributes['currency_id'],
-                'delivery_date'             => $attributes['delivery_date'],
+                'invoice_no'                => $attributes['invoice_no'],
+                'voucher_no'                => $attributes['voucher_no'],
+                'billing_type'              => $attributes['billing_type'],
                 'tax_type'                  => $attributes['tax_type'],
-                'account_setting_method'    => $attributes['account_setting_method'],
                 'project_id'                => $attributes['project_id'] ?? null,
-                'deposit_amount'            => $attributes['deposit_amount'] ?? null,
-                'discount_amount'           => $attributes['discount_amount'] ?? null,
-                'tax_excluding_amount'      => $attributes['tax_excluding_amount'],
-                'tax_amount'                => $attributes['tax_amount'],
-                'total_amount'              => $attributes['total_amount'],
-                'status'                    => $attributes['status'],
-                'status_approval'           => $attributes['status_approval'],
+                'tax_excluding_amount'      => $tax_excluding_amount,
+                'tax_amount'                => $tax_amount,
+                'total_amount'              => $total_amount,
+                'status'                    => $attributes['status'] ?? '',
+                'status_approval'           => $attributes['status_approval'] ?? '',
                 'remark'                    => $attributes['remark'] ?? null,
             ]);
 
+            // 寫入訂單項目
             if (isset($attributes['items'])) {
-                proccesRelationWithRequest($record->items(), $attributes['items']);
+                $mapItems = collect($attributes['items'])->map(function ($item) {
+                    return [
+                        'product_id'                    => $item['product_id'],
+                        'storehouse_id'                 => $item['storehouse_id'],
+                        'quantity'                      => $item['quantity'],
+                        'price'                         => $item['price'],
+                        'amount'                        => $item['quantity'] * $item['price'],
+                        'delivery_date'                 => $item['delivery_date'],
+                        'remark'                        => $item['remark'] ?? null,
+                    ];
+                });
+
+                $this->proccesRelationWithRequest($record->items(), $mapItems->toArray());
             }
 
             DB::commit();
@@ -132,7 +161,7 @@ class SalesOrderController extends Controller
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest($e->getMessage() ?: '請聯絡管理員');
         }
     }
 
@@ -149,14 +178,14 @@ class SalesOrderController extends Controller
         try {
             $data = SalesOrder::findOrFail($id);
 
-            $data->load('customer_manufacturer', 'items.product', 'items.storehouse', 'creator', 'editor');
+            $data->load('items.product');
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
             return $this->notFound('找無此資料');
         } catch (\Exception $e) {
             report($e);
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest($e->getMessage() ?: '請聯絡管理員');
         }
     }
 
@@ -171,65 +200,106 @@ class SalesOrderController extends Controller
     {
         // $this->authorize('customer_manufacturers.update');
 
-        $attributes = $request->validate([
-            'purchase_date'                         => 'required',
-            'customer_manufacturer_id'              => 'required',
-            'staff_id'                              => 'required',
-            'department_id'                         => 'required',
-            'currency_id'                           => 'required',
-            'delivery_date'                         => 'required',
-            'tax_type'                              => 'required',
-            'account_setting_method'                => 'required',
-            'project_id'                            => 'nullable',
-            'deposit_amount'                        => 'nullable',
-            'discount_amount'                       => 'nullable',
-            'tax_excluding_amount'                  => 'required',
-            'tax_amount'                            => 'required',
-            'total_amount'                          => 'required',
-            'status'                                => 'required',
-            'status_approval'                       => 'required',
-            'remark'                                => 'nullable',
-            //
-            'items'                                 => 'required|array',
-            'items.*.product_id'                    => 'required',
-            'items.*.storehouse_id'                 => 'required',
-            'items.*.quantity'                      => 'required',
-            'items.*.price'                         => 'required',
-            'items.*.tax_excluding_amount'          => 'required',
-            'items.*.tax_amount'                    => 'required',
-            'items.*.amount'                        => 'required',
-            'items.*.delivery_date'                 => 'required',
-            'items.*.remark'                        => 'nullable',
-        ]);
+        $attributes = $request->validate(
+            [
+                'sales_date'                         => 'required',          // 銷貨日期
+                'customer_manufacturer_id'              => 'required',          // 客戶廠商
+                'staff_id'                              => 'required',          // 員工職員
+                'department_id'                         => 'required',          // 部門
+                'project_id'                            => 'nullable',          // 專案
+                'invoice_no'                            => 'nullable',          // 發票號碼
+                'voucher_no'                            => 'nullable',          // 傳票號碼
+                'billing_type'                          => 'required',          // 立帳方式
+                'tax_type'                              => 'required',          // 扣稅類別
+                'currency_id'                           => 'required',          // 幣別
+                'remark'                                => 'nullable',          // 備註
+                //
+                'items'                                 => 'required|array',
+                'items.*.product_id'                    => 'required',
+                'items.*.storehouse_id'                 => 'required',
+                'items.*.quantity'                      => 'required',
+                'items.*.price'                         => 'required',
+                'items.*.delivery_date'                 => 'required',
+                'items.*.remark'                        => 'nullable',
+            ],
+            [],
+            [
+                'staff_id'                  => '銷貨人員',
+                'department_id'             => '銷貨部門',
+                'currency_id'               => '幣別',
+                'billing_type'              => '立帳方式',
+                'tax_type'                  => '扣稅類別',
+                'items'                     => '產品資訊',
+            ]
+        );
 
         try {
             DB::beginTransaction();
 
             $record = SalesOrder::findOrFail($id);
 
+            // 項目小計計算
+            $subtotal = collect($attributes['items'])->reduce(function ($carry, $item) {
+                return $carry + ($item['quantity'] * $item['price']);
+            }, 0);
+
+            // 立帳方式
+            switch ($attributes['tax_type']) {
+                case 'taxFree':
+                    // 不計稅
+                    $tax_excluding_amount = round($subtotal);
+                    $tax_amount = 0;
+                    $total_amount = round($subtotal);
+                    break;
+                case 'taxableIncluded':
+                    // 內含稅
+                    $tax_excluding_amount = round($subtotal / 1.05);
+                    $tax_amount = $subtotal - $tax_excluding_amount;
+                    $total_amount = round($subtotal);
+                    break;
+                case 'taxablePlus':
+                    // 稅金外加
+                    $tax_excluding_amount = round($subtotal);
+                    $tax_amount = round($subtotal * 0.05);
+                    $total_amount = round($subtotal * 1.05);
+                    break;
+                default:
+                    throw new \Exception('立帳方式類型不存在.');
+            }
+
+            // 更新訂單
             $record->update([
-                'purchase_date'             => $attributes['purchase_date'],
-                'purchase_order_no'         => date('YmdHis'),
+                'sales_date'          => $attributes['sales_date'],
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
                 'staff_id'                  => $attributes['staff_id'],
                 'department_id'             => $attributes['department_id'],
+                'invoice_no'                => $attributes['invoice_no'],
+                'voucher_no'                => $attributes['voucher_no'],
                 'currency_id'               => $attributes['currency_id'],
-                'delivery_date'             => $attributes['delivery_date'],
+                'billing_type'              => $attributes['billing_type'],
                 'tax_type'                  => $attributes['tax_type'],
-                'account_setting_method'    => $attributes['account_setting_method'],
                 'project_id'                => $attributes['project_id'] ?? null,
-                'deposit_amount'            => $attributes['deposit_amount'] ?? null,
-                'discount_amount'           => $attributes['discount_amount'] ?? null,
-                'tax_excluding_amount'      => $attributes['tax_excluding_amount'],
-                'tax_amount'                => $attributes['tax_amount'],
-                'total_amount'              => $attributes['total_amount'],
-                'status'                    => $attributes['status'],
-                'status_approval'           => $attributes['status_approval'],
+                'tax_excluding_amount'      => $tax_excluding_amount,
+                'tax_amount'                => $tax_amount,
+                'total_amount'              => $total_amount,
                 'remark'                    => $attributes['remark'] ?? null,
             ]);
 
+            // 更新訂單項目
             if (isset($attributes['items'])) {
-                proccesRelationWithRequest($record->items(), $attributes['items']);
+                $mapItems = collect($attributes['items'])->map(function ($item) {
+                    return [
+                        'product_id'                    => $item['product_id'],
+                        'storehouse_id'                 => $item['storehouse_id'],
+                        'quantity'                      => $item['quantity'],
+                        'price'                         => $item['price'],
+                        'amount'                        => $item['quantity'] * $item['price'],
+                        'delivery_date'                 => $item['delivery_date'],
+                        'remark'                        => $item['remark'] ?? null,
+                    ];
+                });
+
+                $this->proccesRelationWithRequest($record->items(), $mapItems->toArray());
             }
 
             DB::commit();
@@ -240,7 +310,7 @@ class SalesOrderController extends Controller
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest($e->getMessage() ?: '請聯絡管理員');
         }
     }
 
@@ -256,7 +326,7 @@ class SalesOrderController extends Controller
 
         try {
             DB::beginTransaction();
-            $data = SalesOrder::findOrFail($id)->delete();
+            // $data = SalesOrder::findOrFail($id)->delete();
 
             DB::commit();
             return $this->success('刪除成功');
@@ -266,18 +336,7 @@ class SalesOrderController extends Controller
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest($e->getMessage() ?: '請聯絡管理員');
         }
-    }
-
-    /**
-     * Excel 匯出
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function export(Request $request)
-    {
-        return Excel::download(new SalesOrdersExport($request->all()), '銷售查補.xls', \Maatwebsite\Excel\Excel::XLS);
     }
 }

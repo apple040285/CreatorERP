@@ -1,4 +1,5 @@
 export default [
+    //報價單
     {
         path: '/OrderRoutine/QuotationVoucherList',
         name: 'OrderRoutine-QuotationVoucherList',
@@ -41,29 +42,30 @@ export default [
             ],
         },
     },
+    //請購單
     {
-        path: '/OrderRoutine/OrderVoucherList',
-        name: 'OrderRoutine-OrderVoucherList',
-        component: () => import('@/views/order-routine/OrderVoucher/List.vue'),
+        path: '/OrderRoutine/SubscriberList',
+        name: 'OrderRoutine-SubscriberVoucherList',
+        component: () => import('@/views/order-routine/SubscriberVoucher/SubscriberVoucherList.vue'),
         meta: {
-            pageTitle: 'Order Voucher',
+            pageTitle: 'Subscriber Voucher',
             breadcrumb: [
                 { text: 'Order Routine' },
-                { text: 'Order Voucher', active: true },
+                { text: 'Subscriber Voucher', active: true },
             ],
         },
     },
 
     {
-        path: '/OrderRoutine/OrderVoucherCreate',
-        name: 'OrderRoutine-OrderVoucherCreate',
-        component: () => import('@/views/order-routine/OrderVoucher/CrudEdit.vue'),
+        path: '/OrderRoutine/SubscriberCreate',
+        name: 'OrderRoutine-SubscriberVoucherCreate',
+        component: () => import('@/views/order-routine/SubscriberVoucher/SubscriberVoucherEdit.vue'),
         meta: {
-            pageTitle: 'Order Voucher',
-            navActiveLink: 'OrderRoutine-OrderVoucherList',
+            pageTitle: 'Subscriber Voucher',
+            navActiveLink: 'OrderRoutine-SubscriberList',
             breadcrumb: [
                 { text: 'Order Routine' },
-                { text: 'Order Voucher', to: { name: 'OrderRoutine-OrderVoucherList' } },
+                { text: 'Subscriber Voucher', to: { name: 'OrderRoutine-SubscriberList' } },
                 { text: 'create', active: true },
 
             ],
@@ -71,32 +73,16 @@ export default [
     },
 
     {
-        path: '/OrderRoutine/OrderVoucherEdit',
-        name: 'OrderRoutine-OrderVoucherEdit',
-        component: () => import('@/views/order-routine/OrderVoucher/CrudEdit.vue'),
+        path: '/OrderRoutine/SubscriberEdit',
+        name: 'OrderRoutine-SubscriberVoucherEdit',
+        component: () => import('@/views/order-routine/SubscriberVoucher/SubscriberVoucherEdit.vue'),
         meta: {
-            pageTitle: 'Order Voucher',
-            navActiveLink: 'OrderRoutine-OrderVoucherList',
+            pageTitle: 'Subscriber Voucher',
+            navActiveLink: 'OrderRoutine-SubscriberList',
             breadcrumb: [
                 { text: 'Order Routine' },
-                { text: 'Order Voucher', to: { name: 'OrderRoutine-OrderVoucherList' } },
+                { text: 'Subscriber Voucher', to: { name: 'OrderRoutine-SubscriberList' } },
                 { text: 'edit', active: true },
-
-            ],
-        },
-    },
-
-    {
-        path: '/OrderRoutine/OrderVoucherDetail',
-        name: 'OrderRoutine-OrderVoucherDetail',
-        component: () => import('@/views/order-routine/OrderVoucher/Detail.vue'),
-        meta: {
-            pageTitle: 'Order Voucher',
-            navActiveLink: 'OrderRoutine-OrderVoucherList',
-            breadcrumb: [
-                { text: 'Order Routine' },
-                { text: 'Order Voucher', to: { name: 'OrderRoutine-OrderVoucherList' } },
-                { text: 'Detail', active: true },
 
             ],
         },

@@ -18,53 +18,28 @@ class SalesOrder extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'sales_date'        => 'datetime:Y-m-d H:i:s',
-        'created_at'        => 'datetime:Y-m-d H:i:s',
-        'updated_at'        => 'datetime:Y-m-d H:i:s',
+        'purchase_date'     => 'datetime:Y-m-d',
+        'created_at'        => 'datetime:Y-m-d',
+        'updated_at'        => 'datetime:Y-m-d',
     ];
 
-    /**
-     * 廠商客戶
-     *
-     * @return void
-     */
     public function customer_manufacturer()
     {
         return $this->belongsTo(CustomerManufacturer::class, 'customer_manufacturer_id');
     }
 
-    /**
-     * 業務人員
-     *
-     * @return void
-     */
     public function staff()
     {
         return $this->belongsTo(Staff::class, 'staff_id');
     }
 
-    /**
-     * 項目
-     *
-     * @return void
-     */
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
+    }
+
     public function items()
     {
         return $this->hasMany(SalesOrderItem::class);
-    }
-
-    /**
-     * Bootstrap the model and its traits.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function ($model) {
-            // 刪除關聯紀錄
-            $model->items()->delete();
-        });
     }
 }

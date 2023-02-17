@@ -122,7 +122,7 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
     //報價頻單
     Route::apiResource('/quotation-orders', Controllers\QuotationOrderController::class);
     //訂購頻單
-    // Route::apiResource('/sales-return-orders', Controllers\SalesReturnOrderController::class);
+    Route::apiResource('/subscriber-orders', Controllers\SubscriberOrderController::class);
 
 
 

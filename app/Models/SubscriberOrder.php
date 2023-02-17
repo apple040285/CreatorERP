@@ -18,6 +18,7 @@ class SubscriberOrder extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'purchase_date'     => 'datetime:Y-m-d',
         'created_at'        => 'datetime:Y-m-d',
         'updated_at'        => 'datetime:Y-m-d',
     ];
@@ -39,6 +40,6 @@ class SubscriberOrder extends Model
 
     public function items()
     {
-        return $this->hasMany(SubscriberOrderltem::class);
+        return $this->hasMany(SubscriberOrderItem::class);
     }
 }

@@ -2,7 +2,7 @@ export default [
     {
         path: '/SalesOperation/SalesVoucherList',
         name: 'SalesOperation-SalesVoucherList',
-        component: () => import('@/views/sales-operation/sales-voucher/List.vue'),
+        component: () => import('@/views/sales-operation/sales-voucher/SalesVoucherList.vue'),
         meta: {
             pageTitle: 'Sales Voucher',
             breadcrumb: [
@@ -14,7 +14,7 @@ export default [
     {
         path: '/SalesOperation/SalesVoucherCreate',
         name: 'SalesOperation-SalesVoucherCreate',
-        component: () => import('@/views/sales-operation/sales-voucher/CrudEdit.vue'),
+        component: () => import('@/views/sales-operation/sales-voucher/SalesVoucherEdit.vue'),
         meta: {
             pageTitle: 'Sales Voucher',
             navActiveLink: 'SalesOperation-SalesVoucherList',
@@ -28,7 +28,7 @@ export default [
     {
         path: '/SalesOperation/SalesVoucherEdit',
         name: 'SalesOperation-SalesVoucherEdit',
-        component: () => import('@/views/sales-operation/sales-voucher/CrudEdit.vue'),
+        component: () => import('@/views/sales-operation/sales-voucher/SalesVoucherEdit.vue'),
         meta: {
             pageTitle: 'Sales Voucher',
             navActiveLink: 'SalesOperation-SalesVoucherList',
@@ -36,20 +36,6 @@ export default [
                 { text: 'Sales Operation' },
                 { text: 'Sales Voucher', to: { name: 'SalesOperation-SalesVoucherList' } },
                 { text: 'edit', active: true },
-            ],
-        },
-    },
-    {
-        path: '/SalesOperation/SalesVoucherDetail',
-        name: 'SalesOperation-SalesVoucherDetail',
-        component: () => import('@/views/sales-operation/sales-voucher/Detail.vue'),
-        meta: {
-            pageTitle: 'Sales Voucher',
-            navActiveLink: 'SalesOperation-SalesVoucherList',
-            breadcrumb: [
-                { text: 'Sales Operation' },
-                { text: 'Sales Voucher', to: { name: 'SalesOperation-SalesVoucherList' } },
-                { text: 'detail', active: true },
             ],
         },
     },
