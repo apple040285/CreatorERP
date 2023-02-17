@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('sales_order_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('sales_order_id')->comment('關聯所屬報價訂單');
+            $table->unsignedBigInteger('sales_order_id')->comment('關聯所屬銷貨訂單');
             $table->unsignedBigInteger('product_id')->comment('關聯所屬商品');
             $table->unsignedBigInteger('storehouse_id')->comment('關聯所屬倉庫');
             $table->integer('quantity')->comment('數量');

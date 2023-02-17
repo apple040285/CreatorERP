@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('subscriber_order_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('subscriber_order_id')->comment('關聯所屬報價訂單');
+            $table->unsignedBigInteger('subscriber_order_id')->comment('關聯所屬訂購訂單');
             $table->unsignedBigInteger('product_id')->comment('關聯所屬商品');
             $table->unsignedBigInteger('storehouse_id')->comment('關聯所屬倉庫');
             $table->integer('quantity')->comment('數量');
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscriber_order_item');
+        Schema::dropIfExists('subscriber_order_items');
     }
 };
