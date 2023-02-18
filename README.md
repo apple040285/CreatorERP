@@ -24,8 +24,14 @@ php artisan erp:install
 php artisan serve
 ```
 
-# 套件說明
+# 指令說明
 
+```
+1. 刪除遷移檔 & 資料表
+php artisan migrate:delete
+```
+
+# 套件說明
 
 ```
 搜尋套件 必須是 5.0 版本, 因 5.1 fix 修正導致 search where 異常
