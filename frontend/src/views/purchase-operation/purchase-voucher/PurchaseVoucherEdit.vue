@@ -61,19 +61,22 @@
                 {{ $t('PurchaseVoucherList.transferNo') }}
               </template>
 
-              <validation-provider
-                #default="{ errors }"
-                name="transferNo"
-              >
+              <div class="d-flex">
+                <b-form-select
+                  v-model="showData.transfer_type"
+                  :options="[{ value: 'requisition', text: '請購' }, { value: 'inquiry_voucher', text: '詢價' }, { value: 'App\\Models\\ProcurementOrder', text: '採購' }]"
+                  class="w-25"
+                />
                 <v-select
-                  label="transferNo"
+                  id="transferNo"
+                  label="no"
                   v-model="showData.transfer_order_no"
                   :options="transferNoOption"
                   :placeholder="$t('PurchaseVoucherModal.selectTransferNo')"
                   :reduce="option => option.id"
+                  class="w-100"
                 />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
+              </div>
             </b-form-group>
 
             <!-- 廠商 -->
@@ -618,12 +621,17 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
 import {
   BCard, BTabs, BTab, BRow, BCol,
-  BForm, BFormGroup, BFormInput, BFormTextarea,
+  BForm, BFormGroup, BFormInput, BFormTextarea, BFormSelect,
+  BInputGroup, BInputGroupPrepend, BInputGroupAppend, BInputGroupText,
   BTableSimple, BThead, BTbody, BTfoot, BTh, BTr, BTd,
   BButton,
 } from "bootstrap-vue"
 import { ref } from "@vue/composition-api"
 import vSelect from 'vue-select'
+// import the component
+import Treeselect from '@riophae/vue-treeselect'
+// import the styles
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import flatPickr from 'vue-flatpickr-component'
 import { VueGoodTable } from 'vue-good-table'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
@@ -644,6 +652,12 @@ export default {
     BFormGroup,
     BFormInput,
     BFormTextarea,
+    BFormSelect,
+
+    BInputGroup,
+    BInputGroupPrepend,
+    BInputGroupAppend,
+    BInputGroupText,
 
     BTableSimple,
     BThead,
@@ -656,6 +670,7 @@ export default {
     BButton,
 
     vSelect,
+    Treeselect,
     flatPickr,
     VueGoodTable,
   },
@@ -771,6 +786,10 @@ export default {
 
     // 轉入單號
     const transferNoOption = ref([])
+    axios.post(`/procurement-orders/options`)
+      .then(response => {
+        transferNoOption.value = response.data
+      })
 
     // 幣別
     const currencyOption = ref([])

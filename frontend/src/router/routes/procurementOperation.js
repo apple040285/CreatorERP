@@ -93,7 +93,7 @@ export default [
         },
     },
     {
-        path: '/ProcurementOperation/ProcurementVoucherEdit',
+        path: '/ProcurementOperation/ProcurementVoucherEdit/:id',
         name: 'ProcurementOperation-ProcurementVoucherEdit',
         component: () => import('@/views/procurement-operation/procurement-voucher/ProcurementVoucherEdit.vue'),
         meta: {
