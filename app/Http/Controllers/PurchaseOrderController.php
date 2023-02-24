@@ -203,18 +203,20 @@ class PurchaseOrderController extends Controller
 
         $attributes = $request->validate(
             [
-                'purchase_date'                         => 'required',          // 進貨日期
-                'customer_manufacturer_id'              => 'required',          // 客戶廠商
-                'staff_id'                              => 'required',          // 員工職員
-                'department_id'                         => 'required',          // 部門
-                'project_id'                            => 'nullable',          // 專案
-                'invoice_no'                            => 'nullable',          // 發票號碼
-                'voucher_no'                            => 'nullable',          // 傳票號碼
-                'delivery_date'                         => 'nullable',          // 預交日期
-                'billing_type'                          => 'required',          // 立帳方式
-                'tax_type'                              => 'required',          // 扣稅類別
-                'currency_id'                           => 'required',          // 幣別
-                'remark'                                => 'nullable',          // 備註
+                'purchase_date'                         => 'required',                      // 進貨日期
+                'transfer_type'                         => 'nullable',                      // 轉入單號類型
+                'transfer_order_no'                     => 'required_with:transfer_type',   // 轉入單號
+                'customer_manufacturer_id'              => 'required',                      // 客戶廠商
+                'staff_id'                              => 'required',                      // 員工職員
+                'department_id'                         => 'required',                      // 部門
+                'project_id'                            => 'nullable',                      // 專案
+                'invoice_no'                            => 'nullable',                      // 發票號碼
+                'voucher_no'                            => 'nullable',                      // 傳票號碼
+                'delivery_date'                         => 'nullable',                      // 預交日期
+                'billing_type'                          => 'required',                      // 立帳方式
+                'tax_type'                              => 'required',                      // 扣稅類別
+                'currency_id'                           => 'required',                      // 幣別
+                'remark'                                => 'nullable',                      // 備註
                 //
                 'items'                                 => 'required|array',
                 'items.*.product_id'                    => 'required',
@@ -269,9 +271,30 @@ class PurchaseOrderController extends Controller
                     throw new \Exception('立帳方式類型不存在.');
             }
 
+            // transfer_order_no
+            // 轉入單號判斷
+            if (isset($attributes['transfer_type'])) {
+                switch ($attributes['transfer_type']) {
+                    case 'App\Models\ProcurementOrder':
+                        // $order = \App\Models\ProcurementOrder::where('procurement_order_no', $attributes['transfer_order_no'])->first();
+                        $order = \App\Models\ProcurementOrder::find($attributes['transfer_order_no']);
+                        break;
+                    default:
+                        throw new \Exception('轉入單號類型不存在.');
+                }
+
+                if (!$order) throw new \Exception('轉入單號不存在.');
+
+                // 更新轉入單號
+                $record->update([
+                    'transfer_type'     => get_class($order),
+                    'transfer_order_no' => $attributes['transfer_order_no'],
+                ]);
+            }
+
             // 更新訂單
             $record->update([
-                'purchase_date'          => $attributes['purchase_date'],
+                'purchase_date'             => $attributes['purchase_date'],
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
                 'staff_id'                  => $attributes['staff_id'],
                 'department_id'             => $attributes['department_id'],

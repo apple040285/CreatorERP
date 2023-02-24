@@ -102,6 +102,7 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     // 採購憑單
     Route::apiResource('/procurement-orders', Controllers\ProcurementOrderController::class);
+    Route::post('/procurement-orders/transfers', [Controllers\ProcurementOrderController::class, 'transfers']); // 轉單列表
 
 
     /** @var 進貨作業 */

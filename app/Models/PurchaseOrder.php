@@ -18,6 +18,7 @@ class PurchaseOrder extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'transfer_order_no' => 'int',
         'purchase_date'     => 'datetime:Y-m-d',
         'created_at'        => 'datetime:Y-m-d',
         'updated_at'        => 'datetime:Y-m-d',
@@ -41,5 +42,12 @@ class PurchaseOrder extends Model
     public function items()
     {
         return $this->hasMany(PurchaseOrderItem::class);
+    }
+
+    protected $with = ['transfer'];
+
+    public function transfer()
+    {
+        return $this->morphTo(null, 'transfer_type', 'transfer_order_no');
     }
 }
