@@ -32,6 +32,29 @@ class ProcurementOrderController extends Controller
         return $this->success($data);
     }
 
+    public function options(Request $request)
+    {
+        $data = ProcurementOrder::get(['id', 'procurement_order_no as no']);
+
+        return $this->success($data);
+    }
+
+    public function transfers(Request $request)
+    {
+        $attributes = $request->validate([
+            'id'    => 'required|exists:App\Models\ProcurementOrder,id',
+        ]);
+
+        $orders = \App\Models\PurchaseOrder::query()
+            ->where('transfer_type', ProcurementOrder::class)
+            ->where('transfer_order_no', $attributes['id'])
+            ->get();
+
+        $data = $orders->toArray();
+
+        return $this->success($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -45,6 +68,8 @@ class ProcurementOrderController extends Controller
         $attributes = $request->validate(
             [
                 'procurement_date'                      => 'required',          // 採購日期
+                'transfer_type'                         => 'nullable',          // 轉入單號類型
+                'transfer_order_no'                     => 'nullable',          // 轉入單號
                 'customer_manufacturer_id'              => 'required',          // 客戶廠商
                 'staff_id'                              => 'required',          // 員工職員
                 'department_id'                         => 'required',          // 部門
@@ -123,7 +148,7 @@ class ProcurementOrderController extends Controller
                 'procurement_order_no'      => $currentOrderNo,
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
                 'staff_id'                  => $attributes['staff_id'],
-                'delivery_date'             => $attributes['delivery_date'],
+                // 'delivery_date'             => $attributes['delivery_date'],
                 'department_id'             => $attributes['department_id'],
                 'currency_id'               => $attributes['currency_id'],
                 'billing_type'              => $attributes['billing_type'],
@@ -339,4 +364,3 @@ class ProcurementOrderController extends Controller
         }
     }
 }
-

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->timestamp('procurement_date')->useCurrent()->comment('採購日期');
             $table->string('procurement_order_no')->comment('採購單號');
+            $table->string('transfer_type')->nullable()->comment('轉入單號類型');
+            $table->string('transfer_order_no')->nullable()->comment('轉入單號');
             $table->unsignedBigInteger('customer_manufacturer_id')->comment('廠商名稱');
             $table->unsignedBigInteger('staff_id')->comment('採購人員');
             $table->unsignedBigInteger('department_id')->comment('採購部門');

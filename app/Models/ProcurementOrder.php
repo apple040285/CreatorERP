@@ -22,6 +22,8 @@ class ProcurementOrder extends Model
         'updated_at'        => 'datetime:Y-m-d',
     ];
 
+    // protected $with = ['purchase_orders'];
+
     public function customer_manufacturer()
     {
         return $this->belongsTo(CustomerManufacturer::class, 'customer_manufacturer_id');
@@ -41,4 +43,19 @@ class ProcurementOrder extends Model
     {
         return $this->hasMany(ProcurementOrderItem::class);
     }
+
+    /**
+     * 進貨單
+     *
+     * @return void
+     */
+    public function purchase_orders()
+    {
+        return $this->morphMany(PurchaseOrder::class, null, 'transfer_type', 'transfer_order_no');
+    }
+
+    // public function transfer()
+    // {
+    //     return $this->morphTo(null, 'transfer_type', 'transfer_order_no');
+    // }
 }
