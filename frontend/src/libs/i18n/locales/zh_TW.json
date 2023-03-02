@@ -181,6 +181,7 @@
   "Product Category Setting": "產品分類設定",
   "Customer/Manufacturer Data": "客戶/廠商資料",
   "Customer/Manufacturer Category": "客戶/廠商分類",
+  "Project Data": "專案資料",
   "PURCHASING MANAGEMENT": "採購管理",
   "Procurement Operation": "採購作業",
   "Requisition": "請購憑單",
@@ -349,11 +350,30 @@
     "name": "專案名稱",
     "expiration_date": "失效日期",
     "remark": "備註",
+    "address": "施工地址",
+    "startDate": "開工日期",
+    "reserveDate": "預定完工日期",
+    "actualDate": "實際完工日期",
+    "warranty": "是否保固",
+    "cutoffDate": "保固截止日期",
+    "customer": "客戶窗口",
+    "projectStaff": "業務人員",
+    "reserveTotal": "專案預定總額",
+    "actualTotal": "專案實際總額",
+    "reserveProfit": "預估獲利",
+    "grossMargin": "專案毛利",
     "created_by": "創建人員",
     "created_at": "創建時間",
     "updated_by": "異動人員",
     "updated_at": "異動時間",
-    "action": "操作"
+    "action": "操作",
+    "projectDetails": "專案明細",
+    "selectWarranty": "請選擇是否保固",
+    "selectProjectStaff": "請選擇業務人員",
+    "selectCustomer": "請選擇客戶",
+    "DetailsList": {
+   
+    }
   },
   "BankList": {
     "createBank": "新增銀行",
@@ -367,6 +387,7 @@
     "remark": "備註",
     "action": "操作"
   },
+  
   "AccountList": {
     "createAccount": "新增帳戶",
     "editAccount": "修改帳戶",

@@ -36,6 +36,111 @@
               />
             </b-form-group>
 
+             <!-- 施工地址 -->
+             <b-form-group
+              :label="$t('ProjectList.address')"
+              label-for="name"
+              class="col-12 col-sm-4"
+            >
+              <b-form-input
+                v-model="showData.name"
+                name="name"
+                type="text"
+                :placeholder="$t('ProjectList.address')"
+              />
+            </b-form-group>
+
+             <!-- 開工日期 -->
+             <b-form-group
+              :label="$t('ProjectList.startDate')"
+              label-for="expiration_date"
+              class="col-12 col-sm-4"
+            >
+              <flat-pickr
+                v-model="showData.expiration_date"
+                name="expiration_date"
+                class="form-control"
+                :placeholder="$t('ProjectList.startDate')"
+              />
+            </b-form-group>
+  
+
+             <!-- 預定完工日期 -->
+             <b-form-group
+              :label="$t('ProjectList.reserveDate')"
+              label-for="expiration_date"
+              class="col-12 col-sm-4"
+            >
+              <flat-pickr
+                v-model="showData.expiration_date"
+                name="expiration_date"
+                class="form-control"
+                :placeholder="$t('ProjectList.reserveDate')"
+              />
+            </b-form-group>
+           
+
+             <!-- 實際完工日期 -->
+             <b-form-group
+              :label="$t('ProjectList.actualDate')"
+              label-for="expiration_date"
+              class="col-12 col-sm-4"
+            >
+              <flat-pickr
+                v-model="showData.expiration_date"
+                name="expiration_date"
+                class="form-control"
+                :placeholder="$t('ProjectList.actualDate')"
+              />
+            </b-form-group>
+
+           
+            <!-- 是否保固 -->
+            <b-form-group
+              label-for="accountSettingMethod"
+              class="col-12 col-sm-4"
+            >
+              <template #label>
+                {{ $t('ProjectList.warranty') }}
+                <span class="text-danger">*</span>
+              </template>
+
+              <validation-provider
+                #default="{ errors }"
+                name="warranty"
+              >
+                <v-select
+                  id="warranty"
+                  label="label"
+                  v-model="showData.billing_type"
+                  :placeholder="$t('ProjectList.selectWarranty')"
+                  :options="[
+                    { label: '是', value: 'Y' },
+                    { label: '否', value: 'N' },
+                  ]"
+                  :reduce="option => option.value"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+
+
+             <!-- 保固截止日期 -->
+             <b-form-group
+              :label="$t('ProjectList.cutoffDate')"
+              label-for="expiration_date"
+              class="col-12 col-sm-4"
+            >
+              <flat-pickr
+                v-model="showData.expiration_date"
+                name="expiration_date"
+                class="form-control"
+                :placeholder="$t('ProjectList.cutoffDate')"
+              />
+            </b-form-group>
+
+
+
             <!-- 失效日期 -->
             <b-form-group
               :label="$t('ProjectList.expiration_date')"
@@ -49,6 +154,127 @@
                 :placeholder="$t('ProjectList.expiration_date')"
               />
             </b-form-group>
+
+             <!-- 客戶窗口 -->
+             <b-form-group
+              label-for="customer"
+              class="col-12 col-sm-4"
+            >
+              <template #label>
+                {{ $t('ProjectList.customer') }}
+                <span class="text-danger">*</span>
+              </template>
+
+              <validation-provider
+                #default="{ errors }"
+                name="customer"
+              >
+                <v-select
+                  id="customer"
+                  label="name"
+                  v-model="showData.staff_id"
+                  :options="manufacturerOption"
+                  :placeholder="$t('ProjectList.customer')"
+                  :reduce="option => option.id"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+
+             <!-- 業務員 -->
+            <b-form-group
+              label-for="projectStaff"
+              class="col-12 col-sm-4"
+            >
+              <template #label>
+                {{ $t('ProjectList.projectStaff') }}
+                <span class="text-danger">*</span>
+              </template>
+
+              <validation-provider
+                #default="{ errors }"
+                name="projectStaff"
+              >
+                <v-select
+                  id="projectStaff"
+                  label="name"
+                  v-model="showData.staff_id"
+                  :options="staffOption"
+                  :placeholder="$t('ProjectList.selectProjectStaff')"
+                  :reduce="option => option.id"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+
+             <!-- 專案預定總額 -->
+             <b-form-group
+              label-for="untaxedAmount"
+              class="col-12 col-sm-4"
+            >
+              <template #label>
+                {{ $t('ProjectList.reserveTotal') }}
+              </template>
+
+              <validation-provider
+                #default="{ errors }"
+                name="untaxedAmount"
+              >
+                <b-form-input
+                  id="untaxedAmount"
+                  type="text"
+                  :placeholder="$t('ProjectList.reserveTotal')"
+                  disabled
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+  
+            <!-- 預估獲利 -->
+            <b-form-group
+              :label="$t('ProjectList.reserveProfit')"
+              label-for="name"
+              class="col-12 col-sm-4"
+            >
+              <b-form-input
+                v-model="showData.name"
+                name="name"
+                type="text"
+                disabled
+                :placeholder="$t('ProjectList.reserveProfit')"
+              />
+            </b-form-group>
+
+              <!-- 專案毛利 -->
+              <b-form-group
+              :label="$t('ProjectList.grossMargin')"
+              label-for="name"
+              class="col-12 col-sm-4"
+            >
+              <b-form-input
+                v-model="showData.name"
+                name="name"
+                type="text"
+                disabled
+                :placeholder="$t('ProjectList.grossMargin')"
+              />
+            </b-form-group>
+
+              <!-- 專案實際總額 -->
+              <b-form-group
+              :label="$t('ProjectList.actualTotal')"
+              label-for="name"
+              class="col-12 col-sm-4"
+            >
+              <b-form-input
+                v-model="showData.name"
+                name="name"
+                type="text"
+                disabled
+                :placeholder="$t('ProjectList.actualTotal')"
+              />
+            </b-form-group>
+        
 
             <!-- 備註 -->
             <b-form-group
@@ -76,17 +302,9 @@
         <!-- 其他資訊 -->
         <b-card
           v-if="showData"
-          :title="`其他資訊`"
+          :title="$t('ProjectList.projectDetails')"
         >
-          <b-button
-            variant="primary"
-            type="button"
-            size="sm"
-            class="mb-1"
-            @click.prevent="addItem(showData.items)"
-          >
-            <feather-icon icon="PlusIcon" />
-          </b-button>
+          
 
           <b-table-simple
             responsive
@@ -95,18 +313,14 @@
             <b-thead>
               <b-tr>
                 <b-th class="text-nowrap">#</b-th>
-                <b-th class="text-nowrap"> 施工地址 </b-th>
-                <b-th class="text-nowrap"> 開工日期 </b-th>
-                <b-th class="text-nowrap"> 預定完工日期 </b-th>
-                <b-th class="text-nowrap"> 實際完工日期 </b-th>
-                <b-th class="text-nowrap"> 是否保固 </b-th>
-                <b-th class="text-nowrap"> 保固截止日期 </b-th>
-                <b-th class="text-nowrap"> 客戶窗口 </b-th>
-                <b-th class="text-nowrap"> 業務員 </b-th>
-                <b-th class="text-nowrap"> 專案預定總額 </b-th>
-                <b-th class="text-nowrap"> 專案實際總額 </b-th>
-                <b-th class="text-nowrap"> 預估獲利 </b-th>
-                <b-th class="text-nowrap"> 備註 </b-th>
+                <b-th class="text-nowrap"> 日期 </b-th>
+                <b-th class="text-nowrap"> 單據別 </b-th>
+                <b-th class="text-nowrap"> 單據號碼 </b-th>
+                <b-th class="text-nowrap"> 型態 </b-th>
+                <b-th class="text-nowrap"> 預估支出 </b-th>
+                <b-th class="text-nowrap"> 實際支出 </b-th>
+                <b-th class="text-nowrap"> 預估收入 </b-th>
+                <b-th class="text-nowrap"> 實際收入 </b-th>
                 <b-th class="text-nowrap"> </b-th>
               </b-tr>
             </b-thead>
@@ -150,36 +364,6 @@
                 <b-td>
                   <b-form-input v-model="item.code" />
                 </b-td>
-                <!-- 專案預定總額 -->
-                <b-td>
-                  <b-form-input v-model="item.code" />
-                </b-td>
-                <!-- 專案實際總額 -->
-                <b-td>
-                  <b-form-input v-model="item.code" />
-                </b-td>
-                <!-- 預估獲利 -->
-                <b-td>
-                  <b-form-input v-model="item.code" />
-                </b-td>
-                <!-- 備註 -->
-                <b-td>
-                  <b-form-input v-model="item.remark" />
-                </b-td>
-                <!-- 操作 -->
-                <b-td>
-                  <b-button
-                    class="ml-50"
-                    size="sm"
-                    variant="gradient-danger"
-                    @click="removeItem(showData.items, index)"
-                  >
-                    <feather-icon
-                      icon="Trash2Icon"
-                      size="12"
-                    />
-                  </b-button>
-                </b-td>
               </b-tr>
             </b-tbody>
           </b-table-simple>
@@ -192,7 +376,7 @@
             type="button"
             :block="$store.getters['app/currentBreakPoint'] === 'xs'"
             class="mb-1 mb-sm-0 mr-0 mr-sm-1"
-            :to="{ name: 'BasicData-ProjectDataSetting' }"
+            :to="{ name: 'ProjectData-ProjectDataSetting' }"
           >
             <feather-icon
               icon="ArrowLeftIcon"
@@ -302,7 +486,7 @@ export default {
                     text: `${root.$t('Project Data Setting')} ${root.$t('updatedSuccess')}!`,
                   },
                 })
-                root.$router.push({ name: 'BasicData-ProjectDataSetting' });
+                root.$router.push({ name: 'ProjectData-ProjectDataSetting' });
               })
               .catch(error => {
                 const response = error.response
@@ -333,7 +517,7 @@ export default {
                     text: `${root.$t('Project Data Setting')} ${root.$t('createdSuccess')}!`,
                   },
                 })
-                root.$router.push({ name: 'BasicData-ProjectDataSetting' });
+                root.$router.push({ name: 'ProjectData-ProjectDataSetting' });
               })
               .catch(error => {
                 const response = error.response
@@ -384,11 +568,27 @@ export default {
       })
     }
 
+     // 人員
+    const staffOption = ref([])
+    axios.post('/staffs/options')
+      .then(response => {
+        staffOption.value = response.data
+      })
+
+    // 客戶廠商
+    const manufacturerOption = ref([])
+    axios.post('/customer-manufacturers/options')
+      .then(response => {
+        manufacturerOption.value = response.data
+      })
+
     // 轉入單號
     const transferNoOption = ref([])
 
     return {
       showData,
+      staffOption,
+      manufacturerOption,
 
       validationForm,
 
