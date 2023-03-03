@@ -111,6 +111,15 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
     Route::apiResource('/purchase-orders', Controllers\PurchaseOrderController::class);
 
 
+    /** @var 訂購作業 */
+
+    // 報價頻單
+    Route::apiResource('/quotation-orders', Controllers\QuotationOrderController::class);
+
+    // 訂購頻單
+    Route::apiResource('/subscriber-orders', Controllers\SubscriberOrderController::class);
+
+
     /** @var 銷貨作業 */
 
     // 銷貨憑單
@@ -118,13 +127,6 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     // 銷貨退回憑單
     Route::apiResource('/sales-return-orders', Controllers\SalesReturnOrderController::class);
-
-    /** @var 訂購作業 */
-    //報價頻單
-    Route::apiResource('/quotation-orders', Controllers\QuotationOrderController::class);
-    //訂購頻單
-    Route::apiResource('/subscriber-orders', Controllers\SubscriberOrderController::class);
-
 
 
     /** @var 調整作業 */

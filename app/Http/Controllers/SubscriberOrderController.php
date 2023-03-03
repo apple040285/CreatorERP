@@ -32,6 +32,13 @@ class SubscriberOrderController extends Controller
         return $this->success($data);
     }
 
+    public function options(Request $request)
+    {
+        $data = SubscriberOrder::get(['id', 'subscriber_order_no as no']);
+
+        return $this->success($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -44,16 +51,16 @@ class SubscriberOrderController extends Controller
 
         $attributes = $request->validate(
             [
-                'subscriber_date'                       => 'required',          // 訂購日期
-                'customer_manufacturer_id'              => 'required',          // 客戶廠商
-                'staff_id'                              => 'required',          // 員工職員
-                'department_id'                         => 'required',          // 部門
-                'project_id'                            => 'nullable',          // 專案
-                'delivery_date'                         => 'nullable',          // 預交日期
-                'billing_type'                          => 'required',          // 立帳方式
-                'tax_type'                              => 'required',          // 扣稅類別
-                'currency_id'                           => 'required',          // 幣別
-                'remark'                                => 'nullable',          // 備註
+                'subscriber_date'                       => 'required',                      // 訂購日期
+                'customer_manufacturer_id'              => 'required',                      // 客戶廠商
+                'staff_id'                              => 'required',                      // 員工職員
+                'department_id'                         => 'required',                      // 部門
+                'project_id'                            => 'nullable',                      // 專案
+                'delivery_date'                         => 'nullable',                      // 預交日期
+                'billing_type'                          => 'required',                      // 立帳方式
+                'tax_type'                              => 'required',                      // 扣稅類別
+                'currency_id'                           => 'required',                      // 幣別
+                'remark'                                => 'nullable',                      // 備註
                 //
                 'items'                                 => 'required|array',
                 'items.*.product_id'                    => 'required',
@@ -117,10 +124,11 @@ class SubscriberOrderController extends Controller
                 default:
                     throw new \Exception('立帳方式類型不存在.');
             }
+
             // 寫入訂單
             $record = SubscriberOrder::create([
-                'subscriber_date'          => $attributes['subscriber_date'],
-                'subscriber_order_no'      => $currentOrderNo,
+                'subscriber_date'           => $attributes['subscriber_date'],
+                'subscriber_order_no'       => $currentOrderNo,
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
                 'staff_id'                  => $attributes['staff_id'],
                 'department_id'             => $attributes['department_id'],

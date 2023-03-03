@@ -44,8 +44,11 @@ class PurchaseOrder extends Model
         return $this->hasMany(PurchaseOrderItem::class);
     }
 
-    protected $with = ['transfer'];
-
+    /**
+     * 轉入單號
+     *
+     * @return void
+     */
     public function transfer()
     {
         return $this->morphTo(null, 'transfer_type', 'transfer_order_no');

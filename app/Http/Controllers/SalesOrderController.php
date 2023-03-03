@@ -44,17 +44,19 @@ class SalesOrderController extends Controller
 
         $attributes = $request->validate(
             [
-                'sales_date'                            => 'required',          // 銷貨日期
-                'customer_manufacturer_id'              => 'required',          // 客戶廠商
-                'staff_id'                              => 'required',          // 員工職員
-                'department_id'                         => 'required',          // 部門
-                'project_id'                            => 'nullable',          // 專案
-                'invoice_no'                            => 'nullable',          // 發票號碼
-                'voucher_no'                            => 'nullable',          // 傳票號碼
-                'billing_type'                          => 'required',          // 立帳方式
-                'tax_type'                              => 'required',          // 扣稅類別
-                'currency_id'                           => 'required',          // 幣別
-                'remark'                                => 'nullable',          // 備註
+                'sales_date'                            => 'required',                      // 銷貨日期
+                'transfer_type'                         => 'nullable',                      // 轉入單號類型
+                'transfer_order_no'                     => 'required_with:transfer_type',   // 轉入單號
+                'customer_manufacturer_id'              => 'required',                      // 客戶廠商
+                'staff_id'                              => 'required',                      // 員工職員
+                'department_id'                         => 'required',                      // 部門
+                'project_id'                            => 'nullable',                      // 專案
+                'invoice_no'                            => 'nullable',                      // 發票號碼
+                'voucher_no'                            => 'nullable',                      // 傳票號碼
+                'billing_type'                          => 'required',                      // 立帳方式
+                'tax_type'                              => 'required',                      // 扣稅類別
+                'currency_id'                           => 'required',                      // 幣別
+                'remark'                                => 'nullable',                      // 備註
                 //
                 'items'                                 => 'required|array',
                 'items.*.product_id'                    => 'required',
@@ -126,8 +128,8 @@ class SalesOrderController extends Controller
                 'staff_id'                  => $attributes['staff_id'],
                 'department_id'             => $attributes['department_id'],
                 'currency_id'               => $attributes['currency_id'],
-                'invoice_no'                => $attributes['invoice_no'],
-                'voucher_no'                => $attributes['voucher_no'],
+                'invoice_no'                => $attributes['invoice_no'] ?? null,
+                'voucher_no'                => $attributes['voucher_no'] ?? null,
                 'billing_type'              => $attributes['billing_type'],
                 'tax_type'                  => $attributes['tax_type'],
                 'project_id'                => $attributes['project_id'] ?? null,
@@ -156,6 +158,25 @@ class SalesOrderController extends Controller
                 $this->proccesRelationWithRequest($record->items(), $mapItems->toArray());
             }
 
+            // 判斷是否有轉單建立
+            if (isset($attributes['transfer_type']) && isset($attributes['transfer_order_no'])) {
+                //
+                switch ($attributes['transfer_type']) {
+                    case 'App\Models\SubscriberOrder':
+                        $order = \App\Models\SubscriberOrder::where('subscriber_order_no', $attributes['transfer_order_no'])->first();
+                        break;
+                    default:
+                        throw new \Exception('轉入單號類型不存在.');
+                }
+                if (!$order) throw new \Exception('轉入單號不存在.');
+
+                // 更新轉入單號
+                $record->update([
+                    'transfer_type'     => get_class($order),
+                    'transfer_order_no' => $order['id'],
+                ]);
+            }
+
             DB::commit();
             return $this->created($record);
         } catch (\Exception $e) {
@@ -178,7 +199,7 @@ class SalesOrderController extends Controller
         try {
             $data = SalesOrder::findOrFail($id);
 
-            $data->load('items.product');
+            $data->load('transfer', 'items.product');
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
