@@ -61,19 +61,10 @@
                 {{ $t('SalesVoucherList.transferNo') }}
               </template>
 
-              <validation-provider
-                #default="{ errors }"
-                name="transferNo"
-              >
-                <v-select
-                  label="transferNo"
-                  v-model="showData.transfer_order_no"
-                  :options="transferNoOption"
-                  :placeholder="$t('SalesVoucherModal.selectTransferNo')"
-                  :reduce="option => option.id"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
+              <TransferSwitcher
+                :show-data="showData"
+                @clear-transfer="clearTransfer"
+              />
             </b-form-group>
 
             <!-- 廠商 -->
@@ -625,7 +616,7 @@ import {
 import { ref } from "@vue/composition-api"
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
-import { VueGoodTable } from 'vue-good-table'
+import TransferSwitcher from './TransferSwitcher.vue'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import axios from "@axios"
 
@@ -657,10 +648,15 @@ export default {
 
     vSelect,
     flatPickr,
-    VueGoodTable,
+    TransferSwitcher,
   },
   setup(_, { root, refs }) {
     const API_PATH = 'sales-orders'
+
+    // Record 紀錄
+    const blankRecord = {
+      items: [],
+    }
 
     const showData = ref(null)
 
@@ -915,6 +911,11 @@ export default {
       }
     }
 
+    // 清除轉單
+    const clearTransfer = () => {
+      showData.value = JSON.parse(JSON.stringify(blankRecord))
+    }
+
     return {
       showData,
 
@@ -942,6 +943,8 @@ export default {
 
       // 驗證
       required,
+
+      clearTransfer,
     }
   },
 }

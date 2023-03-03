@@ -61,23 +61,10 @@
                 {{ $t('PurchaseVoucherList.transferNo') }}
               </template>
 
-              <div class="d-flex">
-                <b-form-select
-                  v-model="showData.transfer_type"
-                  :options="[{ value: 'requisition', text: '請購' }, { value: 'inquiry_voucher', text: '詢價' }, { value: 'App\\Models\\ProcurementOrder', text: '採購' }]"
-                  class="w-25"
-                />
-                <v-select
-                  id="transferNo"
-                  label="no"
-                  v-model="showData.transfer_order_no"
-                  :options="transferNoOption"
-                  :placeholder="$t('PurchaseVoucherModal.selectTransferNo')"
-                  :reduce="option => option.id"
-                  class="w-100"
-                  @input="transferOrderSwitcher"
-                />
-              </div>
+              <TransferSwitcher
+                :show-data="showData"
+                @clear-transfer="clearTransfer"
+              />
             </b-form-group>
 
             <!-- 廠商 -->
@@ -682,9 +669,9 @@ import { ref } from "@vue/composition-api"
 import vSelect from 'vue-select'
 import Multiselect from 'vue-multiselect'
 import flatPickr from 'vue-flatpickr-component'
-import { VueGoodTable } from 'vue-good-table'
+import TransferSwitcher from './TransferSwitcher.vue'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import axios from "@axios"
+import axios from '@axios'
 
 export default {
   components: {
@@ -720,9 +707,8 @@ export default {
 
     vSelect,
     flatPickr,
-    VueGoodTable,
-    // Treeselect,
     Multiselect,
+    TransferSwitcher,
   },
   setup(_, { root, refs }) {
     const API_PATH = 'purchase-orders'
@@ -987,42 +973,13 @@ export default {
       }
     }
 
-    // 轉入單號選擇棄
-    const transferOrderSwitcher = transfer_id => {
-      if (!transfer_id) {
-        showData.value = JSON.parse(JSON.stringify(blankRecord))
-        return
-      }
-
-      axios.get(`/procurement-orders/${transfer_id}`)
-        .then(response => {
-          const data = response.data
-          root.$set(showData.value, 'customer_manufacturer_id', data.customer_manufacturer_id);
-          root.$set(showData.value, 'currency_id', data.currency_id);
-          root.$set(showData.value, 'department_id', data.department_id);
-          root.$set(showData.value, 'project_id', data.project_id);
-          root.$set(showData.value, 'staff_id', data.staff_id);
-          root.$set(showData.value, 'billing_type', data.billing_type);
-          root.$set(showData.value, 'tax_type', data.tax_type);
-
-          const items = data.items.map(m => ({
-            amount: m.amount,
-            delivery_date: m.delivery_date,
-            price: m.price,
-            quantity: m.quantity,
-            storehouse_id: m.storehouse_id,
-            product_id: m.product_id,
-            product: { code: m.product.code, unit: m.product.unit, sku: m.product.sku },
-          }))
-          root.$set(showData.value, 'items', items);
-
-          console.log(data.items);
-          console.log(response.data);
-          // transferNoOption.value = response.data
-        })
+    // 清除轉單
+    const clearTransfer = () => {
+      showData.value = JSON.parse(JSON.stringify(blankRecord))
     }
 
     return {
+      blankRecord,
       showData,
 
       validationForm,
@@ -1038,7 +995,6 @@ export default {
       manufacturerOption,
       storehouseOption,
       productOption,
-      transferOrderSwitcher,
 
       onSearchProduct,
       selectProduct,
@@ -1050,6 +1006,8 @@ export default {
 
       // 驗證
       required,
+
+      clearTransfer,
     }
   },
 }
