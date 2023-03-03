@@ -75,6 +75,7 @@
                   :placeholder="$t('PurchaseVoucherModal.selectTransferNo')"
                   :reduce="option => option.id"
                   class="w-100"
+                  @input="transferOrderSwitcher"
                 />
               </div>
             </b-form-group>
@@ -432,7 +433,8 @@
           <b-table-simple
             responsive
             bordered
-            style="overflow-x: visible"
+            style1="overflow-x: visible"
+            style="height: 400px"
           >
             <b-thead>
               <b-tr>
@@ -467,6 +469,56 @@
                 </b-td>
                 <!-- 產品 -->
                 <b-td>
+                  <!-- <multiselect
+                    v-model="selectedCountries"
+                    id="ajax"
+                    label="name"
+                    track-by="code"
+                    placeholder="Type to search"
+                    open-direction="bottom"
+                    :options="productOption"
+                    :multiple="true"
+                    :searchable="true"
+                    :loading="isLoading"
+                    :internal-search="false"
+                    :clear-on-select="false"
+                    :close-on-select="false"
+                    :options-limit="300"
+                    :limit="3"
+                    :limit-text="limitText"
+                    :max-height="600"
+                    :show-no-results="false"
+                    :hide-selected="true"
+                    @search-change="asyncFind"
+                    style="width: 200px;"
+                  >
+                    <template
+                      slot="tag"
+                      slot-scope="{ option, remove }"
+                    >
+                      <span class="custom__tag">
+                        <span>{{ option.name }}</span>
+                        <span
+                          class="custom__remove"
+                          @click="remove(option)"
+                        >
+                          ❌
+                        </span>
+                      </span>
+                    </template>
+                    <template
+                      slot="clear"
+                      slot-scope="props"
+                    >
+                      <div
+                        class="multiselect__clear"
+                        v-if="selectedCountries.length"
+                        @mousedown.prevent.stop="clearAll(props.search)"
+                      ></div>
+                    </template>
+                    <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+                  </multiselect> -->
+
                   <v-select
                     :id="`product-` + index"
                     label="name"
@@ -628,10 +680,7 @@ import {
 } from "bootstrap-vue"
 import { ref } from "@vue/composition-api"
 import vSelect from 'vue-select'
-// import the component
-import Treeselect from '@riophae/vue-treeselect'
-// import the styles
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import Multiselect from 'vue-multiselect'
 import flatPickr from 'vue-flatpickr-component'
 import { VueGoodTable } from 'vue-good-table'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
@@ -670,20 +719,24 @@ export default {
     BButton,
 
     vSelect,
-    Treeselect,
     flatPickr,
     VueGoodTable,
+    // Treeselect,
+    Multiselect,
   },
   setup(_, { root, refs }) {
     const API_PATH = 'purchase-orders'
+
+    // Record 紀錄
+    const blankRecord = {
+      items: [],
+    }
 
     const showData = ref(null)
 
     // 讀取
     if (root.$route.name === 'PurchaseOperation-PurchaseVoucherCreate') {
-      showData.value = {
-        items: [],
-      }
+      showData.value = JSON.parse(JSON.stringify(blankRecord))
     } else {
       axios.get(`/${API_PATH}/${root.$route.params.id}`)
         .then(response => {
@@ -934,6 +987,41 @@ export default {
       }
     }
 
+    // 轉入單號選擇棄
+    const transferOrderSwitcher = transfer_id => {
+      if (!transfer_id) {
+        showData.value = JSON.parse(JSON.stringify(blankRecord))
+        return
+      }
+
+      axios.get(`/procurement-orders/${transfer_id}`)
+        .then(response => {
+          const data = response.data
+          root.$set(showData.value, 'customer_manufacturer_id', data.customer_manufacturer_id);
+          root.$set(showData.value, 'currency_id', data.currency_id);
+          root.$set(showData.value, 'department_id', data.department_id);
+          root.$set(showData.value, 'project_id', data.project_id);
+          root.$set(showData.value, 'staff_id', data.staff_id);
+          root.$set(showData.value, 'billing_type', data.billing_type);
+          root.$set(showData.value, 'tax_type', data.tax_type);
+
+          const items = data.items.map(m => ({
+            amount: m.amount,
+            delivery_date: m.delivery_date,
+            price: m.price,
+            quantity: m.quantity,
+            storehouse_id: m.storehouse_id,
+            product_id: m.product_id,
+            product: { code: m.product.code, unit: m.product.unit, sku: m.product.sku },
+          }))
+          root.$set(showData.value, 'items', items);
+
+          console.log(data.items);
+          console.log(response.data);
+          // transferNoOption.value = response.data
+        })
+    }
+
     return {
       showData,
 
@@ -950,6 +1038,7 @@ export default {
       manufacturerOption,
       storehouseOption,
       productOption,
+      transferOrderSwitcher,
 
       onSearchProduct,
       selectProduct,
@@ -966,7 +1055,8 @@ export default {
 }
 </script>
 
-<style lang="scss" >
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style lang="scss">
 tbody {
   tr {
     td {

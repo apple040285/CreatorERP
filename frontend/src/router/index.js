@@ -2,13 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store'
 
-// Routes 引用
+// Routes
 import { isUserLoggedIn } from '@/auth/utils'
 
 import systemManagement from './routes/systemManagement'
 import basicData from './routes/basicData'
 import productData from './routes/productData'
-import projectData from './routes/projectData'
 import customerManufacturerData from './routes/customerManufacturerData'
 import procurementOperation from './routes/procurementOperation'
 import purchaseOperation from './routes/purchaseOperation'
@@ -52,11 +51,9 @@ const router = new VueRouter({
         ],
       },
     },
-    //呼叫
     ...systemManagement,
     ...basicData,
     ...productData,
-    ...projectData,
     ...customerManufacturerData,
     ...procurementOperation,
     ...purchaseOperation,

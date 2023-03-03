@@ -90,6 +90,31 @@ export default [
     },
   },
   {
+    path: '/BasicData/ProjectDataSetting',
+    name: 'BasicData-ProjectDataSetting',
+    component: () => import('@/views/basic-data/project/ProjectList.vue'),
+    meta: {
+      pageTitle: 'Project Data Setting',
+      breadcrumb: [
+        { text: 'Basic Data' },
+        { text: 'Project Data Setting', active: true },
+      ],
+    },
+  },
+  {
+    path: '/BasicData/ProjectDataSetting/:id',
+    name: 'BasicData-ProjectEdit',
+    component: () => import('@/views/basic-data/project/ProjectEdit.vue'),
+    meta: {
+      pageTitle: 'Project Data Setting',
+      navActiveLink: 'BasicData-ProjectDataSetting',
+      breadcrumb: [
+        { text: 'Basic Data' },
+        { text: 'Project Data Setting', active: true },
+      ],
+    },
+  },
+  {
     path: '/BasicData/BankDataSettingList',
     name: 'BasicData-BankDataSettingList',
     component: () => import('@/views/basic-data/bank/List.vue'),
