@@ -119,4 +119,16 @@ export default [
             ],
         },
     },
+    {
+        path: '/ProductData/InventorySetting',
+        name: 'ProductData-InventorySetting',
+        component: () => import('@/views/product-data/inventory/InventoryList.vue'),
+        meta: {
+            pageTitle: '庫存總管設定',
+            breadcrumb: [
+                { text: 'Product Data' },
+                { text: '庫存總管設定', active: true },
+            ],
+        },
+    },
 ]
