@@ -78,7 +78,7 @@
       mode="remote"
       :isLoading.sync="showLoading"
       :rows="rows"
-      :columns="tableColumns"
+      :columns="tableColumns.map(m => ({ thClass: (m.thClass || m.class), tdClass: (m.tdClass || m.class), ...m }))"
       :totalRows="itemsCount"
       :pagination-options="{
         enabled: true,

@@ -96,7 +96,7 @@ export default {
       { label: 'PurchaseVoucherList.purchaseStaff', field: 'staff.name' },
       { label: 'PurchaseVoucherList.status', field: 'status' },
       { label: 'PurchaseVoucherList.approvalStatus', field: 'approvalStatus' },
-      { label: 'PurchaseVoucherList.action', field: 'action' },
+      { label: 'PurchaseVoucherList.action', field: 'action', class: 'text-right' },
     ]
 
     // 總共筆數
