@@ -27,6 +27,7 @@
                   id="purchaseDate"
                   v-model="showData.purchase_date"
                   :placeholder="$t('PurchaseVoucherList.purchaseDate')"
+                  :disabled="isDetail"
                   class="form-control"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
@@ -88,6 +89,7 @@
                   v-model="showData.customer_manufacturer_id"
                   :options="manufacturerOption"
                   :placeholder="$t('PurchaseVoucherModal.selectManufacturer')"
+                  :disabled="isDetail"
                   :reduce="option => option.id"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
@@ -112,6 +114,7 @@
                   v-model="showData.invoice_no"
                   type="text"
                   :placeholder="$t('PurchaseVoucherList.invoice')"
+                  :disabled="isDetail"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -135,6 +138,7 @@
                   v-model="showData.voucher_no"
                   type="text"
                   :placeholder="$t('PurchaseVoucherList.subpoena')"
+                  :disabled="isDetail"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -161,6 +165,7 @@
                   :options="staffOption"
                   :placeholder="$t('PurchaseVoucherModal.selectPurchaseStaff')"
                   :reduce="option => option.id"
+                  :disabled="isDetail"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -187,6 +192,7 @@
                   :options="purchaseDepartmentOption"
                   :placeholder="$t('PurchaseVoucherModal.selectPurchaseDepartment')"
                   :reduce="option => option.id"
+                  :disabled="isDetail"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -212,6 +218,7 @@
                   :options="projectOption"
                   :placeholder="$t('PurchaseVoucherModal.selectProject')"
                   :reduce="option => option.id"
+                  :disabled="isDetail"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -242,6 +249,7 @@
                   ]"
                   :placeholder="$t('PurchaseVoucherList.selectAccountSettingMethod')"
                   :reduce="option => option.value"
+                  :disabled="isDetail"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -272,6 +280,7 @@
                   ]"
                   :placeholder="$t('PurchaseVoucherList.selectTaxDeductionCategory')"
                   :reduce="option => option.value"
+                  :disabled="isDetail"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -299,6 +308,7 @@
                   :options="currencyOption"
                   :placeholder="$t('PurchaseVoucherModal.selectCurrency')"
                   :reduce="option => option.id"
+                  :disabled="isDetail"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -394,6 +404,7 @@
                   v-model="showData.remark"
                   type="text"
                   :placeholder="$t('remark')"
+                  :disabled="isDetail"
                   rows="5"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
@@ -456,57 +467,14 @@
                 </b-td>
                 <!-- 產品 -->
                 <b-td>
-                  <!-- <multiselect
-                    v-model="selectedCountries"
-                    id="ajax"
-                    label="name"
-                    track-by="code"
-                    placeholder="Type to search"
-                    open-direction="bottom"
-                    :options="productOption"
-                    :multiple="true"
-                    :searchable="true"
-                    :loading="isLoading"
-                    :internal-search="false"
-                    :clear-on-select="false"
-                    :close-on-select="false"
-                    :options-limit="300"
-                    :limit="3"
-                    :limit-text="limitText"
-                    :max-height="600"
-                    :show-no-results="false"
-                    :hide-selected="true"
-                    @search-change="asyncFind"
+                  <b-form-input
+                    v-if="isDetail"
+                    disabled
+                    :value="item.product.name"
                     style="width: 200px;"
-                  >
-                    <template
-                      slot="tag"
-                      slot-scope="{ option, remove }"
-                    >
-                      <span class="custom__tag">
-                        <span>{{ option.name }}</span>
-                        <span
-                          class="custom__remove"
-                          @click="remove(option)"
-                        >
-                          ❌
-                        </span>
-                      </span>
-                    </template>
-                    <template
-                      slot="clear"
-                      slot-scope="props"
-                    >
-                      <div
-                        class="multiselect__clear"
-                        v-if="selectedCountries.length"
-                        @mousedown.prevent.stop="clearAll(props.search)"
-                      ></div>
-                    </template>
-                    <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
-                  </multiselect> -->
-
+                  />
                   <v-select
+                    v-else
                     :id="`product-` + index"
                     label="name"
                     :options="productOption"
@@ -547,6 +515,7 @@
                     :reduce="option => option.id"
                     class="text-nowrap"
                     style="width: 130px;"
+                    :disabled="isDetail"
                   />
                 </b-td>
                 <!-- 數量 -->
@@ -561,6 +530,7 @@
                       v-model="item.quantity"
                       min="0"
                       :placeholder="$t('PurchaseVoucherList.ProductList.quantity')"
+                      :disabled="isDetail"
                     />
                     <small class="text-danger">{{ errors[0] }}</small>
                   </validation-provider>
@@ -577,6 +547,7 @@
                       v-model="item.price"
                       min="0"
                       :placeholder="$t('PurchaseVoucherList.ProductList.unitPrice')"
+                      :disabled="isDetail"
                     />
                     <small class="text-danger">{{ errors[0] }}</small>
                   </validation-provider>
@@ -594,12 +565,16 @@
                 <b-td>
                   <flat-pickr
                     v-model="item.delivery_date"
-                    class="form-control"
+                    class="form-control flatpickr-disabled1"
+                    :disabled="isDetail"
                   />
                 </b-td>
                 <!-- 備註 -->
                 <b-td>
-                  <b-form-input v-model="item.remark" />
+                  <b-form-input
+                    v-model="item.remark"
+                    :disabled="isDetail"
+                  />
                 </b-td>
                 <!-- 操作 -->
                 <b-td>
@@ -665,7 +640,7 @@ import {
   BTableSimple, BThead, BTbody, BTfoot, BTh, BTr, BTd,
   BButton,
 } from "bootstrap-vue"
-import { ref } from "@vue/composition-api"
+import { ref, computed } from "@vue/composition-api"
 import vSelect from 'vue-select'
 import Multiselect from 'vue-multiselect'
 import flatPickr from 'vue-flatpickr-component'
@@ -717,6 +692,8 @@ export default {
     const blankRecord = {
       items: [],
     }
+
+    const isDetail = computed(() => root.$route.name === 'PurchaseOperation-PurchaseVoucherView')
 
     const showData = ref(null)
 
@@ -980,6 +957,7 @@ export default {
 
     return {
       blankRecord,
+      isDetail,
       showData,
 
       validationForm,
@@ -1036,4 +1014,7 @@ tbody {
 
 @import "@core/scss/vue/libs/vue-select.scss";
 @import "@core/scss/vue/libs/vue-flatpicker.scss";
+.form-control:disabled {
+  background-color: #efefef;
+}
 </style>

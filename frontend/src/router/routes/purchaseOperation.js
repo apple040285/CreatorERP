@@ -40,6 +40,20 @@ export default [
     },
   },
   {
+    path: '/PurchaseOperation/PurchaseVoucherView/:id/detail',
+    name: 'PurchaseOperation-PurchaseVoucherView',
+    component: () => import('@/views/purchase-operation/purchase-voucher/PurchaseVoucherEdit.vue'),
+    meta: {
+      pageTitle: 'Purchase Voucher',
+      navActiveLink: 'PurchaseOperation-PurchaseVoucherList',
+      breadcrumb: [
+        { text: 'Purchase Operation' },
+        { text: 'Purchase Voucher', to: { name: 'PurchaseOperation-PurchaseVoucherList' } },
+        { text: 'edit', active: true },
+      ],
+    },
+  },
+  {
     path: '/PurchaseOperation/ReturnedPurchaseInvoiceList',
     name: 'PurchaseOperation-ReturnedPurchaseInvoiceList',
     component: () => import('@/views/purchase-operation/returned-purchase-invoice/List.vue'),
