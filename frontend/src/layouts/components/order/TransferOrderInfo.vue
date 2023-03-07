@@ -57,12 +57,26 @@ export default {
     BTr,
     BTd,
   },
-  setup(_, { root }) {
+  props: {
+    endpoint: {
+      type: String,
+      required: true,
+    },
+    orderId: {
+      type: [String, Number],
+      required: true,
+    },
+  },
+  setup(props, { root }) {
     const transfers = ref([])
-    axios.post('/procurement-orders/transfers', { id: root.$route.params.id })
+    axios.post(props.endpoint, { id: props.orderId })
       .then(response => {
         transfers.value = response.data
       })
+    // axios.post('/procurement-orders/transfers', { id: root.$route.params.id })
+    //   .then(response => {
+    //     transfers.value = response.data
+    //   })
 
     const resolveOrderTransferType = type => {
       if (type === 'App\\Models\\ProcurementOrder') return '進貨憑單'

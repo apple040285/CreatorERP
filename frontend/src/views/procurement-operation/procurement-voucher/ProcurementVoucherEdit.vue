@@ -416,176 +416,17 @@
             title="產品資訊"
             active
           >
-            <!-- 產品資料 -->
-            <b-card
+            <ProductItemInfo
               v-if="showData"
-              :title="$t('ProcurementVoucherModal.productInformation')"
-            >
-              <b-button
-                variant="primary"
-                type="button"
-                size="sm"
-                class="mb-1"
-                @click.prevent="addItem(showData.items)"
-              >
-                <feather-icon icon="PlusIcon" />
-              </b-button>
-
-              <b-table-simple
-                responsive
-                bordered
-                style="overflow-x: visible"
-              >
-                <b-thead>
-                  <b-tr>
-                    <b-th class="text-nowrap">#</b-th>
-                    <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.productNo') }} </b-th>
-                    <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.productName') }} </b-th>
-                    <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.specification') }} </b-th>
-                    <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.unit') }} </b-th>
-                    <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.storehouse') }} </b-th>
-                    <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.quantity') }} </b-th>
-                    <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.unitPrice') }} </b-th>
-                    <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.amount') }} </b-th>
-                    <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.productPreDeliveryDate') }} </b-th>
-                    <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.productRemark') }} </b-th>
-                    <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.action') }} </b-th>
-                  </b-tr>
-                </b-thead>
-
-                <b-tbody>
-                  <!-- items -->
-                  <b-tr
-                    v-for="(item, index) in showData.items"
-                    :key="index"
-                  >
-                    <b-th>{{ index + 1 }}</b-th>
-                    <!-- 品號 -->
-                    <b-td>
-                      <b-form-input
-                        disabled
-                        :value="item.product_code || (item.product && item.product.code)"
-                      />
-                    </b-td>
-                    <!-- 產品 -->
-                    <b-td>
-                      <v-select
-                        :id="`product-` + index"
-                        label="name"
-                        :options="productOption"
-                        :placeholder="$t('ProcurementVoucherModal.selectProductName')"
-                        :filterable="false"
-                        style="width: 200px;"
-                        @search="onSearchProduct"
-                        @input="val => selectProduct(val, item)"
-                        :value="(item.product && item.product.name)"
-                      >
-                        <template slot="no-options">
-                          輸入關鍵字搜索 產品資料...
-                        </template>
-                      </v-select>
-                    </b-td>
-                    <!-- 規格 -->
-                    <b-td>
-                      <b-form-input
-                        disabled
-                        :value="item.product_sku || (item.product && item.product.sku)"
-                      />
-                    </b-td>
-                    <!-- 單位 -->
-                    <b-td>
-                      <b-form-input
-                        disabled
-                        :value="item.product_unit || (item.product && item.product.unit)"
-                      />
-                    </b-td>
-                    <!-- 倉庫 -->
-                    <b-td>
-                      <v-select
-                        :id="`storehouse-` + index"
-                        label="name"
-                        v-model="item.storehouse_id"
-                        :options="storehouseOption"
-                        :placeholder="$t('ProcurementVoucherModal.selectStorehouse')"
-                        :reduce="option => option.id"
-                        class="text-nowrap"
-                        style="width: 130px;"
-                      />
-                    </b-td>
-                    <!-- 數量 -->
-                    <b-td>
-                      <validation-provider
-                        #default="{ errors }"
-                        name="quantity"
-                        rules="required"
-                      >
-                        <b-form-input
-                          type="number"
-                          v-model="item.quantity"
-                          min="0"
-                          :placeholder="$t('ProcurementVoucherList.ProductList.quantity')"
-                        />
-                        <small class="text-danger">{{ errors[0] }}</small>
-                      </validation-provider>
-                    </b-td>
-                    <!-- 單價 -->
-                    <b-td>
-                      <validation-provider
-                        #default="{ errors }"
-                        name="unitPrice"
-                        rules="required"
-                      >
-                        <b-form-input
-                          type="number"
-                          v-model="item.price"
-                          min="0"
-                          :placeholder="$t('ProcurementVoucherList.ProductList.unitPrice')"
-                        />
-                        <small class="text-danger">{{ errors[0] }}</small>
-                      </validation-provider>
-                    </b-td>
-                    <!-- 金額 -->
-                    <b-td>
-                      <b-form-input
-                        type="number"
-                        min="0"
-                        disabled
-                        :value="parseFloat(item.quantity * item.price).toFixed(2)"
-                      />
-                    </b-td>
-                    <!-- 預交日期 -->
-                    <b-td>
-                      <flat-pickr
-                        v-model="item.delivery_date"
-                        class="form-control"
-                      />
-                    </b-td>
-                    <!-- 備註 -->
-                    <b-td>
-                      <b-form-input v-model="item.remark" />
-                    </b-td>
-                    <!-- 操作 -->
-                    <b-td>
-                      <b-button
-                        class="ml-50"
-                        size="sm"
-                        variant="gradient-danger"
-                        @click="removeItem(showData.items, index)"
-                      >
-                        <feather-icon
-                          icon="Trash2Icon"
-                          size="12"
-                        />
-                      </b-button>
-                    </b-td>
-                  </b-tr>
-                </b-tbody>
-              </b-table-simple>
-            </b-card>
+              :show-data="showData"
+            />
           </b-tab>
 
           <b-tab title="轉單資訊">
-            <transfer-order-info />
+            <TransferOrderInfo
+              endpoint="procurement-orders/transfers"
+              :order-id="$route.params.id"
+            />
           </b-tab>
         </b-tabs>
 
@@ -637,7 +478,8 @@ import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import axios from '@axios'
-import TransferOrderInfo from './TransferOrderInfo.vue'
+import ProductItemInfo from '@/layouts/components/order/ProductItemInfo.vue'
+import TransferOrderInfo from '@/layouts/components/order/TransferOrderInfo.vue'
 
 export default {
   components: {
@@ -668,6 +510,7 @@ export default {
     vSelect,
     flatPickr,
 
+    ProductItemInfo,
     TransferOrderInfo,
   },
   setup(_, { root, refs }) {
@@ -754,32 +597,6 @@ export default {
         })
     }
 
-    // 新增產品
-    const addItem = items => {
-      items.push({})
-    }
-
-    // 刪除產品
-    const removeItem = (items, index) => {
-      root.$swal({
-        title: `${root.$t('checkDelete')}`,
-        text: `${root.$t('cantRevert')}`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: `${root.$t('yes')}`,
-        cancelButtonText: `${root.$t('no')}`,
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-outline-danger ml-1',
-        },
-        buttonsStyling: false,
-      }).then(result => {
-        if (result.value) {
-          items.splice(index, 1)
-        }
-      })
-    }
-
     // 轉入單號
     const transferNoOption = ref([])
 
@@ -824,32 +641,6 @@ export default {
       .then(response => {
         storehouseOption.value = response.data
       })
-
-    // 產品
-    const productOption = ref([])
-    const onSearchProduct = (search, loading) => {
-      if (search.length) {
-        loading(true);
-
-        axios.post('/products/options', { searchTerm: escape(search) })
-          .then(response => {
-            productOption.value = response.data
-            loading(false)
-          })
-      }
-    }
-
-    // 選擇產品
-    const selectProduct = (select, item) => {
-      if (select) {
-        root.$set(item, 'product_id', select.id);
-        root.$set(item, 'product_code', select.code);
-        root.$set(item, 'product_sku', select.sku);
-        root.$set(item, 'product_unit', select.unit);
-        root.$set(item, 'quantity', 1);
-        root.$set(item, 'price', select.price);
-      }
-    }
 
     // 未稅金額
     const getUntaxedAmount = () => {
@@ -931,9 +722,6 @@ export default {
 
       validationForm,
 
-      addItem,
-      removeItem,
-
       transferNoOption,
       currencyOption,
       projectOption,
@@ -941,10 +729,6 @@ export default {
       staffOption,
       manufacturerOption,
       storehouseOption,
-      productOption,
-
-      onSearchProduct,
-      selectProduct,
 
       // 計算
       getUntaxedAmount,
@@ -958,26 +742,7 @@ export default {
 }
 </script>
 
-<style lang="scss" >
-tbody {
-  tr {
-    td {
-      padding: 0.5rem !important;
-    }
-  }
-}
-
-@media (max-width: 767px) {
-  .table-responsive .dropdown-menu {
-    position: static !important;
-  }
-}
-@media (min-width: 768px) {
-  .table-responsive {
-    overflow-y: visible;
-  }
-}
-
+<style lang="scss">
 @import "@core/scss/vue/libs/vue-select.scss";
 @import "@core/scss/vue/libs/vue-flatpicker.scss";
 </style>

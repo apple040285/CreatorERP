@@ -6,7 +6,7 @@
     <div class="card-header">
       <!-- Title & SubTitle -->
       <div>
-        <b-card-title>{{ $attrs.title }}</b-card-title>
+        <b-card-title>{{ title }}</b-card-title>
         <b-card-sub-title v-if="$attrs['sub-title']">
           {{ $attrs['sub-title'] }}
         </b-card-sub-title>
@@ -240,6 +240,10 @@ export default {
     Ripple,
   },
   props: {
+    title: {
+      type: String,
+      required: true,
+    },
     showLoading: {
       type: Boolean,
       required: true,
@@ -342,7 +346,32 @@ export default {
 }
 </script>
 
-
-<style lang="scss" >
+<style lang="scss">
 @import "@core/scss/vue/libs/vue-good-table.scss";
+thead {
+  tr {
+    th {
+      padding: 1rem !important;
+    }
+  }
+}
+
+tbody {
+  tr {
+    td {
+      padding: 0.5rem !important;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .table-responsive .dropdown-menu {
+    position: static !important;
+  }
+}
+@media (min-width: 768px) {
+  .table-responsive {
+    overflow-y: visible;
+  }
+}
 </style>
