@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store'
 
-// Routes
+// Routes 引用
 import { isUserLoggedIn } from '@/auth/utils'
 
 import systemManagement from './routes/systemManagement'
@@ -52,6 +52,7 @@ const router = new VueRouter({
         ],
       },
     },
+    //呼叫
     ...systemManagement,
     ...basicData,
     ...productData,

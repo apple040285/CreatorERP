@@ -7,7 +7,7 @@
       :fetch-all="fetchAll"
       :tableColumns="tableColumns"
       :itemsCount="itemsCount"
-      @add-sidebar="() => $router.push({ name: 'BasicData-ProjectEdit', params: { id: 'add' } })"
+      @add-sidebar="() => $router.push({ name: 'ProjectData-ProjectEdit', params: { id: 'add' } })"
     >
 
       <!-- Column: Id -->
@@ -30,7 +30,7 @@
             variant="outline-success"
             size="sm"
             class="mr-50"
-            :to="{ name: 'BasicData-ProjectEdit', params: { id: data.row.id } }"
+            :to="{ name: 'ProjectData-ProjectEdit', params: { id: data.row.id } }"
           >
             <feather-icon
               icon="Edit2Icon"

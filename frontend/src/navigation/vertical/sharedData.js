@@ -3,6 +3,7 @@ export default [
     header: 'SHARED DATA',
     action: 'departments.read',
   },
+  // 基本資料
   {
     title: 'Basic Data',
     icon: 'FileTextIcon',
@@ -28,11 +29,6 @@ export default [
         action: 'currencies.read',
       },
       {
-        title: 'Project Data Setting',
-        route: 'BasicData-ProjectDataSetting',
-        action: 'projects.read',
-      },
-      {
         title: 'Bank Data Setting',
         route: 'BasicData-BankDataSettingList',
         action: 'banks.read',
@@ -44,6 +40,7 @@ export default [
       },
     ],
   },
+  // 產品資料
   {
     title: 'Product Data',
     icon: 'ShoppingCartIcon',
@@ -70,6 +67,7 @@ export default [
       },
     ],
   },
+  // 客戶廠商
   {
     title: 'Customer/Manufacturer Data',
     icon: 'UsersIcon',
@@ -84,6 +82,18 @@ export default [
         route: 'CustomerManufacturerData-CustomerManufacturerDataList',
         action: 'customer_manufacturers.read',
       },
+    ],
+  },
+  //專案管理
+  {
+    title: 'Project Data',
+    icon: 'FileTextIcon',
+    children: [
+      {
+        title: 'Project Data Setting',
+        route: 'ProjectData-ProjectDataSetting',
+        action: 'projects.read',
+      }
     ],
   },
 ]
