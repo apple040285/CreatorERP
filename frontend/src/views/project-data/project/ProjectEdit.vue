@@ -36,8 +36,8 @@
               />
             </b-form-group>
 
-             <!-- 施工地址 -->
-             <b-form-group
+            <!-- 施工地址 -->
+            <b-form-group
               :label="$t('ProjectList.address')"
               label-for="name"
               class="col-12 col-sm-4"
@@ -50,8 +50,8 @@
               />
             </b-form-group>
 
-             <!-- 開工日期 -->
-             <b-form-group
+            <!-- 開工日期 -->
+            <b-form-group
               :label="$t('ProjectList.startDate')"
               label-for="expiration_date"
               class="col-12 col-sm-4"
@@ -63,10 +63,9 @@
                 :placeholder="$t('ProjectList.startDate')"
               />
             </b-form-group>
-  
 
-             <!-- 預定完工日期 -->
-             <b-form-group
+            <!-- 預定完工日期 -->
+            <b-form-group
               :label="$t('ProjectList.reserveDate')"
               label-for="expiration_date"
               class="col-12 col-sm-4"
@@ -78,10 +77,9 @@
                 :placeholder="$t('ProjectList.reserveDate')"
               />
             </b-form-group>
-           
 
-             <!-- 實際完工日期 -->
-             <b-form-group
+            <!-- 實際完工日期 -->
+            <b-form-group
               :label="$t('ProjectList.actualDate')"
               label-for="expiration_date"
               class="col-12 col-sm-4"
@@ -94,7 +92,6 @@
               />
             </b-form-group>
 
-           
             <!-- 是否保固 -->
             <b-form-group
               label-for="accountSettingMethod"
@@ -124,9 +121,8 @@
               </validation-provider>
             </b-form-group>
 
-
-             <!-- 保固截止日期 -->
-             <b-form-group
+            <!-- 保固截止日期 -->
+            <b-form-group
               :label="$t('ProjectList.cutoffDate')"
               label-for="expiration_date"
               class="col-12 col-sm-4"
@@ -138,8 +134,6 @@
                 :placeholder="$t('ProjectList.cutoffDate')"
               />
             </b-form-group>
-
-
 
             <!-- 失效日期 -->
             <b-form-group
@@ -155,8 +149,8 @@
               />
             </b-form-group>
 
-             <!-- 客戶窗口 -->
-             <b-form-group
+            <!-- 客戶窗口 -->
+            <b-form-group
               label-for="customer"
               class="col-12 col-sm-4"
             >
@@ -181,7 +175,7 @@
               </validation-provider>
             </b-form-group>
 
-             <!-- 業務員 -->
+            <!-- 業務員 -->
             <b-form-group
               label-for="projectStaff"
               class="col-12 col-sm-4"
@@ -207,8 +201,8 @@
               </validation-provider>
             </b-form-group>
 
-             <!-- 專案預定總額 -->
-             <b-form-group
+            <!-- 專案預定總額 -->
+            <b-form-group
               label-for="untaxedAmount"
               class="col-12 col-sm-4"
             >
@@ -229,7 +223,7 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-  
+
             <!-- 預估獲利 -->
             <b-form-group
               :label="$t('ProjectList.reserveProfit')"
@@ -245,8 +239,8 @@
               />
             </b-form-group>
 
-              <!-- 專案毛利 -->
-              <b-form-group
+            <!-- 專案毛利 -->
+            <b-form-group
               :label="$t('ProjectList.grossMargin')"
               label-for="name"
               class="col-12 col-sm-4"
@@ -260,8 +254,8 @@
               />
             </b-form-group>
 
-              <!-- 專案實際總額 -->
-              <b-form-group
+            <!-- 專案實際總額 -->
+            <b-form-group
               :label="$t('ProjectList.actualTotal')"
               label-for="name"
               class="col-12 col-sm-4"
@@ -274,7 +268,6 @@
                 :placeholder="$t('ProjectList.actualTotal')"
               />
             </b-form-group>
-        
 
             <!-- 備註 -->
             <b-form-group
@@ -304,8 +297,6 @@
           v-if="showData"
           :title="$t('ProjectList.projectDetails')"
         >
-          
-
           <b-table-simple
             responsive
             bordered
@@ -321,48 +312,56 @@
                 <b-th class="text-nowrap"> 實際支出 </b-th>
                 <b-th class="text-nowrap"> 預估收入 </b-th>
                 <b-th class="text-nowrap"> 實際收入 </b-th>
-                <b-th class="text-nowrap"> </b-th>
               </b-tr>
             </b-thead>
-
+            
             <b-tbody>
               <!-- items -->
               <b-tr
-                v-for="(item, index) in showData.items"
+                v-for="(item, index) in fakeData"
                 :key="index"
               >
                 <b-th>{{ index + 1 }}</b-th>
-                <!-- 施工地址 -->
+                <!-- 日期 -->
                 <b-td>
-                  <b-form-input v-model="item.code" />
+                  <small class="text-center text-nowrap">
+                    {{ item.date }}
+                  </small>
                 </b-td>
-                <!-- 開工日期 -->
                 <b-td>
-                  <b-form-input v-model="item.code" />
+                  <small class="text-center text-nowrap">
+                    {{ item.type }}
+                  </small>
                 </b-td>
-                <!-- 預定完工日期 -->
                 <b-td>
-                  <b-form-input v-model="item.code" />
+                  <small class="text-center text-nowrap">
+                    {{ item.no }}
+                  </small>
                 </b-td>
-                <!-- 實際完工日期 -->
                 <b-td>
-                  <b-form-input v-model="item.code" />
+                  <small class="text-center text-nowrap">
+                    {{ item.m }}
+                  </small>
                 </b-td>
-                <!-- 是否保固 -->
                 <b-td>
-                  <b-form-input v-model="item.code" />
+                  <small class="text-center text-nowrap">
+                    {{ item.money1 }}
+                  </small>
                 </b-td>
-                <!-- 保固截止日期 -->
                 <b-td>
-                  <b-form-input v-model="item.code" />
+                  <small class="text-center text-nowrap">
+                    {{ item.money2 }}
+                  </small>
                 </b-td>
-                <!-- 客戶窗口 -->
                 <b-td>
-                  <b-form-input v-model="item.code" />
+                  <small class="text-center text-nowrap">
+                    {{ item.money3 }}
+                  </small>
                 </b-td>
-                <!-- 業務員 -->
                 <b-td>
-                  <b-form-input v-model="item.code" />
+                  <small class="text-center text-nowrap">
+                    {{ item.money4 }}
+                  </small>
                 </b-td>
               </b-tr>
             </b-tbody>
@@ -568,7 +567,7 @@ export default {
       })
     }
 
-     // 人員
+    // 人員
     const staffOption = ref([])
     axios.post('/staffs/options')
       .then(response => {
@@ -585,6 +584,14 @@ export default {
     // 轉入單號
     const transferNoOption = ref([])
 
+    // 臨時用假資料
+    const fakeData = [
+      { date: '2023/02/21', type: '銷貨', no: 'SA202302210001', m: '收入', money1: 0, money2: 0, money3: 0, money4: 200000 },
+      { date: '2023/01/15', type: '訂購', no: 'SO202301150009', m: '收入', money1: 0, money2: 0, money3: 0, money4: 0 },
+      { date: '2023/01/13', type: '訂購', no: 'SO202301130018', m: '收入', money1: 0, money2: 0, money3: 15000, money4: 0 },
+      { date: '2022/12/28', type: '進貨', no: 'PC202212280039', m: '收入', money1: 0, money2: 98000, money3: 0, money4: 0 },
+      { date: '2022/12/16', type: '採購', no: 'PO202212160017', m: '支出', money1: 0, money2: 0, money3: 80000, money4: 0 },
+    ];
     return {
       showData,
       staffOption,
@@ -594,6 +601,8 @@ export default {
 
       addItem,
       removeItem,
+
+      fakeData,
 
       // 驗證
       required,
