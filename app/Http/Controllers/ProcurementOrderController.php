@@ -202,7 +202,18 @@ class ProcurementOrderController extends Controller
         try {
             $data = ProcurementOrder::findOrFail($id);
 
-            $data->load('items.product');
+            $data->load('purchase_orders.items', 'items.product');
+
+            // 撈出所有轉出單據集合中值的出現次數
+            $product_ids = $data->purchase_orders->pluck('items')->flatten()->countBy('product_id')->toArray();
+
+            // 迴圈處理訂單明細項目
+            foreach ($data['items'] as $key => &$item) {
+                // 已轉數量
+                $item['transferred_quantity'] = $product_ids[$item['product_id']] ?? 0;
+                // 未轉數量
+                $item['untransferred_quantity'] = $item['quantity'] - $item['transferred_quantity'];
+            }
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
