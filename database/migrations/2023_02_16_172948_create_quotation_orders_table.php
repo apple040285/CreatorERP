@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->timestamp('quotation_date')->useCurrent()->comment('報價日期');
             $table->string('quotation_order_no')->comment('報價單號');
+            $table->string('transfer_type')->nullable()->comment('轉入單號類型');
+            $table->string('transfer_order_no')->nullable()->comment('轉入單號');
             $table->unsignedBigInteger('customer_manufacturer_id')->comment('客戶名稱');
             $table->unsignedBigInteger('staff_id')->comment('報價人員');
             $table->unsignedBigInteger('department_id')->comment('報價部門');

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\WithTransferOrderNo;
+use App\Enum\PermissionNames;
 use App\Models\ProcurementOrder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -9,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class ProcurementOrderController extends Controller
 {
+    use WithTransferOrderNo;
+
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +38,7 @@ class ProcurementOrderController extends Controller
 
     public function options(Request $request)
     {
-        $data = ProcurementOrder::get(['id', 'procurement_order_no as no']);
+        $data = ProcurementOrder::with('customer_manufacturer')->get(['id', 'procurement_order_no as no', 'customer_manufacturer_id']);
 
         return $this->success($data);
     }
@@ -67,19 +71,21 @@ class ProcurementOrderController extends Controller
 
         $attributes = $request->validate(
             [
-                'procurement_date'                      => 'required',          // 採購日期
-                'transfer_type'                         => 'nullable',          // 轉入單號類型
-                'transfer_order_no'                     => 'nullable',          // 轉入單號
-                'customer_manufacturer_id'              => 'required',          // 客戶廠商
-                'staff_id'                              => 'required',          // 員工職員
-                'department_id'                         => 'required',          // 部門
-                'project_id'                            => 'nullable',          // 專案
-                'deposit_amount'                        => 'nullable',          // 訂金
-                'delivery_date'                         => 'nullable',          // 預交日期
-                'billing_type'                          => 'required',          // 立帳方式
-                'tax_type'                              => 'required',          // 扣稅類別
-                'currency_id'                           => 'required',          // 幣別
-                'remark'                                => 'nullable',          // 備註
+                'procurement_date'                      => 'required',                      // 採購日期
+                'transfer_type'                         => 'nullable',                      // 轉入單號類型
+                'transfer_order_no'                     => 'required_with:transfer_type',   // 轉入單號
+                'transfer_type'                         => 'nullable',                      // 轉入單號類型
+                'transfer_order_no'                     => 'nullable',                      // 轉入單號
+                'customer_manufacturer_id'              => 'required',                      // 客戶廠商
+                'staff_id'                              => 'required',                      // 員工職員
+                'department_id'                         => 'required',                      // 部門
+                'project_id'                            => 'nullable',                      // 專案
+                'deposit_amount'                        => 'nullable',                      // 訂金
+                'delivery_date'                         => 'nullable',                      // 預交日期
+                'billing_type'                          => 'required',                      // 立帳方式
+                'tax_type'                              => 'required',                      // 扣稅類別
+                'currency_id'                           => 'required',                      // 幣別
+                'remark'                                => 'nullable',                      // 備註
                 //
                 'items'                                 => 'required|array',
                 'items.*.product_id'                    => 'required',
@@ -180,6 +186,11 @@ class ProcurementOrderController extends Controller
                 $this->proccesRelationWithRequest($record->items(), $mapItems->toArray());
             }
 
+            // 判斷是否有轉單建立
+            if (isset($attributes['transfer_type']) && isset($attributes['transfer_order_no'])) {
+                $this->updateTransferOrderNo($record, $attributes);
+            }
+
             DB::commit();
             return $this->created($record);
         } catch (\Exception $e) {
@@ -200,12 +211,16 @@ class ProcurementOrderController extends Controller
         $this->authorize('customer_manufacturers.read');
 
         try {
-            $data = ProcurementOrder::findOrFail($id);
+            $record = ProcurementOrder::findOrFail($id);
 
-            $data->load('purchase_orders.items', 'items.product');
+            $record->load('purchase_orders.items', 'items.product');
+
+            $data = $record->toArray();
+
+            $data['order_no'] = $record->procurement_order_no;
 
             // 撈出所有轉出單據集合中值的出現次數
-            $product_ids = $data->purchase_orders->pluck('items')->flatten()->countBy('product_id')->toArray();
+            $product_ids = $record->purchase_orders->pluck('items')->flatten()->countBy('product_id')->toArray();
 
             // 迴圈處理訂單明細項目
             foreach ($data['items'] as $key => &$item) {
@@ -357,11 +372,18 @@ class ProcurementOrderController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        // $this->authorize('customer_manufacturers.delete');
+        $this->authorize(PermissionNames::刪除採購作業->value);
 
         try {
             DB::beginTransaction();
-            // $data = ProcurementOrder::findOrFail($id)->delete();
+
+            $record = ProcurementOrder::findOrFail($id);
+
+            $record->loadCount('purchase_orders');
+
+            if ($record->purchase_orders_count > 0) throw new \Exception('單據已轉出無法進行刪除.');
+
+            $record->delete();
 
             DB::commit();
             return $this->success('刪除成功');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\WithTransferOrderNo;
 use App\Models\QuotationOrder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class QuotationOrderController extends Controller
 {
+    use WithTransferOrderNo;
+
     /**
      * Display a listing of the resource.
      *
@@ -32,6 +35,13 @@ class QuotationOrderController extends Controller
         return $this->success($data);
     }
 
+    public function options(Request $request)
+    {
+        $data = QuotationOrder::with('customer_manufacturer')->get(['id', 'quotation_order_no as no', 'customer_manufacturer_id']);
+
+        return $this->success($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -44,16 +54,18 @@ class QuotationOrderController extends Controller
 
         $attributes = $request->validate(
             [
-                'quotation_date'                        => 'required',          // 報價日期
-                'customer_manufacturer_id'              => 'required',          // 客戶廠商
-                'staff_id'                              => 'required',          // 員工職員
-                'department_id'                         => 'required',          // 部門
-                'project_id'                            => 'nullable',          // 專案
-                'effective_date'                        => 'nullable',          // 有效日期
-                'expiration_date'                       => 'nullable',          // 失效日期
-                'tax_type'                              => 'required',          // 扣稅類別
-                'currency_id'                           => 'required',          // 幣別
-                'remark'                                => 'nullable',          // 備註
+                'quotation_date'                        => 'required',                      // 報價日期
+                'transfer_type'                         => 'nullable',                      // 轉入單號類型
+                'transfer_order_no'                     => 'required_with:transfer_type',   // 轉入單號
+                'customer_manufacturer_id'              => 'required',                      // 客戶廠商
+                'staff_id'                              => 'required',                      // 員工職員
+                'department_id'                         => 'required',                      // 部門
+                'project_id'                            => 'nullable',                      // 專案
+                'effective_date'                        => 'nullable',                      // 有效日期
+                'expiration_date'                       => 'nullable',                      // 失效日期
+                'tax_type'                              => 'required',                      // 扣稅類別
+                'currency_id'                           => 'required',                      // 幣別
+                'remark'                                => 'nullable',                      // 備註
                 //
                 'items'                                 => 'required|array',
                 'items.*.product_id'                    => 'required',
@@ -152,6 +164,11 @@ class QuotationOrderController extends Controller
                 $this->proccesRelationWithRequest($record->items(), $mapItems->toArray());
             }
 
+            // 判斷是否有轉單建立
+            if (isset($attributes['transfer_type']) && isset($attributes['transfer_order_no'])) {
+                $this->updateTransferOrderNo($record, $attributes);
+            }
+
             DB::commit();
             return $this->created($record);
         } catch (\Exception $e) {
@@ -172,9 +189,13 @@ class QuotationOrderController extends Controller
         $this->authorize('customer_manufacturers.read');
 
         try {
-            $data = QuotationOrder::findOrFail($id);
+            $record = QuotationOrder::findOrFail($id);
 
-            $data->load('items.product');
+            $record->load('transfer', 'items.product');
+
+            $data = $record->toArray();
+
+            $data['order_no'] = $record->quotation_order_no;
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {

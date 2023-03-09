@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\WithTransferOrderNo;
 use App\Models\SalesOrder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class SalesOrderController extends Controller
 {
+    use WithTransferOrderNo;
+
     /**
      * Display a listing of the resource.
      *
@@ -28,6 +31,13 @@ class SalesOrderController extends Controller
                 return $paginatedInstance->setCollection($sortCollection);
             }
         );
+
+        return $this->success($data);
+    }
+
+    public function options(Request $request)
+    {
+        $data = SalesOrder::with('customer_manufacturer')->get(['id', 'sales_order_no as no', 'customer_manufacturer_id']);
 
         return $this->success($data);
     }
@@ -160,21 +170,7 @@ class SalesOrderController extends Controller
 
             // 判斷是否有轉單建立
             if (isset($attributes['transfer_type']) && isset($attributes['transfer_order_no'])) {
-                //
-                switch ($attributes['transfer_type']) {
-                    case 'App\Models\SubscriberOrder':
-                        $order = \App\Models\SubscriberOrder::where('subscriber_order_no', $attributes['transfer_order_no'])->first();
-                        break;
-                    default:
-                        throw new \Exception('轉入單號類型不存在.');
-                }
-                if (!$order) throw new \Exception('轉入單號不存在.');
-
-                // 更新轉入單號
-                $record->update([
-                    'transfer_type'     => get_class($order),
-                    'transfer_order_no' => $order['id'],
-                ]);
+                $this->updateTransferOrderNo($record, $attributes);
             }
 
             DB::commit();
@@ -197,9 +193,11 @@ class SalesOrderController extends Controller
         $this->authorize('customer_manufacturers.read');
 
         try {
-            $data = SalesOrder::findOrFail($id);
+            $record = SalesOrder::findOrFail($id);
 
-            $data->load('transfer', 'items.product');
+            $record->load('transfer', 'items.product');
+
+            $data = $record->toArray();
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {

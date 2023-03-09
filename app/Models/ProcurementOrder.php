@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,12 +18,19 @@ class ProcurementOrder extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['order_no'];
+
     protected $casts = [
         'created_at'        => 'datetime:Y-m-d',
         'updated_at'        => 'datetime:Y-m-d',
     ];
 
-    // protected $with = ['purchase_orders'];
+    protected function orderNo(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => $attributes['procurement_order_no'],
+        );
+    }
 
     public function customer_manufacturer()
     {
@@ -54,8 +62,19 @@ class ProcurementOrder extends Model
         return $this->morphMany(PurchaseOrder::class, null, 'transfer_type', 'transfer_order_no');
     }
 
-    // public function transfer()
-    // {
-    //     return $this->morphTo(null, 'transfer_type', 'transfer_order_no');
-    // }
+    public function transfer()
+    {
+        return $this->morphTo(null, 'transfer_type', 'transfer_order_no');
+    }
+
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+
+        foreach ($this->appends as $key => $append) {
+            unset($array[$append]);
+        }
+
+        return $array;
+    }
 }

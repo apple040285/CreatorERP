@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\WithTransferOrderNo;
+use App\Enum\PermissionNames;
 use App\Models\PurchaseOrder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -9,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class PurchaseOrderController extends Controller
 {
+    use WithTransferOrderNo;
+
     /**
      * Display a listing of the resource.
      *
@@ -28,6 +32,13 @@ class PurchaseOrderController extends Controller
                 return $paginatedInstance->setCollection($sortCollection);
             }
         );
+
+        return $this->success($data);
+    }
+
+    public function options(Request $request)
+    {
+        $data = PurchaseOrder::with('customer_manufacturer')->get(['id', 'purchase_order_no as no', 'customer_manufacturer_id']);
 
         return $this->success($data);
     }
@@ -161,21 +172,7 @@ class PurchaseOrderController extends Controller
 
             // 判斷是否有轉單建立
             if (isset($attributes['transfer_type']) && isset($attributes['transfer_order_no'])) {
-                //
-                switch ($attributes['transfer_type']) {
-                    case 'App\Models\ProcurementOrder':
-                        $order = \App\Models\ProcurementOrder::where('procurement_order_no', $attributes['transfer_order_no'])->first();
-                        break;
-                    default:
-                        throw new \Exception('轉入單號類型不存在.');
-                }
-                if (!$order) throw new \Exception('轉入單號不存在.');
-
-                // 更新轉入單號
-                $record->update([
-                    'transfer_type'     => get_class($order),
-                    'transfer_order_no' => $order['id'],
-                ]);
+                $this->updateTransferOrderNo($record, $attributes);
             }
 
             DB::commit();
@@ -198,9 +195,13 @@ class PurchaseOrderController extends Controller
         $this->authorize('customer_manufacturers.read');
 
         try {
-            $data = PurchaseOrder::findOrFail($id);
+            $record = PurchaseOrder::findOrFail($id);
 
-            $data->load('transfer', 'items.product');
+            $record->load('transfer', 'items.product');
+
+            $data = $record->toArray();
+
+            $data['order_no'] = $record->purchase_order_no;
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
@@ -345,11 +346,18 @@ class PurchaseOrderController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        // $this->authorize('customer_manufacturers.delete');
+        $this->authorize(PermissionNames::刪除進貨作業->value);
 
         try {
             DB::beginTransaction();
-            // $data = PurchaseOrder::findOrFail($id)->delete();
+
+            $record = PurchaseOrder::findOrFail($id);
+
+            // $record->loadCount('purchase_orders');
+
+            // if ($record->purchase_orders_count > 0) throw new \Exception('單據已轉出無法進行刪除.');
+
+            $record->delete();
 
             DB::commit();
             return $this->success('刪除成功');

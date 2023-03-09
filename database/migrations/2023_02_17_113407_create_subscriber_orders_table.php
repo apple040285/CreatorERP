@@ -17,11 +17,12 @@ return new class extends Migration
             $table->id();
             $table->timestamp('subscriber_date')->useCurrent()->comment('訂購日期');
             $table->string('subscriber_order_no')->comment('訂購單號');
+            $table->string('transfer_type')->nullable()->comment('轉入單號類型');
+            $table->string('transfer_order_no')->nullable()->comment('轉入單號');
             $table->unsignedBigInteger('customer_manufacturer_id')->comment('客戶名稱');
             $table->unsignedBigInteger('staff_id')->comment('訂購人員');
             $table->unsignedBigInteger('department_id')->comment('訂購部門');
             $table->unsignedBigInteger('currency_id')->comment('幣別');
-            $table->string('transfer_type')->nullable()->comment('轉入單號類型');
             $table->string('billing_type')->comment('立帳方式');
             $table->timestamp('delivery_date')->useCurrent()->comment('預交日期');
             $table->string('tax_type')->comment('扣稅類別');

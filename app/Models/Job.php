@@ -35,4 +35,13 @@ class Job extends Model
             get: fn ($value, $attributes) => StatusEnum::tryFrom($attributes['status'] ?? null)?->name,
         );
     }
+
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+
+        unset($array['status_key']);
+
+        return $array;
+    }
 }

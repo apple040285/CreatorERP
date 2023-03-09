@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\WithTransferOrderNo;
 use App\Models\SubscriberOrder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class SubscriberOrderController extends Controller
 {
+    use WithTransferOrderNo;
+
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +37,7 @@ class SubscriberOrderController extends Controller
 
     public function options(Request $request)
     {
-        $data = SubscriberOrder::get(['id', 'subscriber_order_no as no']);
+        $data = SubscriberOrder::with('customer_manufacturer')->get(['id', 'subscriber_order_no as no', 'customer_manufacturer_id']);
 
         return $this->success($data);
     }
@@ -52,6 +55,8 @@ class SubscriberOrderController extends Controller
         $attributes = $request->validate(
             [
                 'subscriber_date'                       => 'required',                      // 訂購日期
+                'transfer_type'                         => 'nullable',                      // 轉入單號類型
+                'transfer_order_no'                     => 'required_with:transfer_type',   // 轉入單號
                 'customer_manufacturer_id'              => 'required',                      // 客戶廠商
                 'staff_id'                              => 'required',                      // 員工職員
                 'department_id'                         => 'required',                      // 部門
@@ -161,6 +166,11 @@ class SubscriberOrderController extends Controller
                 $this->proccesRelationWithRequest($record->items(), $mapItems->toArray());
             }
 
+            // 判斷是否有轉單建立
+            if (isset($attributes['transfer_type']) && isset($attributes['transfer_order_no'])) {
+                $this->updateTransferOrderNo($record, $attributes);
+            }
+
             DB::commit();
             return $this->created($record);
         } catch (\Exception $e) {
@@ -181,9 +191,13 @@ class SubscriberOrderController extends Controller
         $this->authorize('customer_manufacturers.read');
 
         try {
-            $data = SubscriberOrder::findOrFail($id);
+            $record = SubscriberOrder::findOrFail($id);
 
-            $data->load('items.product');
+            $record->load('transfer', 'items.product');
+
+            $data = $record->toArray();
+
+            $data['order_no'] = $record->subscriber_order_no;
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
