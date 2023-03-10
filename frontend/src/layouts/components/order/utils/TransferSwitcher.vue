@@ -43,7 +43,6 @@
       >
         <template v-for="(guard, index) in guardArray">
           <b-tab
-            v-if="openTransfer.includes(guard.endpoint)"
             :key="index"
             :title="guard.label"
           />
@@ -161,7 +160,7 @@ export default {
       { label: '進貨憑單', endpoint: 'purchase-orders', model: 'App\\Models\\PurchaseOrder' },
       { label: '訂購頻單', endpoint: 'subscriber-orders', model: 'App\\Models\\SubscriberOrder' },
       { label: '銷貨憑單', endpoint: 'sales-orders', model: 'App\\Models\\SalesOrder' },
-    ]
+    ].filter(item => props.openTransfer.includes(item.endpoint));
 
     const guard = computed(() => guardArray.find((a, index) => index === guardIndex.value))
 
