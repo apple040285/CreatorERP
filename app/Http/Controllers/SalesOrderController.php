@@ -37,7 +37,7 @@ class SalesOrderController extends Controller
 
     public function options(Request $request)
     {
-        $data = SalesOrder::with('customer_manufacturer')->get(['id', 'sales_order_no as no', 'customer_manufacturer_id']);
+        $data = SalesOrder::with('customer_manufacturer')->get(['id', 'sales_order_no', 'customer_manufacturer_id']);
 
         return $this->success($data);
     }

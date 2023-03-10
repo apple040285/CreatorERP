@@ -37,7 +37,7 @@ class SubscriberOrderController extends Controller
 
     public function options(Request $request)
     {
-        $data = SubscriberOrder::with('customer_manufacturer')->get(['id', 'subscriber_order_no as no', 'customer_manufacturer_id']);
+        $data = SubscriberOrder::with('customer_manufacturer')->get(['id', 'subscriber_order_no', 'customer_manufacturer_id']);
 
         return $this->success($data);
     }

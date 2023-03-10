@@ -38,7 +38,7 @@ class ProcurementOrderController extends Controller
 
     public function options(Request $request)
     {
-        $data = ProcurementOrder::with('customer_manufacturer')->get(['id', 'procurement_order_no as no', 'customer_manufacturer_id']);
+        $data = ProcurementOrder::with('customer_manufacturer')->get(['id', 'procurement_order_no', 'customer_manufacturer_id']);
 
         return $this->success($data);
     }

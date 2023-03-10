@@ -38,7 +38,7 @@ class PurchaseOrderController extends Controller
 
     public function options(Request $request)
     {
-        $data = PurchaseOrder::with('customer_manufacturer')->get(['id', 'purchase_order_no as no', 'customer_manufacturer_id']);
+        $data = PurchaseOrder::with('customer_manufacturer')->get(['id', 'purchase_order_no', 'customer_manufacturer_id']);
 
         return $this->success($data);
     }

@@ -37,7 +37,7 @@ class QuotationOrderController extends Controller
 
     public function options(Request $request)
     {
-        $data = QuotationOrder::with('customer_manufacturer')->get(['id', 'quotation_order_no as no', 'customer_manufacturer_id']);
+        $data = QuotationOrder::with('customer_manufacturer')->get(['id', 'quotation_order_no', 'customer_manufacturer_id']);
 
         return $this->success($data);
     }
