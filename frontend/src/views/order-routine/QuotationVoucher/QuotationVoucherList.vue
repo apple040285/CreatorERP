@@ -79,7 +79,7 @@ export default {
   directives: {
     Ripple,
   },
-  setup(_, { root }) {
+  setup(_, { root, refs }) {
     const API_PATH = 'quotation-orders'
 
     // loading 動畫
@@ -120,49 +120,33 @@ export default {
     }
 
     const deleteMethod = id => {
-      root.$swal({
-        title: `${root.$t('checkDelete')}`,
-        text: `${root.$t('cantRevert')}`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: `${root.$t('yes')}`,
-        cancelButtonText: `${root.$t('no')}`,
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-outline-danger ml-1',
-        },
-        buttonsStyling: false,
-      }).then(result => {
-        if (result.value) {
-          axios
-            .delete(`${API_PATH}/${id}`)
-            .then(() => {
-              root.$toast({
-                component: ToastificationContent,
-                position: 'top-right',
-                props: {
-                  title: `${root.$t('deletedSuccess')}`,
-                  icon: 'CoffeeIcon',
-                  variant: 'success',
-                  text: `${root.$t('Backend Account Management')} ${root.$t('deletedSuccess')}!`,
-                },
-              })
-
-              root.fetchAll(root.$refs.table.serverParams, data => root.$refs.table.rows = data);
+      refs.table.removeClosure(() => {
+        return axios
+          .delete(`${API_PATH}/${id}`)
+          .then(() => {
+            root.$toast({
+              component: ToastificationContent,
+              position: 'top-right',
+              props: {
+                title: `${root.$t('deletedSuccess')}`,
+                icon: 'CoffeeIcon',
+                variant: 'success',
+                text: `${root.$t('Backend Account Management')} ${root.$t('deletedSuccess')}!`,
+              },
             })
-            .catch(error => {
-              root.$toast({
-                component: ToastificationContent,
-                position: 'top-right',
-                props: {
-                  title: `${root.$t('deletedFailed')}`,
-                  icon: 'XIcon',
-                  variant: 'danger',
-                  text: error.response.data.message,
-                },
-              })
+          })
+          .catch(error => {
+            root.$toast({
+              component: ToastificationContent,
+              position: 'top-right',
+              props: {
+                title: `${root.$t('deletedFailed')}`,
+                icon: 'XIcon',
+                variant: 'danger',
+                text: error.response.data.message,
+              },
             })
-        }
+          })
       })
     }
 

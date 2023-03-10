@@ -634,7 +634,7 @@ export default {
 
     // 客戶廠商
     const manufacturerOption = ref([])
-    axios.post('/customer-manufacturers/options')
+    axios.post('/customer-manufacturers/options', { type: 'customer' })
       .then(response => {
         manufacturerOption.value = response.data
       })

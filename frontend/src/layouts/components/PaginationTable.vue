@@ -210,7 +210,8 @@ import {
   BFormInput,
   BFormSelect,
 } from 'bootstrap-vue'
-import { computed, ref } from '@vue/composition-api'
+import Vue from 'vue'
+import { ref } from '@vue/composition-api'
 // import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 // import vSelect from 'vue-select'
 import { VueGoodTable } from 'vue-good-table'
@@ -291,7 +292,7 @@ export default {
       default: false,
     },
   },
-  setup(props) {
+  setup(props, { root }) {
     // 預設分頁處理
     const serverParams = ref({
       sort: [
@@ -331,6 +332,27 @@ export default {
       props.fetchAll(serverParams.value, data => rows.value = data)
     }
 
+    // 刪除警示
+    const removeClosure = closure => {
+      Vue.swal({
+        title: `${root.$t('checkDelete')}`,
+        text: `${root.$t('cantRevert')}`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: `${root.$t('yes')}`,
+        cancelButtonText: `${root.$t('no')}`,
+        customClass: { confirmButton: 'btn btn-primary', cancelButton: 'btn btn-outline-danger ml-1' },
+        buttonsStyling: false,
+      }).then(result => {
+        if (result.value) {
+          closure()
+            .then(() => {
+              props.fetchAll(serverParams.value, data => rows.value = data)
+            })
+        }
+      })
+    }
+
     return {
       serverParams,
       perPageOptions,
@@ -341,6 +363,9 @@ export default {
       onSortChange,
       onPerPageChange,
       onSearch,
+
+      // 
+      removeClosure,
     }
   }
 }
