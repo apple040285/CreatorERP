@@ -61,19 +61,11 @@
                 {{ $t('ProcurementVoucherList.transferNo') }}
               </template>
 
-              <validation-provider
-                #default="{ errors }"
-                name="transferNo"
-              >
-                <v-select
-                  label="transferNo"
-                  v-model="showData.transfer_order_no"
-                  :options="transferNoOption"
-                  :placeholder="$t('ProcurementVoucherModal.selectTransferNo')"
-                  :reduce="option => option.id"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
+              <TransferSwitcher
+                :show-data="showData"
+                :open-transfer="[]"
+                @clear-transfer="clearTransfer"
+              />
             </b-form-group>
 
             <!-- 廠商 -->
@@ -422,7 +414,10 @@
             />
           </b-tab>
 
-          <b-tab title="轉單資訊">
+          <b-tab
+            v-if="$route.params.id"
+            title="轉單資訊"
+          >
             <TransferOrderInfo
               endpoint="procurement-orders/transfers"
               :order-id="$route.params.id"
@@ -478,6 +473,7 @@ import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import axios from '@axios'
+import TransferSwitcher from '@/layouts/components/order/utils/TransferSwitcher.vue'
 import ProductItemInfo from '@/layouts/components/order/ProductItemInfo.vue'
 import TransferOrderInfo from '@/layouts/components/order/TransferOrderInfo.vue'
 
@@ -510,19 +506,23 @@ export default {
     vSelect,
     flatPickr,
 
+    TransferSwitcher,
     ProductItemInfo,
     TransferOrderInfo,
   },
   setup(_, { root, refs }) {
     const API_PATH = 'procurement-orders'
 
+    // Record 紀錄
+    const blankRecord = {
+      items: [],
+    }
+
     const showData = ref(null)
 
     // 讀取
     if (root.$route.name === 'ProcurementOperation-ProcurementVoucherCreate') {
-      showData.value = {
-        items: [],
-      }
+      showData.value = JSON.parse(JSON.stringify(blankRecord))
     } else {
       axios.get(`/${API_PATH}/${root.$route.params.id}`)
         .then(response => {
@@ -717,6 +717,11 @@ export default {
       }
     }
 
+    // 清除轉單
+    const clearTransfer = () => {
+      showData.value = JSON.parse(JSON.stringify(blankRecord))
+    }
+
     return {
       showData,
 
@@ -737,6 +742,8 @@ export default {
 
       // 驗證
       required,
+
+      clearTransfer,
     }
   },
 }

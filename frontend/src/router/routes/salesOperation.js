@@ -26,7 +26,7 @@ export default [
         },
     },
     {
-        path: '/SalesOperation/SalesVoucherEdit',
+        path: '/SalesOperation/SalesVoucherEdit/:id',
         name: 'SalesOperation-SalesVoucherEdit',
         component: () => import('@/views/sales-operation/sales-voucher/SalesVoucherEdit.vue'),
         meta: {
