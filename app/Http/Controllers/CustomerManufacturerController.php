@@ -46,7 +46,7 @@ class CustomerManufacturerController extends Controller
 
     public function options(Request $request)
     {
-        $data = CustomerManufacturer::get();
+        $data = CustomerManufacturer::where('type', $request->input('type'))->get();
 
         return $this->success($data);
     }
@@ -151,10 +151,8 @@ class CustomerManufacturerController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $this->authorize('customer_manufacturers.update');
 
-    
         $data = $request->validate([
             'customer_manufacturer_category_id'     => 'required|exists:customer_manufacturer_categories,id',
             'currency_id'                           => 'nullable|exists:currencies,id',

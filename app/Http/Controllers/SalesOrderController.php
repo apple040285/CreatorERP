@@ -345,10 +345,16 @@ class SalesOrderController extends Controller
 
         try {
             DB::beginTransaction();
-            // $data = SalesOrder::findOrFail($id)->delete();
+
+            $record = SalesOrder::findOrFail($id);
+
+            // $record->loadCount('purchase_orders');
+
+            // if ($record->purchase_orders_count > 0) throw new \Exception('單據已轉出無法進行刪除.');
+
+            $record->delete();
 
             DB::commit();
-            return $this->success('刪除成功');
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
             return $this->notFound('找無此資料');

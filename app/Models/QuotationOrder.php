@@ -52,6 +52,11 @@ class QuotationOrder extends Model
         return $this->hasMany(QuotationOrderItem::class);
     }
 
+    public function sales_orders()
+    {
+        return $this->morphMany(SalesOrder::class, null, 'transfer_type', 'transfer_order_no');
+    }
+
     /**
      * 轉入單號
      *

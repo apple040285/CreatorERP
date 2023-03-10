@@ -53,6 +53,11 @@ class SubscriberOrder extends Model
         return $this->hasMany(SubscriberOrderItem::class);
     }
 
+    public function sales_orders()
+    {
+        return $this->morphMany(SalesOrder::class, null, 'transfer_type', 'transfer_order_no');
+    }
+
     /**
      * 轉入單號
      *

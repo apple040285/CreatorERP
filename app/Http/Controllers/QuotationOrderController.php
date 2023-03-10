@@ -338,10 +338,16 @@ class QuotationOrderController extends Controller
 
         try {
             DB::beginTransaction();
-            // $data = QuotationOrder::findOrFail($id)->delete();
+
+            $record = QuotationOrder::findOrFail($id);
+
+            $record->loadCount('sales_orders');
+
+            if ($record->sales_orders_count > 0) throw new \Exception('單據已轉出無法進行刪除.');
+
+            $record->delete();
 
             DB::commit();
-            return $this->success('刪除成功');
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
             return $this->notFound('找無此資料');
