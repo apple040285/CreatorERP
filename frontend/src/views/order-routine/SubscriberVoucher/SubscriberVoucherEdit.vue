@@ -449,7 +449,6 @@ import {
 import { ref } from "@vue/composition-api"
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
-import { VueGoodTable } from 'vue-good-table'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import axios from "@axios"
 import TransferSwitcher from '@/layouts/components/order/utils/TransferSwitcher.vue'
@@ -748,6 +747,11 @@ export default {
       }
     }
 
+    // 清除轉單
+    const clearTransfer = () => {
+      showData.value = JSON.parse(JSON.stringify(blankRecord))
+    }
+
     return {
       showData,
 
@@ -775,6 +779,8 @@ export default {
 
       // 驗證
       required,
+
+      clearTransfer,
     }
   },
 }

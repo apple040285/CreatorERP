@@ -63,6 +63,7 @@
 
               <TransferSwitcher
                 :show-data="showData"
+                :open-transfer="['procurement-orders', 'purchase-orders', 'quotation-orders', 'subscriber-orders']"
                 @clear-transfer="clearTransfer"
               />
             </b-form-group>
@@ -616,9 +617,9 @@ import {
 import { ref } from "@vue/composition-api"
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
-import TransferSwitcher from './TransferSwitcher.vue'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import axios from "@axios"
+import TransferSwitcher from '@/layouts/components/order/utils/TransferSwitcher.vue'
 
 export default {
   components: {
@@ -648,6 +649,7 @@ export default {
 
     vSelect,
     flatPickr,
+
     TransferSwitcher,
   },
   setup(_, { root, refs }) {

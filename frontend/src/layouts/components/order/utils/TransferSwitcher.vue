@@ -82,7 +82,7 @@
               </b-th>
               <b-td class="d-flex justify-content-between align-items-center">
                 <div>
-                  <span>{{ transfer.no }}</span>
+                  <span>{{ transfer.order_no }}</span>
                   -
                   <span>{{ transfer.customer_manufacturer && transfer.customer_manufacturer.full_name }}</span>
                 </div>

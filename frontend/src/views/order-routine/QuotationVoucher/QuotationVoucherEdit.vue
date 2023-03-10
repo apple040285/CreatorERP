@@ -442,9 +442,11 @@ import {
 import { ref } from "@vue/composition-api"
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
-import { VueGoodTable } from 'vue-good-table'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import axios from "@axios"
+import TransferSwitcher from '@/layouts/components/order/utils/TransferSwitcher.vue'
+import ProductItemInfo from '@/layouts/components/order/ProductItemInfo.vue'
+import TransferOrderInfo from '@/layouts/components/order/TransferOrderInfo.vue'
 
 export default {
   components: {
@@ -474,7 +476,10 @@ export default {
 
     vSelect,
     flatPickr,
-    VueGoodTable,
+
+    TransferSwitcher,
+    ProductItemInfo,
+    TransferOrderInfo,
   },
   setup(_, { root, refs }) {
     const API_PATH = 'quotation-orders'
@@ -735,6 +740,11 @@ export default {
       }
     }
 
+    // 清除轉單
+    const clearTransfer = () => {
+      showData.value = JSON.parse(JSON.stringify(blankRecord))
+    }
+
     return {
       showData,
 
@@ -762,6 +772,8 @@ export default {
 
       // 驗證
       required,
+
+      clearTransfer,
     }
   },
 }
