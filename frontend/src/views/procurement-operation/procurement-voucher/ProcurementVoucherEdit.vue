@@ -597,9 +597,6 @@ export default {
         })
     }
 
-    // 轉入單號
-    const transferNoOption = ref([])
-
     // 幣別
     const currencyOption = ref([])
     axios.post('/currencies/options')
@@ -727,7 +724,6 @@ export default {
 
       validationForm,
 
-      transferNoOption,
       currencyOption,
       projectOption,
       procurementDepartmentOption,

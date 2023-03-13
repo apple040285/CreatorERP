@@ -396,7 +396,7 @@
             title="轉單資訊"
           >
             <TransferOrderInfo
-              endpoint="procurement-orders/transfers"
+              endpoint="subscriber-orders/transfers"
               :order-id="$route.params.id"
             />
           </b-tab>

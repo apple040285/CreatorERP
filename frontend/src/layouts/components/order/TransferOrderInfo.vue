@@ -24,7 +24,7 @@
           :key="index"
         >
           <b-th>{{ index + 1 }}</b-th>
-          <b-td>{{ resolveOrderTransferType(item.transfer_type) }}</b-td>
+          <b-td>{{ item.document_type }}</b-td>
           <b-td>{{ item.purchase_order_no }}</b-td>
           <b-td>{{ item.purchase_date }}</b-td>
           <b-td>{{ item.tax_excluding_amount }}</b-td>
@@ -73,20 +73,9 @@ export default {
       .then(response => {
         transfers.value = response.data
       })
-    // axios.post('/procurement-orders/transfers', { id: root.$route.params.id })
-    //   .then(response => {
-    //     transfers.value = response.data
-    //   })
-
-    const resolveOrderTransferType = type => {
-      if (type === 'App\\Models\\ProcurementOrder') return '進貨憑單'
-      return '不明'
-    }
 
     return {
       transfers,
-
-      resolveOrderTransferType,
     }
   }
 }
