@@ -294,7 +294,7 @@
 
         <!-- 其他資訊 -->
         <b-card
-          v-if="showData"
+          v-if="showData && $route.params.id !== 'add'"
           :title="$t('ProjectList.projectDetails')"
         >
           <b-table-simple
@@ -303,7 +303,7 @@
           >
             <b-thead>
               <b-tr>
-                <b-th class="text-nowrap">#</b-th>
+                <b-th class="text-nowrap"> # </b-th>
                 <b-th class="text-nowrap"> 日期 </b-th>
                 <b-th class="text-nowrap"> 單據別 </b-th>
                 <b-th class="text-nowrap"> 單據號碼 </b-th>
@@ -314,53 +314,53 @@
                 <b-th class="text-nowrap"> 實際收入 </b-th>
               </b-tr>
             </b-thead>
-            
+
             <b-tbody>
               <!-- items -->
               <b-tr
-                v-for="(item, index) in fakeData"
-                :key="index"
+                v-for="(order, orderIndex) in projectOrders"
+                :key="orderIndex"
               >
-                <b-th>{{ index + 1 }}</b-th>
+                <b-th>{{ orderIndex + 1 }}</b-th>
                 <!-- 日期 -->
                 <b-td>
                   <small class="text-center text-nowrap">
-                    {{ item.date }}
+                    {{ order.date }}
                   </small>
                 </b-td>
                 <b-td>
                   <small class="text-center text-nowrap">
-                    {{ item.type }}
+                    {{ order.document_type }}
                   </small>
                 </b-td>
                 <b-td>
                   <small class="text-center text-nowrap">
-                    {{ item.no }}
+                    {{ order.order_no }}
                   </small>
                 </b-td>
                 <b-td>
                   <small class="text-center text-nowrap">
-                    {{ item.m }}
+                    {{ resolveOrderType(order.document_type) }}
                   </small>
                 </b-td>
-                <b-td>
+                <b-td class="text-right">
                   <small class="text-center text-nowrap">
-                    {{ item.money1 }}
+                    {{ isEstimatedExpenditure(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
                   </small>
                 </b-td>
-                <b-td>
+                <b-td class="text-right">
                   <small class="text-center text-nowrap">
-                    {{ item.money2 }}
+                    {{ isActualExpenditure(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
                   </small>
                 </b-td>
-                <b-td>
+                <b-td class="text-right">
                   <small class="text-center text-nowrap">
-                    {{ item.money3 }}
+                    {{ isEstimatedIncome(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
                   </small>
                 </b-td>
-                <b-td>
+                <b-td class="text-right">
                   <small class="text-center text-nowrap">
-                    {{ item.money4 }}
+                    {{ isActualIncome(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
                   </small>
                 </b-td>
               </b-tr>
@@ -452,6 +452,9 @@ export default {
   setup(_, { root, refs }) {
     const showData = ref(null)
 
+    // 專案的訂單列表
+    const projectOrders = ref([])
+
     // 讀取
     if (root.$route.params.id === 'add') {
       showData.value = {
@@ -462,6 +465,12 @@ export default {
         .then(response => {
           const data = response.data
           showData.value = JSON.parse(JSON.stringify(data))
+        })
+
+      axios.post(`/projects/relationships`, { project_id: root.$route.params.id })
+        .then(response => {
+          const data = response.data
+          projectOrders.value = JSON.parse(JSON.stringify(data))
         })
     }
 
@@ -581,19 +590,33 @@ export default {
         manufacturerOption.value = response.data
       })
 
-    // 轉入單號
-    const transferNoOption = ref([])
+    // 解析轉單類型
+    const resolveOrderType = type => {
+      if (type === '請購憑單') return '支出'
+      if (type === '詢價憑單') return '支出'
+      if (type === '採購憑單') return '支出'
+      if (type === '進貨憑單') return '支出'
+      if (type === '報價憑單') return '收入'
+      if (type === '訂購憑單') return '收入'
+      if (type === '銷貨憑單') return '收入'
+      return '不明'
+    }
 
-    // 臨時用假資料
-    const fakeData = [
-      { date: '2023/02/21', type: '銷貨', no: 'SA202302210001', m: '收入', money1: 0, money2: 0, money3: 0, money4: 200000 },
-      { date: '2023/01/15', type: '訂購', no: 'SO202301150009', m: '收入', money1: 0, money2: 0, money3: 0, money4: 0 },
-      { date: '2023/01/13', type: '訂購', no: 'SO202301130018', m: '收入', money1: 0, money2: 0, money3: 15000, money4: 0 },
-      { date: '2022/12/28', type: '進貨', no: 'PC202212280039', m: '收入', money1: 0, money2: 98000, money3: 0, money4: 0 },
-      { date: '2022/12/16', type: '採購', no: 'PO202212160017', m: '支出', money1: 0, money2: 0, money3: 80000, money4: 0 },
-    ];
+    // 預估支出
+    const isEstimatedExpenditure = type => type === '採購憑單'
+
+    // 實際支出
+    const isActualExpenditure = type => type === '進貨憑單'
+
+    // 預估收入
+    const isEstimatedIncome = type => type === '訂購憑單'
+
+    // 實際收入
+    const isActualIncome = type => type === '銷貨憑單'
+
     return {
       showData,
+      projectOrders,
       staffOption,
       manufacturerOption,
 
@@ -602,7 +625,11 @@ export default {
       addItem,
       removeItem,
 
-      fakeData,
+      resolveOrderType,
+      isEstimatedExpenditure,
+      isActualExpenditure,
+      isEstimatedIncome,
+      isActualIncome,
 
       // 驗證
       required,
