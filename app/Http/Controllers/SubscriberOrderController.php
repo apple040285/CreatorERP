@@ -42,6 +42,17 @@ class SubscriberOrderController extends Controller
         return $this->success($data);
     }
 
+    public function transfers(Request $request)
+    {
+        $attributes = $request->validate([
+            'id'    => 'required|exists:App\Models\SubscriberOrder,id',
+        ]);
+
+        $data = $this->getTransferInfo(SubscriberOrder::class, $attributes);
+
+        return $this->success($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

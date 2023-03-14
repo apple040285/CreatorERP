@@ -49,12 +49,7 @@ class ProcurementOrderController extends Controller
             'id'    => 'required|exists:App\Models\ProcurementOrder,id',
         ]);
 
-        $orders = \App\Models\PurchaseOrder::query()
-            ->where('transfer_type', ProcurementOrder::class)
-            ->where('transfer_order_no', $attributes['id'])
-            ->get();
-
-        $data = $orders->toArray();
+        $data = $this->getTransferInfo(ProcurementOrder::class, $attributes);
 
         return $this->success($data);
     }

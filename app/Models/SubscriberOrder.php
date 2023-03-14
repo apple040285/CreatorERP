@@ -18,7 +18,7 @@ class SubscriberOrder extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['order_no'];
+    protected $appends = ['date', 'order_no', 'document_type'];
 
     protected $casts = [
         'purchase_date'     => 'datetime:Y-m-d',
@@ -26,10 +26,24 @@ class SubscriberOrder extends Model
         'updated_at'        => 'datetime:Y-m-d',
     ];
 
+    protected function date(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => $attributes['subscriber_date'] ?? null,
+        );
+    }
+
     protected function orderNo(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => $attributes['subscriber_order_no'],
+            get: fn ($value, $attributes) => $attributes['subscriber_order_no'] ?? null,
+        );
+    }
+
+    protected function documentType(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => '訂購憑單',
         );
     }
 

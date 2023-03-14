@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\WithTransferOrderNo;
 use App\Enum\StatusEnum;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
+    use WithTransferOrderNo;
+
     /**
      * Display a listing of the resource.
      *
@@ -43,6 +46,17 @@ class ProjectController extends Controller
     public function options(Request $request)
     {
         $data = Project::get();
+
+        return $this->success($data);
+    }
+
+    public function relationships(Request $request)
+    {
+        $attributes = $request->validate([
+            'project_id'    => 'required|exists:App\Models\Project,id',
+        ]);
+
+        $data = $this->getProjectOrders($attributes['project_id']);
 
         return $this->success($data);
     }

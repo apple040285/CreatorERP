@@ -43,6 +43,17 @@ class PurchaseOrderController extends Controller
         return $this->success($data);
     }
 
+    public function transfers(Request $request)
+    {
+        $attributes = $request->validate([
+            'id'    => 'required|exists:App\Models\PurchaseOrder,id',
+        ]);
+
+        $data = $this->getTransferInfo(PurchaseOrder::class, $attributes);
+
+        return $this->success($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

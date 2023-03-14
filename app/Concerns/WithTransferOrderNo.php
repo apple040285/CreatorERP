@@ -2,15 +2,100 @@
 
 namespace App\Concerns;
 
+use App\Models\ProcurementOrder;
+use App\Models\PurchaseOrder;
+use App\Models\QuotationOrder;
+use App\Models\SalesOrder;
+use App\Models\SubscriberOrder;
+use Illuminate\Database\Eloquent\Model;
+
 trait WithTransferOrderNo
 {
+    protected $orders = [
+        ProcurementOrder::class,
+        PurchaseOrder::class,
+        QuotationOrder::class,
+        SubscriberOrder::class,
+        SalesOrder::class,
+    ];
+
+    public function getProjectOrders($project_id)
+    {
+        $procurementOrders = ProcurementOrder::query()
+            ->where('project_id', $project_id)
+            ->get();
+
+        $purchaseOrders = PurchaseOrder::query()
+            ->where('project_id', $project_id)
+            ->get();
+
+        $quotationOrders = QuotationOrder::query()
+            ->where('project_id', $project_id)
+            ->get();
+
+        $subscriberOrders = SubscriberOrder::query()
+            ->where('project_id', $project_id)
+            ->get();
+
+        $salesOrders = SalesOrder::query()
+            ->where('project_id', $project_id)
+            ->get();
+
+        $data = array_merge(
+            $procurementOrders->toArray(),
+            $purchaseOrders->toArray(),
+            $quotationOrders->toArray(),
+            $subscriberOrders->toArray(),
+            $salesOrders->toArray()
+        );
+
+        return $data;
+    }
+
+    public function getTransferInfo($class, $attributes)
+    {
+        $procurementOrders = ProcurementOrder::query()
+            ->where('transfer_type', $class)
+            ->where('transfer_order_no', $attributes['id'])
+            ->get();
+
+        $purchaseOrders = PurchaseOrder::query()
+            ->where('transfer_type', $class)
+            ->where('transfer_order_no', $attributes['id'])
+            ->get();
+
+        $quotationOrders = QuotationOrder::query()
+            ->where('transfer_type', $class)
+            ->where('transfer_order_no', $attributes['id'])
+            ->get();
+
+        $subscriberOrders = SubscriberOrder::query()
+            ->where('transfer_type', $class)
+            ->where('transfer_order_no', $attributes['id'])
+            ->get();
+
+        $salesOrders = SalesOrder::query()
+            ->where('transfer_type', $class)
+            ->where('transfer_order_no', $attributes['id'])
+            ->get();
+
+        $data = array_merge(
+            $procurementOrders->toArray(),
+            $purchaseOrders->toArray(),
+            $quotationOrders->toArray(),
+            $subscriberOrders->toArray(),
+            $salesOrders->toArray()
+        );
+
+        return $data;
+    }
+
     /**
-     * 檢查庫存並且扣除
+     * 更新轉單訂單
      *
-     * @param  mixed $product_id
-     * @param  mixed $storehouse_id
-     * @param  mixed $quantity
-     * @return bool
+     * @param  mixed $record
+     * @param  mixed $attributes
+     * @return void
      */
     public function updateTransferOrderNo($record, $attributes)
     {

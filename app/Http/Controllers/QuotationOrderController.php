@@ -42,6 +42,17 @@ class QuotationOrderController extends Controller
         return $this->success($data);
     }
 
+    public function transfers(Request $request)
+    {
+        $attributes = $request->validate([
+            'id'    => 'required|exists:App\Models\QuotationOrder,id',
+        ]);
+
+        $data = $this->getTransferInfo(QuotationOrder::class, $attributes);
+
+        return $this->success($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

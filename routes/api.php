@@ -66,6 +66,7 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     // 專案管理
     Route::apiResource('/projects', Controllers\ProjectController::class);
+    Route::post('projects/relationships', [Controllers\ProjectController::class, 'relationships']);
 
     // 銀行管理
     Route::apiResource('/banks', Controllers\BankController::class);
@@ -109,21 +110,25 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     // 進貨憑單
     Route::apiResource('/purchase-orders', Controllers\PurchaseOrderController::class);
+    Route::post('/procurement-orders/transfers', [Controllers\PurchaseOrderController::class, 'transfers']); // 轉單列表
 
 
     /** @var 訂購作業 */
 
     // 報價頻單
     Route::apiResource('/quotation-orders', Controllers\QuotationOrderController::class);
+    Route::post('/procurement-orders/transfers', [Controllers\QuotationOrderController::class, 'transfers']); // 轉單列表
 
     // 訂購頻單
     Route::apiResource('/subscriber-orders', Controllers\SubscriberOrderController::class);
+    Route::post('/procurement-orders/transfers', [Controllers\SubscriberOrderController::class, 'transfers']); // 轉單列表
 
 
     /** @var 銷貨作業 */
 
     // 銷貨憑單
     Route::apiResource('/sales-orders', Controllers\SalesOrderController::class);
+    Route::post('/procurement-orders/transfers', [Controllers\SalesOrderController::class, 'transfers']); // 轉單列表
 
     // 銷貨退回憑單
     Route::apiResource('/sales-return-orders', Controllers\SalesReturnOrderController::class);
