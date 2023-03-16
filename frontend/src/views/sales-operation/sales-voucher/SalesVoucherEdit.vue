@@ -136,6 +136,7 @@
                   v-model="showData.voucher_no"
                   type="text"
                   :placeholder="$t('SalesVoucherList.subpoena')"
+                  disabled
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>

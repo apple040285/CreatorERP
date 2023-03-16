@@ -92,7 +92,6 @@ export default {
       { label: 'ProcurementVoucherList.procurementNo', field: 'procurement_order_no' },
       { label: 'ProcurementVoucherList.manufacturer', field: 'customer_manufacturer.full_name' },
       { label: 'ProcurementVoucherList.project', field: 'project.name' },
-      { label: 'ProcurementVoucherList.invoice', field: 'invoice_no' },
       { label: 'ProcurementVoucherList.procurementStaff', field: 'staff.name' },
       { label: 'ProcurementVoucherList.status', field: 'status' },
       { label: 'ProcurementVoucherList.approvalStatus', field: 'approvalStatus' },

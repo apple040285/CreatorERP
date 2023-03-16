@@ -77,7 +77,7 @@ class ProcurementOrderController extends Controller
                 'project_id'                            => 'nullable',                      // 專案
                 'deposit_amount'                        => 'nullable',                      // 訂金
                 'delivery_date'                         => 'nullable',                      // 預交日期
-                'billing_type'                          => 'required',                      // 立帳方式
+                'billing_type'                          => 'nullable',                      // 立帳方式
                 'tax_type'                              => 'required',                      // 扣稅類別
                 'currency_id'                           => 'required',                      // 幣別
                 'remark'                                => 'nullable',                      // 備註
@@ -95,7 +95,6 @@ class ProcurementOrderController extends Controller
                 'staff_id'                  => '採購人員',
                 'department_id'             => '採購部門',
                 'currency_id'               => '幣別',
-                'billing_type'              => '立帳方式',
                 'tax_type'                  => '扣稅類別',
             ]
         );
@@ -152,7 +151,6 @@ class ProcurementOrderController extends Controller
                 // 'delivery_date'             => $attributes['delivery_date'],
                 'department_id'             => $attributes['department_id'],
                 'currency_id'               => $attributes['currency_id'],
-                'billing_type'              => $attributes['billing_type'],
                 'tax_type'                  => $attributes['tax_type'],
                 'project_id'                => $attributes['project_id'] ?? null,
                 'deposit_amount'            => $attributes['deposit_amount'] ?? 0,
@@ -254,7 +252,7 @@ class ProcurementOrderController extends Controller
                 'project_id'                            => 'nullable',          // 專案
                 'deposit_amount'                        => 'nullable',          // 訂金
                 'delivery_date'                         => 'nullable',          // 預交日期
-                'billing_type'                          => 'required',          // 立帳方式
+                'billing_type'                          => 'nullable',          // 立帳方式
                 'tax_type'                              => 'required',          // 扣稅類別
                 'currency_id'                           => 'required',          // 幣別
                 'remark'                                => 'nullable',          // 備註
@@ -272,7 +270,6 @@ class ProcurementOrderController extends Controller
                 'staff_id'                  => '採購人員',
                 'department_id'             => '採購部門',
                 'currency_id'               => '幣別',
-                'billing_type'              => '立帳方式',
                 'tax_type'                  => '扣稅類別',
                 'items'                     => '產品資訊',
             ]
@@ -320,7 +317,6 @@ class ProcurementOrderController extends Controller
                 'delivery_date'             => $attributes['delivery_date'],
                 'department_id'             => $attributes['department_id'],
                 'currency_id'               => $attributes['currency_id'],
-                'billing_type'              => $attributes['billing_type'],
                 'deposit_amount'            => $attributes['deposit_amount'] ?? 0,
                 'tax_type'                  => $attributes['tax_type'],
                 'project_id'                => $attributes['project_id'] ?? null,

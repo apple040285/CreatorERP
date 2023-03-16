@@ -73,7 +73,7 @@ class SubscriberOrderController extends Controller
                 'department_id'                         => 'required',                      // 部門
                 'project_id'                            => 'nullable',                      // 專案
                 'delivery_date'                         => 'nullable',                      // 預交日期
-                'billing_type'                          => 'required',                      // 立帳方式
+                'billing_type'                          => 'nullable',                      // 立帳方式
                 'tax_type'                              => 'required',                      // 扣稅類別
                 'currency_id'                           => 'required',                      // 幣別
                 'remark'                                => 'nullable',                      // 備註
@@ -91,7 +91,6 @@ class SubscriberOrderController extends Controller
                 'staff_id'                  => '訂購人員',
                 'department_id'             => '訂購部門',
                 'currency_id'               => '幣別',
-                'billing_type'              => '立帳方式',
                 'tax_type'                  => '扣稅類別',
                 'items'                     => '產品資訊',
             ]
@@ -149,7 +148,6 @@ class SubscriberOrderController extends Controller
                 'staff_id'                  => $attributes['staff_id'],
                 'department_id'             => $attributes['department_id'],
                 'currency_id'               => $attributes['currency_id'],
-                'billing_type'              => $attributes['billing_type'],
                 'tax_type'                  => $attributes['tax_type'],
                 'project_id'                => $attributes['project_id'] ?? null,
                 'tax_excluding_amount'      => $tax_excluding_amount,
@@ -238,7 +236,7 @@ class SubscriberOrderController extends Controller
                 'department_id'                         => 'required',          // 部門
                 'project_id'                            => 'nullable',          // 專案
                 'delivery_date'                         => 'nullable',          // 預交日期
-                'billing_type'                          => 'required',          // 立帳方式
+                'billing_type'                          => 'nullable',          // 立帳方式
                 'tax_type'                              => 'required',          // 扣稅類別
                 'currency_id'                           => 'required',          // 幣別
                 'remark'                                => 'nullable',          // 備註
@@ -256,7 +254,6 @@ class SubscriberOrderController extends Controller
                 'staff_id'                  => '訂購人員',
                 'department_id'             => '訂購部門',
                 'currency_id'               => '幣別',
-                'billing_type'              => '立帳方式',
                 'tax_type'                  => '扣稅類別',
                 'items'                     => '產品資訊',
             ]
@@ -303,7 +300,6 @@ class SubscriberOrderController extends Controller
                 'staff_id'                  => $attributes['staff_id'],
                 'department_id'             => $attributes['department_id'],
                 'currency_id'               => $attributes['currency_id'],
-                'billing_type'              => $attributes['billing_type'],
                 'tax_type'                  => $attributes['tax_type'],
                 'project_id'                => $attributes['project_id'] ?? null,
                 'tax_excluding_amount'      => $tax_excluding_amount,

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->unsignedBigInteger('currency_id')->comment('幣別');
             $table->timestamp('delivery_date')->useCurrent()->comment('預交日期');
             $table->string('tax_type')->comment('扣稅類別');
-            $table->string('billing_type')->comment('立帳方式');
+            $table->string('billing_type')->nullable()->comment('立帳方式');
             $table->unsignedBigInteger('project_id')->nullable()->comment('專案編號');
             $table->float('deposit_amount')->nullable()->comment('訂金');
             $table->float('discount_amount')->nullable()->comment('折扣');

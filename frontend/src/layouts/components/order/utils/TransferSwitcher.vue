@@ -155,7 +155,7 @@ export default {
     const guardIndex = ref(null)
 
     const guardArray = [
-      { label: '報價頻單', endpoint: 'quotation-orders', model: 'App\\Models\\QuotationOrder' },
+      { label: '報價憑單', endpoint: 'quotation-orders', model: 'App\\Models\\QuotationOrder' },
       { label: '採購憑單', endpoint: 'procurement-orders', model: 'App\\Models\\ProcurementOrder' },
       { label: '進貨憑單', endpoint: 'purchase-orders', model: 'App\\Models\\PurchaseOrder' },
       { label: '訂購頻單', endpoint: 'subscriber-orders', model: 'App\\Models\\SubscriberOrder' },
@@ -218,7 +218,7 @@ export default {
     const resolveOrderTransferType = type => {
       if (type === 'App\\Models\\ProcurementOrder') return '採購憑單'
       if (type === 'App\\Models\\PurchaseOrder') return '進貨憑單'
-      if (type === 'App\\Models\\QuotationOrder') return '報價頻單'
+      if (type === 'App\\Models\\QuotationOrder') return '報價憑單'
       if (type === 'App\\Models\\SubscriberOrder') return '訂購頻單'
       if (type === 'App\\Models\\SalesOrder') return '銷貨憑單'
       return '不明'

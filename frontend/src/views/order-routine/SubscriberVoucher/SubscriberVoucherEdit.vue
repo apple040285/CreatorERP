@@ -225,35 +225,7 @@
               </validation-provider>
             </b-form-group>
 
-            <!-- 立帳方式 -->
-            <b-form-group
-              label-for="accountSettingMethod"
-              class="col-12 col-sm-4"
-            >
-              <template #label>
-                {{ $t('ProcurementVoucherList.accountSettingMethod') }}
-                <span class="text-danger">*</span>
-              </template>
-
-              <validation-provider
-                #default="{ errors }"
-                name="accountSettingMethod"
-              >
-                <v-select
-                  id="accountSettingMethod"
-                  label="label"
-                  v-model="showData.billing_type"
-                  :options="[
-                    { label: '單張立帳', value: 'singleBill' },
-                    { label: '不立帳', value: 'noBill' },
-                    { label: '收到發票才立帳', value: 'billingAfterReceiptOfInvoice' },
-                  ]"
-                  :placeholder="$t('ProcurementVoucherList.selectAccountSettingMethod')"
-                  :reduce="option => option.value"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
+          
 
             <!-- 幣別 -->
             <b-form-group

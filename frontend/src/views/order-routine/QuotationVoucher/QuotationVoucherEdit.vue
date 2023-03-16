@@ -28,6 +28,7 @@
                   v-model="showData.quotation_date"
                   :placeholder="$t('QuotationVoucherList.quotationDate')"
                   class="form-control"
+                 
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -739,6 +740,7 @@ export default {
           return 0
       }
     }
+    
 
     // 清除轉單
     const clearTransfer = () => {
