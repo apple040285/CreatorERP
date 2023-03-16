@@ -43,7 +43,7 @@
               class="col-12 col-sm-4"
             >
               <b-form-input
-                v-model="showData.name"
+                v-model="showData.address"
                 name="name"
                 type="text"
                 :placeholder="$t('ProjectList.address')"
@@ -57,7 +57,7 @@
               class="col-12 col-sm-4"
             >
               <flat-pickr
-                v-model="showData.expiration_date"
+                v-model="showData.start_date"
                 name="expiration_date"
                 class="form-control"
                 :placeholder="$t('ProjectList.startDate')"
@@ -71,7 +71,7 @@
               class="col-12 col-sm-4"
             >
               <flat-pickr
-                v-model="showData.expiration_date"
+                v-model="showData.reserve_date"
                 name="expiration_date"
                 class="form-control"
                 :placeholder="$t('ProjectList.reserveDate')"
@@ -85,7 +85,7 @@
               class="col-12 col-sm-4"
             >
               <flat-pickr
-                v-model="showData.expiration_date"
+                v-model="showData.actual_date"
                 name="expiration_date"
                 class="form-control"
                 :placeholder="$t('ProjectList.actualDate')"
@@ -128,7 +128,7 @@
               class="col-12 col-sm-4"
             >
               <flat-pickr
-                v-model="showData.expiration_date"
+                v-model="showData.cutoff_date"
                 name="expiration_date"
                 class="form-control"
                 :placeholder="$t('ProjectList.cutoffDate')"
@@ -231,10 +231,9 @@
               class="col-12 col-sm-4"
             >
               <b-form-input
-                v-model="showData.name"
+                v-model="showData.estimated_profit"
                 name="name"
                 type="text"
-                disabled
                 :placeholder="$t('ProjectList.reserveProfit')"
               />
             </b-form-group>
@@ -246,7 +245,7 @@
               class="col-12 col-sm-4"
             >
               <b-form-input
-                v-model="showData.name"
+                v-model="showData.gross_profit"
                 name="name"
                 type="text"
                 disabled
@@ -261,10 +260,9 @@
               class="col-12 col-sm-4"
             >
               <b-form-input
-                v-model="showData.name"
+                v-model="showData.actual_total"
                 name="name"
                 type="text"
-                disabled
                 :placeholder="$t('ProjectList.actualTotal')"
               />
             </b-form-group>
