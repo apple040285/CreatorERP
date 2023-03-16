@@ -173,7 +173,7 @@ class PurchaseOrderController extends Controller
                         'quantity'                      => $item['quantity'],
                         'price'                         => $item['price'],
                         'amount'                        => $item['quantity'] * $item['price'],
-                        'delivery_date'                 => $item['delivery_date'],
+                        'delivery_date'                 => $item['delivery_date'] ?? null,
                         'remark'                        => $item['remark'] ?? null,
                     ];
                 });
@@ -329,7 +329,7 @@ class PurchaseOrderController extends Controller
                         'quantity'                      => $item['quantity'],
                         'price'                         => $item['price'],
                         'amount'                        => $item['quantity'] * $item['price'],
-                        'delivery_date'                 => $item['delivery_date'],
+                        'delivery_date'                 => $item['delivery_date'] ?? null,
                         'remark'                        => $item['remark'] ?? null,
                     ];
                 });
