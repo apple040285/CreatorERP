@@ -54,10 +54,10 @@ trait WithTransferOrderNo
 
     public function getTransferInfo($class, $attributes)
     {
-        $procurementOrders = ProcurementOrder::query()
-            ->where('transfer_type', $class)
-            ->where('transfer_order_no', $attributes['id'])
-            ->get();
+        // $procurementOrders = ProcurementOrder::query()
+        //     ->where('transfer_type', $class)
+        //     ->where('transfer_order_no', $attributes['id'])
+        //     ->get();
 
         $purchaseOrders = PurchaseOrder::query()
             ->where('transfer_type', $class)
@@ -80,7 +80,7 @@ trait WithTransferOrderNo
             ->get();
 
         $data = array_merge(
-            $procurementOrders->toArray(),
+            // $procurementOrders->toArray(),
             $purchaseOrders->toArray(),
             $quotationOrders->toArray(),
             $subscriberOrders->toArray(),
