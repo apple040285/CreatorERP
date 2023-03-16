@@ -72,10 +72,11 @@ class ProjectController extends Controller
         $this->authorize('projects.add');
 
         $data = $request->validate([
-            'code'          => 'required|unique:projects',
-            'name'          => 'required|unique:projects',
-            'invalid_at'    => 'nullable|date',
-            'remark'        => 'nullable',
+            'code'              => 'required|unique:projects',
+            'name'              => 'required|unique:projects',
+            'invalid_at'        => 'nullable|date',
+            'estimated_profit'  => 'nullable',
+            'remark'            => 'nullable',
         ]);
 
         try {
@@ -102,7 +103,25 @@ class ProjectController extends Controller
         $this->authorize('projects.read');
 
         try {
-            $data = Project::findOrFail($id);
+            $record = Project::findOrFail($id);
+
+            $data = $record->toArray();
+
+            // 計算
+            $projectOrders = $this->getProjectOrders($id);
+
+            // 全部銷貨
+            $purchaseSum = collect($projectOrders)
+                ->filter(fn ($item) => $item['document_type'] === '進貨憑單')
+                ->sum('total_amount');
+
+            // 全部進貨
+            $salesSum = collect($projectOrders)
+                ->filter(fn ($item) => $item['document_type'] === '銷貨憑單')
+                ->sum('total_amount');
+
+            // 毛利 = 全部銷貨' - 全部進貨  實際總額
+            $data['gross_profit'] = $purchaseSum - $salesSum;
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
@@ -124,16 +143,28 @@ class ProjectController extends Controller
     {
         $this->authorize('projects.update');
 
-        $data = $request->validate([
-            'code'          => 'required|unique:projects,code,' . $id,
-            'name'          => 'required|unique:projects,name,' . $id,
-            'invalid_at'    => 'nullable|date',
-            'remark'        => 'nullable',
+        $attributes = $request->validate([
+            'code'              => 'required|unique:projects,code,' . $id,
+            'name'              => 'required|unique:projects,name,' . $id,
+            'invalid_at'        => 'nullable|date',
+            'estimated_profit'  => 'nullable',
+            'actual_total'      => 'nullable',
+            'remark'            => 'nullable',
         ]);
 
         try {
             DB::beginTransaction();
-            $data = Project::findOrFail($id)->update($data);
+
+            $record = Project::findOrFail($id);
+
+            $record->update([
+                'code'              => $attributes['code'],
+                'name'              => $attributes['name'],
+                'invalid_at'        => $attributes['invalid_at'] ?? null,
+                'estimated_profit'  => $attributes['estimated_profit'] ?? null,
+                'actual_total'      => $attributes['actual_total'] ?? null,
+                'remark'            => $attributes['remark'] ?? null,
+            ]);
 
             DB::commit();
             return $this->success('更新成功');
