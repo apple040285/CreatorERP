@@ -37,7 +37,13 @@ class CustomerManufacturerCategoryController extends Controller
 
     public function options(Request $request)
     {
-        $data = CustomerManufacturerCategory::get();
+        $attributes = $request->validate([
+            'type'    => 'nullable',
+        ]);
+
+        $data = CustomerManufacturerCategory::query()
+            ->where('type', $attributes['type'] ?? null)
+            ->get();
 
         return $this->success($data);
     }
