@@ -155,3 +155,10 @@ if (!function_exists('timeCheck')) {
         return date('Y-m-d', strtotime($timeStr)) == $timeStr;
     }
 }
+
+if (!function_exists('numberTo')) {
+    function numberTo($num)
+    {
+        return \banqhsia\ChineseNumber\ChineseNumber::number($num)->currency();
+    }
+}

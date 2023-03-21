@@ -18,7 +18,12 @@ class QuotationOrder extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['date', 'order_no', 'document_type'];
+    protected $appends = [
+        'date',
+        'order_no',
+        'document_type',
+        'print_url',
+    ];
 
     protected $casts = [
         'created_at'        => 'datetime:Y-m-d',
@@ -43,6 +48,17 @@ class QuotationOrder extends Model
     {
         return Attribute::make(
             get: fn ($value, $attributes) => '報價憑單',
+        );
+    }
+
+    protected function printUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => \Illuminate\Support\Facades\URL::temporarySignedRoute(
+                'quotation.print',
+                now()->addMinutes(30),
+                ['id' => $attributes['id']]
+            ),
         );
     }
 
