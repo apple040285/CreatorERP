@@ -115,9 +115,9 @@
                                     @foreach ($items as $index => $item)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $item['product']['name'] }}</td>
+                                            <td>{{ $item['product']['name'] ?? '找不到商品' }}</td>
                                             <td>{{ $item['quantity'] }}</td>
-                                            <td>{{ $item['product']['unit'] }}</td>
+                                            <td>{{ $item['product']['unit'] ?? '-' }}</td>
                                             <td>{{ number_format($item['price'], 0) }}</td>
                                             <td>{{ number_format($item['amount'], 0) }}</td>
                                         </tr>
