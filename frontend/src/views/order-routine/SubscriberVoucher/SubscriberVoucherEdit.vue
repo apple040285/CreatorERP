@@ -78,21 +78,10 @@
                 <span class="text-danger">*</span>
               </template>
 
-              <validation-provider
-                #default="{ errors }"
-                name="manufacturer"
-                rules="required"
-              >
-                <v-select
-                  id="manufacturer"
-                  label="full_name"
-                  v-model="showData.customer_manufacturer_id"
-                  :options="manufacturerOption"
-                  :placeholder="$t('SubscriberVoucherModel.selectCustomer')"
-                  :reduce="option => option.id"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
+              <ManufacturerSwitcher
+                :show-data="showData"
+                type="customer"
+              />
             </b-form-group>
 
             <!-- 業務人員 -->
@@ -109,14 +98,7 @@
                 #default="{ errors }"
                 name="subscriberStaff"
               >
-                <v-select
-                  id="subscriberStaff"
-                  label="name"
-                  v-model="showData.staff_id"
-                  :options="staffOption"
-                  :placeholder="$t('SubscriberVoucherModel.selectSubscriberStaff')"
-                  :reduce="option => option.id"
-                />
+                <StaffSwitcher :show-data="showData" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -224,8 +206,6 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-
-          
 
             <!-- 幣別 -->
             <b-form-group
@@ -424,6 +404,8 @@ import flatPickr from 'vue-flatpickr-component'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import axios from "@axios"
 import TransferSwitcher from '@/layouts/components/order/utils/TransferSwitcher.vue'
+import ManufacturerSwitcher from '@/layouts/components/order/utils/ManufacturerSwitcher.vue'
+import StaffSwitcher from '@/layouts/components/order/utils/StaffSwitcher.vue'
 import ProductItemInfo from '@/layouts/components/order/ProductItemInfo.vue'
 import TransferOrderInfo from '@/layouts/components/order/TransferOrderInfo.vue'
 
@@ -457,6 +439,8 @@ export default {
     flatPickr,
 
     TransferSwitcher,
+    ManufacturerSwitcher,
+    StaffSwitcher,
     ProductItemInfo,
     TransferOrderInfo,
   },
@@ -597,20 +581,6 @@ export default {
         subscriberDepartmentOption.value = response.data
       })
 
-    // 人員
-    const staffOption = ref([])
-    axios.post('/staffs/options')
-      .then(response => {
-        staffOption.value = response.data
-      })
-
-    // 客戶廠商
-    const manufacturerOption = ref([])
-    axios.post('/customer-manufacturers/options', { type: 'customer' })
-      .then(response => {
-        manufacturerOption.value = response.data
-      })
-
     // 倉庫
     const storehouseOption = ref([])
     axios.post('/storehouses/options')
@@ -736,8 +706,6 @@ export default {
       currencyOption,
       projectOption,
       subscriberDepartmentOption,
-      staffOption,
-      manufacturerOption,
       storehouseOption,
       productOption,
 

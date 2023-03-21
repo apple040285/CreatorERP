@@ -13,7 +13,7 @@ export default [
         },
     },
     {
-        path: '/OrderRoutine/QuotationVoucherEdit',
+        path: '/OrderRoutine/QuotationVoucherEdit/:id',
         name: 'OrderRoutine-QuotationVoucherEdit',
         component: () => import('@/views/order-routine/QuotationVoucher/QuotationVoucherEdit.vue'),
         meta: {
@@ -73,7 +73,7 @@ export default [
     },
 
     {
-        path: '/OrderRoutine/SubscriberEdit',
+        path: '/OrderRoutine/SubscriberEdit/:id',
         name: 'OrderRoutine-SubscriberVoucherEdit',
         component: () => import('@/views/order-routine/SubscriberVoucher/SubscriberVoucherEdit.vue'),
         meta: {
