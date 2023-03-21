@@ -215,10 +215,10 @@
                 name="untaxedAmount"
               >
                 <b-form-input
+                  v-model="showData.scheduled_amount"
                   id="untaxedAmount"
                   type="text"
                   :placeholder="$t('ProjectList.reserveTotal')"
-                  disabled
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -245,11 +245,11 @@
               class="col-12 col-sm-4"
             >
               <b-form-input
-                v-model="showData.gross_profit"
                 name="name"
                 type="text"
                 disabled
                 :placeholder="$t('ProjectList.grossMargin')"
+                :value="showData.gross_profit"
               />
             </b-form-group>
 
@@ -260,10 +260,11 @@
               class="col-12 col-sm-4"
             >
               <b-form-input
-                v-model="showData.actual_total"
                 name="name"
                 type="text"
+                disabled
                 :placeholder="$t('ProjectList.actualTotal')"
+                :value="showData.quotationSum"
               />
             </b-form-group>
 
@@ -306,6 +307,7 @@
                 <b-th class="text-nowrap"> 單據別 </b-th>
                 <b-th class="text-nowrap"> 單據號碼 </b-th>
                 <b-th class="text-nowrap"> 型態 </b-th>
+                <b-th class="text-nowrap"> 金額 </b-th>
                 <b-th class="text-nowrap"> 預估支出 </b-th>
                 <b-th class="text-nowrap"> 實際支出 </b-th>
                 <b-th class="text-nowrap"> 預估收入 </b-th>
@@ -339,6 +341,11 @@
                 <b-td>
                   <small class="text-center text-nowrap">
                     {{ resolveOrderType(order.document_type) }}
+                  </small>
+                </b-td>
+                <b-td class="text-right">
+                  <small class="text-center text-nowrap">
+                    {{ order.total_amount }}
                   </small>
                 </b-td>
                 <b-td class="text-right">
