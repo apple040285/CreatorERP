@@ -1028,10 +1028,10 @@ export default {
       contactDetail: {}
     }
   },
-  methods: {
-    getCategory() {
+  watch: {
+    'showData.type'(newMsg, oldMsg) {
       axios
-        .post('customer-manufacturers-categories/options', { type: this.showData.type })
+        .post('customer-manufacturers-categories/options', { type: newMsg })
         .then(response => {
           this.customerManufacturerCategoryOption = response.data;
         })
@@ -1047,6 +1047,11 @@ export default {
             },
           })
         })
+    },
+  },
+  methods: {
+    getCategory() {
+      this.showData.customer_manufacturer_category_id = null
     },
     paymentTypeChange() {
       this.showData.monthly_billing_date = '';
