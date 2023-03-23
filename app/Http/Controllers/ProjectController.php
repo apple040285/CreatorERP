@@ -111,17 +111,17 @@ class ProjectController extends Controller
             $projectOrders = $this->getProjectOrders($id);
 
             // 全部銷貨
-            $purchaseSum = collect($projectOrders)
-                ->filter(fn ($item) => $item['document_type'] === '進貨憑單')
-                ->sum('total_amount');
-
-            // 全部進貨
             $salesSum = collect($projectOrders)
                 ->filter(fn ($item) => $item['document_type'] === '銷貨憑單')
                 ->sum('total_amount');
 
+            // 全部進貨
+            $purchaseSum = collect($projectOrders)
+                ->filter(fn ($item) => $item['document_type'] === '進貨憑單')
+                ->sum('total_amount');
+
             // 毛利 = 全部銷貨' - 全部進貨  實際總額
-            $data['gross_profit'] = $purchaseSum - $salesSum;
+            $data['gross_profit'] = $salesSum - $purchaseSum;
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {

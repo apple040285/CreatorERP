@@ -19,6 +19,12 @@ trait WithTransferOrderNo
         SalesOrder::class,
     ];
 
+    /**
+     * 獲得已和專案綁定的訂單列出
+     *
+     * @param  mixed $project_id
+     * @return array
+     */
     public function getProjectOrders($project_id)
     {
         $procurementOrders = ProcurementOrder::query()
@@ -52,6 +58,13 @@ trait WithTransferOrderNo
         return $data;
     }
 
+    /**
+     * 獲得轉單資訊
+     *
+     * @param  mixed $class
+     * @param  mixed $attributes
+     * @return array
+     */
     public function getTransferInfo($class, $attributes)
     {
         // $procurementOrders = ProcurementOrder::query()
