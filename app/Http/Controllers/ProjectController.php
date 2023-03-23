@@ -75,6 +75,7 @@ class ProjectController extends Controller
             'code'              => 'required|unique:projects',
             'name'              => 'required|unique:projects',
             'invalid_at'        => 'nullable|date',
+            'scheduled_amount'  => 'nullable',
             'estimated_profit'  => 'nullable',
             'remark'            => 'nullable',
         ]);
@@ -110,18 +111,23 @@ class ProjectController extends Controller
             // 計算
             $projectOrders = $this->getProjectOrders($id);
 
-            // 全部銷貨
-            $salesSum = collect($projectOrders)
-                ->filter(fn ($item) => $item['document_type'] === '銷貨憑單')
-                ->sum('total_amount');
-
             // 全部進貨
-            $purchaseSum = collect($projectOrders)
+            $data['purchaseSum'] = collect($projectOrders)
                 ->filter(fn ($item) => $item['document_type'] === '進貨憑單')
                 ->sum('total_amount');
 
+            // 全部銷貨
+            $data['salesSum'] = collect($projectOrders)
+                ->filter(fn ($item) => $item['document_type'] === '銷貨憑單')
+                ->sum('total_amount');
+
+            // 全部訂購
+            $data['quotationSum'] = collect($projectOrders)
+                ->filter(fn ($item) => $item['document_type'] === '訂購憑單')
+                ->sum('total_amount');
+
             // 毛利 = 全部銷貨' - 全部進貨  實際總額
-            $data['gross_profit'] = $salesSum - $purchaseSum;
+            $data['gross_profit'] = $data['salesSum'] - $data['purchaseSum'];
 
             return $this->success($data);
         } catch (ModelNotFoundException $e) {
@@ -147,6 +153,7 @@ class ProjectController extends Controller
             'code'              => 'required|unique:projects,code,' . $id,
             'name'              => 'required|unique:projects,name,' . $id,
             'invalid_at'        => 'nullable|date',
+            'scheduled_amount'  => 'nullable',
             'estimated_profit'  => 'nullable',
             'actual_total'      => 'nullable',
             'remark'            => 'nullable',
@@ -161,6 +168,7 @@ class ProjectController extends Controller
                 'code'              => $attributes['code'],
                 'name'              => $attributes['name'],
                 'invalid_at'        => $attributes['invalid_at'] ?? null,
+                'scheduled_amount'  => $attributes['scheduled_amount'] ?? null,
                 'estimated_profit'  => $attributes['estimated_profit'] ?? null,
                 'actual_total'      => $attributes['actual_total'] ?? null,
                 'remark'            => $attributes['remark'] ?? null,
