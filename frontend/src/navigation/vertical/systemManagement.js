@@ -19,6 +19,6 @@ export default [
     title: 'Backend Account Management',
     route: 'SystemManagement-BackendAccountManagementList',
     icon: 'UsersIcon',
-    action: 'users.read',
+    action: 'admins.read',
   },
 ]

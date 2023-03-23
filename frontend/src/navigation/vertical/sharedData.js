@@ -63,7 +63,7 @@ export default [
       {
         title: '庫存總管設定',
         route: 'ProductData-InventorySetting',
-        action: 'products.read',
+        action: 'inventory.read',
       },
     ],
   },
