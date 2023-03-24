@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('code', 50)->unique()->comment('專案代號');
             $table->string('name', 50)->comment('專案名稱');
+            $table->string('address')->nullable()->comment('地址');
             $table->timestamp('invalid_at')->nullable()->comment('無效時間');
             $table->unsignedBigInteger('customer_manufacturer_id')->nullable()->comment('客戶廠商');
             $table->unsignedBigInteger('staff_id')->nullable()->comment('員工職員');
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->unsignedBigInteger('created_by')->nullable()->comment('創建人');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('更新人');
             $table->timestamps();
+            $table->json('data')->nullable();
         });
     }
 

@@ -74,6 +74,7 @@ class ProjectController extends Controller
         $attributes = $request->validate([
             'code'                      => 'required|unique:projects',
             'name'                      => 'required|unique:projects',
+            'address'                   => 'required|string',
             'invalid_at'                => 'nullable|date',
             'customer_manufacturer_id'  => 'nullable|exists:App\Models\CustomerManufacturer,id',
             'staff_id'                  => 'nullable|exists:App\Models\Staff,id',
@@ -89,9 +90,10 @@ class ProjectController extends Controller
             $record = Project::create([
                 'code'                      => $attributes['code'],
                 'name'                      => $attributes['name'],
+                'address'                   => $attributes['address'] ?? null,
                 'invalid_at'                => $attributes['invalid_at'] ?? null,
-                // 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
-                // 'staff_id'                  => $attributes['staff_id'],
+                'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'] ?? null,
+                'staff_id'                  => $attributes['staff_id'] ?? null,
                 'scheduled_amount'          => $attributes['scheduled_amount'] ?? null,
                 'estimated_profit'          => $attributes['estimated_profit'] ?? null,
                 'remark'                    => $attributes['remark'] ?? null,
@@ -165,12 +167,12 @@ class ProjectController extends Controller
         $attributes = $request->validate([
             'code'                      => 'required|unique:projects,code,' . $id,
             'name'                      => 'required|unique:projects,name,' . $id,
+            'address'                   => 'required|string',
             'invalid_at'                => 'nullable|date',
             'customer_manufacturer_id'  => 'nullable|exists:App\Models\CustomerManufacturer,id',
             'staff_id'                  => 'nullable|exists:App\Models\Staff,id',
             'scheduled_amount'          => 'nullable',
             'estimated_profit'          => 'nullable',
-            'actual_total'              => 'nullable',
             'remark'                    => 'nullable',
         ]);
 
@@ -180,13 +182,15 @@ class ProjectController extends Controller
             $record = Project::findOrFail($id);
 
             $record->update([
-                'code'              => $attributes['code'],
-                'name'              => $attributes['name'],
-                'invalid_at'        => $attributes['invalid_at'] ?? null,
-                'scheduled_amount'  => $attributes['scheduled_amount'] ?? null,
-                'estimated_profit'  => $attributes['estimated_profit'] ?? null,
-                'actual_total'      => $attributes['actual_total'] ?? null,
-                'remark'            => $attributes['remark'] ?? null,
+                'code'                      => $attributes['code'],
+                'name'                      => $attributes['name'],
+                'address'                   => $attributes['address'] ?? null,
+                'invalid_at'                => $attributes['invalid_at'] ?? null,
+                'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'] ?? null,
+                'staff_id'                  => $attributes['staff_id'] ?? null,
+                'scheduled_amount'          => $attributes['scheduled_amount'] ?? null,
+                'estimated_profit'          => $attributes['estimated_profit'] ?? null,
+                'remark'                    => $attributes['remark'] ?? null,
             ]);
 
             DB::commit();
