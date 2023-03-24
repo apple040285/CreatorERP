@@ -324,49 +324,49 @@
                 <b-th>{{ orderIndex + 1 }}</b-th>
                 <!-- 日期 -->
                 <b-td>
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ order.date }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td>
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ order.document_type }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td>
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ order.order_no }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td>
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ resolveOrderType(order.document_type) }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td class="text-right">
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ order.total_amount }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td class="text-right">
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ isEstimatedExpenditure(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td class="text-right">
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ isActualExpenditure(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td class="text-right">
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ isEstimatedIncome(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td class="text-right">
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ isActualIncome(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
-                  </small>
+                  </div>
                 </b-td>
               </b-tr>
             </b-tbody>
