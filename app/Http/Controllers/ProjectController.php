@@ -71,21 +71,34 @@ class ProjectController extends Controller
     {
         $this->authorize('projects.add');
 
-        $data = $request->validate([
-            'code'              => 'required|unique:projects',
-            'name'              => 'required|unique:projects',
-            'invalid_at'        => 'nullable|date',
-            'scheduled_amount'  => 'nullable',
-            'estimated_profit'  => 'nullable',
-            'remark'            => 'nullable',
+        $attributes = $request->validate([
+            'code'                      => 'required|unique:projects',
+            'name'                      => 'required|unique:projects',
+            'invalid_at'                => 'nullable|date',
+            'customer_manufacturer_id'  => 'nullable|exists:App\Models\CustomerManufacturer,id',
+            'staff_id'                  => 'nullable|exists:App\Models\Staff,id',
+            'scheduled_amount'          => 'nullable',
+            'estimated_profit'          => 'nullable',
+            'remark'                    => 'nullable',
         ]);
 
+        // $data
         try {
             DB::beginTransaction();
-            $data = Project::create($data);
+
+            $record = Project::create([
+                'code'                      => $attributes['code'],
+                'name'                      => $attributes['name'],
+                'invalid_at'                => $attributes['invalid_at'] ?? null,
+                // 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
+                // 'staff_id'                  => $attributes['staff_id'],
+                'scheduled_amount'          => $attributes['scheduled_amount'] ?? null,
+                'estimated_profit'          => $attributes['estimated_profit'] ?? null,
+                'remark'                    => $attributes['remark'] ?? null,
+            ]);
 
             DB::commit();
-            return $this->created($data);
+            return $this->created($record);
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
@@ -150,13 +163,15 @@ class ProjectController extends Controller
         $this->authorize('projects.update');
 
         $attributes = $request->validate([
-            'code'              => 'required|unique:projects,code,' . $id,
-            'name'              => 'required|unique:projects,name,' . $id,
-            'invalid_at'        => 'nullable|date',
-            'scheduled_amount'  => 'nullable',
-            'estimated_profit'  => 'nullable',
-            'actual_total'      => 'nullable',
-            'remark'            => 'nullable',
+            'code'                      => 'required|unique:projects,code,' . $id,
+            'name'                      => 'required|unique:projects,name,' . $id,
+            'invalid_at'                => 'nullable|date',
+            'customer_manufacturer_id'  => 'nullable|exists:App\Models\CustomerManufacturer,id',
+            'staff_id'                  => 'nullable|exists:App\Models\Staff,id',
+            'scheduled_amount'          => 'nullable',
+            'estimated_profit'          => 'nullable',
+            'actual_total'              => 'nullable',
+            'remark'                    => 'nullable',
         ]);
 
         try {
