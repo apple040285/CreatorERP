@@ -165,7 +165,7 @@
               >
                 <v-select
                   id="customer"
-                  label="name"
+                  label="full_name"
                   v-model="showData.customer_manufacturer_id"
                   :options="manufacturerCustomerOption"
                   :placeholder="$t('ProjectList.customer')"
