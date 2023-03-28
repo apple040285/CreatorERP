@@ -20,6 +20,17 @@
         <span class="text-nowrap">
           <b-button
             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+            variant="outline-primary"
+            size="sm"
+            class="mr-50"
+            target="_blank"
+            :href="data.row.print_url"
+          >
+            <span>列印</span>
+          </b-button>
+          
+          <b-button
+            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             variant="outline-success"
             size="sm"
             class="mr-50"

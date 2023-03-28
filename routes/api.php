@@ -130,6 +130,7 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
     // 銷貨憑單
     Route::apiResource('/sales-orders', Controllers\SalesOrderController::class);
     Route::post('/sales-orders/transfers', [Controllers\SalesOrderController::class, 'transfers']); // 轉單列表
+    Route::get('/sales-orders/print/{id?}', [Controllers\SalesOrderController::class, 'print'])->name('sales.print')->withoutMiddleware('auth:api'); // 列印
 
     // 銷貨退回憑單
     Route::apiResource('/sales-return-orders', Controllers\SalesReturnOrderController::class);

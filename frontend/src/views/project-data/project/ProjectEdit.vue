@@ -345,27 +345,27 @@
                 </b-td>
                 <b-td class="text-right">
                   <div class="text-nowrap">
-                    {{ order.total_amount }}
+                    {{ parseFloat(order.total_amount).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}
                   </div>
                 </b-td>
                 <b-td class="text-right">
                   <div class="text-nowrap">
-                    {{ isEstimatedExpenditure(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
+                    {{ isEstimatedExpenditure(order.document_type) && parseFloat(order.total_amount).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') || '' }}
                   </div>
                 </b-td>
                 <b-td class="text-right">
                   <div class="text-nowrap">
-                    {{ isActualExpenditure(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
+                    {{ isActualExpenditure(order.document_type) && parseFloat(order.total_amount).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') || '' }}
                   </div>
                 </b-td>
                 <b-td class="text-right">
                   <div class="text-nowrap">
-                    {{ isEstimatedIncome(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
+                    {{ isEstimatedIncome(order.document_type) && parseFloat(order.total_amount).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') || '' }}
                   </div>
                 </b-td>
                 <b-td class="text-right">
                   <div class="text-nowrap">
-                    {{ isActualIncome(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
+                    {{ isActualIncome(order.document_type) && parseFloat(order.total_amount).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') || '' }}
                   </div>
                 </b-td>
               </b-tr>

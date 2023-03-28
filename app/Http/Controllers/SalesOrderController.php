@@ -375,4 +375,54 @@ class SalesOrderController extends Controller
             return $this->badRequest($e->getMessage() ?: '請聯絡管理員');
         }
     }
+
+    public function print(Request $request, $id)
+    {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+            return;
+        }
+
+        try {
+            $record = SalesOrder::findOrFail($id);
+
+            $record->load('project', 'customer_manufacturer');
+
+            $order = $record->toArray();
+
+            $record->load('items.product');
+
+            $items = $record->items->toArray();
+
+            $fields = [
+                [
+                    '客戶'      => $order['customer_manufacturer']['full_name'] ?? null,
+                    '聯絡電話'  => $order['customer_manufacturer']['contact_person_one'] ?? null,
+                    '手機'      => $order['customer_manufacturer']['phone_one'] ?? null,
+                    '專案名稱'  => $order['project']['name'] ?? null,
+                ],
+                [
+                    '聯絡人'    => $order['customer_manufacturer']['contact_person_one'] ?? null,
+                    'FAX'       => $order['customer_manufacturer']['fax'] ?? null,
+                    'E-maill'   => $order['customer_manufacturer']['email'] ?? null,
+                ],
+                [
+                    '銷貨日期' => $order['sales_date'],
+                    '銷貨單號' => $order['sales_order_no'],
+                ],
+            ];
+
+            $data = [
+                'page_title'    => '銷貨單',
+                'fields'        => $fields,
+                'order'         => $order,
+                'items'         => $items,
+            ];
+            return view('print', $data);
+        } catch (ModelNotFoundException $e) {
+            return $this->notFound('找無此資料');
+        } catch (\Exception $e) {
+            report($e);
+            return $this->badRequest($e->getMessage() ?: '請聯絡管理員');
+        }
 }
