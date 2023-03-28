@@ -243,19 +243,6 @@ export default {
         storehouseOption.value = response.data
       })
 
-    // 選擇產品
-    const selectProduct = (select, item) => {
-      if (select) {
-        root.$set(item, 'product', { name: select.name });
-        root.$set(item, 'product_id', select.id);
-        root.$set(item, 'product_code', select.code);
-        root.$set(item, 'product_sku', select.sku);
-        root.$set(item, 'product_unit', select.unit);
-        root.$set(item, 'quantity', 1);
-        root.$set(item, 'price', select.price);
-      }
-    }
-
     // 添加項目
     const addItem = items => items.push({ delivery_date: props.showData.delivery_date })
 
@@ -285,8 +272,6 @@ export default {
       storehouseOption,
 
       //
-      selectProduct,
-
       addItem,
       removeItem,
     }

@@ -54,6 +54,7 @@ export default {
         root.$set(item, 'product_code', select.code);
         root.$set(item, 'product_sku', select.sku);
         root.$set(item, 'product_unit', select.unit);
+        root.$set(item, 'storehouse_id', select.storehouse_id);
         root.$set(item, 'quantity', 1);
         root.$set(item, 'price', select.price);
       }
