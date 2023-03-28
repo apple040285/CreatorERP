@@ -425,4 +425,5 @@ class SalesOrderController extends Controller
             report($e);
             return $this->badRequest($e->getMessage() ?: '請聯絡管理員');
         }
+    }
 }
