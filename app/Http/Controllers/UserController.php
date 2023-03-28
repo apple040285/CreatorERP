@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('users.read');
+        $this->authorize('admins.read');
 
         /** @var \Illuminate\Database\Eloquent\Collection $data */
         $data = User::search(
@@ -49,7 +49,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('users.add');
+        $this->authorize('admins.add');
 
         $attributes = $request->validate([
             'name'          => 'required|unique:users,name',
@@ -90,7 +90,7 @@ class UserController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $this->authorize('users.read');
+        $this->authorize('admins.read');
 
         try {
             $record = User::findOrFail($id);
@@ -117,7 +117,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->authorize('users.update');
+        $this->authorize('admins.update');
 
         $attributes = $request->validate([
             'name'          => 'required|unique:users,name,' . $id,
@@ -161,11 +161,14 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        // $this->authorize('departments.delete');
+        $this->authorize('admins.delete');
 
         try {
             DB::beginTransaction();
-            $data = User::findOrFail($id)->delete();
+
+            $record = User::findOrFail($id);
+
+            $record->delete();
 
             DB::commit();
             return $this->success('刪除成功');
