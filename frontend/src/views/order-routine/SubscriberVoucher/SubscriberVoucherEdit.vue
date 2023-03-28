@@ -449,6 +449,7 @@ export default {
 
     // Record 紀錄
     const blankRecord = {
+      subscriber_date: new Date(),
       items: [],
     }
 

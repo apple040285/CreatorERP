@@ -165,9 +165,9 @@
               >
                 <v-select
                   id="customer"
-                  label="name"
-                  v-model="showData.staff_id"
-                  :options="manufacturerOption"
+                  label="full_name"
+                  v-model="showData.customer_manufacturer_id"
+                  :options="manufacturerCustomerOption"
                   :placeholder="$t('ProjectList.customer')"
                   :reduce="option => option.id"
                 />
@@ -324,49 +324,49 @@
                 <b-th>{{ orderIndex + 1 }}</b-th>
                 <!-- 日期 -->
                 <b-td>
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ order.date }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td>
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ order.document_type }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td>
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ order.order_no }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td>
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ resolveOrderType(order.document_type) }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td class="text-right">
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ order.total_amount }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td class="text-right">
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ isEstimatedExpenditure(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td class="text-right">
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ isActualExpenditure(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td class="text-right">
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ isEstimatedIncome(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
-                  </small>
+                  </div>
                 </b-td>
                 <b-td class="text-right">
-                  <small class="text-center text-nowrap">
+                  <div class="text-nowrap">
                     {{ isActualIncome(order.document_type) && parseFloat(order.total_amount).toFixed(0) || '' }}
-                  </small>
+                  </div>
                 </b-td>
               </b-tr>
             </b-tbody>
@@ -416,13 +416,13 @@ import {
   BForm, BFormGroup, BFormInput, BFormTextarea,
   BTableSimple, BThead, BTbody, BTfoot, BTh, BTr, BTd,
   BButton,
-} from "bootstrap-vue"
-import { ref } from "@vue/composition-api"
+} from 'bootstrap-vue'
+import { ref, computed } from '@vue/composition-api'
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
 import { VueGoodTable } from 'vue-good-table'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import axios from "@axios"
+import axios from '@axios'
 
 export default {
   components: {
@@ -588,12 +588,20 @@ export default {
         staffOption.value = response.data
       })
 
-    // 客戶廠商
     const manufacturerOption = ref([])
-    axios.post('/customer-manufacturers/options')
+    axios.post('/customer-manufacturers/options', { type: 'manufacturer' })
       .then(response => {
         manufacturerOption.value = response.data
       })
+
+    const customerOption = ref([])
+    axios.post('/customer-manufacturers/options', { type: 'customer' })
+      .then(response => {
+        customerOption.value = response.data
+      })
+
+    // 客戶廠商
+    const manufacturerCustomerOption = computed(() => manufacturerOption.value.concat(customerOption.value))
 
     // 解析轉單類型
     const resolveOrderType = type => {
@@ -623,7 +631,7 @@ export default {
       showData,
       projectOrders,
       staffOption,
-      manufacturerOption,
+      manufacturerCustomerOption,
 
       validationForm,
 

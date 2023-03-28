@@ -4,14 +4,14 @@
     label="full_name"
     v-model="showData.customer_manufacturer_id"
     :options="manufacturerOption"
-    placeholder="請選擇廠商"
+    :placeholder="getPlaceholder"
     :reduce="option => option.id"
     @input="selectManufacturer"
   />
 </template>
 
 <script>
-import { ref } from '@vue/composition-api'
+import { computed, ref } from '@vue/composition-api'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import vSelect from 'vue-select'
 import axios from '@axios'
@@ -34,6 +34,13 @@ export default {
     },
   },
   setup(props, { root }) {
+    // 解析文字提示
+    const getPlaceholder = computed(() => {
+      if (props.type === 'customer') return '請選擇客戶'
+      if (props.type === 'manufacturer') return '請選擇廠商'
+      return '不明'
+    })
+
     // 客戶廠商
     const manufacturerOption = ref([])
     axios.post('/customer-manufacturers/options', { type: props.type })
@@ -54,6 +61,7 @@ export default {
     }
 
     return {
+      getPlaceholder,
       manufacturerOption,
 
       selectManufacturer,

@@ -503,6 +503,7 @@ export default {
 
     // Record 紀錄
     const blankRecord = {
+      sales_date: new Date(),
       items: [],
     }
 
@@ -510,9 +511,7 @@ export default {
 
     // 讀取
     if (root.$route.name === 'SalesOperation-SalesVoucherCreate') {
-      showData.value = {
-        items: [],
-      }
+      showData.value = JSON.parse(JSON.stringify(blankRecord))
     } else {
       axios.get(`/${API_PATH}/${root.$route.params.id}`)
         .then(response => {
