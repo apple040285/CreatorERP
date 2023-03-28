@@ -105,6 +105,7 @@
                                     <tr>
                                         <th scope="col">項次</th>
                                         <th scope="col">品名</th>
+                                        <th scope="col">備註</th>
                                         <th scope="col">數量</th>
                                         <th scope="col">單位</th>
                                         <th scope="col">單價</th>
@@ -116,6 +117,7 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $item['product']['name'] ?? '找不到商品' }}</td>
+                                            <td>{{ $item['remark'] }}</td>
                                             <td>{{ $item['quantity'] }}</td>
                                             <td>{{ $item['product']['unit'] ?? '-' }}</td>
                                             <td>{{ number_format($item['price'], 0) }}</td>

@@ -37,7 +37,8 @@ export default {
       if (search.length) {
         loading(true);
 
-        axios.post('/products/options', { searchTerm: escape(search) })
+        // axios.post('/products/options', { searchTerm: escape(search) })
+        axios.post('/products/options', { searchTerm: search })
           .then(response => {
             productOption.value = response.data
             loading(false)

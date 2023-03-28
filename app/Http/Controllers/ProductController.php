@@ -60,6 +60,7 @@ class ProductController extends Controller
 
         $attributes = $request->validate([
             'product_category_id'   => 'required|exists:product_categories,id',
+            'storehouse_id'         => 'nullable|exists:storehouses,id',
             'code'                  => 'required|unique:products',
             'name'                  => 'required|unique:products',
             'alias'                 => 'nullable|unique:products',
@@ -133,6 +134,7 @@ class ProductController extends Controller
 
         $attributes = $request->validate([
             'product_category_id'   => 'required|exists:product_categories,id',
+            'storehouse_id'         => 'nullable|exists:storehouses,id',
             'code'                  => 'required|unique:products,code,' . $id,
             'name'                  => 'required|unique:products,name,' . $id,
             'alias'                 => 'nullable|unique:products,alias,' . $id,

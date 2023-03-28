@@ -72,6 +72,7 @@ class SalesOrderController extends Controller
                 'staff_id'                              => 'required',                      // 員工職員
                 'department_id'                         => 'required',                      // 部門
                 'project_id'                            => 'nullable',                      // 專案
+                'delivery_date'                         => 'nullable',                      // 預交日期
                 'invoice_no'                            => 'nullable',                      // 發票號碼
                 'voucher_no'                            => 'nullable',                      // 傳票號碼
                 'billing_type'                          => 'required',                      // 立帳方式
@@ -237,6 +238,7 @@ class SalesOrderController extends Controller
                 'staff_id'                              => 'required',          // 員工職員
                 'department_id'                         => 'required',          // 部門
                 'project_id'                            => 'nullable',          // 專案
+                'delivery_date'                         => 'nullable',          // 預交日期
                 'invoice_no'                            => 'nullable',          // 發票號碼
                 'voucher_no'                            => 'nullable',          // 傳票號碼
                 'billing_type'                          => 'required',          // 立帳方式

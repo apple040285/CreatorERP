@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_category_id')->comment('關聯所屬分類');
+            $table->unsignedBigInteger('storehouse_id')->nullable()->comment('關聯所屬預設倉庫');
             $table->string('code', 50)->unique()->comment('產品代號');
             $table->string('name', 50)->comment('產品名稱');
             $table->string('alias', 50)->nullable()->comment('產品別名');
