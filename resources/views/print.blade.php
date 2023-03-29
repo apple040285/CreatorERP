@@ -117,7 +117,7 @@
                                         <tr>
                                             <td class="text-center">{{ $index + 1 }}</td>
                                             <td class="text-center" style="word-break:break-all;">{{ $item['product']['name'] ?? '找不到商品' }}</td>
-                                            <td class="text-center">{{ $item['remark'] }}</td>
+                                            <td class="text-center" style="word-break:break-all;">{{ $item['remark'] }}</td>
                                             <td class="text-center">{{ $item['quantity'] }}</td>
                                             <td class="text-center">{{ $item['product']['unit'] ?? '-' }}</td>
                                             <td class="text-right">{{ number_format($item['price'], 0) }}</td>
