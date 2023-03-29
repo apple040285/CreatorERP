@@ -115,12 +115,12 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     /** @var 訂購作業 */
 
-    // 報價頻單
+    // 報價憑單
     Route::apiResource('/quotation-orders', Controllers\QuotationOrderController::class);
     Route::post('/quotation-orders/transfers', [Controllers\QuotationOrderController::class, 'transfers']); // 轉單列表
     Route::get('/quotation-orders/print/{id?}', [Controllers\QuotationOrderController::class, 'print'])->name('quotation.print')->withoutMiddleware('auth:api'); // 列印
 
-    // 訂購頻單
+    // 訂購憑單
     Route::apiResource('/subscriber-orders', Controllers\SubscriberOrderController::class);
     Route::post('/subscriber-orders/transfers', [Controllers\SubscriberOrderController::class, 'transfers']); // 轉單列表
 
