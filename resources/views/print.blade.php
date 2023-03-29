@@ -108,8 +108,8 @@
                                         <th scope="col">備註</th>
                                         <th scope="col">數量</th>
                                         <th scope="col">單位</th>
-                                        <th scope="col">單價</th>
-                                        <th scope="col">小計</th>
+                                        <th scope="col" class="text-right">單價</th>
+                                        <th scope="col" class="text-right">小計</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -120,27 +120,27 @@
                                             <td>{{ $item['remark'] }}</td>
                                             <td>{{ $item['quantity'] }}</td>
                                             <td>{{ $item['product']['unit'] ?? '-' }}</td>
-                                            <td>{{ number_format($item['price'], 0) }}</td>
-                                            <td>{{ number_format($item['amount'], 0) }}</td>
+                                            <td class="text-right">{{ number_format($item['price'], 0) }}</td>
+                                            <td class="text-right">{{ number_format($item['amount'], 0) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="4"></td>
-                                        <td>未稅金額：</td>
-                                        <td>{{ number_format($order['tax_excluding_amount'], 0) }}</td>
+                                        <td colspan="5"></td>
+                                        <td class="text-right">未稅金額：</td>
+                                        <td class="text-right">{{ number_format($order['tax_excluding_amount'], 0) }}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4"></td>
-                                        <td>稅金：</td>
-                                        <td>{{ number_format($order['tax_amount'], 0) }}</td>
+                                        <td colspan="5"></td>
+                                        <td class="text-right">稅金：</td>
+                                        <td class="text-right">{{ number_format($order['tax_amount'], 0) }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">總金額：</th>
-                                        <td colspan="3">{{ numberTo($order['total_amount']) }}整</td>
-                                        <td>總 價：</td>
-                                        <td>{{ number_format($order['total_amount'], 0) }}</td>
+                                        <td colspan="4">{{ numberTo($order['total_amount']) }}整</td>
+                                        <td class="text-right">總 價：</td>
+                                        <td class="text-right">{{ number_format($order['total_amount'], 0) }}</td>
                                     </tr>
                                 </tfoot>
                             </table>
