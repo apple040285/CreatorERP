@@ -472,7 +472,7 @@ export default {
 
     // Record 紀錄
     const blankRecord = {
-      subscriber_date: new Date(),
+      subscriber_date: (new Date()).toLocaleDateString(),
       items: [],
     }
 

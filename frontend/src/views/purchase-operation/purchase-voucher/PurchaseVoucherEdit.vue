@@ -543,7 +543,7 @@ export default {
 
     // Record 紀錄
     const blankRecord = {
-      purchase_date: new Date(),
+      purchase_date: (new Date()).toLocaleDateString(),
       items: [],
     }
 

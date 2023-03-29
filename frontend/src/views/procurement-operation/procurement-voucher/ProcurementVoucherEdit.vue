@@ -471,7 +471,7 @@ export default {
 
     // Record 紀錄
     const blankRecord = {
-      procurement_date: new Date(),
+      procurement_date: (new Date()).toLocaleDateString(),
       items: [],
     }
 

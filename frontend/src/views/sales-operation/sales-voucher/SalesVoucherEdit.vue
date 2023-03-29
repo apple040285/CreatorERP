@@ -526,7 +526,7 @@ export default {
 
     // Record 紀錄
     const blankRecord = {
-      sales_date: new Date(),
+      sales_date: (new Date()).toLocaleDateString(),
       items: [],
     }
 

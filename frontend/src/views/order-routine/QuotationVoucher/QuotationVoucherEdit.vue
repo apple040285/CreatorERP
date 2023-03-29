@@ -496,7 +496,7 @@ export default {
 
     // Record 紀錄
     const blankRecord = {
-      quotation_date: new Date(),
+      quotation_date: (new Date()).toLocaleDateString(),
       items: [],
     }
 
