@@ -37,7 +37,8 @@ export default {
       if (search.length) {
         loading(true);
 
-        axios.post('/products/options', { searchTerm: escape(search) })
+        // axios.post('/products/options', { searchTerm: escape(search) })
+        axios.post('/products/options', { searchTerm: search })
           .then(response => {
             productOption.value = response.data
             loading(false)
@@ -53,6 +54,7 @@ export default {
         root.$set(item, 'product_code', select.code);
         root.$set(item, 'product_sku', select.sku);
         root.$set(item, 'product_unit', select.unit);
+        root.$set(item, 'storehouse_id', select.storehouse_id);
         root.$set(item, 'quantity', 1);
         root.$set(item, 'price', select.price);
       }

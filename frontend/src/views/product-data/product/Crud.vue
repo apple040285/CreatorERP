@@ -170,6 +170,20 @@
                                 />
                             </b-form-group>
                         </b-col>
+                        <b-col cols="4">
+                            <b-form-group>
+                                <label for="barcode">主要倉庫</label>
+                                <v-select
+                                  id="`storehouse`"
+                                  label="name"
+                                  v-model="showData.storehouse_id"
+                                  :options="storehouseOption"
+                                  placeholder="請選擇主要倉庫"
+                                  :reduce="option => option.id"
+                                  class="text-nowrap"
+                                />
+                            </b-form-group>
+                        </b-col>
                         <!--  Remark -->
                         <b-col cols="4">
                             <b-form-group>
@@ -429,6 +443,7 @@
 
 <script>
 import BCardCode from '@core/components/b-card-code'
+import { ref } from '@vue/composition-api'
 import vSelect from 'vue-select'
 import { VueGoodTable } from 'vue-good-table'
 import { heightFade } from '@core/directives/animations'
@@ -489,6 +504,18 @@ export default {
     directives: {
         Ripple,
         'height-fade': heightFade,
+    },
+    setup(){
+      // 倉庫
+      const storehouseOption = ref([])
+      axios.post('/storehouses/options')
+        .then(response => {
+          storehouseOption.value = response.data
+        })
+
+      return {
+        storehouseOption,
+      }
     },
     data() {
         return {

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('staff_id')->comment('員工職員');
             $table->unsignedBigInteger('department_id')->comment('部門');
             $table->unsignedBigInteger('project_id')->nullable()->comment('專案');
+            $table->timestamp('delivery_date')->useCurrent()->comment('預交日期');
             $table->string('billing_type')->comment('立帳方式');
             $table->string('tax_type')->comment('扣稅類別');
             $table->unsignedBigInteger('currency_id')->comment('幣別');

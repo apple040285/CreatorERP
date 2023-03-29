@@ -152,6 +152,29 @@
               </validation-provider>
             </b-form-group>
 
+            <!-- 預交日期 -->
+            <b-form-group
+              label-for="preDeliveryDate"
+              class="col-12 col-sm-4"
+            >
+              <template #label>
+                預交日期
+              </template>
+
+              <validation-provider
+                #default="{ errors }"
+                name="preDeliveryDate"
+              >
+                <flat-pickr
+                  id="preDeliveryDate"
+                  v-model="showData.delivery_date"
+                  placeholder="預交日期"
+                  class="form-control"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+
             <!-- 專案名稱 -->
             <b-form-group
               label-for="project"
@@ -449,7 +472,7 @@ export default {
 
     // Record 紀錄
     const blankRecord = {
-      subscriber_date: new Date(),
+      subscriber_date: (new Date()).toLocaleDateString(),
       items: [],
     }
 

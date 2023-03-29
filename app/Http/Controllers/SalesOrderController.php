@@ -72,6 +72,7 @@ class SalesOrderController extends Controller
                 'staff_id'                              => 'required',                      // 員工職員
                 'department_id'                         => 'required',                      // 部門
                 'project_id'                            => 'nullable',                      // 專案
+                'delivery_date'                         => 'nullable',                      // 預交日期
                 'invoice_no'                            => 'nullable',                      // 發票號碼
                 'voucher_no'                            => 'nullable',                      // 傳票號碼
                 'billing_type'                          => 'required',                      // 立帳方式
@@ -147,6 +148,7 @@ class SalesOrderController extends Controller
                 'sales_order_no'      => $currentOrderNo,
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
                 'staff_id'                  => $attributes['staff_id'],
+                'delivery_date'             => $attributes['delivery_date'] ?? null,
                 'department_id'             => $attributes['department_id'],
                 'currency_id'               => $attributes['currency_id'],
                 'invoice_no'                => $attributes['invoice_no'] ?? null,
@@ -237,6 +239,7 @@ class SalesOrderController extends Controller
                 'staff_id'                              => 'required',          // 員工職員
                 'department_id'                         => 'required',          // 部門
                 'project_id'                            => 'nullable',          // 專案
+                'delivery_date'                         => 'nullable',          // 預交日期
                 'invoice_no'                            => 'nullable',          // 發票號碼
                 'voucher_no'                            => 'nullable',          // 傳票號碼
                 'billing_type'                          => 'required',          // 立帳方式
@@ -302,6 +305,7 @@ class SalesOrderController extends Controller
                 'sales_date'          => $attributes['sales_date'],
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
                 'staff_id'                  => $attributes['staff_id'],
+                'delivery_date'             => $attributes['delivery_date'] ?? null,
                 'department_id'             => $attributes['department_id'],
                 'invoice_no'                => $attributes['invoice_no'],
                 'voucher_no'                => $attributes['voucher_no'],

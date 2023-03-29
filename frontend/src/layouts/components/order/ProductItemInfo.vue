@@ -23,14 +23,14 @@
           <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.productName') }} </b-th>
           <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.specification') }} </b-th>
           <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.unit') }} </b-th>
-          <b-th class="text-nowrap"> 已交數量 </b-th>
-          <b-th class="text-nowrap"> 未交數量 </b-th>
           <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.quantity') }} </b-th>
           <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.unitPrice') }} </b-th>
           <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.amount') }} </b-th>
           <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.storehouse') }} </b-th>
           <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.productPreDeliveryDate') }} </b-th>
           <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.productRemark') }} </b-th>
+          <b-th class="text-nowrap"> 已交數量 </b-th>
+          <b-th class="text-nowrap"> 未交數量 </b-th>
           <b-th class="text-nowrap"> {{ $t('ProcurementVoucherList.ProductList.action') }} </b-th>
         </b-tr>
       </b-thead>
@@ -54,22 +54,6 @@
               :key="`product-${index}`"
               :item="item"
             />
-            <!-- <v-select
-              :id="`product-` + index"
-              label="name"
-              :options="productOption"
-              :placeholder="$t('ProcurementVoucherModal.selectProductName')"
-              :filterable="false"
-              :value="(item.product && item.product.name)"
-              style="width: 200px;"
-              class="text-nowrap select-size-sm"
-              @search="onSearchProduct"
-              @input="val => selectProduct(val, item)"
-            >
-              <template slot="no-options">
-                輸入關鍵字搜索 產品資料...
-              </template>
-            </v-select> -->
           </b-td>
           <!-- 規格 -->
           <b-td>
@@ -90,18 +74,6 @@
               :value="item.product_unit || (item.product && item.product.unit)"
               class="text-center"
             />
-          </b-td>
-          <!-- 已轉數量 -->
-          <b-td class="text-center">
-            <small class="text-center text-nowrap">
-              {{ item.transferred_quantity }}
-            </small>
-          </b-td>
-          <!-- 未轉數量 -->
-          <b-td class="text-center">
-            <small class="text-nowrap">
-              {{ item.untransferred_quantity }}
-            </small>
           </b-td>
           <!-- 數量 -->
           <b-td>
@@ -143,7 +115,7 @@
           <!-- 金額 -->
           <b-td class="text-center">
             <small class="text-nowrap">
-              {{ parseFloat(item.quantity * item.price).toFixed(2) }}
+              {{ item.quantity && item.price ? parseFloat(item.quantity * item.price).toFixed(2) : null }}
             </small>
           </b-td>
           <!-- 倉庫 -->
@@ -174,6 +146,18 @@
               size="sm"
               style="width: 150px;"
             />
+          </b-td>
+          <!-- 已轉數量 -->
+          <b-td class="text-center">
+            <small class="text-center text-nowrap">
+              {{ item.transferred_quantity }}
+            </small>
+          </b-td>
+          <!-- 未轉數量 -->
+          <b-td class="text-center">
+            <small class="text-nowrap">
+              {{ item.untransferred_quantity }}
+            </small>
           </b-td>
           <!-- 操作 -->
           <b-td>
@@ -251,7 +235,7 @@ export default {
       required: true,
     },
   },
-  setup(_, { root }) {
+  setup(props, { root }) {
     // 倉庫
     const storehouseOption = ref([])
     axios.post('/storehouses/options')
@@ -259,35 +243,8 @@ export default {
         storehouseOption.value = response.data
       })
 
-    // 產品
-    const productOption = ref([])
-    const onSearchProduct = (search, loading) => {
-      if (search.length) {
-        loading(true)
-
-        axios.post('/products/options', { searchTerm: escape(search) })
-          .then(response => {
-            productOption.value = response.data
-            loading(false)
-          })
-      }
-    }
-
-    // 選擇產品
-    const selectProduct = (select, item) => {
-      if (select) {
-        root.$set(item, 'product', { name: select.name });
-        root.$set(item, 'product_id', select.id);
-        root.$set(item, 'product_code', select.code);
-        root.$set(item, 'product_sku', select.sku);
-        root.$set(item, 'product_unit', select.unit);
-        root.$set(item, 'quantity', 1);
-        root.$set(item, 'price', select.price);
-      }
-    }
-
     // 添加項目
-    const addItem = items => items.push({})
+    const addItem = items => items.push({ delivery_date: props.showData.delivery_date })
 
     // 刪除項目
     const removeItem = (items, index) => {
@@ -311,14 +268,10 @@ export default {
     }
 
     return {
-      // 
+      //
       storehouseOption,
-      productOption,
 
-      // 
-      onSearchProduct,
-      selectProduct,
-
+      //
       addItem,
       removeItem,
     }
@@ -328,3 +281,4 @@ export default {
 
 <style>
 </style>
+

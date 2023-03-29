@@ -135,7 +135,7 @@
               class="col-12 col-sm-4"
             >
               <template #label>
-                {{ $t('ProcurementVoucherList.preDeliveryDate') }}
+                預交日期
               </template>
 
               <validation-provider
@@ -145,7 +145,7 @@
                 <flat-pickr
                   id="preDeliveryDate"
                   v-model="showData.delivery_date"
-                  :placeholder="$t('ProcurementVoucherList.preDeliveryDate')"
+                  placeholder="預交日期"
                   class="form-control"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
@@ -471,7 +471,7 @@ export default {
 
     // Record 紀錄
     const blankRecord = {
-      procurement_date: new Date(),
+      procurement_date: (new Date()).toLocaleDateString(),
       items: [],
     }
 

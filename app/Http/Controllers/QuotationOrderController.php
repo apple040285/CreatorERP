@@ -72,6 +72,7 @@ class QuotationOrderController extends Controller
                 'staff_id'                              => 'required',                      // 員工職員
                 'department_id'                         => 'required',                      // 部門
                 'project_id'                            => 'nullable',                      // 專案
+                'delivery_date'                         => 'nullable',                      // 預交日期
                 'effective_date'                        => 'nullable',                      // 有效日期
                 'expiration_date'                       => 'nullable',                      // 失效日期
                 'tax_type'                              => 'required',                      // 扣稅類別
@@ -144,6 +145,7 @@ class QuotationOrderController extends Controller
                 'quotation_order_no'        => $currentOrderNo,
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
                 'staff_id'                  => $attributes['staff_id'],
+                'delivery_date'             => $attributes['delivery_date'] ?? null,
                 'effective_date'            => $attributes['effective_date'] ?? null,
                 'expiration_date'           => $attributes['expiration_date'] ?? null,
                 'department_id'             => $attributes['department_id'],
@@ -235,6 +237,7 @@ class QuotationOrderController extends Controller
                 'staff_id'                              => 'required',          // 員工職員
                 'department_id'                         => 'required',          // 部門
                 'project_id'                            => 'nullable',          // 專案
+                'delivery_date'                         => 'nullable',          // 預交日期
                 'effective_date'                        => 'nullable',          // 有效日期
                 'expiration_date'                       => 'nullable',          // 失效日期
                 'tax_type'                              => 'required',          // 扣稅類別
@@ -297,6 +300,7 @@ class QuotationOrderController extends Controller
                 'quotation_date'            => $attributes['quotation_date'],
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'],
                 'staff_id'                  => $attributes['staff_id'],
+                'delivery_date'             => $attributes['delivery_date'] ?? null,
                 'effective_date'            => $attributes['effective_date'] ?? null,
                 'expiration_date'           => $attributes['expiration_date'] ?? null,
                 'currency_id'               => $attributes['currency_id'],

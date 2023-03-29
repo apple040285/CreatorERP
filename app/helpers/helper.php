@@ -159,6 +159,6 @@ if (!function_exists('timeCheck')) {
 if (!function_exists('numberTo')) {
     function numberTo($num)
     {
-        return \banqhsia\ChineseNumber\ChineseNumber::number($num)->currency();
+        return \banqhsia\ChineseNumber\ChineseNumber::number($num)->upper()->currency();
     }
 }
