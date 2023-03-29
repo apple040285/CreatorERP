@@ -27,7 +27,7 @@ return new class extends Migration
 
         if (!Schema::hasColumn('quotation_orders', 'delivery_date')) {
             Schema::table('quotation_orders', function (Blueprint $table) {
-                $table->timestamp('delivery_date')->useCurrent()->comment('預交日期')->after('billing_type');
+                $table->timestamp('delivery_date')->useCurrent()->comment('預交日期')->after('currency_id');
             });
         }
 
