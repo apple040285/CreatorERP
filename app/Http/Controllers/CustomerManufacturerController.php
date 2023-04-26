@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enum\StatusEnum;
+use App\Exports\CustomerManufacturerAddressExport;
 use App\Exports\CustomerManufacturersExport;
+use App\Imports\CustomerManufacturerAddressImport;
 use App\Imports\CustomerManufacturersImport;
 use App\Models\CustomerManufacturer;
 use App\Models\Storehouse;
@@ -293,6 +295,18 @@ class CustomerManufacturerController extends Controller
     public function import(Request $request)
     {
         Excel::import(new CustomerManufacturersImport, request()->file('file'));
+
+        return $this->success($data = '匯入成功');
+    }
+
+    public function addressExport(Request $request)
+    {
+        return Excel::download(new CustomerManufacturerAddressExport, 'customer-manufacturers-address.xls', \Maatwebsite\Excel\Excel::XLS);
+    }
+
+    public function addressImport(Request $request)
+    {
+        Excel::import(new CustomerManufacturerAddressImport, request()->file('file'));
 
         return $this->success($data = '匯入成功');
     }

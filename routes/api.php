@@ -96,6 +96,8 @@ Route::middleware(['auth:api', LanguageMiddleware::class])->group(function () {
 
     // 客戶廠商
     Route::apiResource('/customer-manufacturers', Controllers\CustomerManufacturerController::class);
+    Route::any('/customer-manufacturers-address/export', [Controllers\CustomerManufacturerController::class, 'addressExport']); // 匯出地址
+    Route::post('/customer-manufacturers-address/import', [Controllers\CustomerManufacturerController::class, 'addressImport']); // 匯入地址
 
     // https://www.managertoday.com.tw/english/view/62099?
     // 英文翻譯

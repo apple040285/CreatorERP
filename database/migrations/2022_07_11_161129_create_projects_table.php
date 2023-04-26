@@ -29,6 +29,8 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by')->nullable()->comment('更新人');
             $table->timestamps();
             $table->json('data')->nullable();
+            $table->string('customer_order_number')->nullable()->comment('客戶訂單號');
+            $table->string('customer_address_name')->nullable()->comment('客戶地址');
         });
     }
 

@@ -81,9 +81,10 @@ class ProjectController extends Controller
             'scheduled_amount'          => 'nullable',
             'estimated_profit'          => 'nullable',
             'remark'                    => 'nullable',
+            'customer_order_number'     => 'nullable',
+            'customer_address_name'     => 'nullable',
         ]);
 
-        // $data
         try {
             DB::beginTransaction();
 
@@ -94,9 +95,11 @@ class ProjectController extends Controller
                 'invalid_at'                => $attributes['invalid_at'] ?? null,
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'] ?? null,
                 'staff_id'                  => $attributes['staff_id'] ?? null,
-                'scheduled_amount'          => $attributes['scheduled_amount'] ?? null,
-                'estimated_profit'          => $attributes['estimated_profit'] ?? null,
+                'scheduled_amount'          => $attributes['scheduled_amount'] ?? 0,
+                'estimated_profit'          => $attributes['estimated_profit'] ?? 0,
                 'remark'                    => $attributes['remark'] ?? null,
+                'customer_order_number'     => $attributes['customer_order_number'] ?? null,
+                'customer_address_name'     => $attributes['customer_address_name'] ?? null,
             ]);
 
             DB::commit();
@@ -104,7 +107,7 @@ class ProjectController extends Controller
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest('請聯絡管理員' . $e->getMessage());
         }
     }
 
@@ -174,6 +177,8 @@ class ProjectController extends Controller
             'scheduled_amount'          => 'nullable',
             'estimated_profit'          => 'nullable',
             'remark'                    => 'nullable',
+            'customer_order_number'     => 'nullable',
+            'customer_address_name'     => 'nullable',
         ]);
 
         try {
@@ -188,9 +193,11 @@ class ProjectController extends Controller
                 'invalid_at'                => $attributes['invalid_at'] ?? null,
                 'customer_manufacturer_id'  => $attributes['customer_manufacturer_id'] ?? null,
                 'staff_id'                  => $attributes['staff_id'] ?? null,
-                'scheduled_amount'          => $attributes['scheduled_amount'] ?? null,
-                'estimated_profit'          => $attributes['estimated_profit'] ?? null,
+                'scheduled_amount'          => $attributes['scheduled_amount'] ?? 0,
+                'estimated_profit'          => $attributes['estimated_profit'] ?? 0,
                 'remark'                    => $attributes['remark'] ?? null,
+                'customer_order_number'     => $attributes['customer_order_number'] ?? null,
+                'customer_address_name'     => $attributes['customer_address_name'] ?? null,
             ]);
 
             DB::commit();
@@ -201,7 +208,7 @@ class ProjectController extends Controller
         } catch (\Exception $e) {
             report($e);
             DB::rollBack();
-            return $this->badRequest('請聯絡管理員');
+            return $this->badRequest($e->getMessage());
         }
     }
 
