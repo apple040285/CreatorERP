@@ -356,7 +356,7 @@
     "actualDate": "實際完工日期",
     "warranty": "是否保固",
     "cutoffDate": "保固截止日期",
-    "customer": "客戶窗口",
+    "customer": "客戶",
     "projectStaff": "業務人員",
     "reserveTotal": "專案預定總額",
     "actualTotal": "專案實際總額",
@@ -372,7 +372,7 @@
     "selectProjectStaff": "請選擇業務人員",
     "selectCustomer": "請選擇客戶",
     "DetailsList": {
-   
+
     }
   },
   "BankList": {
@@ -387,7 +387,7 @@
     "remark": "備註",
     "action": "操作"
   },
-  
+
   "AccountList": {
     "createAccount": "新增帳戶",
     "editAccount": "修改帳戶",

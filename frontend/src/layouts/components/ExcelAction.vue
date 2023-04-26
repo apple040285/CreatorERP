@@ -30,6 +30,11 @@
     <b-dropdown-group id="dropdown-group-2">
       <b-dropdown-item @click.stop.prevent="exportExcel">{{ $t('Excel.exportDownload') }}</b-dropdown-item>
     </b-dropdown-group>
+
+    <slot
+      :export-excel="exportExcel"
+      :import-excel="importExcel"
+    />
   </b-dropdown>
 </template>
 <script>
@@ -77,7 +82,8 @@ export default {
       link.click();
     }
 
-    const importExcel = event => {
+    const importExcel = (event, importUrl = null, refInputEl = null) => {
+      console.log(event);
       const { files } = event.target
       const form = new FormData();
       form.append('file', files[0]);
@@ -91,8 +97,10 @@ export default {
       });
 
       axios
-        .post(props.importUrl, form)
+        .post(importUrl || props.importUrl, form)
         .then(response => {
+          if (refInputEl) refInputEl.value = ''
+
           refs.refInputEl.value = ''
 
           root.$swal.close();
@@ -117,7 +125,7 @@ export default {
         })
     }
 
-    const exportExcel = () => {
+    const exportExcel = (exportUrl = null, exportName = null) => {
       root.$swal.fire({
         title: `${root.$t('Excel.exporting')}`,
         allowOutsideClick: false,
@@ -127,9 +135,9 @@ export default {
       });
 
       axios
-        .get(props.exportUrl, { responseType: 'blob' })
+        .get(exportUrl || props.exportUrl, { responseType: 'blob' })
         .then(response => {
-          downLoadBlob(response.data, `${props.name}-export.xls`)
+          downLoadBlob(response.data, exportName || `${props.name}-export.xls`)
 
           root.$swal.close();
         })

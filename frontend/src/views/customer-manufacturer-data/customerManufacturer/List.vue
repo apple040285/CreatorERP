@@ -27,7 +27,31 @@
                               name="customers"
                               import-url="/customer-manufacturers/import"
                               export-url="/customer-manufacturers/export"
-                            />
+                            >
+                              <template #default="{ exportExcel, importExcel }">
+                                <b-dropdown-divider @click="importExcel"/>
+
+                                <b-dropdown-item disabled>客製化功能</b-dropdown-item>
+
+                                <b-dropdown-group id="dropdown-group-2">
+                                  <b-dropdown-item @click.stop.prevent="exportExcel('/customer-manufacturers-address/export', 'customer-manufacturers-address.xls')">
+                                    Excel 上傳地址範例下載
+                                  </b-dropdown-item>
+                                </b-dropdown-group>
+
+                                <input
+                                  ref="refInputElAddress"
+                                  type="file"
+                                  accept=".xls"
+                                  class="d-none"
+                                  @change="importExcel($event, '/customer-manufacturers-address/import', $refs.refInputElAddress)"
+                                >
+                                <b-dropdown-item @click="$refs.refInputElAddress.click()">
+                                  Excel 上傳地址匯入
+                                </b-dropdown-item>
+                              </template>
+
+                            </ExcelAction>
 
                             <b-button
                                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
@@ -215,7 +239,8 @@
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
-    BRow, BCol, BBadge, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BButton, BButtonGroup, BSpinner
+    BRow, BCol, BBadge, BPagination, BFormGroup, BForm, BFormInput, BFormSelect, BButton, BButtonGroup, BSpinner,
+    BDropdownDivider, BDropdownItem, BDropdownGroup,
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import Ripple from 'vue-ripple-directive'
@@ -239,6 +264,11 @@ export default {
         BButtonGroup,
         ToastificationContent,
         BSpinner,
+
+        BDropdownDivider,
+        BDropdownItem,
+        BDropdownGroup,
+
         ExcelAction,
     },
     directives: {

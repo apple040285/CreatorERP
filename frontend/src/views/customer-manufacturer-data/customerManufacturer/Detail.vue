@@ -90,8 +90,8 @@ export default {
                 columns: [
                     { label: '#', field: 'id', type: 'number' },
                     { label: 'addressName', field: 'address_name' },
-                    { label: 'postalCode', field: 'postal_code' },
-                    { label: 'address', field: 'address' },
+                    { label: 'contactPerson', field: 'contact_person' },
+                    { label: 'department', field: 'department_name' },
                     { label: 'contactDetails', field: 'detail' },
                 ],
                 rows: []

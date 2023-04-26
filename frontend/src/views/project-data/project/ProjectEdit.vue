@@ -149,7 +149,7 @@
               />
             </b-form-group>
 
-            <!-- 客戶窗口 -->
+            <!-- 客戶 -->
             <b-form-group
               label-for="customer"
               class="col-12 col-sm-4"
@@ -175,30 +175,40 @@
               </validation-provider>
             </b-form-group>
 
-            <!-- 業務員 -->
+            <!-- 聯絡人 -->
             <b-form-group
-              label-for="projectStaff"
+              label-for="customer_address_name"
               class="col-12 col-sm-4"
             >
               <template #label>
-                {{ $t('ProjectList.projectStaff') }}
-                <span class="text-danger">*</span>
+                聯絡人
               </template>
 
-              <validation-provider
-                #default="{ errors }"
-                name="projectStaff"
-              >
-                <v-select
-                  id="projectStaff"
-                  label="name"
-                  v-model="showData.staff_id"
-                  :options="staffOption"
-                  :placeholder="$t('ProjectList.selectProjectStaff')"
-                  :reduce="option => option.id"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
+              <v-select
+                id="customer_address_name"
+                label="contact_person"
+                v-model="showData.customer_address_name"
+                :options="manufacturerCustomerAddressOption"
+                :reduce="option => option.contact_person"
+                :disabled="!showData.customer_manufacturer_id"
+              />
+            </b-form-group>
+
+            <!-- 客戶訂單號 -->
+            <b-form-group
+              label-for="customer_order_number"
+              class="col-12 col-sm-4"
+            >
+              <template #label>
+                客戶訂單號
+              </template>
+
+              <b-form-input
+                id="customer_order_number"
+                v-model="showData.customer_order_number"
+                name="name"
+                type="text"
+              />
             </b-form-group>
 
             <!-- 專案預定總額 -->
@@ -601,7 +611,18 @@ export default {
       })
 
     // 客戶廠商
-    const manufacturerCustomerOption = computed(() => manufacturerOption.value.concat(customerOption.value))
+    const manufacturerCustomerOption = computed(() => customerOption.value)
+
+    // 客戶廠商地址
+    const manufacturerCustomerAddressOption = computed(() => {
+      const { customer_manufacturer_id } = showData.value
+
+      const manufacturerCustomer = manufacturerCustomerOption.value.find(item => item.id === customer_manufacturer_id)
+
+      if (manufacturerCustomer) return manufacturerCustomer.address.filter(item => item.contact_person)
+
+      return []
+    })
 
     // 解析轉單類型
     const resolveOrderType = type => {
@@ -632,6 +653,7 @@ export default {
       projectOrders,
       staffOption,
       manufacturerCustomerOption,
+      manufacturerCustomerAddressOption,
 
       validationForm,
 

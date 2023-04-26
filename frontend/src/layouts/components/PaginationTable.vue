@@ -364,7 +364,7 @@ export default {
       onPerPageChange,
       onSearch,
 
-      // 
+      //
       removeClosure,
     }
   }
